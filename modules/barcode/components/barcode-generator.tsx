@@ -1,11 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { DownloadIcon, LoaderCircleIcon, SaveIcon } from "lucide-react";
+import Link from "next/link";
+import {
+  DownloadIcon,
+  FileImageIcon,
+  FileTextIcon,
+  LoaderCircleIcon,
+  LockIcon,
+  SaveIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 
-import { barcodeToDataUrl } from "@/modules/barcode/render";
+import { barcodeToDataUrl, barcodeToSvgString } from "@/modules/barcode/render";
 import { saveBarcode } from "@/modules/barcode/actions";
+import { downloadSvg, downloadPdf } from "@/modules/qr/export";
 import { BARCODE_FORMATS, type BarcodeFormat } from "@/modules/barcode/constants";
 import { downloadDataUrl, toFileStem } from "@/lib/download";
 import { SliderField } from "@/components/slider-field";
@@ -28,7 +37,7 @@ import {
 
 const FORMAT_ITEMS = BARCODE_FORMATS.map((f) => ({ value: f.value, label: f.label }));
 
-export function BarcodeGenerator() {
+export function BarcodeGenerator({ isPro }: { isPro: boolean }) {
   const [data, setData] = React.useState("ABC-12345");
   const [name, setName] = React.useState("");
   const [format, setFormat] = React.useState<BarcodeFormat>("code128");
@@ -71,6 +80,21 @@ export function BarcodeGenerator() {
   function handleDownload() {
     if (!preview) return;
     downloadDataUrl(preview, `${toFileStem(name || data, "barcode")}.png`);
+  }
+
+  function downloadSvgFile() {
+    try {
+      downloadSvg(
+        barcodeToSvgString({ data, format, scale, height, includeText }),
+        `${toFileStem(name || data, "barcode")}.svg`,
+      );
+    } catch {
+      toast.error("Couldn't export this barcode as SVG.");
+    }
+  }
+
+  function downloadPdfFile() {
+    if (preview) downloadPdf(preview, `${toFileStem(name || data, "barcode")}.pdf`);
   }
 
   async function handleSave() {
@@ -208,6 +232,16 @@ export function BarcodeGenerator() {
                 <DownloadIcon />
                 Download PNG
               </Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="outline" onClick={downloadSvgFile} disabled={!preview || !isPro}>
+                  {isPro ? <FileImageIcon /> : <LockIcon />}
+                  SVG
+                </Button>
+                <Button variant="outline" onClick={downloadPdfFile} disabled={!preview || !isPro}>
+                  {isPro ? <FileTextIcon /> : <LockIcon />}
+                  PDF
+                </Button>
+              </div>
               <Button
                 variant="outline"
                 onClick={handleSave}
@@ -216,6 +250,15 @@ export function BarcodeGenerator() {
                 {saving ? <LoaderCircleIcon className="animate-spin" /> : <SaveIcon />}
                 Save to history
               </Button>
+              {!isPro && (
+                <p className="text-center text-xs text-muted-foreground">
+                  SVG &amp; PDF export are{" "}
+                  <Link href="/dashboard/billing" className="font-medium text-primary hover:underline">
+                    Pro
+                  </Link>
+                  .
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -15,6 +15,8 @@ import {
   CalculatorIcon,
   TagIcon,
   DiffIcon,
+  QrCodeIcon,
+  CodeXmlIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -371,6 +373,48 @@ export const devTools: DevTool[] = [
     ],
     related: ["json-formatter", "word-counter", "case-converter"],
   },
+  {
+    slug: "qr-code",
+    name: "QR Code Generator",
+    tagline: "Create and download a QR code for any link or text.",
+    description:
+      "Free online QR code generator. Create and download a QR code for any URL or text — customize colors and size, instantly.",
+    keywords: ["qr code generator", "create qr code", "qr code maker", "free qr code"],
+    icon: QrCodeIcon,
+    intro:
+      "Create a QR code for any link, text, or message and download it as a PNG. Customize the colors and size — and sign up free to add a logo, make it editable (dynamic), track scans, and save your codes.",
+    steps: [
+      "Enter a URL or any text.",
+      "Adjust the colors and size.",
+      "Download your QR code as a PNG.",
+    ],
+    faqs: [
+      { q: "Is this QR code free to use?", a: "Yes — the PNG is free for personal and commercial use, and static QR codes never expire." },
+      { q: "Can I change where it points after printing?", a: "Yes, with a dynamic QR code — free on an OhoTool account, along with scan analytics and logo branding." },
+    ],
+    related: ["url-encoder", "color-converter", "hash-generator"],
+  },
+  {
+    slug: "html-entities",
+    name: "HTML Entity Encoder / Decoder",
+    tagline: "Encode and decode HTML entities safely.",
+    description:
+      "Free online HTML entity encoder and decoder. Convert special characters to HTML entities and back, instantly in your browser.",
+    keywords: ["html entity encoder", "html entity decoder", "html escape", "encode html"],
+    icon: CodeXmlIcon,
+    intro:
+      "Encode special characters like <, >, &, and quotes into safe HTML entities, or decode entities back to plain text. Everything runs in your browser.",
+    steps: [
+      "Choose Encode or Decode.",
+      "Paste your text or HTML.",
+      "Copy the result.",
+    ],
+    faqs: [
+      { q: "When should I encode HTML entities?", a: "Encode user-provided text before inserting it into HTML so it's shown as text and not interpreted as markup — a common XSS safeguard." },
+      { q: "Does decoding run any scripts?", a: "No — decoding is handled safely and never executes markup or scripts." },
+    ],
+    related: ["url-encoder", "base64", "json-formatter"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -390,6 +434,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "base64",
       "url-encoder",
+      "html-entities",
       "number-base-converter",
       "color-converter",
       "timestamp-converter",
@@ -403,6 +448,6 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Generators",
     blurb: "Create secure, random values.",
-    slugs: ["password-generator", "uuid-generator", "hash-generator"],
+    slugs: ["qr-code", "password-generator", "uuid-generator", "hash-generator"],
   },
 ];

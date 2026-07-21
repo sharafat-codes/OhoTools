@@ -27,3 +27,17 @@ export function barcodeToDataUrl(opts: BarcodeOptions): string {
   });
   return canvas.toDataURL("image/png");
 }
+
+/** Render a barcode to an SVG string (vector). Throws on invalid content. */
+export function barcodeToSvgString(opts: BarcodeOptions): string {
+  return bwipjs.toSVG({
+    bcid: opts.format,
+    text: opts.data,
+    scale: opts.scale,
+    height: opts.height,
+    includetext: opts.includeText,
+    textxalign: "center",
+    paddingwidth: 6,
+    paddingheight: 6,
+  });
+}
