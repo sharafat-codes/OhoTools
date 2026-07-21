@@ -376,3 +376,33 @@ export const devTools: DevTool[] = [
 export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
 }
+
+// Grouping for the hub — improves navigation and topical SEO structure.
+export const toolCategories: { name: string; blurb: string; slugs: string[] }[] = [
+  {
+    name: "Developer",
+    blurb: "Format, inspect, and test.",
+    slugs: ["json-formatter", "jwt-decoder", "regex-tester"],
+  },
+  {
+    name: "Converters",
+    blurb: "Transform between formats.",
+    slugs: [
+      "base64",
+      "url-encoder",
+      "number-base-converter",
+      "color-converter",
+      "timestamp-converter",
+    ],
+  },
+  {
+    name: "Text",
+    blurb: "Work with words and strings.",
+    slugs: ["word-counter", "case-converter", "slugify", "text-diff", "lorem-ipsum"],
+  },
+  {
+    name: "Generators",
+    blurb: "Create secure, random values.",
+    slugs: ["password-generator", "uuid-generator", "hash-generator"],
+  },
+];
