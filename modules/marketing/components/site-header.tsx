@@ -15,9 +15,10 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const LINKS = [
-  { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Tools", href: "/tools" },
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 function Logo({ onClick }: { onClick?: () => void }) {
