@@ -15,7 +15,7 @@ export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
           <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">
             <SparklesIcon className="size-3.5" />
           </span>
-          ToolPilot
+          OhoTool
         </Link>
       </div>
 

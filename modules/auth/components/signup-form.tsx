@@ -41,7 +41,7 @@ export function SignupForm() {
       return;
     }
 
-    toast.success("Account created. Welcome to ToolPilot!");
+    toast.success("Account created. Welcome to OhoTool!");
     router.push("/dashboard");
     router.refresh();
   }
@@ -50,7 +50,7 @@ export function SignupForm() {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg">Create your account</CardTitle>
-        <CardDescription>Start using ToolPilot for free.</CardDescription>
+        <CardDescription>Start using OhoTool for free.</CardDescription>
       </CardHeader>
       <CardContent>
         <form

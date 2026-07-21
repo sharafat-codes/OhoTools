@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { prisma } from "@/lib/prisma";
+import { sendEmail, renderActionEmail } from "@/lib/email";
 
 // BETTER_AUTH_SECRET and BETTER_AUTH_URL are read from the environment
 // automatically by Better Auth.
@@ -12,20 +13,47 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
-    // Phase 1 keeps onboarding frictionless. Flip to true once Resend is wired
-    // in Phase 3 so verification emails can actually be delivered.
+    // Onboarding stays frictionless (verification is sent but not required).
     requireEmailVerification: false,
     minPasswordLength: 8,
     sendResetPassword: async ({ user, url }) => {
-      // TODO (Phase 3): send via Resend. Until then, the link is logged to the
-      // server console so the reset flow is fully testable in development.
-      console.log(
-        `\n[ToolPilot] Password reset for ${user.email}:\n${url}\n`,
-      );
+      await sendEmail({
+        to: user.email,
+        subject: "Reset your OhoTool password",
+        html: renderActionEmail({
+          heading: "Reset your password",
+          body: "We received a request to reset your OhoTool password. Click the button below to choose a new one. This link expires in 1 hour.",
+          buttonLabel: "Reset password",
+          buttonUrl: url,
+          footnote:
+            "If you didn't request a password reset, you can safely ignore this email.",
+        }),
+      });
     },
   },
 
-  // Surface ToolPilot-specific columns back through the session. The values are
+  emailVerification: {
+    // Send a verification email on sign-up (non-blocking — see
+    // requireEmailVerification above).
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Verify your email for OhoTool",
+        html: renderActionEmail({
+          heading: "Confirm your email",
+          body: "Welcome to OhoTool! Please confirm your email address to secure your account.",
+          buttonLabel: "Verify email",
+          buttonUrl: url,
+          footnote:
+            "If you didn't create a OhoTool account, you can ignore this email.",
+        }),
+      });
+    },
+  },
+
+  // Surface OhoTool-specific columns back through the session. The values are
   // written by Prisma defaults (see prisma/schema.prisma); `input: false`
   // prevents clients from setting them at sign-up.
   user: {

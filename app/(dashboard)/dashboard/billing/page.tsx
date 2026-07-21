@@ -39,7 +39,7 @@ export default async function BillingPage({
           Billing & plans
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Manage your subscription and unlock more of ToolPilot.
+          Manage your subscription and unlock more of OhoTool.
         </p>
       </div>
 

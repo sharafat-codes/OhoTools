@@ -71,12 +71,12 @@ export default async function Home() {
     "@graph": [
       {
         "@type": "Organization",
-        name: "ToolPilot",
+        name: "OhoTool",
         url: siteUrl,
       },
       {
         "@type": "SoftwareApplication",
-        name: "ToolPilot",
+        name: "OhoTool",
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web",
         url: siteUrl,
@@ -146,7 +146,7 @@ export default async function Home() {
                 </div>
                 <p className="mt-4 text-center text-sm font-medium">Scan me →</p>
                 <p className="text-center text-xs text-muted-foreground">
-                  This is a live ToolPilot QR code.
+                  This is a live OhoTool QR code.
                 </p>
                 <div className="absolute -right-3 -top-3 flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium shadow-sm">
                   <BarChart3Icon className="size-3.5 text-primary" />
@@ -204,7 +204,7 @@ export default async function Home() {
                 body="Generate codes programmatically with a simple REST endpoint."
               >
                 <pre className="mt-2 overflow-x-auto rounded-lg bg-foreground/90 p-3 text-xs text-background">
-                  <code className="font-mono">{`curl -H "Authorization: Bearer tp_…" \\
+                  <code className="font-mono">{`curl -H "Authorization: Bearer oho_…" \\
   "${siteUrl}/api/v1/qr?data=hello" \\
   --output qr.png`}</code>
                 </pre>
@@ -331,7 +331,7 @@ export default async function Home() {
             <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">
               <SparklesIcon className="size-3.5" />
             </span>
-            ToolPilot
+            OhoTool
           </div>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground">Features</a>
@@ -341,7 +341,7 @@ export default async function Home() {
             <Link href="/signup" className="hover:text-foreground">Sign up</Link>
           </div>
           <span className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} ToolPilot
+            © {new Date().getFullYear()} OhoTool
           </span>
         </div>
       </footer>

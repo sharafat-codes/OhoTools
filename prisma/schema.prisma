@@ -1,4 +1,4 @@
-// ToolPilot — Prisma schema
+// OhoTool — Prisma schema
 // Phase 1: Better Auth core models + minimal SaaS-forward fields.
 // Phase 2: QRCode + Barcode (saved history).
 // Phase 3: Subscription (Stripe billing).
@@ -28,7 +28,7 @@ enum PlanTier {
 
 // ─── Better Auth core models ─────────────────────────────────────────────────
 // Field shapes match Better Auth's expected schema. `role` and `plan` are
-// ToolPilot additions surfaced back through the session (see lib/auth.ts).
+// OhoTool additions surfaced back through the session (see lib/auth.ts).
 
 model User {
   id            String   @id
@@ -211,7 +211,7 @@ model ApiKey {
   id        String  @id @default(cuid())
   name      String
   hashedKey String  @unique
-  prefix    String // display label, e.g. "tp_a1b2c3d4"
+  prefix    String // display label, e.g. "oho_a1b2c3d4"
   last4     String
 
   usageCount Int       @default(0)

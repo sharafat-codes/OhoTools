@@ -46,7 +46,7 @@ export function Topbar({ user }: { user: MenuUser }) {
               <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">
                 <SparklesIcon className="size-3.5" />
               </span>
-              ToolPilot
+              OhoTool
             </Link>
           </SheetHeader>
           <div className="px-3">

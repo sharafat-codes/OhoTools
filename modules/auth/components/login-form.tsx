@@ -49,7 +49,7 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg">Welcome back</CardTitle>
-        <CardDescription>Log in to your ToolPilot account.</CardDescription>
+        <CardDescription>Log in to your OhoTool account.</CardDescription>
       </CardHeader>
       <CardContent>
         <form

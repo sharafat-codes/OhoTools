@@ -13,11 +13,11 @@ export function hashApiKey(raw: string) {
 }
 
 export function generateApiKey() {
-  const raw = `tp_${rand()}`;
+  const raw = `oho_${rand()}`;
   return {
     raw,
     hashedKey: hashApiKey(raw),
-    prefix: raw.slice(0, 11), // "tp_" + 8 chars, shown in the UI
+    prefix: raw.slice(0, 12), // "oho_" + 8 chars, shown in the UI
     last4: raw.slice(-4),
   };
 }

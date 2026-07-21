@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ToolPilot — QR codes, barcodes & scan analytics";
+export const alt = "OhoTool — QR codes, barcodes & scan analytics";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -34,9 +34,9 @@ export default function OpengraphImage() {
               fontWeight: 700,
             }}
           >
-            T
+            O
           </div>
-          <div style={{ fontSize: "40px", fontWeight: 700 }}>ToolPilot</div>
+          <div style={{ fontSize: "40px", fontWeight: 700 }}>OhoTool</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>

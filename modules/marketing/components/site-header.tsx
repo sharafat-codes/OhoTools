@@ -26,7 +26,7 @@ function Logo({ onClick }: { onClick?: () => void }) {
       <span className="grid size-7 place-items-center rounded-lg bg-primary text-primary-foreground">
         <SparklesIcon className="size-4" />
       </span>
-      ToolPilot
+      OhoTool
     </Link>
   );
 }

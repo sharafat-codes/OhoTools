@@ -28,8 +28,8 @@ const siteUrl = process.env.BETTER_AUTH_URL || "https://oho-tools.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "ToolPilot — QR codes, barcodes & scan analytics",
-    template: "%s · ToolPilot",
+    default: "OhoTool — QR codes, barcodes & scan analytics",
+    template: "%s · OhoTool",
   },
   description:
     "Generate dynamic QR codes and barcodes, track scans with analytics, add your logo, export SVG/PDF, and automate with an API. A modern toolkit for businesses and creators.",
@@ -42,21 +42,21 @@ export const metadata: Metadata = {
     "bulk QR codes",
     "QR code API",
   ],
-  authors: [{ name: "ToolPilot" }],
-  creator: "ToolPilot",
+  authors: [{ name: "OhoTool" }],
+  creator: "OhoTool",
   category: "technology",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: siteUrl,
-    siteName: "ToolPilot",
-    title: "ToolPilot — QR codes, barcodes & scan analytics",
+    siteName: "OhoTool",
+    title: "OhoTool — QR codes, barcodes & scan analytics",
     description:
       "Dynamic QR codes with scan analytics, custom branding, bulk generation, and an API. The modern toolkit for businesses and creators.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ToolPilot — QR codes, barcodes & scan analytics",
+    title: "OhoTool — QR codes, barcodes & scan analytics",
     description:
       "Dynamic QR codes with scan analytics, custom branding, bulk generation, and an API.",
   },
