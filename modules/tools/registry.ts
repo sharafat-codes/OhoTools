@@ -9,6 +9,12 @@ import {
   ClockIcon,
   LinkIcon,
   HashIcon,
+  PilcrowIcon,
+  PipetteIcon,
+  RegexIcon,
+  CalculatorIcon,
+  TagIcon,
+  DiffIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -238,6 +244,132 @@ export const devTools: DevTool[] = [
       { q: "Can I reverse a hash back to the text?", a: "No. Hashes are one-way functions — you can't recover the original input from a hash." },
     ],
     related: ["password-generator", "base64", "uuid-generator"],
+  },
+  {
+    slug: "lorem-ipsum",
+    name: "Lorem Ipsum Generator",
+    tagline: "Generate placeholder text — paragraphs, sentences, or words.",
+    description:
+      "Free Lorem Ipsum generator. Create placeholder dummy text by paragraphs, sentences, or words — and copy it instantly.",
+    keywords: ["lorem ipsum generator", "dummy text", "placeholder text", "lorem ipsum"],
+    icon: PilcrowIcon,
+    intro:
+      "Generate classic Lorem Ipsum placeholder text for mockups, layouts, and designs. Choose how many paragraphs, sentences, or words you need and copy it in one click.",
+    steps: [
+      "Pick an amount and a unit (paragraphs, sentences, or words).",
+      "Click Generate.",
+      "Copy the placeholder text.",
+    ],
+    faqs: [
+      { q: "What is Lorem Ipsum?", a: "It's scrambled Latin-like placeholder text used since the 1500s to show layout and typography without meaningful words distracting the viewer." },
+      { q: "Can it start with the classic line?", a: "Yes — the first paragraph opens with 'Lorem ipsum dolor sit amet…' by default." },
+    ],
+    related: ["word-counter", "case-converter", "slugify"],
+  },
+  {
+    slug: "color-converter",
+    name: "HEX to RGB Converter",
+    tagline: "Convert colors between HEX, RGB, and HSL with a live preview.",
+    description:
+      "Free online color converter. Convert between HEX, RGB, and HSL color formats with a live preview — HEX to RGB and back.",
+    keywords: ["hex to rgb", "rgb to hex", "color converter", "hsl converter"],
+    icon: PipetteIcon,
+    intro:
+      "Convert colors between HEX, RGB, and HSL and see a live preview. Type a color in any format, or pick one, and get the others instantly.",
+    steps: [
+      "Enter a color in HEX, RGB, or HSL — or use the picker.",
+      "See the converted values and a preview swatch.",
+      "Copy the format you need.",
+    ],
+    faqs: [
+      { q: "Which formats are supported?", a: "HEX (#rrggbb or #rgb), RGB (rgb(r, g, b)), and HSL (hsl(h, s%, l%))." },
+      { q: "Is my color HEX 3- or 6-digit?", a: "Both work — 3-digit shorthand like #0af is expanded automatically to #00aaff." },
+    ],
+    related: ["hash-generator", "base64", "slugify"],
+  },
+  {
+    slug: "regex-tester",
+    name: "Regex Tester",
+    tagline: "Test regular expressions against sample text with live matches.",
+    description:
+      "Free online regex tester. Test JavaScript regular expressions against sample text and see matches and capture groups live.",
+    keywords: ["regex tester", "regular expression tester", "regex online", "test regex"],
+    icon: RegexIcon,
+    intro:
+      "Test JavaScript regular expressions against your sample text and see every match and capture group in real time. Toggle flags like global, case-insensitive, and multiline.",
+    steps: [
+      "Enter your regular expression and choose flags.",
+      "Paste the text to test against.",
+      "See matches highlighted with capture groups listed.",
+    ],
+    faqs: [
+      { q: "Which regex flavor is this?", a: "JavaScript (ECMAScript) regular expressions — the same engine used in browsers and Node.js." },
+      { q: "What do the flags mean?", a: "g = global (all matches), i = case-insensitive, m = multiline, s = dotall, u = unicode, y = sticky." },
+    ],
+    related: ["json-formatter", "case-converter", "url-encoder"],
+  },
+  {
+    slug: "number-base-converter",
+    name: "Number Base Converter",
+    tagline: "Convert numbers between binary, octal, decimal, and hex.",
+    description:
+      "Free online number base converter. Convert integers between binary, octal, decimal, and hexadecimal instantly.",
+    keywords: ["number base converter", "binary to decimal", "decimal to hex", "hex to binary"],
+    icon: CalculatorIcon,
+    intro:
+      "Convert whole numbers between binary, octal, decimal, and hexadecimal. Enter a value in any base and get the equivalents in the others instantly.",
+    steps: [
+      "Enter a number and choose its base.",
+      "Read the equivalent in binary, octal, decimal, and hex.",
+      "Copy the value you need.",
+    ],
+    faqs: [
+      { q: "Does it handle large numbers?", a: "It supports standard safe integers; values beyond JavaScript's safe integer range may lose precision." },
+      { q: "Can I convert negatives or decimals?", a: "Enter positive whole numbers for reliable conversion — negatives and fractions aren't supported." },
+    ],
+    related: ["hash-generator", "base64", "timestamp-converter"],
+  },
+  {
+    slug: "slugify",
+    name: "Slug Generator",
+    tagline: "Turn any text into a clean, URL-friendly slug.",
+    description:
+      "Free online slug generator. Convert titles and text into clean, URL-friendly, SEO-safe slugs instantly.",
+    keywords: ["slug generator", "slugify", "url slug", "seo slug"],
+    icon: TagIcon,
+    intro:
+      "Turn any title or text into a clean, lowercase, URL-friendly slug — spaces become hyphens, accents are stripped, and special characters are removed.",
+    steps: [
+      "Type or paste your text.",
+      "The URL slug updates live.",
+      "Copy it for your page or post URL.",
+    ],
+    faqs: [
+      { q: "What is a slug?", a: "A slug is the URL-friendly part of a web address — usually lowercase words separated by hyphens, e.g. my-blog-post." },
+      { q: "Does it handle accented characters?", a: "Yes — accents are converted to their base letters (é → e) so the slug stays clean ASCII." },
+    ],
+    related: ["case-converter", "url-encoder", "word-counter"],
+  },
+  {
+    slug: "text-diff",
+    name: "Text Diff Checker",
+    tagline: "Compare two texts and highlight the differences line by line.",
+    description:
+      "Free online text diff checker. Compare two blocks of text and see added and removed lines highlighted side by side.",
+    keywords: ["text diff", "diff checker", "compare text", "text comparison"],
+    icon: DiffIcon,
+    intro:
+      "Compare two blocks of text and instantly see what changed — added and removed lines are highlighted. Everything runs in your browser, so your text stays private.",
+    steps: [
+      "Paste the original text on the left.",
+      "Paste the changed text on the right.",
+      "Review the highlighted line-by-line differences.",
+    ],
+    faqs: [
+      { q: "Does it compare line by line or word by word?", a: "Line by line — each line is marked as unchanged, added, or removed." },
+      { q: "Is my text private?", a: "Yes — the comparison runs entirely in your browser and nothing is uploaded." },
+    ],
+    related: ["json-formatter", "word-counter", "case-converter"],
   },
 ];
 
