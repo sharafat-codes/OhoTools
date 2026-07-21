@@ -8,14 +8,17 @@ const globalForPrisma = globalThis as unknown as {
     prisma: PrismaClient | undefined;
 };
 
+// Runtime connection. Prefer DATABASE_POOL_URL (Supabase transaction pooler,
+// port 6543 — built for serverless / many short-lived clients); fall back to
+// DATABASE_URL. Migrations always use DATABASE_URL (session pooler / direct)
+// via prisma.config.ts, since migrate needs session features.
+const runtimeUrl = process.env.DATABASE_POOL_URL || process.env.DATABASE_URL;
+
 // Supabase (and most hosted Postgres) serve a certificate chain that fails full
-// verification, and pg v9 treats `sslmode=require` as `verify-full`. Passing a
-// connection string lets pg's parsed sslmode override our ssl option, so we
-// build the pool config from discrete fields instead — this makes our `ssl`
-// setting (encrypt, don't reject the chain) authoritative at runtime. The
-// `.env` URL keeps `sslmode` for the Prisma CLI (migrate/studio), which uses a
-// separate engine.
-const dbUrl = new URL(process.env.DATABASE_URL as string);
+// verification, and pg v9 treats `sslmode=require` as `verify-full`. We build
+// the pool config from discrete fields so our `ssl` setting (encrypt, don't
+// reject the chain) is authoritative at runtime.
+const dbUrl = new URL(runtimeUrl as string);
 const adapter = new PrismaPg({
     host: dbUrl.hostname,
     port: dbUrl.port ? Number(dbUrl.port) : 5432,
@@ -23,6 +26,11 @@ const adapter = new PrismaPg({
     password: decodeURIComponent(dbUrl.password),
     database: dbUrl.pathname.replace(/^\//, ""),
     ssl: { rejectUnauthorized: false },
+    // Cap connections per instance so we never exhaust Supabase's pooler
+    // (free tier session pool is only 15). Idle connections are released.
+    max: 3,
+    idleTimeoutMillis: 15_000,
+    connectionTimeoutMillis: 10_000,
 });
 
 export const prisma =
