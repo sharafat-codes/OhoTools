@@ -1,0 +1,252 @@
+// ToolPilot — Prisma schema
+// Phase 1: Better Auth core models + minimal SaaS-forward fields.
+// Phase 2: QRCode + Barcode (saved history).
+// Phase 3: Subscription (Stripe billing).
+// Later phases add: Folder, ScanLog, ApiKey, Usage, Payment, Workspace,
+// TeamMember.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum PlanTier {
+  FREE
+  PRO
+  BUSINESS
+}
+
+// ─── Better Auth core models ─────────────────────────────────────────────────
+// Field shapes match Better Auth's expected schema. `role` and `plan` are
+// ToolPilot additions surfaced back through the session (see lib/auth.ts).
+
+model User {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+
+  role Role     @default(USER)
+  // Denormalized current tier for fast gating; kept in sync by the Stripe webhook.
+  plan PlanTier @default(FREE)
+
+  stripeCustomerId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions     Session[]
+  accounts     Account[]
+  qrCodes      QRCode[]
+  barcodes     Barcode[]
+  dynamicLinks DynamicLink[]
+  apiKeys      ApiKey[]
+  subscription Subscription?
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("session")
+}
+
+model Account {
+  id         String @id
+  accountId  String
+  providerId String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("verification")
+}
+
+// ─── Phase 2: Tools (saved history) ──────────────────────────────────────────
+// We persist the content + render options, not image blobs — the image is
+// regenerated on demand client-side. File storage (R2/S3) comes later.
+
+model QRCode {
+  id   String  @id @default(cuid())
+  name String?
+  data String  @db.Text // encoded content (URL / text)
+
+  // Customization
+  fgColor String @default("#000000")
+  bgColor String @default("#ffffff")
+  size    Int    @default(512)
+  margin  Int    @default(2)
+  ecLevel String @default("M") // L | M | Q | H
+
+  // Pro styling
+  moduleStyle String  @default("square") // square | rounded | dots
+  gradient    Boolean @default(false)
+  fgColor2    String? // second gradient stop (used when gradient = true)
+  logo        String? @db.Text // base64 data URL, centered
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@map("qr_code")
+}
+
+model Barcode {
+  id   String  @id @default(cuid())
+  name String?
+  data String  @db.Text // encoded content
+
+  // Customization
+  format      String  @default("code128") // bwip-js bcid
+  scale       Int     @default(3)
+  height      Int     @default(60)
+  includeText Boolean @default(true)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@map("barcode")
+}
+
+// ─── Dynamic QR (Pro): editable target + scan analytics ──────────────────────
+
+model DynamicLink {
+  id        String  @id @default(cuid())
+  shortCode String  @unique
+  name      String?
+  targetUrl String  @db.Text
+  active    Boolean @default(true)
+
+  // QR appearance (the code encodes /r/<shortCode>)
+  fgColor String @default("#000000")
+  bgColor String @default("#ffffff")
+
+  scanCount Int       @default(0)
+  expiresAt DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scans  ScanLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@map("dynamic_link")
+}
+
+model ScanLog {
+  id String @id @default(cuid())
+
+  linkId String
+  link   DynamicLink @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  device    String? // Mobile | Tablet | Desktop
+  referrer  String?
+  country   String?
+  userAgent String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([linkId, createdAt])
+  @@map("scan_log")
+}
+
+// ─── API keys (Pro): programmatic access ─────────────────────────────────────
+// Only a SHA-256 hash of the key is stored; the raw key is shown once at creation.
+
+model ApiKey {
+  id        String  @id @default(cuid())
+  name      String
+  hashedKey String  @unique
+  prefix    String // display label, e.g. "tp_a1b2c3d4"
+  last4     String
+
+  usageCount Int       @default(0)
+  lastUsedAt DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("api_key")
+}
+
+// ─── Phase 3: Billing ────────────────────────────────────────────────────────
+// One active subscription per user. Stripe is the source of truth; this table
+// mirrors it (kept in sync by the webhook). User.plan is the fast-read copy.
+
+model Subscription {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeCustomerId     String @unique
+  stripeSubscriptionId String @unique
+  stripePriceId        String
+
+  status            String // active | trialing | past_due | canceled | unpaid | incomplete
+  plan              PlanTier
+  currentPeriodEnd  DateTime
+  cancelAtPeriodEnd Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subscription")
+}
