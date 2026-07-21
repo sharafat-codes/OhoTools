@@ -344,9 +344,10 @@ export default async function Home() {
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground">Features</a>
             <a href="#pricing" className="hover:text-foreground">Pricing</a>
-            <a href="#faq" className="hover:text-foreground">FAQ</a>
-            <Link href="/login" className="hover:text-foreground">Log in</Link>
-            <Link href="/signup" className="hover:text-foreground">Sign up</Link>
+            <Link href="/tools" className="hover:text-foreground">Tools</Link>
+            <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
+            <Link href="/terms" className="hover:text-foreground">Terms</Link>
+            <Link href="/contact" className="hover:text-foreground">Contact</Link>
           </div>
           <span className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} OhoTool
