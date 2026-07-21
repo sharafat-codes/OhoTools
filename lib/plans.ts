@@ -32,21 +32,10 @@ export const PLANS: Plan[] = [
     popular: true,
     features: [
       "Unlimited saved codes",
-      "Priority generation",
-      "Everything in Free",
-      "API access (coming soon)",
-    ],
-  },
-  {
-    id: "BUSINESS",
-    name: "Business",
-    price: 29,
-    tagline: "For teams and agencies.",
-    features: [
-      "Everything in Pro",
-      "Team workspace (coming soon)",
-      "Advanced analytics (coming soon)",
-      "Priority support",
+      "Dynamic QR codes + scan analytics",
+      "Logos, styling & SVG/PDF export",
+      "Bulk generation",
+      "API access",
     ],
   },
 ];

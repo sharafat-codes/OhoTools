@@ -17,6 +17,10 @@ import {
   DiffIcon,
   QrCodeIcon,
   CodeXmlIcon,
+  FileSpreadsheetIcon,
+  ImageIcon,
+  ArrowDownUpIcon,
+  CalendarClockIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -415,6 +419,90 @@ export const devTools: DevTool[] = [
     ],
     related: ["url-encoder", "base64", "json-formatter"],
   },
+  {
+    slug: "json-to-csv",
+    name: "JSON to CSV Converter",
+    tagline: "Convert JSON arrays to CSV and back.",
+    description:
+      "Free online JSON to CSV converter. Convert a JSON array of objects to CSV, or CSV back to JSON — instantly in your browser.",
+    keywords: ["json to csv", "csv to json", "json csv converter", "convert json to csv"],
+    icon: FileSpreadsheetIcon,
+    intro:
+      "Convert a JSON array of objects into CSV, or turn CSV back into JSON. Handy for spreadsheets, data imports, and quick inspections — all in your browser.",
+    steps: [
+      "Choose JSON → CSV or CSV → JSON.",
+      "Paste your data.",
+      "Copy the converted output.",
+    ],
+    faqs: [
+      { q: "What JSON shape is supported?", a: 'An array of flat objects, e.g. [{"name":"A","age":1}]. Column headers come from the object keys.' },
+      { q: "How are commas and quotes handled?", a: "Values containing commas, quotes, or newlines are automatically quoted and escaped following RFC 4180." },
+    ],
+    related: ["json-formatter", "base64", "case-converter"],
+  },
+  {
+    slug: "image-to-base64",
+    name: "Image to Base64",
+    tagline: "Encode an image as a Base64 data URI.",
+    description:
+      "Free online image to Base64 converter. Encode PNG, JPG, SVG, and more as a Base64 data URI to embed in HTML or CSS.",
+    keywords: ["image to base64", "base64 image", "image data uri", "encode image base64"],
+    icon: ImageIcon,
+    intro:
+      "Turn an image into a Base64 data URI you can paste directly into HTML, CSS, or JSON — no hosting needed. Files are read entirely in your browser and never uploaded.",
+    steps: [
+      "Choose an image file.",
+      "Copy the data URI, or just the raw Base64.",
+      "Paste it into your img src, CSS background, or code.",
+    ],
+    faqs: [
+      { q: "Are my images uploaded?", a: "No — the file is read locally in your browser and converted on your device." },
+      { q: "When should I inline images as Base64?", a: "For small icons and assets it avoids an extra request; for large images a normal URL is usually better." },
+    ],
+    related: ["base64", "qr-code", "hash-generator"],
+  },
+  {
+    slug: "line-sorter",
+    name: "Line Sorter & Deduplicator",
+    tagline: "Sort, deduplicate, reverse, and trim lines of text.",
+    description:
+      "Free online line sorter and duplicate remover. Sort lines alphabetically, remove duplicates, reverse, and trim — instantly.",
+    keywords: ["sort lines", "remove duplicate lines", "line sorter", "deduplicate text"],
+    icon: ArrowDownUpIcon,
+    intro:
+      "Sort lines alphabetically, remove duplicate lines, reverse the order, and trim whitespace — a fast multi-tool for cleaning up lists of text.",
+    steps: [
+      "Paste your lines of text.",
+      "Toggle the operations you want (sort, dedupe, reverse, trim).",
+      "Copy the cleaned-up result.",
+    ],
+    faqs: [
+      { q: "Is sorting case-sensitive?", a: "You can choose — toggle case-insensitive sorting for natural A–Z ordering regardless of case." },
+      { q: "Which duplicate is kept?", a: "Deduplication keeps the first occurrence of each line and removes later repeats." },
+    ],
+    related: ["word-counter", "case-converter", "text-diff"],
+  },
+  {
+    slug: "cron-explainer",
+    name: "Cron Expression Explainer",
+    tagline: "Translate a cron expression into plain English.",
+    description:
+      "Free online cron expression explainer. Understand what a crontab schedule means in plain English, with the next run times.",
+    keywords: ["cron expression", "crontab", "cron explainer", "cron schedule"],
+    icon: CalendarClockIcon,
+    intro:
+      "Paste a cron expression and get a plain-English breakdown of when it runs, plus the next few scheduled times. Supports standard 5-field crontab syntax.",
+    steps: [
+      "Enter a 5-field cron expression (e.g. */5 * * * *).",
+      "Read the field-by-field schedule.",
+      "Check the upcoming run times.",
+    ],
+    faqs: [
+      { q: "Which cron format is supported?", a: "Standard 5-field crontab: minute, hour, day-of-month, month, day-of-week. Steps (*/5), ranges (1-5), and lists (1,3,5) are supported." },
+      { q: "What timezone are the next runs in?", a: "Next run times are computed in your browser's local timezone." },
+    ],
+    related: ["timestamp-converter", "regex-tester", "number-base-converter"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -426,7 +514,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Developer",
     blurb: "Format, inspect, and test.",
-    slugs: ["json-formatter", "jwt-decoder", "regex-tester"],
+    slugs: ["json-formatter", "jwt-decoder", "regex-tester", "cron-explainer"],
   },
   {
     name: "Converters",
@@ -435,6 +523,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "base64",
       "url-encoder",
       "html-entities",
+      "json-to-csv",
+      "image-to-base64",
       "number-base-converter",
       "color-converter",
       "timestamp-converter",
@@ -443,7 +533,14 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Text",
     blurb: "Work with words and strings.",
-    slugs: ["word-counter", "case-converter", "slugify", "text-diff", "lorem-ipsum"],
+    slugs: [
+      "word-counter",
+      "case-converter",
+      "slugify",
+      "line-sorter",
+      "text-diff",
+      "lorem-ipsum",
+    ],
   },
   {
     name: "Generators",

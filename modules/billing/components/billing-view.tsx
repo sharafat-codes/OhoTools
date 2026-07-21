@@ -106,7 +106,7 @@ export function BillingView({
       </Card>
 
       {/* Plans */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="mx-auto grid max-w-2xl gap-4 sm:grid-cols-2">
         {PLANS.map((plan) => {
           const isCurrent = plan.id === current.id;
           return (

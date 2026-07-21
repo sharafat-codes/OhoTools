@@ -253,7 +253,7 @@ export default async function Home() {
               title="Simple, honest pricing"
               subtitle="Start free. Upgrade when you need branding, analytics, and automation."
             />
-            <div className="mx-auto mt-12 grid max-w-4xl gap-4 md:grid-cols-3">
+            <div className="mx-auto mt-12 grid max-w-2xl gap-4 sm:grid-cols-2">
               {PLANS.map((plan) => (
                 <div
                   key={plan.id}
