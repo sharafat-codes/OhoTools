@@ -23,13 +23,48 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.BETTER_AUTH_URL || "https://oho-tools.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "ToolPilot — Your all-in-one productivity toolkit",
+    default: "ToolPilot — QR codes, barcodes & scan analytics",
     template: "%s · ToolPilot",
   },
   description:
-    "Generate QR codes, barcodes, and more. Save your work, track usage, and scale with a modern SaaS toolkit built for businesses and creators.",
+    "Generate dynamic QR codes and barcodes, track scans with analytics, add your logo, export SVG/PDF, and automate with an API. A modern toolkit for businesses and creators.",
+  keywords: [
+    "QR code generator",
+    "dynamic QR code",
+    "QR code with logo",
+    "barcode generator",
+    "QR scan analytics",
+    "bulk QR codes",
+    "QR code API",
+  ],
+  authors: [{ name: "ToolPilot" }],
+  creator: "ToolPilot",
+  category: "technology",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "ToolPilot",
+    title: "ToolPilot — QR codes, barcodes & scan analytics",
+    description:
+      "Dynamic QR codes with scan analytics, custom branding, bulk generation, and an API. The modern toolkit for businesses and creators.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ToolPilot — QR codes, barcodes & scan analytics",
+    description:
+      "Dynamic QR codes with scan analytics, custom branding, bulk generation, and an API.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 export default function RootLayout({
