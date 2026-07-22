@@ -25,6 +25,10 @@ import {
   CodeIcon,
   DicesIcon,
   FileCode2Icon,
+  MegaphoneIcon,
+  TagsIcon,
+  WifiIcon,
+  QuoteIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -591,6 +595,90 @@ export const devTools: DevTool[] = [
     ],
     related: ["json-formatter", "json-to-csv", "jwt-decoder"],
   },
+  {
+    slug: "utm-builder",
+    name: "UTM Link Builder",
+    tagline: "Build trackable campaign URLs with UTM parameters.",
+    description:
+      "Free UTM link builder. Add utm_source, utm_medium, utm_campaign and more to build trackable campaign URLs for your analytics.",
+    keywords: ["utm builder", "utm link builder", "campaign url builder", "utm generator"],
+    icon: MegaphoneIcon,
+    intro:
+      "Add UTM parameters to any URL so you can track marketing campaigns in your analytics. Fill in the source, medium, and campaign, then copy the ready-to-share link.",
+    steps: [
+      "Enter your website URL.",
+      "Fill in the UTM fields (source, medium, campaign).",
+      "Copy your trackable link.",
+    ],
+    faqs: [
+      { q: "What are UTM parameters?", a: "Tags added to a URL (utm_source, utm_medium, utm_campaign, utm_term, utm_content) that let analytics tools attribute visits to specific campaigns." },
+      { q: "Which fields are required?", a: "Source, medium, and campaign are the standard trio; term and content are optional." },
+    ],
+    related: ["url-encoder", "qr-code", "slugify"],
+  },
+  {
+    slug: "meta-tag-generator",
+    name: "Meta Tag Generator",
+    tagline: "Generate SEO and social meta tags for your page.",
+    description:
+      "Free meta tag generator. Create SEO title, description, Open Graph, and Twitter Card meta tags to paste into your site's head.",
+    keywords: ["meta tag generator", "open graph generator", "seo meta tags", "og tags"],
+    icon: TagsIcon,
+    intro:
+      "Generate SEO and social-sharing meta tags — title, description, canonical, Open Graph, and Twitter Card — ready to paste into your page's <head>.",
+    steps: [
+      "Fill in your title, description, URL, and image.",
+      "Copy the generated meta tags.",
+      "Paste them into your HTML <head>.",
+    ],
+    faqs: [
+      { q: "What are Open Graph tags?", a: "og: tags control how your page looks when shared on platforms like Facebook, LinkedIn, and Slack." },
+      { q: "How long should title and description be?", a: "Aim for about 60 characters for the title and 155 for the description so they aren't truncated in search results." },
+    ],
+    related: ["slugify", "url-encoder", "html-entities"],
+  },
+  {
+    slug: "wifi-qr",
+    name: "WiFi QR Code Generator",
+    tagline: "Create a QR code that connects guests to your WiFi.",
+    description:
+      "Free WiFi QR code generator. Create a QR code guests can scan to join your WiFi network instantly — no typing passwords.",
+    keywords: ["wifi qr code", "wifi qr code generator", "qr code wifi", "scan to connect wifi"],
+    icon: WifiIcon,
+    intro:
+      "Create a QR code that lets guests join your WiFi by scanning — no more reading out passwords. It's generated entirely in your browser.",
+    steps: [
+      "Enter your network name (SSID) and password.",
+      "Pick the security type.",
+      "Download the QR and print it for guests.",
+    ],
+    faqs: [
+      { q: "Is my WiFi password uploaded?", a: "No — the QR is generated entirely in your browser and nothing is sent anywhere." },
+      { q: "Which devices can scan it?", a: "Modern iOS and Android cameras support WiFi QR codes natively from the camera app." },
+    ],
+    related: ["qr-code", "password-generator", "url-encoder"],
+  },
+  {
+    slug: "string-escape",
+    name: "String Escape / Unescape",
+    tagline: "Escape and unescape strings for code and JSON.",
+    description:
+      "Free online string escape tool. Escape special characters for JSON and JavaScript strings and unescape them back, instantly.",
+    keywords: ["string escape", "json escape", "escape string", "unescape string"],
+    icon: QuoteIcon,
+    intro:
+      "Escape a string so it's safe to paste inside JSON or JavaScript source — quotes, backslashes, tabs, and newlines — or unescape it back to plain text.",
+    steps: [
+      "Choose Escape or Unescape.",
+      "Paste your text.",
+      "Copy the result.",
+    ],
+    faqs: [
+      { q: "What gets escaped?", a: "Double quotes, backslashes, tabs, and newlines are escaped using JSON string rules." },
+      { q: "Is this the same as HTML escaping?", a: "No — this is for code and JSON strings. For HTML, use the HTML entity encoder." },
+    ],
+    related: ["html-entities", "json-formatter", "base64"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -612,12 +700,18 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     ],
   },
   {
+    name: "Web & SEO",
+    blurb: "Ship and market your site.",
+    slugs: ["utm-builder", "meta-tag-generator"],
+  },
+  {
     name: "Converters",
     blurb: "Transform between formats.",
     slugs: [
       "base64",
       "url-encoder",
       "html-entities",
+      "string-escape",
       "json-to-csv",
       "image-to-base64",
       "text-to-binary",
@@ -643,6 +737,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     blurb: "Create secure, random values.",
     slugs: [
       "qr-code",
+      "wifi-qr",
       "password-generator",
       "random-string",
       "uuid-generator",
