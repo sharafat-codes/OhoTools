@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "lucide-react";
 
 import { getTool, type DevTool } from "@/modules/tools/registry";
 import { Card, CardContent } from "@/components/ui/card";
+import { ProNudge } from "@/components/pro-nudge";
 
 const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
 
@@ -148,6 +149,8 @@ export function ToolShell({
           </div>
         </section>
       )}
+
+      <ProNudge />
     </div>
   );
 }

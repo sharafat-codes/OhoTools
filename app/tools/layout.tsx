@@ -19,6 +19,7 @@ export default async function ToolsLayout({
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-6 text-sm text-muted-foreground sm:px-6">
           <Logo size="sm" />
           <div className="flex gap-4 text-xs">
+            <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
