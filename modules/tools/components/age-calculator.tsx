@@ -2,29 +2,9 @@
 
 import * as React from "react";
 
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-
-function localISO(d: Date) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-    d.getDate(),
-  ).padStart(2, "0")}`;
-}
-
-function useTodayISO() {
-  const [today, setToday] = React.useState("");
-  React.useEffect(() => {
-    let ok = true;
-    Promise.resolve().then(() => {
-      if (ok) setToday(localISO(new Date()));
-    });
-    return () => {
-      ok = false;
-    };
-  }, []);
-  return today;
-}
+import { DateInput, partsToISO, todayParts, emptyDate, type DateParts } from "./date-input";
 
 function diffYMD(from: Date, to: Date) {
   let years = to.getFullYear() - from.getFullYear();
@@ -42,14 +22,25 @@ function diffYMD(from: Date, to: Date) {
 }
 
 export function AgeCalculator() {
-  const today = useTodayISO();
-  const [dob, setDob] = React.useState("");
-  const [asOf, setAsOf] = React.useState("");
+  const [dob, setDob] = React.useState<DateParts>(emptyDate);
+  const [asOf, setAsOf] = React.useState<DateParts>(emptyDate);
 
-  const effectiveAsOf = asOf || today;
-  const from = dob ? new Date(dob + "T00:00:00") : null;
-  const to = effectiveAsOf ? new Date(effectiveAsOf + "T00:00:00") : null;
-  const valid = from && to && !isNaN(from.getTime()) && !isNaN(to.getTime()) && to >= from;
+  // Default the "age at" date to today, client-side (avoids hydration mismatch).
+  React.useEffect(() => {
+    let ok = true;
+    Promise.resolve().then(() => {
+      if (ok) setAsOf(todayParts());
+    });
+    return () => {
+      ok = false;
+    };
+  }, []);
+
+  const fromISO = partsToISO(dob);
+  const toISO = partsToISO(asOf);
+  const from = fromISO ? new Date(fromISO + "T00:00:00") : null;
+  const to = toISO ? new Date(toISO + "T00:00:00") : null;
+  const valid = from && to && to >= from;
 
   const ymd = valid ? diffYMD(from!, to!) : null;
   const totalDays = valid ? Math.floor((to!.getTime() - from!.getTime()) / 86400000) : 0;
@@ -65,21 +56,21 @@ export function AgeCalculator() {
     <div className="flex flex-col gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="dob">Date of birth</Label>
-          <Input id="dob" type="date" value={dob} max={today || undefined} onChange={(e) => setDob(e.target.value)} />
+          <Label htmlFor="dob-day">Date of birth</Label>
+          <DateInput value={dob} onChange={setDob} idPrefix="dob" />
         </div>
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="as-of">Age at date</Label>
+            <Label htmlFor="asof-day">Age at date</Label>
             <button
               type="button"
               className="text-xs text-primary hover:underline"
-              onClick={() => setAsOf(today)}
+              onClick={() => setAsOf(todayParts())}
             >
               Today
             </button>
           </div>
-          <Input id="as-of" type="date" value={effectiveAsOf} onChange={(e) => setAsOf(e.target.value)} />
+          <DateInput value={asOf} onChange={setAsOf} idPrefix="asof" />
         </div>
       </div>
 

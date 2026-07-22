@@ -2,29 +2,9 @@
 
 import * as React from "react";
 
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-
-function localISO(d: Date) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-    d.getDate(),
-  ).padStart(2, "0")}`;
-}
-
-function useTodayISO() {
-  const [today, setToday] = React.useState("");
-  React.useEffect(() => {
-    let ok = true;
-    Promise.resolve().then(() => {
-      if (ok) setToday(localISO(new Date()));
-    });
-    return () => {
-      ok = false;
-    };
-  }, []);
-  return today;
-}
+import { DateInput, partsToISO, todayParts, emptyDate, type DateParts } from "./date-input";
 
 function diffYMD(from: Date, to: Date) {
   let years = to.getFullYear() - from.getFullYear();
@@ -42,16 +22,26 @@ function diffYMD(from: Date, to: Date) {
 }
 
 export function DateDifference() {
-  const today = useTodayISO();
-  const [start, setStart] = React.useState("");
-  const [end, setEnd] = React.useState("");
+  const [start, setStart] = React.useState<DateParts>(emptyDate);
+  const [end, setEnd] = React.useState<DateParts>(emptyDate);
 
-  const s = start || today;
-  const e = end || today;
-  const from = s ? new Date(s + "T00:00:00") : null;
-  const to = e ? new Date(e + "T00:00:00") : null;
+  // Default the end date to today, client-side.
+  React.useEffect(() => {
+    let ok = true;
+    Promise.resolve().then(() => {
+      if (ok) setEnd(todayParts());
+    });
+    return () => {
+      ok = false;
+    };
+  }, []);
 
-  const valid = from && to && !isNaN(from.getTime()) && !isNaN(to.getTime());
+  const startISO = partsToISO(start);
+  const endISO = partsToISO(end);
+  const from = startISO ? new Date(startISO + "T00:00:00") : null;
+  const to = endISO ? new Date(endISO + "T00:00:00") : null;
+
+  const valid = from && to;
   const [lo, hi] = valid ? (from! <= to! ? [from!, to!] : [to!, from!]) : [null, null];
   const totalDays = lo && hi ? Math.round((hi.getTime() - lo.getTime()) / 86400000) : 0;
   const ymd = lo && hi ? diffYMD(lo, hi) : null;
@@ -61,21 +51,21 @@ export function DateDifference() {
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="start">Start date</Label>
-            <button type="button" className="text-xs text-primary hover:underline" onClick={() => setStart(today)}>
+            <Label htmlFor="start-day">Start date</Label>
+            <button type="button" className="text-xs text-primary hover:underline" onClick={() => setStart(todayParts())}>
               Today
             </button>
           </div>
-          <Input id="start" type="date" value={s} onChange={(ev) => setStart(ev.target.value)} />
+          <DateInput value={start} onChange={setStart} idPrefix="start" />
         </div>
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="end">End date</Label>
-            <button type="button" className="text-xs text-primary hover:underline" onClick={() => setEnd(today)}>
+            <Label htmlFor="end-day">End date</Label>
+            <button type="button" className="text-xs text-primary hover:underline" onClick={() => setEnd(todayParts())}>
               Today
             </button>
           </div>
-          <Input id="end" type="date" value={e} onChange={(ev) => setEnd(ev.target.value)} />
+          <DateInput value={end} onChange={setEnd} idPrefix="end" />
         </div>
       </div>
 
