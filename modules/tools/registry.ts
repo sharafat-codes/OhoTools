@@ -54,6 +54,9 @@ import {
   AppWindowIcon,
   ImagesIcon,
   FilesIcon,
+  FileStackIcon,
+  ScissorsIcon,
+  FileImageIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1364,6 +1367,72 @@ export const devTools: DevTool[] = [
     related: ["image-converter", "image-resizer", "favicon-generator"],
     pro: true,
   },
+  {
+    slug: "merge-pdf",
+    name: "Merge PDF",
+    tagline: "Combine multiple PDFs into one file.",
+    description:
+      "Free online PDF merger. Combine multiple PDF files into a single document, reorder them, and download — all privately in your browser.",
+    keywords: ["merge pdf", "combine pdf", "pdf merger", "join pdf files", "merge pdf online"],
+    icon: FileStackIcon,
+    intro:
+      "Combine several PDFs into one file. Add your PDFs, drag them into the order you want, and merge — the whole thing runs in your browser, so your documents are never uploaded. Free merges up to 2 files; Pro merges as many as you need.",
+    steps: [
+      "Add the PDF files you want to combine.",
+      "Reorder them with the arrows.",
+      "Merge and download the single PDF.",
+    ],
+    faqs: [
+      { q: "Are my PDFs uploaded to a server?", a: "No — merging happens entirely in your browser with a local PDF engine, so your files never leave your device." },
+      { q: "How many PDFs can I merge?", a: "The free tier merges up to 2 PDFs at a time. OhoTool Pro removes the limit so you can merge any number." },
+    ],
+    related: ["split-pdf", "images-to-pdf", "image-converter"],
+    pro: true,
+  },
+  {
+    slug: "split-pdf",
+    name: "Split PDF",
+    tagline: "Extract pages or split a PDF into separate files.",
+    description:
+      "Free online PDF splitter. Extract specific pages or page ranges from a PDF, or split every page into its own file — privately in your browser.",
+    keywords: ["split pdf", "pdf splitter", "extract pdf pages", "separate pdf pages", "split pdf online"],
+    icon: ScissorsIcon,
+    intro:
+      "Pull specific pages or ranges out of a PDF into a new file — or, with Pro, burst a PDF into one file per page and download them all as a ZIP. Everything runs locally in your browser, so your document stays private.",
+    steps: [
+      "Choose a PDF.",
+      "Enter the pages to extract (e.g. 1-3, 5).",
+      "Extract them, or split every page (Pro).",
+    ],
+    faqs: [
+      { q: "How do I extract certain pages?", a: "Enter page numbers and ranges separated by commas, like 1-3, 5, 8-10, then click Extract to get a new PDF with just those pages." },
+      { q: "Can I split a PDF into single pages?", a: "Yes — with OhoTool Pro, &quot;Split all&quot; saves each page as its own PDF and downloads them together as a ZIP." },
+    ],
+    related: ["merge-pdf", "images-to-pdf", "image-resizer"],
+    pro: true,
+  },
+  {
+    slug: "images-to-pdf",
+    name: "Images to PDF",
+    tagline: "Combine JPG, PNG, and WebP images into a PDF.",
+    description:
+      "Free online image to PDF converter. Combine JPG, PNG, and WebP images into a single PDF, reorder them, and choose the page size — in your browser.",
+    keywords: ["images to pdf", "jpg to pdf", "png to pdf", "image to pdf converter", "combine images to pdf"],
+    icon: FileImageIcon,
+    intro:
+      "Turn a set of images into a single PDF — great for scans, receipts, and photos. Reorder the pages and choose fit-to-image or A4 layout. It all runs in your browser, so nothing is uploaded. Free combines up to 3 images; Pro is unlimited.",
+    steps: [
+      "Add your images.",
+      "Reorder them and pick a page size.",
+      "Create and download the PDF.",
+    ],
+    faqs: [
+      { q: "Which image formats are supported?", a: "JPG, PNG, WebP, and other common formats — each image is added as its own page in the PDF." },
+      { q: "How many images can I combine?", a: "The free tier combines up to 3 images. OhoTool Pro removes the limit for larger documents." },
+    ],
+    related: ["merge-pdf", "split-pdf", "image-converter"],
+    pro: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1414,6 +1483,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "color-converter",
       "timestamp-converter",
     ],
+  },
+  {
+    name: "PDF",
+    blurb: "Merge, split, and create PDFs.",
+    slugs: ["merge-pdf", "split-pdf", "images-to-pdf"],
   },
   {
     name: "Calculators",
