@@ -29,6 +29,14 @@ import {
   TagsIcon,
   WifiIcon,
   QuoteIcon,
+  PercentIcon,
+  CakeIcon,
+  CalendarDaysIcon,
+  ScaleIcon,
+  LandmarkIcon,
+  RulerIcon,
+  PaintBucketIcon,
+  BoxIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -679,6 +687,174 @@ export const devTools: DevTool[] = [
     ],
     related: ["html-entities", "json-formatter", "base64"],
   },
+  {
+    slug: "unit-converter",
+    name: "Unit Converter",
+    tagline: "Convert length, weight, temperature, volume, and more.",
+    description:
+      "Free online unit converter. Convert length, mass, temperature, volume, area, speed, data, and time between metric and imperial units instantly.",
+    keywords: ["unit converter", "measurement converter", "metric to imperial", "convert units"],
+    icon: RulerIcon,
+    intro:
+      "Convert between metric and imperial units across length, mass, temperature, volume, area, speed, digital storage, and time. Enter a value and instantly see it in every unit in that category — all in your browser.",
+    steps: [
+      "Pick a category (length, mass, temperature, and more).",
+      "Enter a value and choose the unit to convert from.",
+      "Read the result, or see it in every unit at once.",
+    ],
+    faqs: [
+      { q: "Which measurement systems are supported?", a: "Both metric and imperial (US) units are included in each category, so you can convert in either direction." },
+      { q: "How is temperature handled?", a: "Celsius, Fahrenheit, and Kelvin use proper offset formulas, not simple ratios, so conversions are exact." },
+    ],
+    related: ["number-base-converter", "timestamp-converter", "color-converter"],
+  },
+  {
+    slug: "percentage-calculator",
+    name: "Percentage Calculator",
+    tagline: "Work out percentages, ratios, and percentage change.",
+    description:
+      "Free online percentage calculator. Find a percent of a number, what percent one number is of another, and percentage increase or decrease.",
+    keywords: ["percentage calculator", "percent calculator", "percentage change", "percent of a number"],
+    icon: PercentIcon,
+    intro:
+      "Solve everyday percentage problems in one place: find X% of a number, work out what percentage one value is of another, and calculate percentage increase or decrease between two numbers.",
+    steps: [
+      "Choose the type of percentage calculation.",
+      "Enter your numbers.",
+      "Read the answer instantly.",
+    ],
+    faqs: [
+      { q: "How do I calculate percentage change?", a: "Subtract the old value from the new value, divide by the old value, and multiply by 100. The tool does this for you and shows whether it's an increase or decrease." },
+      { q: "What's the difference between the three modes?", a: "Mode one finds a percent of a number; mode two finds what percent one number is of another; mode three finds the percentage change between two numbers." },
+    ],
+    related: ["unit-converter", "loan-calculator", "bmi-calculator"],
+  },
+  {
+    slug: "age-calculator",
+    name: "Age Calculator",
+    tagline: "Calculate exact age in years, months, and days.",
+    description:
+      "Free online age calculator. Find your exact age in years, months, and days from your date of birth, plus total days and your next birthday.",
+    keywords: ["age calculator", "date of birth calculator", "how old am i", "age in days"],
+    icon: CakeIcon,
+    intro:
+      "Enter your date of birth to find your exact age in years, months, and days — as of today or any date you choose. It also shows your age in total months, weeks, and days, and counts down to your next birthday.",
+    steps: [
+      "Enter your date of birth.",
+      "Leave the second date as today, or pick another date.",
+      "See your exact age and totals.",
+    ],
+    faqs: [
+      { q: "Can I calculate age at a past or future date?", a: "Yes — change the second date to any date and the age is calculated as of that date." },
+      { q: "Is my date of birth stored anywhere?", a: "No — the calculation runs entirely in your browser and nothing is sent to a server." },
+    ],
+    related: ["date-difference", "timestamp-converter", "percentage-calculator"],
+  },
+  {
+    slug: "date-difference",
+    name: "Date Difference Calculator",
+    tagline: "Count the days, weeks, and months between two dates.",
+    description:
+      "Free online date difference calculator. Find the duration between two dates in years, months, days, weeks, hours, and total days.",
+    keywords: ["date difference calculator", "days between dates", "duration calculator", "date duration"],
+    icon: CalendarDaysIcon,
+    intro:
+      "Find out exactly how much time is between two dates — in years, months, and days, plus totals in days, weeks, hours, and minutes. Great for deadlines, anniversaries, and project planning.",
+    steps: [
+      "Pick a start date.",
+      "Pick an end date (or use today).",
+      "Read the full breakdown of the duration.",
+    ],
+    faqs: [
+      { q: "Does the count include both the start and end date?", a: "It measures the span between the two dates, so the number of days is the difference between them." },
+      { q: "What if I enter the dates in the wrong order?", a: "No problem — the tool always shows a positive duration regardless of which date is earlier." },
+    ],
+    related: ["age-calculator", "timestamp-converter", "cron-explainer"],
+  },
+  {
+    slug: "bmi-calculator",
+    name: "BMI Calculator",
+    tagline: "Calculate your Body Mass Index in metric or imperial.",
+    description:
+      "Free online BMI calculator. Calculate your Body Mass Index from height and weight in metric or imperial units, with your category and healthy range.",
+    keywords: ["bmi calculator", "body mass index", "bmi calculator metric", "healthy weight calculator"],
+    icon: ScaleIcon,
+    intro:
+      "Calculate your Body Mass Index (BMI) from your height and weight, in metric or imperial units. See which category your BMI falls into and the healthy weight range for your height.",
+    steps: [
+      "Choose metric or imperial units.",
+      "Enter your height and weight.",
+      "See your BMI, category, and healthy range.",
+    ],
+    faqs: [
+      { q: "What is a healthy BMI range?", a: "A BMI between 18.5 and 24.9 is generally considered a healthy weight for most adults." },
+      { q: "Is BMI accurate for everyone?", a: "BMI is a useful general guide but doesn't account for muscle mass, age, or body composition — treat it as one signal, not a diagnosis." },
+    ],
+    related: ["unit-converter", "percentage-calculator", "age-calculator"],
+  },
+  {
+    slug: "loan-calculator",
+    name: "Loan & EMI Calculator",
+    tagline: "Estimate monthly loan payments, interest, and total cost.",
+    description:
+      "Free online loan and EMI calculator. Estimate your monthly payment, total interest, and total repayment from the loan amount, rate, and term.",
+    keywords: ["loan calculator", "emi calculator", "monthly payment calculator", "loan interest calculator"],
+    icon: LandmarkIcon,
+    intro:
+      "Estimate the monthly payment on a loan or mortgage from the amount borrowed, the annual interest rate, and the term. See the total interest and the total amount you'll repay over the life of the loan.",
+    steps: [
+      "Enter the loan amount and pick a currency.",
+      "Enter the annual interest rate and term in years.",
+      "See your monthly payment and total cost.",
+    ],
+    faqs: [
+      { q: "How is the monthly payment calculated?", a: "It uses the standard amortization formula based on the principal, monthly interest rate, and number of monthly payments." },
+      { q: "Does this include taxes or fees?", a: "No — it estimates principal and interest only. Property taxes, insurance, and fees are not included." },
+    ],
+    related: ["percentage-calculator", "unit-converter", "bmi-calculator"],
+  },
+  {
+    slug: "css-gradient-generator",
+    name: "CSS Gradient Generator",
+    tagline: "Design linear and radial CSS gradients with live preview.",
+    description:
+      "Free online CSS gradient generator. Create linear and radial gradients with a live preview and copy the ready-to-use CSS.",
+    keywords: ["css gradient generator", "gradient generator", "linear gradient css", "background gradient"],
+    icon: PaintBucketIcon,
+    intro:
+      "Design beautiful linear and radial CSS gradients with a live preview. Pick your colors, set the angle, and copy the ready-to-use CSS background rule for your website.",
+    steps: [
+      "Choose a linear or radial gradient.",
+      "Pick your two colors and set the angle.",
+      "Copy the generated CSS.",
+    ],
+    faqs: [
+      { q: "How do I use the generated CSS?", a: "Paste the background rule onto any element, e.g. a div or a section, and the gradient appears as its background." },
+      { q: "Can I control the gradient direction?", a: "Yes — for linear gradients, use the angle slider to set the direction from 0 to 360 degrees." },
+    ],
+    related: ["color-converter", "box-shadow-generator", "meta-tag-generator"],
+  },
+  {
+    slug: "box-shadow-generator",
+    name: "CSS Box Shadow Generator",
+    tagline: "Visually build a CSS box-shadow and copy the code.",
+    description:
+      "Free online CSS box-shadow generator. Adjust offset, blur, spread, color, and inset with a live preview, then copy the box-shadow CSS.",
+    keywords: ["box shadow generator", "css box shadow", "box shadow css generator", "shadow generator"],
+    icon: BoxIcon,
+    intro:
+      "Build a CSS box-shadow visually with sliders for offset, blur, spread, color, and opacity — with a live preview. Toggle inset shadows and copy the exact CSS when it looks right.",
+    steps: [
+      "Adjust the offset, blur, spread, and color.",
+      "Toggle inset for an inner shadow if you want one.",
+      "Copy the generated box-shadow CSS.",
+    ],
+    faqs: [
+      { q: "What does spread do?", a: "Spread grows (positive) or shrinks (negative) the shadow's size before the blur is applied." },
+      { q: "What is an inset shadow?", a: "An inset shadow is drawn inside the element's edges instead of outside, creating an inner-shadow or pressed-in effect." },
+    ],
+    related: ["css-gradient-generator", "color-converter", "meta-tag-generator"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -708,6 +884,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Converters",
     blurb: "Transform between formats.",
     slugs: [
+      "unit-converter",
       "base64",
       "url-encoder",
       "html-entities",
@@ -718,6 +895,17 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "number-base-converter",
       "color-converter",
       "timestamp-converter",
+    ],
+  },
+  {
+    name: "Calculators",
+    blurb: "Everyday math, money, and dates.",
+    slugs: [
+      "percentage-calculator",
+      "loan-calculator",
+      "bmi-calculator",
+      "age-calculator",
+      "date-difference",
     ],
   },
   {
@@ -734,10 +922,12 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   },
   {
     name: "Generators",
-    blurb: "Create secure, random values.",
+    blurb: "Create codes, styles, and values.",
     slugs: [
       "qr-code",
       "wifi-qr",
+      "css-gradient-generator",
+      "box-shadow-generator",
       "password-generator",
       "random-string",
       "uuid-generator",
