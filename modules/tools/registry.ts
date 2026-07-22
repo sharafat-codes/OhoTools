@@ -45,6 +45,13 @@ import {
   BadgePercentIcon,
   NetworkIcon,
   ScrollIcon,
+  GlobeIcon,
+  ArrowLeftRightIcon,
+  CoinsIcon,
+  RatioIcon,
+  CreditCardIcon,
+  PaletteIcon,
+  AppWindowIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -1031,6 +1038,153 @@ export const devTools: DevTool[] = [
     ],
     related: ["number-base-converter", "unit-converter", "text-to-binary"],
   },
+  {
+    slug: "timezone-converter",
+    name: "Time Zone Converter",
+    tagline: "Convert a time between any two time zones.",
+    description:
+      "Free online time zone converter. Convert a date and time between any two IANA time zones, with automatic daylight-saving handling.",
+    keywords: ["time zone converter", "timezone converter", "convert time zones", "world clock converter"],
+    icon: GlobeIcon,
+    intro:
+      "Convert a specific date and time from one time zone to another. Pick the source and target zones and the exact moment, and get the converted local time — daylight-saving transitions are handled automatically.",
+    steps: [
+      "Enter a date and time (or click Now).",
+      "Choose the time zone it's in, and the one to convert to.",
+      "Read the converted local time.",
+    ],
+    faqs: [
+      { q: "Does it handle daylight saving time?", a: "Yes — conversions use each zone's DST rules for the exact date you enter, so spring-forward and fall-back are accounted for." },
+      { q: "Which time zones are supported?", a: "All IANA time zones your browser knows about — hundreds of cities and regions worldwide." },
+    ],
+    related: ["timestamp-converter", "unit-converter", "date-difference"],
+  },
+  {
+    slug: "json-yaml",
+    name: "JSON to YAML Converter",
+    tagline: "Convert between JSON and YAML in both directions.",
+    description:
+      "Free online JSON to YAML converter. Convert JSON to YAML and YAML back to JSON instantly and privately in your browser.",
+    keywords: ["json to yaml", "yaml to json", "json yaml converter", "convert json to yaml"],
+    icon: ArrowLeftRightIcon,
+    intro:
+      "Convert JSON to YAML or YAML to JSON with a real parser, so nested structures, arrays, and types are preserved correctly. Everything runs in your browser — your data never leaves your device.",
+    steps: [
+      "Choose JSON → YAML or YAML → JSON.",
+      "Paste your data.",
+      "Copy the converted output.",
+    ],
+    faqs: [
+      { q: "Is the conversion accurate for nested data?", a: "Yes — it uses a proper YAML parser and serializer, so objects, arrays, and scalar types round-trip correctly." },
+      { q: "Why convert JSON to YAML?", a: "YAML is often easier to read and edit for configuration files (CI pipelines, Kubernetes, Docker Compose), while JSON is common for APIs and data exchange." },
+    ],
+    related: ["json-formatter", "json-to-csv", "json-to-typescript"],
+  },
+  {
+    slug: "gst-vat-calculator",
+    name: "GST / VAT / Sales Tax Calculator",
+    tagline: "Add or remove GST, VAT, or sales tax from a price.",
+    description:
+      "Free online GST, VAT, and sales tax calculator. Add tax to a net price or extract the tax from a gross price at any rate.",
+    keywords: ["vat calculator", "gst calculator", "sales tax calculator", "add or remove vat"],
+    icon: CoinsIcon,
+    intro:
+      "Calculate GST, VAT, or sales tax at any rate. Add tax to a net amount, or work backwards to extract the tax from a tax-inclusive (gross) price — with the net, tax, and gross totals shown.",
+    steps: [
+      "Choose Add tax or Remove tax.",
+      "Enter the amount and the tax rate.",
+      "See the net, tax, and gross totals.",
+    ],
+    faqs: [
+      { q: "How do I remove VAT from a price?", a: "Use Remove tax: the tool divides the gross price by (1 + rate/100) to find the net amount, and the difference is the tax." },
+      { q: "Does it work for any tax rate?", a: "Yes — enter any percentage, so it works for VAT, GST, or local sales tax anywhere." },
+    ],
+    related: ["percentage-calculator", "discount-calculator", "tip-calculator"],
+  },
+  {
+    slug: "aspect-ratio-calculator",
+    name: "Aspect Ratio Calculator",
+    tagline: "Resize dimensions while keeping the same ratio.",
+    description:
+      "Free online aspect ratio calculator. Find the missing width or height to keep an image or video at the same aspect ratio, plus the simplified ratio.",
+    keywords: ["aspect ratio calculator", "ratio calculator", "resize keeping ratio", "16:9 calculator"],
+    icon: RatioIcon,
+    intro:
+      "Keep images and videos proportional. Enter your original width and height to see the simplified ratio (like 16:9), then scale to a new width or height and get the matching dimension automatically.",
+    steps: [
+      "Enter the original width and height.",
+      "Enter a new width to get the height (or a new height to get the width).",
+      "Use the proportional result.",
+    ],
+    faqs: [
+      { q: "What is an aspect ratio?", a: "It's the proportional relationship between width and height, written like 16:9. Keeping it constant stops images and videos from looking stretched." },
+      { q: "How is the ratio simplified?", a: "The width and height are divided by their greatest common divisor — so 1920×1080 simplifies to 16:9." },
+    ],
+    related: ["unit-converter", "percentage-calculator", "color-converter"],
+  },
+  {
+    slug: "credit-card-validator",
+    name: "Credit Card Validator (Luhn)",
+    tagline: "Check a card number's Luhn checksum and detect its brand.",
+    description:
+      "Free online credit card validator. Check whether a card number passes the Luhn checksum and detect its brand — all in your browser.",
+    keywords: ["credit card validator", "luhn check", "card number validator", "luhn algorithm"],
+    icon: CreditCardIcon,
+    intro:
+      "Validate a credit card number's format using the Luhn checksum and detect its brand (Visa, Mastercard, Amex, and more). Useful for testing and form validation — it runs entirely in your browser.",
+    steps: [
+      "Paste or type a card number.",
+      "See whether it passes the Luhn check.",
+      "Check the detected card brand.",
+    ],
+    faqs: [
+      { q: "What is the Luhn algorithm?", a: "It's a simple checksum formula used to catch accidental errors in card numbers. Passing it means the number is well-formed — not that the card is real or active." },
+      { q: "Is it safe to enter a card number?", a: "Yes — validation happens entirely in your browser and nothing is sent anywhere. Still, only use test numbers, not sensitive live cards." },
+    ],
+    related: ["hash-generator", "regex-tester", "uuid-generator"],
+  },
+  {
+    slug: "color-shades-generator",
+    name: "Color Shades Generator",
+    tagline: "Generate tints and shades from any base color.",
+    description:
+      "Free online color shades generator. Create a palette of tints and shades from any HEX color — perfect for design systems and UI themes.",
+    keywords: ["color shades generator", "tints and shades", "color palette generator", "shade generator"],
+    icon: PaletteIcon,
+    intro:
+      "Turn any base color into a full range of tints (lighter) and shades (darker) — ideal for building a consistent color scale for a design system or UI theme. Click any swatch to copy its HEX value.",
+    steps: [
+      "Enter a base HEX color or use the picker.",
+      "See the generated tints and shades.",
+      "Click a swatch to copy its HEX.",
+    ],
+    faqs: [
+      { q: "What's the difference between a tint and a shade?", a: "A tint mixes the color with white to make it lighter; a shade mixes it with black to make it darker." },
+      { q: "Can I use these for a design system?", a: "Yes — the scale from light to dark is exactly what you need for a color ramp (like 50–900) in a UI theme." },
+    ],
+    related: ["color-converter", "css-gradient-generator", "box-shadow-generator"],
+  },
+  {
+    slug: "favicon-generator",
+    name: "Favicon Generator",
+    tagline: "Turn any image into favicons for your website.",
+    description:
+      "Free online favicon generator. Upload an image to create favicons in every size, download them as a ZIP, and copy the HTML tags — all in your browser.",
+    keywords: ["favicon generator", "create favicon", "favicon from image", "favicon maker"],
+    icon: AppWindowIcon,
+    intro:
+      "Upload any image and generate favicons in all the sizes modern browsers and devices need (16 to 512 px). Preview them, download individually or as a ZIP, and copy the HTML tags to drop into your site. Nothing is uploaded — it all happens in your browser.",
+    steps: [
+      "Upload a square image (512×512 or larger works best).",
+      "Download the sizes you need, or all of them as a ZIP.",
+      "Paste the provided tags into your page's <head>.",
+    ],
+    faqs: [
+      { q: "What size should a favicon be?", a: "Provide 16×16 and 32×32 for browser tabs and 180×180 for Apple touch icons; 192 and 512 are used for Android and PWAs. This tool generates all of them." },
+      { q: "Is my image uploaded?", a: "No — the image is processed entirely in your browser using a canvas, so it never leaves your device." },
+    ],
+    related: ["image-to-base64", "meta-tag-generator", "qr-code"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1050,18 +1204,21 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "cron-explainer",
       "chmod-calculator",
       "cidr-calculator",
+      "credit-card-validator",
     ],
   },
   {
     name: "Web & SEO",
     blurb: "Ship and market your site.",
-    slugs: ["utm-builder", "meta-tag-generator"],
+    slugs: ["utm-builder", "meta-tag-generator", "favicon-generator"],
   },
   {
     name: "Converters",
     blurb: "Transform between formats.",
     slugs: [
       "unit-converter",
+      "timezone-converter",
+      "json-yaml",
       "base64",
       "url-encoder",
       "html-entities",
@@ -1082,8 +1239,10 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "percentage-calculator",
       "tip-calculator",
       "discount-calculator",
+      "gst-vat-calculator",
       "loan-calculator",
       "bmi-calculator",
+      "aspect-ratio-calculator",
       "age-calculator",
       "date-difference",
     ],
@@ -1112,6 +1271,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "wifi-qr",
       "css-gradient-generator",
       "box-shadow-generator",
+      "color-shades-generator",
       "password-generator",
       "random-string",
       "uuid-generator",
