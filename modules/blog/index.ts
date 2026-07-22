@@ -8,6 +8,9 @@ import * as base64Guide from "./posts/what-is-base64-encoding";
 import * as strongPassword from "./posts/how-to-create-strong-password";
 import * as qrLogo from "./posts/qr-code-with-logo";
 import * as decodeJwt from "./posts/how-to-decode-jwt";
+import * as mergePdfGuide from "./posts/how-to-merge-pdf-files";
+import * as pdfToJpgGuide from "./posts/how-to-convert-pdf-to-jpg";
+import * as bulkImagesGuide from "./posts/how-to-bulk-convert-resize-images";
 
 export type PostMeta = {
   slug: string;
@@ -34,6 +37,9 @@ const modules: BlogPost[] = [
   strongPassword,
   qrLogo,
   decodeJwt,
+  mergePdfGuide,
+  pdfToJpgGuide,
+  bulkImagesGuide,
 ];
 
 /** All posts, newest first. */

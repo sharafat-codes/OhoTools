@@ -1221,7 +1221,7 @@ export const devTools: DevTool[] = [
       { q: "Is my image uploaded to a server?", a: "No — conversion happens entirely in your browser using a canvas, so the file never leaves your device." },
       { q: "Which format should I use?", a: "JPG is best for photos, PNG for graphics with transparency, and WebP for the smallest size at good quality on the modern web." },
     ],
-    related: ["image-resizer", "image-to-base64", "favicon-generator"],
+    related: ["bulk-image-converter", "image-resizer", "favicon-generator"],
   },
   {
     slug: "image-resizer",
@@ -1242,7 +1242,7 @@ export const devTools: DevTool[] = [
       { q: "Will resizing distort my image?", a: "Not if you keep &quot;Lock ratio&quot; enabled — the other dimension is calculated automatically to preserve the proportions." },
       { q: "Are my images private?", a: "Yes — resizing is done locally in your browser, so images never leave your device." },
     ],
-    related: ["image-converter", "image-to-base64", "favicon-generator"],
+    related: ["bulk-image-converter", "image-converter", "favicon-generator"],
   },
   {
     slug: "password-strength-checker",
