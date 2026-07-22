@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,6 +69,11 @@ export function HtmlEntities() {
         rows={5}
         className="font-mono text-xs"
       />
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => { const s = '<div class="greeting">Tom & Jerry</div>'; setInput(s); convert(s, mode); }}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setInput(""); setOutput(""); }}>Clear</Button>
+      </div>
 
       {output && (
         <Card>

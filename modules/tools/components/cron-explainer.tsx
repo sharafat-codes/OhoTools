@@ -3,6 +3,7 @@
 import * as React from "react";
 import { AlertCircleIcon } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
@@ -136,6 +137,11 @@ export function CronExplainer() {
           className="font-mono"
           aria-invalid={!!analysis.error}
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setExpr("0 9 * * 1-5")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setExpr("")}>Clear</Button>
       </div>
 
       {analysis.error && (

@@ -48,6 +48,7 @@ export function JsonFormatter() {
           <Button variant="ghost" onClick={() => { setInput(""); setOutput(""); setError(null); setOk(false); }}>
             Clear
           </Button>
+          <Button variant="outline" size="sm" onClick={() => setInput('{"name":"Ada Lovelace","age":36,"languages":["math","logic"],"active":true}')}>Try example</Button>
         </div>
       </div>
 

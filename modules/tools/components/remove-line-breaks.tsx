@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
@@ -45,6 +46,11 @@ export function RemoveLineBreaks() {
           placeholder="Paste text with line breaks…"
           className="min-h-32"
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setText("The quick brown fox\njumps over\n\nthe lazy dog")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setText("")}>Clear</Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">

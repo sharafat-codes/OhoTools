@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -35,6 +36,10 @@ export function WordCounter() {
         placeholder="Start typing or paste your text…"
         rows={8}
       />
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setText("The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setText("")}>Clear</Button>
+      </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {stats.map((s) => (
           <Card key={s.label}>

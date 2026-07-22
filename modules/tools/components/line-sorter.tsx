@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,6 +62,11 @@ export function LineSorter() {
         rows={7}
         className="font-mono text-xs"
       />
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setText("banana\napple\ncherry\napple\ndate\nbanana\nelderberry")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setText("")}>Clear</Button>
+      </div>
 
       <div className="flex flex-wrap gap-3">
         {OPTIONS.map((o) => (

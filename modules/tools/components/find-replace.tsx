@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -49,6 +50,11 @@ export function FindReplace() {
           placeholder="Paste your text here…"
           className="min-h-32 font-mono"
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => { setText("The quick brown fox. The quick brown dog."); setFind("quick"); setReplace("slow"); }}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setText(""); setFind(""); setReplace(""); }}>Clear</Button>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">

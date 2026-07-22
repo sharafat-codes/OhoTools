@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -66,6 +67,11 @@ export function TextDiff() {
           rows={8}
           className="font-mono text-xs"
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => { setLeft("apple\nbanana\ncherry\ndate"); setRight("apple\nblueberry\ncherry\nfig\ndate"); }}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setLeft(""); setRight(""); }}>Clear</Button>
       </div>
 
       {show && (

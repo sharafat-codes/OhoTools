@@ -3,6 +3,7 @@
 import * as React from "react";
 import { AlertCircleIcon } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,6 +62,11 @@ export function JsonToTypescript() {
         rows={6}
         className="font-mono text-xs"
       />
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setInput('{"id":1,"name":"Ada","tags":["a","b"],"address":{"city":"London"}}')}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setInput("")}>Clear</Button>
+      </div>
 
       {error && (
         <div className="flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">

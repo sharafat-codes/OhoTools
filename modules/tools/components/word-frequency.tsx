@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,6 +41,11 @@ export function WordFrequency() {
           placeholder="Paste text to analyze word frequency…"
           className="min-h-32"
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setText("the cat sat on the mat the cat ran after the dog the dog sat too")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setText("")}>Clear</Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">

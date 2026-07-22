@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -42,6 +43,11 @@ export function HashGenerator() {
         placeholder="Text to hash…"
         rows={4}
       />
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => { const s = "The quick brown fox jumps over the lazy dog"; setText(s); void compute(s); }}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setText(""); setHashes({}); }}>Clear</Button>
+      </div>
 
       {ALGOS.map((algo) => (
         <Card key={algo}>

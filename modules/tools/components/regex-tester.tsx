@@ -4,6 +4,7 @@ import * as React from "react";
 import { AlertCircleIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -94,6 +95,11 @@ export function RegexTester() {
           rows={5}
           className="font-mono text-xs"
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => { setPattern("\\w+@\\w+\\.\\w+"); setText("Contact ada@example.com or email the team at hello@toolpilot.dev."); }}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setPattern(""); setText(""); }}>Clear</Button>
       </div>
 
       {error && (

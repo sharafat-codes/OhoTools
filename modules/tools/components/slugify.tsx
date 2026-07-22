@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,6 +32,10 @@ export function Slugify() {
         onChange={(e) => setText(e.target.value)}
         placeholder="My Awesome Blog Post!"
       />
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setText("My Awesome Blog Post! (2024 Edition)")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setText("")}>Clear</Button>
+      </div>
       {slug && (
         <Card>
           <CardContent className="flex items-center justify-between gap-3">

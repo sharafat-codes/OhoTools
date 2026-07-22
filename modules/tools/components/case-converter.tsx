@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -51,6 +52,10 @@ export function CaseConverter() {
         placeholder="Type or paste text to convert…"
         rows={4}
       />
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => setText("Hello World from ToolPilot")}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => setText("")}>Clear</Button>
+      </div>
       <div className="flex flex-col gap-2">
         {conversions.map((c) => {
           const result = text ? c.fn(text) : "";

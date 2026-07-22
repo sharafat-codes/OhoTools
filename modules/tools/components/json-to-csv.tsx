@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -130,6 +131,11 @@ export function JsonToCsv() {
         rows={6}
         className="font-mono text-xs"
       />
+
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => { const s = '[{"name":"Ada","role":"engineer"},{"name":"Bo","role":"designer"}]'; setInput(s); convert(s, mode); }}>Try example</Button>
+        <Button variant="ghost" size="sm" onClick={() => { setInput(""); setOutput(""); setError(null); }}>Clear</Button>
+      </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
