@@ -21,6 +21,10 @@ import {
   ImageIcon,
   ArrowDownUpIcon,
   CalendarClockIcon,
+  FolderKeyIcon,
+  CodeIcon,
+  DicesIcon,
+  FileCode2Icon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -503,6 +507,90 @@ export const devTools: DevTool[] = [
     ],
     related: ["timestamp-converter", "regex-tester", "number-base-converter"],
   },
+  {
+    slug: "chmod-calculator",
+    name: "Chmod Calculator",
+    tagline: "Convert file permissions between octal and symbolic.",
+    description:
+      "Free online chmod calculator. Convert Unix/Linux file permissions between numeric (755) and symbolic (rwxr-xr-x) with checkboxes.",
+    keywords: ["chmod calculator", "file permissions", "chmod 755", "unix permissions"],
+    icon: FolderKeyIcon,
+    intro:
+      "Toggle read, write, and execute for owner, group, and others to get the numeric (e.g. 755) and symbolic (rwxr-xr-x) chmod values — or type a number to see the permissions.",
+    steps: [
+      "Check the permissions you want, or type an octal value.",
+      "Read the octal and symbolic results.",
+      "Copy the ready-to-run chmod command.",
+    ],
+    faqs: [
+      { q: "What does chmod 755 mean?", a: "Owner can read/write/execute (7); group and others can read and execute (5). It's common for scripts and directories." },
+      { q: "Numeric vs symbolic?", a: "Numeric uses digits 0–7 per role; symbolic uses letters like rwxr-xr-x. They represent the same permissions." },
+    ],
+    related: ["number-base-converter", "hash-generator", "cron-explainer"],
+  },
+  {
+    slug: "text-to-binary",
+    name: "Text to Binary",
+    tagline: "Convert text to binary and back.",
+    description:
+      "Free online text to binary converter. Convert text to binary and binary back to text using UTF-8, instantly in your browser.",
+    keywords: ["text to binary", "binary to text", "binary translator", "ascii to binary"],
+    icon: CodeIcon,
+    intro:
+      "Convert text into its binary representation (and back), using UTF-8 byte values shown as 8-bit groups. Handy for learning, puzzles, and low-level debugging.",
+    steps: [
+      "Choose Text → Binary or Binary → Text.",
+      "Type or paste your input.",
+      "Copy the result.",
+    ],
+    faqs: [
+      { q: "What encoding is used?", a: "UTF-8 — each character maps to one or more bytes, shown as 8-bit binary groups separated by spaces." },
+      { q: "Can it decode binary back to text?", a: "Yes — paste space-separated 8-bit binary groups and switch to Binary → Text." },
+    ],
+    related: ["base64", "number-base-converter", "hash-generator"],
+  },
+  {
+    slug: "random-string",
+    name: "Random String Generator",
+    tagline: "Generate random strings, tokens, and test data.",
+    description:
+      "Free online random string generator. Create random strings and tokens with custom length and character sets, using secure randomness.",
+    keywords: ["random string generator", "random token", "generate random string", "random text"],
+    icon: DicesIcon,
+    intro:
+      "Generate random strings for tokens, test data, and identifiers, with control over length and character sets. Uses your browser's secure random generator.",
+    steps: [
+      "Set the length and character sets.",
+      "Choose how many to generate.",
+      "Copy the results.",
+    ],
+    faqs: [
+      { q: "Is the randomness secure?", a: "Yes — it uses the Web Crypto secure random generator, suitable for tokens and secrets." },
+      { q: "How is this different from the password generator?", a: "It's tuned for generating many identifiers or tokens at once with flexible alphabets, rather than one memorable password." },
+    ],
+    related: ["password-generator", "uuid-generator", "hash-generator"],
+  },
+  {
+    slug: "json-to-typescript",
+    name: "JSON to TypeScript",
+    tagline: "Generate TypeScript types from JSON.",
+    description:
+      "Free online JSON to TypeScript converter. Generate TypeScript interfaces and types from a JSON sample, instantly in your browser.",
+    keywords: ["json to typescript", "json to interface", "typescript types from json", "json to ts"],
+    icon: FileCode2Icon,
+    intro:
+      "Paste a JSON sample and get TypeScript types inferred from its structure — nested objects and arrays included. Great for quickly typing API responses.",
+    steps: [
+      "Paste a JSON object or array.",
+      "Copy the generated TypeScript.",
+      "Rename Root to fit your codebase.",
+    ],
+    faqs: [
+      { q: "How are arrays typed?", a: "Array element types are inferred from the first item; empty arrays become unknown[]." },
+      { q: "Are nested objects named?", a: "Nested objects are inlined as structural types for simplicity — extract them into named interfaces as you like." },
+    ],
+    related: ["json-formatter", "json-to-csv", "jwt-decoder"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -514,7 +602,14 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Developer",
     blurb: "Format, inspect, and test.",
-    slugs: ["json-formatter", "jwt-decoder", "regex-tester", "cron-explainer"],
+    slugs: [
+      "json-formatter",
+      "json-to-typescript",
+      "jwt-decoder",
+      "regex-tester",
+      "cron-explainer",
+      "chmod-calculator",
+    ],
   },
   {
     name: "Converters",
@@ -525,6 +620,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "html-entities",
       "json-to-csv",
       "image-to-base64",
+      "text-to-binary",
       "number-base-converter",
       "color-converter",
       "timestamp-converter",
@@ -545,6 +641,12 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Generators",
     blurb: "Create secure, random values.",
-    slugs: ["qr-code", "password-generator", "uuid-generator", "hash-generator"],
+    slugs: [
+      "qr-code",
+      "password-generator",
+      "random-string",
+      "uuid-generator",
+      "hash-generator",
+    ],
   },
 ];
