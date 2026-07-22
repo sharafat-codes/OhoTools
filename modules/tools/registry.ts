@@ -52,6 +52,13 @@ import {
   CreditCardIcon,
   PaletteIcon,
   AppWindowIcon,
+  ImagesIcon,
+  ScalingIcon,
+  ShieldCheckIcon,
+  Dice5Icon,
+  RemoveFormattingIcon,
+  FlameIcon,
+  GraduationCapIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -1185,6 +1192,153 @@ export const devTools: DevTool[] = [
     ],
     related: ["image-to-base64", "meta-tag-generator", "qr-code"],
   },
+  {
+    slug: "image-converter",
+    name: "Image Converter (PNG, JPG, WebP)",
+    tagline: "Convert images between PNG, JPG, and WebP.",
+    description:
+      "Free online image converter. Convert PNG to JPG, JPG to PNG, or images to WebP with adjustable quality — all in your browser, nothing uploaded.",
+    keywords: ["png to jpg", "jpg to png", "image to webp", "image converter", "convert image online"],
+    icon: ImagesIcon,
+    intro:
+      "Convert an image between PNG, JPG, and WebP with an adjustable quality setting, and see the new file size before you download. Everything happens in your browser — your image is never uploaded.",
+    steps: [
+      "Choose an image.",
+      "Pick the output format and quality.",
+      "Download the converted image.",
+    ],
+    faqs: [
+      { q: "Is my image uploaded to a server?", a: "No — conversion happens entirely in your browser using a canvas, so the file never leaves your device." },
+      { q: "Which format should I use?", a: "JPG is best for photos, PNG for graphics with transparency, and WebP for the smallest size at good quality on the modern web." },
+    ],
+    related: ["image-resizer", "image-to-base64", "favicon-generator"],
+  },
+  {
+    slug: "image-resizer",
+    name: "Image Resizer",
+    tagline: "Resize an image to exact dimensions online.",
+    description:
+      "Free online image resizer. Resize any image to exact pixel dimensions while keeping the aspect ratio — privately in your browser.",
+    keywords: ["image resizer", "resize image online", "resize image", "photo resizer"],
+    icon: ScalingIcon,
+    intro:
+      "Resize any image to the exact width and height you need, with an option to lock the aspect ratio so it never looks stretched. It all runs in your browser — nothing is uploaded.",
+    steps: [
+      "Choose an image.",
+      "Enter a new width or height (lock the ratio to keep proportions).",
+      "Resize and download the result.",
+    ],
+    faqs: [
+      { q: "Will resizing distort my image?", a: "Not if you keep &quot;Lock ratio&quot; enabled — the other dimension is calculated automatically to preserve the proportions." },
+      { q: "Are my images private?", a: "Yes — resizing is done locally in your browser, so images never leave your device." },
+    ],
+    related: ["image-converter", "image-to-base64", "favicon-generator"],
+  },
+  {
+    slug: "password-strength-checker",
+    name: "Password Strength Checker",
+    tagline: "Test how strong a password is, privately.",
+    description:
+      "Free online password strength checker. Estimate a password's entropy, strength, and time to crack — analyzed entirely in your browser.",
+    keywords: ["password strength checker", "password strength test", "how strong is my password", "password entropy"],
+    icon: ShieldCheckIcon,
+    intro:
+      "Test how strong a password is. This tool estimates its entropy, rates its strength, and shows a rough time-to-crack, with tips to improve it. Your password is analyzed entirely in your browser and never sent anywhere.",
+    steps: [
+      "Type or paste a password.",
+      "See its strength rating and entropy.",
+      "Follow the tips to make it stronger.",
+    ],
+    faqs: [
+      { q: "Is it safe to type my password here?", a: "Yes — the analysis runs entirely in your browser and nothing is transmitted or stored. Still, avoid testing a password you're actively using anywhere sensitive." },
+      { q: "What is entropy?", a: "Entropy measures unpredictability in bits — higher is stronger. It grows with password length and the variety of characters used." },
+    ],
+    related: ["password-generator", "hash-generator", "random-string"],
+  },
+  {
+    slug: "random-number-generator",
+    name: "Random Number Generator",
+    tagline: "Generate random numbers in any range.",
+    description:
+      "Free online random number generator. Generate one or many random numbers in a custom range, with an option for no duplicates.",
+    keywords: ["random number generator", "random number", "number picker", "rng"],
+    icon: Dice5Icon,
+    intro:
+      "Generate random numbers within any range you choose — one at a time or many at once, with an option to keep them all unique. Great for draws, sampling, games, and testing.",
+    steps: [
+      "Set the minimum and maximum.",
+      "Choose how many numbers you need.",
+      "Generate and copy the results.",
+    ],
+    faqs: [
+      { q: "Can I generate numbers with no repeats?", a: "Yes — enable &quot;No duplicates&quot; and every number in the result set will be unique (as long as the range is large enough)." },
+      { q: "Is the range inclusive?", a: "Yes — both the minimum and maximum values can be generated." },
+    ],
+    related: ["random-string", "uuid-generator", "password-generator"],
+  },
+  {
+    slug: "strip-html",
+    name: "HTML to Text (Strip Tags)",
+    tagline: "Remove HTML tags to get clean plain text.",
+    description:
+      "Free online HTML to text converter. Strip HTML tags to get clean plain text, with an option to keep line breaks — right in your browser.",
+    keywords: ["strip html", "html to text", "remove html tags", "html tag remover"],
+    icon: RemoveFormattingIcon,
+    intro:
+      "Paste HTML and get clean plain text with all the tags removed. Keep the line breaks from block elements, or collapse everything into a single flow. Handy for cleaning up rich-text copy, emails, and CMS content.",
+    steps: [
+      "Paste your HTML.",
+      "Choose whether to keep line breaks.",
+      "Copy the plain-text result.",
+    ],
+    faqs: [
+      { q: "Does it run any scripts in the HTML?", a: "No — the HTML is parsed safely to extract text only; no scripts or markup are ever executed." },
+      { q: "What happens to entities like &amp;amp;?", a: "They're decoded to their real characters (for example &amp;amp; becomes &amp;) in the plain-text output." },
+    ],
+    related: ["html-entities", "find-replace", "word-counter"],
+  },
+  {
+    slug: "bmr-calculator",
+    name: "BMR & Calorie Calculator",
+    tagline: "Estimate daily calories from BMR and activity.",
+    description:
+      "Free online BMR and calorie calculator. Estimate your basal metabolic rate and daily calorie needs using the Mifflin-St Jeor equation.",
+    keywords: ["bmr calculator", "calorie calculator", "tdee calculator", "daily calorie needs"],
+    icon: FlameIcon,
+    intro:
+      "Estimate your Basal Metabolic Rate (BMR) — the calories your body burns at rest — and your total daily energy expenditure (TDEE) based on activity level, using the accurate Mifflin-St Jeor equation. Includes calorie targets for losing or gaining weight.",
+    steps: [
+      "Choose metric or imperial and enter age, sex, height, and weight.",
+      "Pick your activity level.",
+      "See your BMR, maintenance calories, and goals.",
+    ],
+    faqs: [
+      { q: "What's the difference between BMR and TDEE?", a: "BMR is the energy you burn at complete rest; TDEE multiplies BMR by an activity factor to estimate the calories you burn in a full day." },
+      { q: "How accurate is this?", a: "The Mifflin-St Jeor equation is one of the most accurate estimates, but individual needs vary — treat it as a starting point." },
+    ],
+    related: ["bmi-calculator", "unit-converter", "percentage-calculator"],
+  },
+  {
+    slug: "gpa-calculator",
+    name: "GPA Calculator",
+    tagline: "Calculate your GPA on a 4.0 scale.",
+    description:
+      "Free online GPA calculator. Enter your course grades and credit hours to calculate your weighted GPA on a 4.0 scale.",
+    keywords: ["gpa calculator", "calculate gpa", "college gpa calculator", "weighted gpa"],
+    icon: GraduationCapIcon,
+    intro:
+      "Calculate your grade point average on a 4.0 scale. Add each course with its letter grade and credit hours, and get your weighted GPA instantly. Add or remove courses as needed.",
+    steps: [
+      "Add a row for each course.",
+      "Pick the letter grade and enter the credit hours.",
+      "See your weighted GPA update live.",
+    ],
+    faqs: [
+      { q: "How is GPA weighted by credits?", a: "Each course's grade points are multiplied by its credit hours, summed, then divided by the total credits — so higher-credit courses count more." },
+      { q: "What grade scale is used?", a: "A standard unweighted 4.0 scale (A = 4.0, B = 3.0, and so on down to F = 0.0)." },
+    ],
+    related: ["percentage-calculator", "unit-converter", "aspect-ratio-calculator"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1205,6 +1359,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "chmod-calculator",
       "cidr-calculator",
       "credit-card-validator",
+      "password-strength-checker",
     ],
   },
   {
@@ -1219,6 +1374,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "unit-converter",
       "timezone-converter",
       "json-yaml",
+      "image-converter",
+      "image-resizer",
       "base64",
       "url-encoder",
       "html-entities",
@@ -1242,6 +1399,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "gst-vat-calculator",
       "loan-calculator",
       "bmi-calculator",
+      "bmr-calculator",
+      "gpa-calculator",
       "aspect-ratio-calculator",
       "age-calculator",
       "date-difference",
@@ -1255,6 +1414,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "case-converter",
       "find-replace",
       "remove-line-breaks",
+      "strip-html",
       "word-frequency",
       "text-repeater",
       "slugify",
@@ -1274,6 +1434,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "color-shades-generator",
       "password-generator",
       "random-string",
+      "random-number-generator",
       "uuid-generator",
       "hash-generator",
     ],
