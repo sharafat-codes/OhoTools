@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { devTools } from "@/modules/tools/registry";
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://oho-tools.vercel.app";
+const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

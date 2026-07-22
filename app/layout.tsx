@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://oho-tools.vercel.app";
+const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

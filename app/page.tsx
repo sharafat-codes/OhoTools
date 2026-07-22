@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://oho-tools.vercel.app";
+const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
 
 const faqs = [
   {

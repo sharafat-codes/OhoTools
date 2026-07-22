@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "lucide-react";
 import { getTool, type DevTool } from "@/modules/tools/registry";
 import { Card, CardContent } from "@/components/ui/card";
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://oho-tools.vercel.app";
+const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
 
 export function ToolShell({
   tool,
