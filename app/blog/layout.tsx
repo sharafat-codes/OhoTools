@@ -4,7 +4,7 @@ import { Logo } from "@/components/logo";
 import { getCurrentUser } from "@/lib/dal";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 
-export default async function ToolsLayout({
+export default async function BlogLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -16,13 +16,13 @@ export default async function ToolsLayout({
       <SiteHeader isAuthed={!!user} />
       <main className="flex-1">{children}</main>
       <footer className="border-t border-border/60">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-6 text-sm text-muted-foreground sm:px-6">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-6 text-sm text-muted-foreground sm:px-6">
           <Logo size="sm" />
           <div className="flex gap-4 text-xs">
+            <Link href="/tools" className="hover:text-foreground">Tools</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
-            <Link href="/contact" className="hover:text-foreground">Contact</Link>
           </div>
         </div>
       </footer>
