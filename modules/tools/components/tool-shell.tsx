@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "lucide-react";
 
 import { getTool, type DevTool } from "@/modules/tools/registry";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
 
 const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
@@ -73,7 +74,10 @@ export function ToolShell({
           <Icon className="size-5" />
         </div>
         <div>
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">{tool.name}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="font-heading text-2xl font-semibold tracking-tight">{tool.name}</h1>
+            {tool.pro && <Badge variant="secondary">Pro</Badge>}
+          </div>
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
         </div>
       </div>

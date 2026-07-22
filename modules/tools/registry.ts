@@ -53,6 +53,7 @@ import {
   PaletteIcon,
   AppWindowIcon,
   ImagesIcon,
+  FilesIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -75,6 +76,7 @@ export type DevTool = {
   steps: string[]; // "how to use"
   faqs: ToolFaq[];
   related: string[]; // slugs
+  pro?: boolean; // premium tool — usable free with limits, full with Pro
 };
 
 export const devTools: DevTool[] = [
@@ -1339,6 +1341,29 @@ export const devTools: DevTool[] = [
     ],
     related: ["percentage-calculator", "unit-converter", "aspect-ratio-calculator"],
   },
+  {
+    slug: "bulk-image-converter",
+    name: "Bulk Image Converter & Resizer",
+    tagline: "Convert and resize many images at once, then download a ZIP.",
+    description:
+      "Free online bulk image converter and resizer. Convert and resize multiple images to PNG, JPG, or WebP at once and download them all as a ZIP — in your browser.",
+    keywords: ["bulk image converter", "batch image resizer", "convert multiple images", "bulk resize images", "batch convert images"],
+    icon: FilesIcon,
+    intro:
+      "Convert and resize a whole batch of images in one go — pick your format, quality, and maximum size, process them all at once, and download everything as a ZIP. Free processes up to 3 images at a time; Pro removes the limit and enables one-click ZIP export. Everything runs in your browser, so your images are never uploaded.",
+    steps: [
+      "Add multiple images.",
+      "Choose the output format, quality, and optional max size.",
+      "Convert them all and download as a ZIP.",
+    ],
+    faqs: [
+      { q: "How many images can I convert at once?", a: "The free tier processes up to 3 images per batch. OhoTool Pro removes the limit and adds a one-click ZIP download for the whole batch." },
+      { q: "Are my images uploaded?", a: "No — every image is processed locally in your browser using a canvas, so nothing ever leaves your device." },
+      { q: "Which formats are supported?", a: "Convert to PNG, JPG, or WebP, with an adjustable quality setting for the lossy formats and an optional maximum width/height." },
+    ],
+    related: ["image-converter", "image-resizer", "favicon-generator"],
+    pro: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1376,6 +1401,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "json-yaml",
       "image-converter",
       "image-resizer",
+      "bulk-image-converter",
       "base64",
       "url-encoder",
       "html-entities",

@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "lucide-react";
 
 import { getTool, toolCategories, devTools } from "@/modules/tools/registry";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
@@ -48,8 +49,9 @@ export default function ToolsHub() {
                           <Icon className="size-5" />
                         </div>
                         <div className="min-w-0">
-                          <div className="flex items-center gap-1 font-heading font-medium">
+                          <div className="flex items-center gap-1.5 font-heading font-medium">
                             {tool.name}
+                            {tool.pro && <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">Pro</Badge>}
                             <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
                           </div>
                           <p className="mt-1 text-sm text-muted-foreground">
