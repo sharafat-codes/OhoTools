@@ -37,6 +37,14 @@ import {
   RulerIcon,
   PaintBucketIcon,
   BoxIcon,
+  ReplaceIcon,
+  WrapTextIcon,
+  RepeatIcon,
+  BarChart3Icon,
+  ReceiptIcon,
+  BadgePercentIcon,
+  NetworkIcon,
+  ScrollIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -855,6 +863,174 @@ export const devTools: DevTool[] = [
     ],
     related: ["css-gradient-generator", "color-converter", "meta-tag-generator"],
   },
+  {
+    slug: "find-replace",
+    name: "Find and Replace Text",
+    tagline: "Find and replace text online, with regex support.",
+    description:
+      "Free online find and replace tool. Search and replace text in bulk, with case-insensitive, whole-word, and regular-expression options.",
+    keywords: ["find and replace", "find and replace text", "text replace online", "regex replace"],
+    icon: ReplaceIcon,
+    intro:
+      "Find and replace text in any block of content — plain matches or full regular expressions, with case-insensitive and whole-word options. It shows how many matches were replaced, and everything runs in your browser.",
+    steps: [
+      "Paste your text.",
+      "Enter what to find and what to replace it with.",
+      "Toggle case, whole-word, or regex, then copy the result.",
+    ],
+    faqs: [
+      { q: "Does it support regular expressions?", a: "Yes — enable the Regex option to use JavaScript regular expressions, including capture groups like $1 in the replacement." },
+      { q: "Is my text uploaded?", a: "No — find and replace runs entirely in your browser and nothing is sent to a server." },
+    ],
+    related: ["case-converter", "text-diff", "remove-line-breaks"],
+  },
+  {
+    slug: "remove-line-breaks",
+    name: "Remove Line Breaks",
+    tagline: "Strip line breaks and blank lines from text.",
+    description:
+      "Free online tool to remove line breaks from text. Replace line breaks with spaces or nothing, delete blank lines, and trim whitespace.",
+    keywords: ["remove line breaks", "remove line breaks online", "delete blank lines", "strip newlines"],
+    icon: WrapTextIcon,
+    intro:
+      "Remove line breaks from text — replace them with a space, a comma, or nothing — and optionally delete blank lines and trim whitespace. Handy for cleaning up copied PDFs, emails, and code output.",
+    steps: [
+      "Paste text that has unwanted line breaks.",
+      "Choose what to replace the breaks with.",
+      "Copy the cleaned-up single block of text.",
+    ],
+    faqs: [
+      { q: "Can it also remove empty lines?", a: "Yes — turn on 'Remove blank lines' to drop empty lines while keeping the rest of your line structure." },
+      { q: "Will it collapse multiple spaces?", a: "When replacing breaks with a space, consecutive spaces are collapsed so the text reads cleanly." },
+    ],
+    related: ["find-replace", "case-converter", "word-counter"],
+  },
+  {
+    slug: "text-repeater",
+    name: "Text Repeater",
+    tagline: "Repeat any text or line multiple times.",
+    description:
+      "Free online text repeater. Repeat a word, sentence, or line any number of times, with a custom separator and optional numbering.",
+    keywords: ["text repeater", "repeat text", "repeat text online", "repeat word generator"],
+    icon: RepeatIcon,
+    intro:
+      "Repeat any text a set number of times, separated by new lines, spaces, or commas — with optional line numbering. Useful for test data, filler content, and quick lists.",
+    steps: [
+      "Enter the text to repeat.",
+      "Set how many times and pick a separator.",
+      "Copy the repeated output.",
+    ],
+    faqs: [
+      { q: "How many times can I repeat text?", a: "Up to 100,000 repetitions — though very large outputs may be slow to copy depending on your device." },
+      { q: "Can each copy be numbered?", a: "Yes — enable 'Number each line' to prefix every repetition with 1., 2., 3., and so on." },
+    ],
+    related: ["lorem-ipsum", "random-string", "word-counter"],
+  },
+  {
+    slug: "word-frequency",
+    name: "Word Frequency Counter",
+    tagline: "Count how often each word appears in text.",
+    description:
+      "Free online word frequency counter. Analyze text to see how often each word appears, sorted by count, with CSV export.",
+    keywords: ["word frequency counter", "word frequency", "keyword density", "count word occurrences"],
+    icon: BarChart3Icon,
+    intro:
+      "Analyze any text to see how often each word appears, ranked from most to least frequent with a visual bar for each. Great for checking keyword density, writing style, and content analysis. Export the full list as CSV.",
+    steps: [
+      "Paste your text.",
+      "Optionally ignore case or set a minimum word length.",
+      "Review the ranked word counts or copy them as CSV.",
+    ],
+    faqs: [
+      { q: "How are words counted?", a: "Words are split on spaces and punctuation, counting letters, numbers, and apostrophes. Turn on 'Ignore case' to treat 'The' and 'the' as the same word." },
+      { q: "Can I export the results?", a: "Yes — click Copy CSV to get the complete word-and-count list, ready for a spreadsheet." },
+    ],
+    related: ["word-counter", "case-converter", "text-diff"],
+  },
+  {
+    slug: "tip-calculator",
+    name: "Tip Calculator",
+    tagline: "Calculate the tip and split a bill between people.",
+    description:
+      "Free online tip calculator. Work out the tip amount, total, and per-person share — split a restaurant bill in seconds.",
+    keywords: ["tip calculator", "gratuity calculator", "bill splitter", "how much to tip"],
+    icon: ReceiptIcon,
+    intro:
+      "Calculate a tip and split the bill in seconds. Enter the bill, pick a tip percentage, and choose how many people are sharing — you'll get the tip amount, total, and the amount each person pays.",
+    steps: [
+      "Enter the bill amount.",
+      "Pick a tip percentage (or type your own).",
+      "Set how many people are splitting the total.",
+    ],
+    faqs: [
+      { q: "How much should I tip?", a: "In the US, 15–20% is customary for table service. Norms vary by country and service type, so adjust to your situation." },
+      { q: "Is the tip calculated before or after tax?", a: "This tool calculates the tip on the bill amount you enter. If you prefer to tip on the pre-tax subtotal, enter that as the bill." },
+    ],
+    related: ["discount-calculator", "percentage-calculator", "loan-calculator"],
+  },
+  {
+    slug: "discount-calculator",
+    name: "Discount Calculator",
+    tagline: "Find the sale price and how much you save.",
+    description:
+      "Free online discount calculator. Calculate the sale price, amount saved, and final price after a percentage discount (and optional tax).",
+    keywords: ["discount calculator", "percent off calculator", "sale price calculator", "how much off"],
+    icon: BadgePercentIcon,
+    intro:
+      "Find out the final price after a discount and exactly how much you save. Enter the original price and the percent off — add a tax rate if you want the after-tax total too.",
+    steps: [
+      "Enter the original price.",
+      "Enter the discount percentage.",
+      "Optionally add a tax rate to see the final total.",
+    ],
+    faqs: [
+      { q: "How do I calculate a percentage discount?", a: "Multiply the price by the discount percent and divide by 100 to get the savings, then subtract that from the price. The tool does it instantly." },
+      { q: "Does it include sales tax?", a: "Only if you enter a tax rate — the tax is applied to the discounted price to give the final amount." },
+    ],
+    related: ["percentage-calculator", "tip-calculator", "loan-calculator"],
+  },
+  {
+    slug: "cidr-calculator",
+    name: "CIDR / Subnet Calculator",
+    tagline: "Calculate subnet range, mask, and host counts from CIDR.",
+    description:
+      "Free online CIDR subnet calculator. Enter an IPv4 address and prefix to get the network, broadcast, host range, netmask, and host count.",
+    keywords: ["cidr calculator", "subnet calculator", "ip subnet calculator", "cidr to ip range"],
+    icon: NetworkIcon,
+    intro:
+      "Enter an IPv4 address in CIDR notation to instantly get the network and broadcast addresses, usable host range, netmask, wildcard mask, and total and usable host counts. Everything is computed locally in your browser.",
+    steps: [
+      "Type an address and prefix, e.g. 192.168.1.10/24.",
+      "Read the network, broadcast, and host range.",
+      "Copy the values you need.",
+    ],
+    faqs: [
+      { q: "What does the /24 mean?", a: "The number after the slash is the prefix length — how many leading bits are the network portion. /24 means a 255.255.255.0 mask with 254 usable hosts." },
+      { q: "Does it handle /31 and /32?", a: "Yes — /31 is treated as a 2-address point-to-point link and /32 as a single host, per common practice." },
+    ],
+    related: ["number-base-converter", "chmod-calculator", "hash-generator"],
+  },
+  {
+    slug: "roman-numeral",
+    name: "Roman Numeral Converter",
+    tagline: "Convert numbers to Roman numerals and back.",
+    description:
+      "Free online Roman numeral converter. Convert numbers to Roman numerals and Roman numerals to numbers, from 1 to 3999.",
+    keywords: ["roman numeral converter", "number to roman numerals", "roman numerals to number", "roman numeral translator"],
+    icon: ScrollIcon,
+    intro:
+      "Convert numbers to Roman numerals and Roman numerals back to numbers, anywhere from 1 to 3999. It auto-detects which way you're converting and validates the numeral.",
+    steps: [
+      "Type a number (1–3999) or a Roman numeral.",
+      "The conversion appears instantly.",
+      "Copy the result.",
+    ],
+    faqs: [
+      { q: "What's the largest number supported?", a: "Standard Roman numerals go up to 3999 (MMMCMXCIX); larger values need overlines, which aren't part of the basic system." },
+      { q: "Does it validate Roman numerals?", a: "Yes — malformed numerals like 'IIII' or 'VX' are rejected, so only correctly formed numerals convert." },
+    ],
+    related: ["number-base-converter", "unit-converter", "text-to-binary"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -873,6 +1049,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "regex-tester",
       "cron-explainer",
       "chmod-calculator",
+      "cidr-calculator",
     ],
   },
   {
@@ -893,6 +1070,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "image-to-base64",
       "text-to-binary",
       "number-base-converter",
+      "roman-numeral",
       "color-converter",
       "timestamp-converter",
     ],
@@ -902,6 +1080,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     blurb: "Everyday math, money, and dates.",
     slugs: [
       "percentage-calculator",
+      "tip-calculator",
+      "discount-calculator",
       "loan-calculator",
       "bmi-calculator",
       "age-calculator",
@@ -914,6 +1094,10 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "word-counter",
       "case-converter",
+      "find-replace",
+      "remove-line-breaks",
+      "word-frequency",
+      "text-repeater",
       "slugify",
       "line-sorter",
       "text-diff",
