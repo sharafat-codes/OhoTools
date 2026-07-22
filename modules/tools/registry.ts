@@ -57,6 +57,7 @@ import {
   FileStackIcon,
   ScissorsIcon,
   FileImageIcon,
+  ImageDownIcon,
   RotateCwIcon,
   FileMinusIcon,
   StampIcon,
@@ -1505,6 +1506,29 @@ export const devTools: DevTool[] = [
     ],
     related: ["pdf-page-numbers", "merge-pdf", "images-to-pdf"],
   },
+  {
+    slug: "pdf-to-images",
+    name: "PDF to Images (JPG, PNG)",
+    tagline: "Convert each PDF page to a JPG or PNG.",
+    description:
+      "Free online PDF to image converter. Turn each page of a PDF into a high-quality JPG or PNG and download them — all privately in your browser.",
+    keywords: ["pdf to jpg", "pdf to png", "pdf to image", "convert pdf to jpg", "pdf to images"],
+    icon: ImageDownIcon,
+    intro:
+      "Convert a PDF into images — each page becomes a crisp JPG or PNG at the resolution you choose. Preview them, download individually, or grab them all as a ZIP with Pro. Everything is rendered in your browser, so your document is never uploaded.",
+    steps: [
+      "Choose a PDF.",
+      "Pick the format, resolution, and quality.",
+      "Convert, then download the pages (ZIP on Pro).",
+    ],
+    faqs: [
+      { q: "How many pages can I convert?", a: "The free tier converts the first 3 pages. OhoTool Pro converts every page and lets you download them all as a ZIP." },
+      { q: "Are my PDFs uploaded?", a: "No — pages are rendered to images locally in your browser, so the file never leaves your device." },
+      { q: "JPG or PNG — which should I pick?", a: "JPG is smaller and best for scanned or photo pages; PNG is lossless and best for sharp text and line art." },
+    ],
+    related: ["images-to-pdf", "split-pdf", "image-converter"],
+    pro: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1562,6 +1586,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "merge-pdf",
       "split-pdf",
+      "pdf-to-images",
       "images-to-pdf",
       "rotate-pdf",
       "delete-pdf-pages",
