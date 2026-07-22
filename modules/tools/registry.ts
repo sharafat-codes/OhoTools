@@ -57,6 +57,10 @@ import {
   FileStackIcon,
   ScissorsIcon,
   FileImageIcon,
+  RotateCwIcon,
+  FileMinusIcon,
+  StampIcon,
+  ListOrderedIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1433,6 +1437,74 @@ export const devTools: DevTool[] = [
     related: ["merge-pdf", "split-pdf", "image-converter"],
     pro: true,
   },
+  {
+    slug: "rotate-pdf",
+    name: "Rotate PDF",
+    tagline: "Rotate all pages of a PDF and save.",
+    description:
+      "Free online PDF rotator. Rotate every page of a PDF 90, 180, or 270 degrees and download the fixed file — privately in your browser.",
+    keywords: ["rotate pdf", "rotate pdf pages", "turn pdf sideways", "fix pdf orientation"],
+    icon: RotateCwIcon,
+    intro:
+      "Rotate the pages of a PDF that scanned or exported sideways. Choose 90°, 180°, or 270° and download the corrected file — it all happens in your browser, so nothing is uploaded.",
+    steps: ["Choose a PDF.", "Pick the rotation angle.", "Rotate and download."],
+    faqs: [
+      { q: "Does this rotate every page?", a: "Yes — the selected rotation is applied to all pages and added to any existing rotation." },
+      { q: "Are my files uploaded?", a: "No — rotation is done locally in your browser and nothing leaves your device." },
+    ],
+    related: ["split-pdf", "delete-pdf-pages", "merge-pdf"],
+  },
+  {
+    slug: "delete-pdf-pages",
+    name: "Delete PDF Pages",
+    tagline: "Remove pages from a PDF and keep the rest.",
+    description:
+      "Free online tool to delete pages from a PDF. Remove specific pages or ranges and download the trimmed document — privately in your browser.",
+    keywords: ["delete pdf pages", "remove pages from pdf", "pdf page remover", "delete pages pdf"],
+    icon: FileMinusIcon,
+    intro:
+      "Remove unwanted pages from a PDF — enter the page numbers or ranges to delete and download the trimmed file. Everything runs in your browser, so your document stays private.",
+    steps: ["Choose a PDF.", "Enter the pages to delete (e.g. 1, 4-6).", "Download the trimmed PDF."],
+    faqs: [
+      { q: "How do I remove several pages at once?", a: "List page numbers and ranges separated by commas, like 1, 4-6, 10 — all of them are removed and the rest are kept." },
+      { q: "Can I delete every page?", a: "No — at least one page must remain, so the tool won't let you remove them all." },
+    ],
+    related: ["split-pdf", "rotate-pdf", "merge-pdf"],
+  },
+  {
+    slug: "pdf-page-numbers",
+    name: "Add Page Numbers to PDF",
+    tagline: "Stamp page numbers onto a PDF.",
+    description:
+      "Free online tool to add page numbers to a PDF. Choose the position and starting number, then download — privately in your browser.",
+    keywords: ["add page numbers to pdf", "pdf page numbers", "number pdf pages", "pdf pagination"],
+    icon: ListOrderedIcon,
+    intro:
+      "Add page numbers to a PDF in one click. Choose the position (bottom center, left, or right) and the starting number, then download the numbered file — all in your browser.",
+    steps: ["Choose a PDF.", "Pick the position and starting number.", "Download the numbered PDF."],
+    faqs: [
+      { q: "Can I start numbering from a specific number?", a: "Yes — set any starting number (for example, start at 1 while skipping a cover page by choosing 0)." },
+      { q: "Where are the numbers placed?", a: "At the bottom of each page — centered, left, or right, depending on your choice." },
+    ],
+    related: ["watermark-pdf", "merge-pdf", "split-pdf"],
+  },
+  {
+    slug: "watermark-pdf",
+    name: "Watermark PDF",
+    tagline: "Add a text watermark across every page.",
+    description:
+      "Free online PDF watermark tool. Add a diagonal text watermark to every page of a PDF with adjustable opacity — privately in your browser.",
+    keywords: ["watermark pdf", "add watermark to pdf", "pdf watermark", "stamp pdf"],
+    icon: StampIcon,
+    intro:
+      "Stamp a text watermark — like DRAFT or CONFIDENTIAL — diagonally across every page of a PDF, with adjustable opacity. It runs entirely in your browser, so your document is never uploaded.",
+    steps: ["Choose a PDF.", "Enter the watermark text and opacity.", "Add the watermark and download."],
+    faqs: [
+      { q: "Can I control how visible the watermark is?", a: "Yes — the opacity slider lets you make it a faint background mark or a bold overlay." },
+      { q: "Does it watermark all pages?", a: "Yes — the watermark is applied to every page of the document." },
+    ],
+    related: ["pdf-page-numbers", "merge-pdf", "images-to-pdf"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1486,8 +1558,16 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   },
   {
     name: "PDF",
-    blurb: "Merge, split, and create PDFs.",
-    slugs: ["merge-pdf", "split-pdf", "images-to-pdf"],
+    blurb: "Merge, split, edit, and create PDFs.",
+    slugs: [
+      "merge-pdf",
+      "split-pdf",
+      "images-to-pdf",
+      "rotate-pdf",
+      "delete-pdf-pages",
+      "pdf-page-numbers",
+      "watermark-pdf",
+    ],
   },
   {
     name: "Calculators",
