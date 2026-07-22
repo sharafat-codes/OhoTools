@@ -17,6 +17,7 @@ import { getCurrentUser } from "@/lib/dal";
 import { qrToSvgString } from "@/modules/qr/render";
 import { PLANS } from "@/lib/plans";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
@@ -335,12 +336,7 @@ export default async function Home() {
 
       <footer className="border-t border-border/60">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <div className="flex items-center gap-2 font-heading font-semibold">
-            <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">
-              <SparklesIcon className="size-3.5" />
-            </span>
-            OhoTool
-          </div>
+          <Logo size="sm" />
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground">Features</a>
             <a href="#pricing" className="hover:text-foreground">Pricing</a>

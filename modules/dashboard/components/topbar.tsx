@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { MenuIcon, SparklesIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -38,16 +38,11 @@ export function Topbar({ user }: { user: MenuUser }) {
         <SheetContent side="left" className="w-64">
           <SheetHeader className="pb-0">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
-            <Link
+            <Logo
               href="/dashboard"
-              className="flex items-center gap-2 font-heading font-semibold"
+              size="sm"
               onClick={() => setOpen(false)}
-            >
-              <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">
-                <SparklesIcon className="size-3.5" />
-              </span>
-              OhoTool
-            </Link>
+            />
           </SheetHeader>
           <div className="px-3">
             <SidebarNav onNavigate={() => setOpen(false)} />

@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+import { LogoGlyph } from "@/components/logo";
+
 export const alt = "OhoTool — QR codes, barcodes & scan analytics";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -25,16 +27,14 @@ export default function OpengraphImage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "64px",
-              height: "64px",
-              borderRadius: "16px",
+              width: "72px",
+              height: "72px",
+              borderRadius: "18px",
               background: "#fafafa",
               color: "#0a0a0a",
-              fontSize: "40px",
-              fontWeight: 700,
             }}
           >
-            O
+            <LogoGlyph color="#0a0a0a" size={50} />
           </div>
           <div style={{ fontSize: "40px", fontWeight: 700 }}>OhoTool</div>
         </div>

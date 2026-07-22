@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+import { LogoGlyph } from "@/components/logo";
+
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
@@ -15,12 +17,10 @@ export default function Icon() {
           justifyContent: "center",
           background: "#0a0a0a",
           color: "#ffffff",
-          fontSize: 40,
-          fontWeight: 700,
           borderRadius: 14,
         }}
       >
-        O
+        <LogoGlyph color="#ffffff" size={44} />
       </div>
     ),
     { ...size },

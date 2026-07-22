@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { MenuIcon, SparklesIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,17 +21,6 @@ const LINKS = [
   { label: "Pricing", href: "/#pricing" },
   { label: "FAQ", href: "/#faq" },
 ];
-
-function Logo({ onClick }: { onClick?: () => void }) {
-  return (
-    <Link href="/" onClick={onClick} className="flex items-center gap-2 font-heading text-lg font-semibold">
-      <span className="grid size-7 place-items-center rounded-lg bg-primary text-primary-foreground">
-        <SparklesIcon className="size-4" />
-      </span>
-      OhoTool
-    </Link>
-  );
-}
 
 export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
   const [open, setOpen] = React.useState(false);

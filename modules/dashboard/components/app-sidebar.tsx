@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { SparklesIcon } from "lucide-react";
 
+import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import { SidebarNav } from "@/modules/dashboard/components/sidebar-nav";
 
@@ -8,15 +8,7 @@ export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
   return (
     <aside className="hidden md:sticky md:top-0 md:flex md:h-svh md:w-60 md:shrink-0 md:flex-col md:border-r md:border-border/60">
       <div className="flex h-14 items-center px-4">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 font-heading font-semibold"
-        >
-          <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">
-            <SparklesIcon className="size-3.5" />
-          </span>
-          OhoTool
-        </Link>
+        <Logo href="/dashboard" size="sm" />
       </div>
 
       <div className="flex-1 overflow-y-auto px-3 py-2">
