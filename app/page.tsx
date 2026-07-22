@@ -211,7 +211,7 @@ export default async function Home() {
                 title="Automate with the API"
                 body="Generate codes programmatically with a simple REST endpoint."
               >
-                <pre className="mt-2 overflow-x-auto rounded-lg bg-foreground/90 p-3 text-xs text-background">
+                <pre className="mt-2 min-w-0 max-w-full overflow-x-auto rounded-lg bg-foreground/90 p-3 text-xs text-background">
                   <code className="font-mono">{`curl -H "Authorization: Bearer oho_…" \\
   "${siteUrl}/api/v1/qr?data=hello" \\
   --output qr.png`}</code>
@@ -387,7 +387,7 @@ function FeatureCard({
   children?: React.ReactNode;
 }) {
   return (
-    <div className={cn("flex flex-col rounded-xl border border-border bg-card p-5", className)}>
+    <div className={cn("flex min-w-0 flex-col rounded-xl border border-border bg-card p-5", className)}>
       <div className="mb-3 grid size-9 place-items-center rounded-lg bg-muted text-foreground">
         <Icon className="size-4.5" />
       </div>
