@@ -10,68 +10,113 @@ export default function PrivacyPage() {
   return (
     <article>
       <h1 className="font-heading text-3xl font-semibold tracking-tight">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Last updated: July 21, 2026</p>
-
-      <div className="mt-6 rounded-lg border border-border bg-muted/40 p-4 text-sm text-muted-foreground">
-        This is a starting template, not legal advice. Please review it with a
-        qualified professional and tailor it to your business before relying on it.
-      </div>
+      <p className="mt-2 text-sm text-muted-foreground">Last updated: July 22, 2026</p>
 
       <p className="mt-6">
-        This Privacy Policy explains how OhoTool (&quot;we&quot;, &quot;us&quot;) collects, uses,
-        and safeguards your information when you use our website and services.
+        This Privacy Policy explains how OhoTool (&quot;OhoTool&quot;, &quot;we&quot;, &quot;us&quot;) collects,
+        uses, and safeguards your information when you visit{" "}
+        <a href="https://ohotool.com">ohotool.com</a> and use our tools and services. By using
+        OhoTool, you agree to the practices described here.
       </p>
 
       <h2>Information we collect</h2>
       <ul>
-        <li><strong>Account information</strong> — your name and email address when you register. Passwords are stored only as a secure one-way hash.</li>
-        <li><strong>Content you create</strong> — the QR codes, barcodes, and links you generate and choose to save.</li>
-        <li><strong>Scan data</strong> — for dynamic QR codes, we log each scan&apos;s timestamp, device type, referrer, and approximate country to provide analytics. We do not store full IP addresses.</li>
-        <li><strong>Billing information</strong> — handled by our payment processor, Stripe. We never see or store your full card details.</li>
-        <li><strong>Usage data</strong> — basic technical information needed to operate and secure the service.</li>
+        <li><strong>Account information</strong> — your name and email address when you create an account. Passwords are never stored in plain text; they are kept only as a secure one-way hash.</li>
+        <li><strong>Content you create</strong> — the QR codes, barcodes, and links you generate and choose to save to your account, along with their settings.</li>
+        <li><strong>Scan data</strong> — for dynamic QR codes, each scan is logged with its timestamp, device/browser type, referring source, and approximate country, so we can show you scan analytics. We do not store full IP addresses.</li>
+        <li><strong>Billing information</strong> — processed by our payment provider, Stripe. We receive your subscription status and limited billing metadata, but never your full card number.</li>
+        <li><strong>Usage &amp; analytics data</strong> — aggregate, privacy-friendly usage statistics (see &quot;Analytics&quot; below) and basic technical information needed to operate and secure the service.</li>
       </ul>
+
+      <h2>Free browser tools</h2>
+      <p>
+        Our free utilities (formatters, converters, calculators, generators, and similar) run
+        entirely in your browser. The text, files, and values you enter into them are processed
+        on your device and are <strong>not uploaded to or stored on our servers</strong>.
+      </p>
 
       <h2>How we use your information</h2>
       <ul>
-        <li>To provide, maintain, and improve the service.</li>
+        <li>To provide, maintain, secure, and improve the service.</li>
         <li>To process subscriptions and payments.</li>
-        <li>To send account-related emails such as password resets and verification.</li>
-        <li>To provide scan analytics for dynamic QR codes.</li>
-        <li>To protect against fraud and abuse.</li>
+        <li>To send account-related emails such as verification and password resets.</li>
+        <li>To generate scan analytics for your dynamic QR codes.</li>
+        <li>To detect, prevent, and respond to fraud, abuse, and security issues.</li>
       </ul>
 
-      <h2>Service providers</h2>
-      <p>We share data only with providers that help us run OhoTool:</p>
-      <ul>
-        <li><strong>Supabase</strong> — database hosting.</li>
-        <li><strong>Stripe</strong> — payment processing.</li>
-        <li><strong>Vercel</strong> — application hosting.</li>
-        <li><strong>Resend</strong> — transactional email delivery.</li>
-      </ul>
+      <h2>Analytics</h2>
+      <p>
+        We use Vercel Web Analytics and Speed Insights to understand aggregate traffic and page
+        performance. These are privacy-friendly and <strong>cookieless</strong> — they do not use
+        cross-site tracking cookies and do not collect personally identifiable information. We do
+        not use advertising networks or sell your data.
+      </p>
 
       <h2>Cookies</h2>
       <p>
-        We use a strictly necessary session cookie to keep you signed in. We do
-        not use advertising or third-party tracking cookies.
+        We use a strictly necessary session cookie to keep you signed in. We do not use advertising
+        or third-party cross-site tracking cookies.
+      </p>
+
+      <h2>Service providers</h2>
+      <p>We share data only with the providers that help us operate OhoTool:</p>
+      <ul>
+        <li><strong>Supabase</strong> — database hosting for your account and saved content.</li>
+        <li><strong>Vercel</strong> — application hosting and privacy-friendly analytics.</li>
+        <li><strong>Stripe</strong> — payment processing and subscription management.</li>
+        <li><strong>Resend</strong> — delivery of transactional emails.</li>
+      </ul>
+      <p>
+        Each provider processes data only as needed to deliver its service and under its own terms
+        and security commitments.
       </p>
 
       <h2>Data retention</h2>
       <p>
-        We keep your data for as long as your account is active. You can delete
-        your saved content at any time, and you may request deletion of your
-        account by contacting us.
+        We retain your account information and saved content for as long as your account is active.
+        You can delete individual saved items at any time from your dashboard, and you may request
+        deletion of your entire account by contacting us. Some records may be retained where
+        required for legal, accounting, or security purposes.
+      </p>
+
+      <h2>International data transfers</h2>
+      <p>
+        Our providers may process and store data in countries other than your own. Where this
+        happens, we rely on those providers&apos; safeguards for lawful international data transfers.
+      </p>
+
+      <h2>Security</h2>
+      <p>
+        We use industry-standard measures to protect your data, including encrypted connections
+        (HTTPS), hashed passwords, and access controls. No method of transmission or storage is
+        completely secure, but we work to protect your information and to promptly address any
+        issues we discover.
+      </p>
+
+      <h2>Children&apos;s privacy</h2>
+      <p>
+        OhoTool is not directed to children under 13 (or the minimum age required in your
+        jurisdiction), and we do not knowingly collect their personal data. If you believe a child
+        has provided us information, please contact us and we will remove it.
       </p>
 
       <h2>Your rights</h2>
       <p>
-        Depending on your location, you may have rights to access, correct, export,
-        or delete your personal data. To exercise these rights, contact us at the
-        address below.
+        Depending on where you live (for example under the GDPR or CCPA), you may have the right to
+        access, correct, export, restrict, or delete your personal data, and to object to certain
+        processing. To exercise any of these rights, email us at the address below and we will
+        respond within a reasonable time.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        We may update this policy from time to time. When we make material changes, we will update
+        the &quot;Last updated&quot; date above and, where appropriate, notify you.
       </p>
 
       <h2>Contact</h2>
       <p>
-        Questions about this policy? Email us at{" "}
+        Questions or requests about your privacy? Email us at{" "}
         <a href="mailto:support@ohotool.com">support@ohotool.com</a>.
       </p>
     </article>
