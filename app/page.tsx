@@ -109,7 +109,7 @@ export default async function Home() {
       />
       <SiteHeader isAuthed={!!user} />
 
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-clip">
         {/* Hero */}
         <section className="relative overflow-hidden">
           <div
@@ -147,12 +147,10 @@ export default async function Home() {
             {/* Real, scannable QR */}
             <div className="flex justify-center lg:justify-end">
               <div className="relative w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <div className="mx-auto w-52 [&>svg]:h-auto [&>svg]:w-full">
-                  <div
-                    className="overflow-hidden rounded-xl"
-                    dangerouslySetInnerHTML={{ __html: heroQr }}
-                  />
-                </div>
+                <div
+                  className="mx-auto w-full max-w-52 overflow-hidden rounded-xl [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+                  dangerouslySetInnerHTML={{ __html: heroQr }}
+                />
                 <p className="mt-4 text-center text-sm font-medium">Scan me →</p>
                 <p className="text-center text-xs text-muted-foreground">
                   This is a live OhoTool QR code.
@@ -200,9 +198,10 @@ export default async function Home() {
                 title="On-brand by default"
                 body="Logo, colors, gradients, and shapes. Export PNG, SVG, or PDF."
               >
-                <div className="mx-auto mt-2 w-32 [&>svg]:h-auto [&>svg]:w-full">
-                  <div dangerouslySetInnerHTML={{ __html: brandedQr }} />
-                </div>
+                <div
+                  className="mx-auto mt-2 w-full max-w-32 [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
+                  dangerouslySetInnerHTML={{ __html: brandedQr }}
+                />
               </FeatureCard>
 
               {/* API */}
