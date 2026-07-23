@@ -90,7 +90,11 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({ [web.bodyKey]: urlInput }),
       });
       if (!res.ok) {
-        return NextResponse.json({ error: "Could not render that URL to PDF." }, { status: 502 });
+        const detail = await res.text().catch(() => "");
+        return NextResponse.json(
+          { error: `Could not render that URL to PDF (${res.status})${detail ? `: ${detail.slice(0, 300)}` : ""}` },
+          { status: 502 },
+        );
       }
       const out = await res.arrayBuffer();
       let base = "webpage";
@@ -133,7 +137,11 @@ export async function POST(req: NextRequest) {
         body: upstream,
       });
       if (!res.ok) {
-        return NextResponse.json({ error: "Text recognition failed. Try a clearer image." }, { status: 502 });
+        const detail = await res.text().catch(() => "");
+        return NextResponse.json(
+          { error: `Text recognition failed (${res.status})${detail ? `: ${detail.slice(0, 300)}` : ""}` },
+          { status: 502 },
+        );
       }
       const j = (await res.json()) as { TextResult?: string };
       return NextResponse.json({ text: (j.TextResult ?? "").trim() });
@@ -151,8 +159,9 @@ export async function POST(req: NextRequest) {
       body: upstream,
     });
     if (!res.ok) {
+      const detail = await res.text().catch(() => "");
       return NextResponse.json(
-        { error: "Conversion failed. Check that the file is a valid document." },
+        { error: `Conversion failed (${res.status})${detail ? `: ${detail.slice(0, 300)}` : ""}` },
         { status: 502 },
       );
     }
