@@ -1529,6 +1529,28 @@ export const devTools: DevTool[] = [
     related: ["images-to-pdf", "split-pdf", "image-converter"],
     pro: true,
   },
+  {
+    slug: "bulk-qr-generator",
+    name: "Bulk QR Code Generator",
+    tagline: "Generate many QR codes at once and download a ZIP.",
+    description:
+      "Free online bulk QR code generator. Paste a list of URLs or text to generate many QR codes at once, customize colors, and download them as a ZIP.",
+    keywords: ["bulk qr code generator", "batch qr code", "multiple qr codes", "qr code list", "mass qr generator"],
+    icon: QrCodeIcon,
+    intro:
+      "Generate a whole batch of QR codes in one go — paste one URL or piece of text per line, customize the size and colors, and download them individually or all at once as a ZIP. Perfect for events, product labels, and campaigns. Free generates up to 3 at a time; Pro removes the limit and enables ZIP export.",
+    steps: [
+      "Paste one URL or text per line.",
+      "Set the size and colors.",
+      "Generate and download the codes (ZIP on Pro).",
+    ],
+    faqs: [
+      { q: "How many QR codes can I generate at once?", a: "The free tier generates up to 3 codes per batch. OhoTool Pro removes the limit and lets you download them all as a ZIP." },
+      { q: "Can I customize the colors?", a: "Yes — set the foreground and background colors and the size in pixels for every code in the batch." },
+    ],
+    related: ["qr-code", "wifi-qr", "bulk-image-converter"],
+    pro: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1633,6 +1655,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     blurb: "Create codes, styles, and values.",
     slugs: [
       "qr-code",
+      "bulk-qr-generator",
       "wifi-qr",
       "css-gradient-generator",
       "box-shadow-generator",

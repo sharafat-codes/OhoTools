@@ -12,6 +12,7 @@ import {
 
 import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { devTools } from "@/modules/tools/registry";
 import { isPro, FREE_SAVE_LIMIT } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +43,7 @@ export default async function DashboardPage() {
     ]);
 
   const totalScans = scanAgg._sum.scanCount ?? 0;
+  const proTools = devTools.filter((t) => t.pro);
 
   const stats = [
     { label: "QR codes", value: qrCount, icon: QrCodeIcon, href: "/dashboard/qr" },
@@ -148,6 +150,45 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Pro tools */}
+      <Card className="mt-4">
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            {pro ? "Your Pro tools" : "Pro tools"}
+            <Link href="/tools" className="text-xs font-medium text-primary hover:underline">
+              Browse all {devTools.length} tools →
+            </Link>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {!pro && (
+            <p className="mb-3 text-sm text-muted-foreground">
+              These work free with limits — upgrade to Pro for unlimited use and one-click ZIP export.
+            </p>
+          )}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {proTools.map((t) => {
+              const Icon = t.icon;
+              return (
+                <Link
+                  key={t.slug}
+                  href={`/tools/${t.slug}`}
+                  className="group flex items-center gap-3 rounded-lg border border-border p-3 transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                >
+                  <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                    <Icon className="size-4.5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-medium">{t.name}</div>
+                    <div className="truncate text-xs text-muted-foreground">{t.tagline}</div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Recent dynamic links */}
       <Card className="mt-4">

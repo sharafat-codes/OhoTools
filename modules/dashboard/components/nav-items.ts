@@ -6,6 +6,7 @@ import {
   QrCodeIcon,
   ScanBarcodeIcon,
   SettingsIcon,
+  WrenchIcon,
   ZapIcon,
   type LucideIcon,
 } from "lucide-react";
@@ -20,6 +21,7 @@ export type NavItem = {
 
 export const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboardIcon },
+  { label: "All Tools", href: "/tools", icon: WrenchIcon },
   { label: "QR Codes", href: "/dashboard/qr", icon: QrCodeIcon },
   { label: "Dynamic Links", href: "/dashboard/links", icon: ZapIcon },
   { label: "Barcodes", href: "/dashboard/barcodes", icon: ScanBarcodeIcon },
