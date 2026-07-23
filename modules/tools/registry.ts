@@ -77,6 +77,7 @@ import {
   SheetIcon,
   CameraIcon,
   ScanTextIcon,
+  Globe2Icon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1913,6 +1914,25 @@ export const devTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+  {
+    slug: "url-to-pdf",
+    name: "URL to PDF",
+    tagline: "Save any web page as a PDF.",
+    description:
+      "Convert a URL to PDF online. Save any web page as a high-fidelity PDF, rendered on our server — an OhoTool Pro feature.",
+    keywords: ["url to pdf", "webpage to pdf", "website to pdf", "save web page as pdf", "html page to pdf"],
+    icon: Globe2Icon,
+    intro:
+      "Turn any web page into a clean PDF — great for archiving articles, receipts, and documentation. The page is rendered on our server with a real browser engine for high fidelity (then discarded). Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Paste the page URL.", "Convert and download the PDF."],
+    faqs: [
+      { q: "Does it capture the whole page?", a: "Yes — the full rendered page is captured, not just the visible part, using a real browser engine on our server." },
+      { q: "Can it open pages behind a login?", a: "No — it can only render publicly accessible URLs, since it fetches the page from our server." },
+    ],
+    related: ["merge-pdf", "compress-pdf", "office-to-pdf"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1994,6 +2014,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "pdf-to-text",
       "images-to-pdf",
       "text-to-pdf",
+      "url-to-pdf",
       "office-to-pdf",
       "word-to-pdf",
       "powerpoint-to-pdf",

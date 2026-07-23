@@ -46,6 +46,11 @@ const OCR_OPS: Record<string, { path: string; field: string }> = {
   "image-to-text": { path: "ocr/image/toText", field: "imageFile" },
 };
 
+// Web ops take a text input (a URL or HTML) as a JSON body, return a PDF.
+const WEB_OPS: Record<string, { path: string; bodyKey: string; ext: string; mime: string }> = {
+  "url-to-pdf": { path: "convert/web/url/to/pdf", bodyKey: "Url", ext: "pdf", mime: "application/pdf" },
+};
+
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
   if (!user) {
@@ -62,12 +67,47 @@ export async function POST(req: NextRequest) {
 
   let file: FormDataEntryValue | null = null;
   let op = "to-pdf";
+  let urlInput = "";
   try {
     const form = await req.formData();
     file = form.get("file");
     op = (form.get("op") as string) || "to-pdf";
+    urlInput = ((form.get("url") as string) || "").trim();
   } catch {
-    return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+  }
+
+  // Web ops (URL/HTML -> PDF): text input, JSON request body.
+  const web = WEB_OPS[op];
+  if (web) {
+    if (!/^https?:\/\/.+/i.test(urlInput)) {
+      return NextResponse.json({ error: "Enter a valid URL starting with http:// or https://" }, { status: 400 });
+    }
+    try {
+      const res = await fetch(`https://api.cloudmersive.com/${web.path}`, {
+        method: "POST",
+        headers: { Apikey: apiKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ [web.bodyKey]: urlInput }),
+      });
+      if (!res.ok) {
+        return NextResponse.json({ error: "Could not render that URL to PDF." }, { status: 502 });
+      }
+      const out = await res.arrayBuffer();
+      let base = "webpage";
+      try {
+        base = new URL(urlInput).hostname.replace(/^www\./, "") || "webpage";
+      } catch {
+        /* keep default */
+      }
+      return new NextResponse(out, {
+        headers: {
+          "Content-Type": web.mime,
+          "Content-Disposition": `attachment; filename="${base}.${web.ext}"`,
+        },
+      });
+    } catch {
+      return NextResponse.json({ error: "Conversion service error. Try again." }, { status: 500 });
+    }
   }
 
   const ocr = OCR_OPS[op];
