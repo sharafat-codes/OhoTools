@@ -8,42 +8,25 @@ export const dynamic = "force-dynamic";
 
 const MAX_BYTES = 15 * 1024 * 1024; // 15 MB
 
-// Office/document -> PDF via a third-party conversion API (Cloudmersive).
-// Provider-swappable: only this route talks to the vendor.
-async function convertToPdf(file: File): Promise<Response> {
-  const apiKey = process.env.CLOUDMERSIVE_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "Document conversion isn't configured yet." },
-      { status: 503 },
-    );
-  }
-
-  const upstream = new FormData();
-  upstream.append("inputFile", file, file.name);
-
-  const res = await fetch("https://api.cloudmersive.com/convert/autodetect/to/pdf", {
-    method: "POST",
-    headers: { Apikey: apiKey },
-    body: upstream,
-  });
-
-  if (!res.ok) {
-    return NextResponse.json(
-      { error: "Conversion failed. Check that the file is a valid Office document." },
-      { status: 502 },
-    );
-  }
-
-  const pdf = await res.arrayBuffer();
-  const base = file.name.replace(/\.[^.]+$/, "") || "document";
-  return new NextResponse(pdf, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${base}.pdf"`,
-    },
-  });
-}
+// Supported conversions -> the vendor endpoint + output type.
+// Provider-swappable: only this map + fetch know about Cloudmersive.
+const OPS: Record<string, { path: string; ext: string; mime: string }> = {
+  "to-pdf": {
+    path: "convert/autodetect/to/pdf",
+    ext: "pdf",
+    mime: "application/pdf",
+  },
+  "pdf-to-word": {
+    path: "convert/pdf/to/docx",
+    ext: "docx",
+    mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  },
+  "to-text": {
+    path: "convert/autodetect/to/txt",
+    ext: "txt",
+    mime: "text/plain",
+  },
+};
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
@@ -51,20 +34,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Please sign in to use this tool." }, { status: 401 });
   }
   if (!isPro((user as { plan?: string }).plan ?? "FREE")) {
-    return NextResponse.json(
-      { error: "Office to PDF conversion is a Pro feature." },
-      { status: 403 },
-    );
+    return NextResponse.json({ error: "Document conversion is a Pro feature." }, { status: 403 });
+  }
+
+  const apiKey = process.env.CLOUDMERSIVE_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "Document conversion isn't configured yet." }, { status: 503 });
   }
 
   let file: FormDataEntryValue | null = null;
+  let op = "to-pdf";
   try {
     const form = await req.formData();
     file = form.get("file");
+    op = (form.get("op") as string) || "to-pdf";
   } catch {
     return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
   }
 
+  const spec = OPS[op];
+  if (!spec) {
+    return NextResponse.json({ error: "Unsupported conversion." }, { status: 400 });
+  }
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "No file provided." }, { status: 400 });
   }
@@ -73,7 +64,27 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    return await convertToPdf(file);
+    const upstream = new FormData();
+    upstream.append("inputFile", file, file.name);
+    const res = await fetch(`https://api.cloudmersive.com/${spec.path}`, {
+      method: "POST",
+      headers: { Apikey: apiKey },
+      body: upstream,
+    });
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: "Conversion failed. Check that the file is a valid document." },
+        { status: 502 },
+      );
+    }
+    const out = await res.arrayBuffer();
+    const base = file.name.replace(/\.[^.]+$/, "") || "document";
+    return new NextResponse(out, {
+      headers: {
+        "Content-Type": spec.mime,
+        "Content-Disposition": `attachment; filename="${base}.${spec.ext}"`,
+      },
+    });
   } catch {
     return NextResponse.json({ error: "Conversion service error. Try again." }, { status: 500 });
   }

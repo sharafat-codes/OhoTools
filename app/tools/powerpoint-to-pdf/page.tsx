@@ -4,13 +4,13 @@ import { getTool } from "@/modules/tools/registry";
 import { ToolShell } from "@/modules/tools/components/tool-shell";
 import { DocConvert } from "@/modules/tools/components/doc-convert";
 
-const tool = getTool("office-to-pdf")!;
+const tool = getTool("powerpoint-to-pdf")!;
 
 export const metadata: Metadata = {
   title: tool.name,
   description: tool.description,
   keywords: tool.keywords,
-  alternates: { canonical: "/tools/office-to-pdf" },
+  alternates: { canonical: "/tools/powerpoint-to-pdf" },
 };
 
 export default function Page() {
@@ -18,11 +18,11 @@ export default function Page() {
     <ToolShell tool={tool}>
       <DocConvert
         op="to-pdf"
-        accept=".doc,.docx,.ppt,.pptx,.xls,.xlsx,.odt,.ods,.odp,.rtf"
-        inLabel="document"
+        accept=".ppt,.pptx,.odp"
+        inLabel="PowerPoint file"
         outExt="pdf"
         actionLabel="Convert to PDF"
-        hint="Word, PowerPoint, or Excel (.docx, .pptx, .xlsx, and more) — up to 15 MB."
+        hint="PowerPoint .ppt or .pptx — up to 15 MB."
       />
     </ToolShell>
   );

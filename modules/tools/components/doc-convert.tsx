@@ -8,9 +8,21 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/auth-client";
 import { isPro } from "@/lib/plans";
 
-const ACCEPT = ".doc,.docx,.ppt,.pptx,.xls,.xlsx,.odt,.ods,.odp,.rtf";
-
-export function OfficeToPdf() {
+export function DocConvert({
+  op,
+  accept,
+  inLabel,
+  outExt,
+  actionLabel,
+  hint,
+}: {
+  op: string;
+  accept: string;
+  inLabel: string;
+  outExt: string;
+  actionLabel: string;
+  hint: string;
+}) {
   const { data } = useSession();
   const loggedIn = !!data?.user;
   const pro = isPro((data?.user as { plan?: string } | undefined)?.plan ?? "FREE");
@@ -28,6 +40,7 @@ export function OfficeToPdf() {
     try {
       const fd = new FormData();
       fd.append("file", file);
+      fd.append("op", op);
       const res = await fetch("/api/convert/office", { method: "POST", body: fd });
       if (!res.ok) {
         const j = (await res.json().catch(() => ({}))) as { error?: string };
@@ -39,7 +52,7 @@ export function OfficeToPdf() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${file.name.replace(/\.[^.]+$/, "") || "document"}.pdf`;
+      a.download = `${file.name.replace(/\.[^.]+$/, "") || "document"}.${outExt}`;
       a.click();
       URL.revokeObjectURL(url);
       setDone(true);
@@ -56,9 +69,9 @@ export function OfficeToPdf() {
           <SparklesIcon className="size-4 shrink-0 text-primary" />
           <span className="flex-1 text-muted-foreground">
             {loggedIn ? (
-              <>Office to PDF is a <span className="font-medium text-foreground">Pro</span> feature.</>
+              <>This conversion is a <span className="font-medium text-foreground">Pro</span> feature.</>
             ) : (
-              <>Sign up and go <span className="font-medium text-foreground">Pro</span> to convert Office files.</>
+              <>Sign up and go <span className="font-medium text-foreground">Pro</span> to use this converter.</>
             )}
           </span>
           <Link
@@ -72,11 +85,11 @@ export function OfficeToPdf() {
 
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:bg-muted/50">
         <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose a document</span>
-        <span className="text-xs text-muted-foreground">Word, PowerPoint, or Excel (.docx, .pptx, .xlsx, and more) — up to 15 MB.</span>
+        <span className="text-sm font-medium">Choose a {inLabel}</span>
+        <span className="text-xs text-muted-foreground">{hint}</span>
         <input
           type="file"
-          accept={ACCEPT}
+          accept={accept}
           className="hidden"
           onChange={(e) => {
             setFile(e.target.files?.[0] ?? null);
@@ -97,7 +110,7 @@ export function OfficeToPdf() {
       {pro ? (
         <Button className="w-fit" onClick={convert} disabled={busy || !file}>
           {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
-          Convert to PDF
+          {actionLabel}
         </Button>
       ) : (
         <Button className="w-fit" render={<Link href={loggedIn ? "/pricing" : "/signup"} />}>

@@ -72,6 +72,9 @@ import {
   FileTextIcon,
   FileOutputIcon,
   FileInputIcon,
+  FileType2Icon,
+  PresentationIcon,
+  SheetIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1740,7 +1743,7 @@ export const devTools: DevTool[] = [
     tagline: "Convert Word, PowerPoint, and Excel files to PDF.",
     description:
       "Convert Word (DOCX), PowerPoint (PPTX), and Excel (XLSX) documents to PDF online. High-fidelity Office to PDF conversion for OhoTool Pro.",
-    keywords: ["word to pdf", "docx to pdf", "ppt to pdf", "pptx to pdf", "excel to pdf", "office to pdf"],
+    keywords: ["office to pdf", "doc to pdf", "docx to pdf", "ppt to pdf", "xls to pdf", "convert to pdf"],
     icon: FileInputIcon,
     intro:
       "Convert Microsoft Office documents — Word, PowerPoint, and Excel — into clean, high-fidelity PDFs. Because faithful Office conversion needs a real document engine, this tool processes your file securely on our server (unlike our in-browser tools) and is available on OhoTool Pro.",
@@ -1755,6 +1758,82 @@ export const devTools: DevTool[] = [
       { q: "Is my document kept?", a: "No — it's used only to perform the conversion and is not stored afterward." },
     ],
     related: ["merge-pdf", "compress-pdf", "images-to-pdf"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "word-to-pdf",
+    name: "Word to PDF",
+    tagline: "Convert Word documents (DOC, DOCX) to PDF.",
+    description:
+      "Convert Word to PDF online. Turn DOC and DOCX documents into high-fidelity PDFs — an OhoTool Pro feature.",
+    keywords: ["word to pdf", "doc to pdf", "docx to pdf", "convert word to pdf", "word document to pdf"],
+    icon: FileTextIcon,
+    intro:
+      "Convert a Microsoft Word document (.doc or .docx) into a clean, high-fidelity PDF that looks exactly right on any device. Because faithful conversion needs a real document engine, your file is processed securely on our server (then deleted). Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload your Word document.", "Convert and download the PDF."],
+    faqs: [
+      { q: "Does it keep my formatting?", a: "Yes — fonts, layout, images, and styles are preserved for a faithful PDF." },
+      { q: "Is my document stored?", a: "No — it's used only for the conversion and deleted afterward." },
+    ],
+    related: ["office-to-pdf", "pdf-to-word", "merge-pdf"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "powerpoint-to-pdf",
+    name: "PowerPoint to PDF",
+    tagline: "Convert PowerPoint (PPT, PPTX) to PDF.",
+    description:
+      "Convert PowerPoint to PDF online. Turn PPT and PPTX slide decks into shareable PDFs — an OhoTool Pro feature.",
+    keywords: ["ppt to pdf", "pptx to pdf", "powerpoint to pdf", "convert powerpoint to pdf", "slides to pdf"],
+    icon: PresentationIcon,
+    intro:
+      "Convert a PowerPoint deck (.ppt or .pptx) into a PDF that's easy to share and prints cleanly — one slide per page. Your file is processed securely on our server and then deleted. Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload your PowerPoint file.", "Convert and download the PDF."],
+    faqs: [
+      { q: "Will each slide become a page?", a: "Yes — every slide is rendered as its own page in the PDF." },
+      { q: "Is my file kept?", a: "No — it's only used to perform the conversion and isn't stored." },
+    ],
+    related: ["office-to-pdf", "excel-to-pdf", "merge-pdf"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "excel-to-pdf",
+    name: "Excel to PDF",
+    tagline: "Convert Excel spreadsheets (XLS, XLSX) to PDF.",
+    description:
+      "Convert Excel to PDF online. Turn XLS and XLSX spreadsheets into clean PDFs — an OhoTool Pro feature.",
+    keywords: ["excel to pdf", "xls to pdf", "xlsx to pdf", "convert excel to pdf", "spreadsheet to pdf"],
+    icon: SheetIcon,
+    intro:
+      "Convert an Excel spreadsheet (.xls or .xlsx) into a PDF for easy sharing and printing. Your file is processed securely on our server and then deleted. Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload your Excel file.", "Convert and download the PDF."],
+    faqs: [
+      { q: "Which formats are supported?", a: "Excel .xls and .xlsx, plus OpenDocument .ods and CSV." },
+      { q: "Is my spreadsheet stored?", a: "No — it's used only for the conversion and deleted afterward." },
+    ],
+    related: ["office-to-pdf", "word-to-pdf", "merge-pdf"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "pdf-to-word",
+    name: "PDF to Word",
+    tagline: "Convert a PDF into an editable Word document.",
+    description:
+      "Convert PDF to Word online. Turn a PDF into an editable DOCX document while keeping the layout — an OhoTool Pro feature.",
+    keywords: ["pdf to word", "pdf to docx", "convert pdf to word", "pdf to doc", "pdf to editable word"],
+    icon: FileType2Icon,
+    intro:
+      "Turn a PDF into an editable Microsoft Word (.docx) document, keeping the text and layout so you can make changes. Your file is processed securely on our server and then deleted. Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload your PDF.", "Convert and download the editable Word file."],
+    faqs: [
+      { q: "Will the result be editable?", a: "Yes — you get a .docx you can open and edit in Word, Google Docs, or Pages." },
+      { q: "How accurate is the layout?", a: "It uses high-fidelity conversion, though very complex layouts and scanned PDFs may need minor cleanup." },
+    ],
+    related: ["office-to-pdf", "word-to-pdf", "pdf-to-images"],
     pro: true,
     serverSide: true,
   },
@@ -1836,6 +1915,10 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "images-to-pdf",
       "text-to-pdf",
       "office-to-pdf",
+      "word-to-pdf",
+      "powerpoint-to-pdf",
+      "excel-to-pdf",
+      "pdf-to-word",
       "sign-pdf",
       "rotate-pdf",
       "delete-pdf-pages",

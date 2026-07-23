@@ -4,13 +4,13 @@ import { getTool } from "@/modules/tools/registry";
 import { ToolShell } from "@/modules/tools/components/tool-shell";
 import { DocConvert } from "@/modules/tools/components/doc-convert";
 
-const tool = getTool("office-to-pdf")!;
+const tool = getTool("excel-to-pdf")!;
 
 export const metadata: Metadata = {
   title: tool.name,
   description: tool.description,
   keywords: tool.keywords,
-  alternates: { canonical: "/tools/office-to-pdf" },
+  alternates: { canonical: "/tools/excel-to-pdf" },
 };
 
 export default function Page() {
@@ -18,11 +18,11 @@ export default function Page() {
     <ToolShell tool={tool}>
       <DocConvert
         op="to-pdf"
-        accept=".doc,.docx,.ppt,.pptx,.xls,.xlsx,.odt,.ods,.odp,.rtf"
-        inLabel="document"
+        accept=".xls,.xlsx,.ods,.csv"
+        inLabel="Excel file"
         outExt="pdf"
         actionLabel="Convert to PDF"
-        hint="Word, PowerPoint, or Excel (.docx, .pptx, .xlsx, and more) — up to 15 MB."
+        hint="Excel .xls or .xlsx — up to 15 MB."
       />
     </ToolShell>
   );
