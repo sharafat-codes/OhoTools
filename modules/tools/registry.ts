@@ -75,6 +75,7 @@ import {
   FileType2Icon,
   PresentationIcon,
   SheetIcon,
+  CameraIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1837,6 +1838,61 @@ export const devTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+  {
+    slug: "heic-to-jpg",
+    name: "HEIC to JPG",
+    tagline: "Convert iPhone HEIC photos to JPG.",
+    description:
+      "Convert HEIC to JPG online. Turn iPhone HEIC/HEIF photos into universally compatible JPG images — an OhoTool Pro feature.",
+    keywords: ["heic to jpg", "convert heic to jpg", "heic to jpeg", "iphone photo to jpg", "heic converter"],
+    icon: CameraIcon,
+    intro:
+      "Convert Apple HEIC/HEIF photos (the default iPhone format) into JPG images that open everywhere. Browsers can't decode HEIC, so your photo is processed securely on our server and then deleted. Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload a .heic photo.", "Convert and download the JPG."],
+    faqs: [
+      { q: "Why can't this run in my browser?", a: "Web browsers can't decode Apple's HEIC format, so the conversion is done on our server (and the file is deleted afterward). That's why it's a Pro feature." },
+      { q: "Will I lose quality?", a: "The image is converted at high quality; JPG is lossy but the difference is typically invisible." },
+    ],
+    related: ["heic-to-png", "image-converter", "compress-image"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "heic-to-png",
+    name: "HEIC to PNG",
+    tagline: "Convert iPhone HEIC photos to PNG.",
+    description:
+      "Convert HEIC to PNG online. Turn iPhone HEIC/HEIF photos into lossless PNG images — an OhoTool Pro feature.",
+    keywords: ["heic to png", "convert heic to png", "heic to png converter", "iphone photo to png"],
+    icon: ImagesIcon,
+    intro:
+      "Convert Apple HEIC/HEIF photos into lossless PNG images that work everywhere. Because browsers can't decode HEIC, your photo is processed securely on our server and then deleted. Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload a .heic photo.", "Convert and download the PNG."],
+    faqs: [
+      { q: "JPG or PNG for HEIC photos?", a: "JPG gives much smaller files for photos; choose PNG only if you need lossless quality or transparency." },
+      { q: "Is my photo kept?", a: "No — it's used only for the conversion and deleted afterward." },
+    ],
+    related: ["heic-to-jpg", "image-converter", "compress-image"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "pdf-to-text",
+    name: "PDF to Text",
+    tagline: "Extract the text from a PDF.",
+    description:
+      "Free online PDF to text converter. Extract all the text from a PDF and copy it — privately in your browser, nothing uploaded.",
+    keywords: ["pdf to text", "extract text from pdf", "pdf to txt", "copy text from pdf", "pdf text extractor"],
+    icon: FileTextIcon,
+    intro:
+      "Pull the text out of a PDF so you can copy, edit, or reuse it. It reads the PDF directly in your browser — nothing is uploaded. Note: scanned (image-only) PDFs have no selectable text to extract.",
+    steps: ["Choose a PDF.", "The text is extracted automatically.", "Copy the extracted text."],
+    faqs: [
+      { q: "Does it work on scanned PDFs?", a: "No — scanned PDFs are images with no embedded text. This extracts text from PDFs that contain real (selectable) text." },
+      { q: "Is my PDF uploaded?", a: "No — the text is extracted locally in your browser, so the file never leaves your device." },
+    ],
+    related: ["pdf-to-images", "split-pdf", "strip-html"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1891,6 +1947,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "image-resizer",
       "compress-image",
       "bulk-image-converter",
+      "heic-to-jpg",
+      "heic-to-png",
       "base64",
       "url-encoder",
       "html-entities",
@@ -1912,6 +1970,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "split-pdf",
       "compress-pdf",
       "pdf-to-images",
+      "pdf-to-text",
       "images-to-pdf",
       "text-to-pdf",
       "office-to-pdf",

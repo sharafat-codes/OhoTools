@@ -10,7 +10,7 @@ const MAX_BYTES = 15 * 1024 * 1024; // 15 MB
 
 // Supported conversions -> the vendor endpoint + output type.
 // Provider-swappable: only this map + fetch know about Cloudmersive.
-const OPS: Record<string, { path: string; ext: string; mime: string }> = {
+const OPS: Record<string, { path: string; ext: string; mime: string; field?: string }> = {
   "to-pdf": {
     path: "convert/autodetect/to/pdf",
     ext: "pdf",
@@ -25,6 +25,19 @@ const OPS: Record<string, { path: string; ext: string; mime: string }> = {
     path: "convert/autodetect/to/txt",
     ext: "txt",
     mime: "text/plain",
+  },
+  // Image API uses a different base path + `imageFile` field.
+  "heic-to-jpg": {
+    path: "image/convert/heic/jpg",
+    ext: "jpg",
+    mime: "image/jpeg",
+    field: "imageFile",
+  },
+  "heic-to-png": {
+    path: "image/convert/heic/png",
+    ext: "png",
+    mime: "image/png",
+    field: "imageFile",
   },
 };
 
@@ -65,7 +78,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const upstream = new FormData();
-    upstream.append("inputFile", file, file.name);
+    upstream.append(spec.field ?? "inputFile", file, file.name);
     const res = await fetch(`https://api.cloudmersive.com/${spec.path}`, {
       method: "POST",
       headers: { Apikey: apiKey },
