@@ -67,6 +67,7 @@ import {
   DatabaseIcon,
   FileCodeIcon,
   WandSparklesIcon,
+  SignatureIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1656,6 +1657,27 @@ export const devTools: DevTool[] = [
     ],
     related: ["json-formatter", "sql-formatter", "xml-formatter"],
   },
+  {
+    slug: "sign-pdf",
+    name: "Sign PDF",
+    tagline: "Draw or upload a signature and place it on a PDF.",
+    description:
+      "Free online PDF signer. Draw or upload your signature, place it anywhere on a PDF, and download — privately in your browser, nothing uploaded.",
+    keywords: ["sign pdf", "sign pdf online", "add signature to pdf", "esign pdf", "pdf signature"],
+    icon: SignatureIcon,
+    intro:
+      "Add your signature to a PDF without printing and scanning. Draw it with your mouse or trackpad, or upload a signature image, then place it on any page. Everything happens in your browser, so your document is never uploaded — ideal for contracts and forms.",
+    steps: [
+      "Choose your PDF.",
+      "Draw your signature or upload an image.",
+      "Pick the page and position, then sign and download.",
+    ],
+    faqs: [
+      { q: "Is my document uploaded to sign it?", a: "No — the PDF is opened and signed entirely in your browser, so it never leaves your device. That makes it safe for sensitive contracts." },
+      { q: "Can I use an existing signature image?", a: "Yes — switch to &quot;Upload image&quot; and use a PNG of your signature (a transparent background looks best)." },
+    ],
+    related: ["merge-pdf", "watermark-pdf", "pdf-page-numbers"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1720,6 +1742,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "compress-pdf",
       "pdf-to-images",
       "images-to-pdf",
+      "sign-pdf",
       "rotate-pdf",
       "delete-pdf-pages",
       "pdf-page-numbers",

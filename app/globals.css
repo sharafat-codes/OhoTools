@@ -126,5 +126,15 @@
   }
   html {
     @apply font-sans;
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+  /* Native <select> dropdown options — keep them readable in dark mode. */
+  option,
+  optgroup {
+    background-color: var(--popover);
+    color: var(--popover-foreground);
   }
 }
