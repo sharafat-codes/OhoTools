@@ -65,6 +65,8 @@ import {
   ShrinkIcon,
   FileArchiveIcon,
   DatabaseIcon,
+  FileCodeIcon,
+  WandSparklesIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1620,6 +1622,40 @@ export const devTools: DevTool[] = [
     ],
     related: ["json-formatter", "json-to-typescript", "regex-tester"],
   },
+  {
+    slug: "xml-formatter",
+    name: "XML Formatter",
+    tagline: "Beautify, indent, and validate XML.",
+    description:
+      "Free online XML formatter and beautifier. Pretty-print, indent, minify, and validate XML instantly and privately in your browser.",
+    keywords: ["xml formatter", "xml beautifier", "format xml", "xml validator", "pretty print xml"],
+    icon: FileCodeIcon,
+    intro:
+      "Turn cramped or minified XML into clean, indented, readable markup — or minify it back down. Invalid XML is flagged with the parser error. Everything runs in your browser, so your data stays private.",
+    steps: ["Paste your XML.", "Click Format to indent it, or Minify to compact it.", "Copy the result."],
+    faqs: [
+      { q: "Does it validate my XML?", a: "Yes — if the XML is malformed, the tool shows the parser error instead of formatting it." },
+      { q: "Is my XML uploaded?", a: "No — parsing and formatting happen entirely in your browser." },
+    ],
+    related: ["json-formatter", "code-beautifier", "json-to-csv"],
+  },
+  {
+    slug: "code-beautifier",
+    name: "Code Beautifier",
+    tagline: "Format JavaScript, CSS, HTML, and JSON.",
+    description:
+      "Free online code beautifier. Format and indent messy JavaScript, TypeScript, CSS, HTML, and JSON — instantly and privately in your browser.",
+    keywords: ["code beautifier", "javascript beautifier", "css beautifier", "html formatter", "js beautifier"],
+    icon: WandSparklesIcon,
+    intro:
+      "Clean up minified or messy code into readable, properly indented source. Supports JavaScript, TypeScript, JSON, CSS/SCSS/LESS, and HTML. It all runs in your browser, so your code is never uploaded.",
+    steps: ["Paste your code.", "Pick the language.", "Beautify it and copy the result."],
+    faqs: [
+      { q: "Which languages are supported?", a: "JavaScript, TypeScript, JSON, CSS (including SCSS/LESS), and HTML." },
+      { q: "Is my code sent anywhere?", a: "No — formatting runs entirely in your browser, so your code stays on your device." },
+    ],
+    related: ["json-formatter", "sql-formatter", "xml-formatter"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1634,6 +1670,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "json-formatter",
       "sql-formatter",
+      "xml-formatter",
+      "code-beautifier",
       "json-to-typescript",
       "jwt-decoder",
       "regex-tester",
