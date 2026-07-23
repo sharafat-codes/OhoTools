@@ -68,6 +68,9 @@ import {
   FileCodeIcon,
   WandSparklesIcon,
   SignatureIcon,
+  FileTypeIcon,
+  FileTextIcon,
+  FileOutputIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1678,6 +1681,57 @@ export const devTools: DevTool[] = [
     ],
     related: ["merge-pdf", "watermark-pdf", "pdf-page-numbers"],
   },
+  {
+    slug: "markdown-to-html",
+    name: "Markdown to HTML",
+    tagline: "Convert Markdown to clean HTML with a live preview.",
+    description:
+      "Free online Markdown to HTML converter. Turn Markdown into clean HTML with a live preview — instantly and privately in your browser.",
+    keywords: ["markdown to html", "md to html", "markdown converter", "markdown preview", "convert markdown"],
+    icon: FileTypeIcon,
+    intro:
+      "Convert Markdown into clean HTML and preview the rendered result side by side. Great for blogs, docs, and README files. Everything runs in your browser, so your content stays private.",
+    steps: ["Type or paste your Markdown.", "See the HTML and a live preview.", "Copy the HTML."],
+    faqs: [
+      { q: "What Markdown features are supported?", a: "Standard Markdown — headings, bold/italic, links, lists, code blocks, blockquotes, tables, and more." },
+      { q: "Is my content uploaded?", a: "No — conversion happens entirely in your browser." },
+    ],
+    related: ["html-to-markdown", "code-beautifier", "html-entities"],
+  },
+  {
+    slug: "html-to-markdown",
+    name: "HTML to Markdown",
+    tagline: "Convert HTML into clean Markdown.",
+    description:
+      "Free online HTML to Markdown converter. Turn HTML into clean, readable Markdown — instantly and privately in your browser.",
+    keywords: ["html to markdown", "html to md", "convert html to markdown", "markdown from html"],
+    icon: FileTextIcon,
+    intro:
+      "Convert HTML into clean Markdown — perfect for moving web content into docs, READMEs, or a CMS. Headings, links, lists, and code blocks are preserved. It all runs in your browser.",
+    steps: ["Paste your HTML.", "Get the Markdown instantly.", "Copy the result."],
+    faqs: [
+      { q: "Does it keep links and formatting?", a: "Yes — headings, bold/italic, links, lists, and fenced code blocks are converted to their Markdown equivalents." },
+      { q: "Is my HTML sent anywhere?", a: "No — the conversion runs locally in your browser." },
+    ],
+    related: ["markdown-to-html", "strip-html", "html-entities"],
+  },
+  {
+    slug: "text-to-pdf",
+    name: "Text to PDF",
+    tagline: "Turn plain text into a clean, selectable PDF.",
+    description:
+      "Free online text to PDF converter. Turn plain text into a clean PDF with selectable text, choosing the page size and font — in your browser.",
+    keywords: ["text to pdf", "txt to pdf", "convert text to pdf", "create pdf from text"],
+    icon: FileOutputIcon,
+    intro:
+      "Turn plain text or notes into a tidy PDF with real, selectable text (not an image). Choose A4 or Letter and the font size, and it paginates automatically. Everything runs in your browser.",
+    steps: ["Paste your text.", "Pick the page size and font size.", "Create and download the PDF."],
+    faqs: [
+      { q: "Is the text selectable in the PDF?", a: "Yes — the text is drawn as real text, so it stays selectable and searchable (not rasterized)." },
+      { q: "Does it handle long text?", a: "Yes — lines wrap to the page width and new pages are added automatically." },
+    ],
+    related: ["images-to-pdf", "merge-pdf", "compress-pdf"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1726,6 +1780,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "unit-converter",
       "timezone-converter",
       "json-yaml",
+      "markdown-to-html",
+      "html-to-markdown",
       "image-converter",
       "image-resizer",
       "compress-image",
@@ -1752,6 +1808,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "compress-pdf",
       "pdf-to-images",
       "images-to-pdf",
+      "text-to-pdf",
       "sign-pdf",
       "rotate-pdf",
       "delete-pdf-pages",
