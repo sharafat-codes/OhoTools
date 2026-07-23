@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
-import { getTool, type DevTool } from "@/modules/tools/registry";
+import { getTool, getToolCategory, categoryAnchor, type DevTool } from "@/modules/tools/registry";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
@@ -20,6 +20,16 @@ export function ToolShell({
     .map(getTool)
     .filter((t): t is DevTool => Boolean(t));
 
+  const category = getToolCategory(tool.slug);
+  const crumbs = [
+    { name: "Home", item: `${siteUrl}/` },
+    { name: "Tools", item: `${siteUrl}/tools` },
+    ...(category
+      ? [{ name: category.name, item: `${siteUrl}/tools#${categoryAnchor(category.name)}` }]
+      : []),
+    { name: tool.name, item: `${siteUrl}/tools/${tool.slug}` },
+  ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -33,15 +43,12 @@ export function ToolShell({
       },
       {
         "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: tool.name,
-            item: `${siteUrl}/tools/${tool.slug}`,
-          },
-        ],
+        itemListElement: crumbs.map((c, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: c.name,
+          item: c.item,
+        })),
       },
       {
         "@type": "FAQPage",
@@ -62,8 +69,18 @@ export function ToolShell({
       />
 
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground">
+      <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">Home</Link>
+        <span aria-hidden>/</span>
         <Link href="/tools" className="hover:text-foreground">Tools</Link>
+        {category && (
+          <>
+            <span aria-hidden>/</span>
+            <Link href={`/tools#${categoryAnchor(category.name)}`} className="hover:text-foreground">
+              {category.name}
+            </Link>
+          </>
+        )}
         <span aria-hidden>/</span>
         <span className="text-foreground">{tool.name}</span>
       </nav>

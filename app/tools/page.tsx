@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
-import { getTool, toolCategories, devTools } from "@/modules/tools/registry";
+import { getTool, toolCategories, devTools, categoryAnchor } from "@/modules/tools/registry";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,7 +29,7 @@ export default function ToolsHub() {
 
       <div className="mt-12 flex flex-col gap-10">
         {toolCategories.map((cat) => (
-          <section key={cat.name}>
+          <section key={cat.name} id={categoryAnchor(cat.name)} className="scroll-mt-20">
             <div className="mb-4">
               <h2 className="font-heading text-xl font-semibold tracking-tight">
                 {cat.name} tools

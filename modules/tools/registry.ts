@@ -1684,6 +1684,16 @@ export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
 }
 
+/** A stable anchor id for a category section on the /tools hub. */
+export function categoryAnchor(name: string) {
+  return "cat-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+/** Find the category a tool belongs to (for breadcrumbs). */
+export function getToolCategory(slug: string) {
+  return toolCategories.find((c) => c.slugs.includes(slug));
+}
+
 // Grouping for the hub — improves navigation and topical SEO structure.
 export const toolCategories: { name: string; blurb: string; slugs: string[] }[] = [
   {
