@@ -62,6 +62,9 @@ import {
   FileMinusIcon,
   StampIcon,
   ListOrderedIcon,
+  ShrinkIcon,
+  FileArchiveIcon,
+  DatabaseIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1551,6 +1554,72 @@ export const devTools: DevTool[] = [
     related: ["qr-code", "wifi-qr", "bulk-image-converter"],
     pro: true,
   },
+  {
+    slug: "compress-image",
+    name: "Compress Image",
+    tagline: "Shrink JPG, PNG, and WebP images to a smaller size.",
+    description:
+      "Free online image compressor. Reduce JPG, PNG, and WebP file size by quality or to a target size — privately in your browser, nothing uploaded.",
+    keywords: ["compress image", "compress jpeg", "compress png", "reduce image size", "compress image to kb"],
+    icon: ShrinkIcon,
+    intro:
+      "Reduce image file size without the hassle. Compress by quality, or set a target size in KB and let the tool find the best quality that fits. Great for faster websites and email attachments. Free compresses up to 3 images; Pro removes the limit and adds one-click ZIP. Everything runs in your browser — your images are never uploaded.",
+    steps: [
+      "Add your images.",
+      "Compress by quality, or enter a target size in KB.",
+      "Download the smaller images (ZIP on Pro).",
+    ],
+    faqs: [
+      { q: "Can I compress an image to a specific size?", a: "Yes — choose &quot;Target size&quot;, enter a value in KB, and the tool finds the highest quality that stays under it." },
+      { q: "Does it reduce quality?", a: "Compression is lossy for JPG and WebP, but at 60–80% quality the difference is usually invisible while the file gets much smaller." },
+      { q: "Are my images uploaded?", a: "No — compression happens locally in your browser using a canvas, so nothing leaves your device." },
+    ],
+    related: ["image-converter", "image-resizer", "bulk-image-converter"],
+    pro: true,
+  },
+  {
+    slug: "compress-pdf",
+    name: "Compress PDF",
+    tagline: "Reduce PDF file size to share and upload faster.",
+    description:
+      "Free online PDF compressor. Reduce PDF file size with adjustable quality — privately in your browser, with nothing uploaded to a server.",
+    keywords: ["compress pdf", "reduce pdf size", "pdf compressor", "make pdf smaller", "shrink pdf"],
+    icon: FileArchiveIcon,
+    intro:
+      "Make PDFs smaller so they're easy to email and upload. Choose the quality and resolution, and the tool re-renders the pages to shrink the file — ideal for scanned and image-heavy PDFs. Free compresses one PDF at a time; Pro compresses in batches and downloads a ZIP. Everything runs in your browser, so your documents stay private.",
+    steps: [
+      "Choose your PDF files.",
+      "Pick the quality and resolution.",
+      "Compress and download (ZIP on Pro).",
+    ],
+    faqs: [
+      { q: "How does the compression work?", a: "It re-renders each page as a compressed image and rebuilds the PDF, which dramatically shrinks scanned and image-heavy files. Selectable text becomes part of the image." },
+      { q: "Is my PDF uploaded?", a: "No — everything is processed locally in your browser, so your document never leaves your device." },
+    ],
+    related: ["merge-pdf", "split-pdf", "pdf-to-images"],
+    pro: true,
+  },
+  {
+    slug: "sql-formatter",
+    name: "SQL Formatter",
+    tagline: "Beautify and format SQL queries for any dialect.",
+    description:
+      "Free online SQL formatter and beautifier. Format messy SQL into clean, readable queries for MySQL, PostgreSQL, SQL Server, and more — in your browser.",
+    keywords: ["sql formatter", "sql beautifier", "format sql", "sql pretty print", "sql formatter online"],
+    icon: DatabaseIcon,
+    intro:
+      "Turn a cramped, one-line SQL query into clean, readable, properly indented SQL. Supports MySQL, PostgreSQL, SQL Server, SQLite, BigQuery, Oracle, and standard SQL. It all runs in your browser, so your queries stay private.",
+    steps: [
+      "Paste your SQL.",
+      "Choose the SQL dialect.",
+      "Format it and copy the clean result.",
+    ],
+    faqs: [
+      { q: "Which SQL dialects are supported?", a: "Standard SQL, MySQL, MariaDB, PostgreSQL, SQLite, BigQuery, SQL Server (T-SQL), and Oracle (PL/SQL)." },
+      { q: "Is my SQL sent anywhere?", a: "No — formatting happens entirely in your browser, so your queries are never uploaded." },
+    ],
+    related: ["json-formatter", "json-to-typescript", "regex-tester"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1564,6 +1633,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     blurb: "Format, inspect, and test.",
     slugs: [
       "json-formatter",
+      "sql-formatter",
       "json-to-typescript",
       "jwt-decoder",
       "regex-tester",
@@ -1588,6 +1658,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "json-yaml",
       "image-converter",
       "image-resizer",
+      "compress-image",
       "bulk-image-converter",
       "base64",
       "url-encoder",
@@ -1608,6 +1679,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "merge-pdf",
       "split-pdf",
+      "compress-pdf",
       "pdf-to-images",
       "images-to-pdf",
       "rotate-pdf",
