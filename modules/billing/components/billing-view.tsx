@@ -9,6 +9,7 @@ import {
   createCheckoutSession,
   createPortalSession,
 } from "@/modules/billing/actions";
+import { createPaddlePortalSession } from "@/modules/billing/paddle-actions";
 import { PLANS, PLAN_BY_ID, type PlanId } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import { PaddleUpgradeButton } from "@/components/paddle-upgrade-button";
@@ -82,7 +83,23 @@ export function BillingView({
     });
   }
 
+  function managePaddle() {
+    setAction("manage");
+    startTransition(async () => {
+      const res = await createPaddlePortalSession();
+      if ("error" in res) {
+        toast.error(res.error);
+        setAction(null);
+        return;
+      }
+      window.location.href = res.url;
+    });
+  }
+
   const current = PLAN_BY_ID[currentPlan as PlanId] ?? PLAN_BY_ID.FREE;
+  // A Stripe subscription row means Stripe manages it; otherwise a Pro user on
+  // the Paddle provider is managed through Paddle's customer portal.
+  const paddleManaged = !subscription && provider === "paddle" && current.id !== "FREE";
 
   return (
     <div className="flex flex-col gap-6">
@@ -101,12 +118,16 @@ export function BillingView({
               </p>
             )}
           </div>
-          {subscription && (
-            <Button variant="outline" onClick={manage} disabled={isPending}>
+          {(subscription || paddleManaged) && (
+            <Button
+              variant="outline"
+              onClick={subscription ? manage : managePaddle}
+              disabled={isPending}
+            >
               {isPending && action === "manage" && (
                 <LoaderCircleIcon className="animate-spin" />
               )}
-              Manage billing
+              Manage subscription
             </Button>
           )}
         </CardContent>
@@ -158,9 +179,13 @@ export function BillingView({
                     <Button variant="outline" onClick={manage} disabled={isPending}>
                       Downgrade
                     </Button>
+                  ) : paddleManaged ? (
+                    <Button variant="outline" onClick={managePaddle} disabled={isPending}>
+                      Cancel subscription
+                    </Button>
                   ) : (
                     <Button variant="outline" disabled>
-                      Cancel via Paddle
+                      Downgrade
                     </Button>
                   )
                 ) : provider === "paddle" ? (
