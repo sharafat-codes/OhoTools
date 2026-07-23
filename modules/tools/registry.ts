@@ -71,6 +71,7 @@ import {
   FileTypeIcon,
   FileTextIcon,
   FileOutputIcon,
+  FileInputIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -94,6 +95,7 @@ export type DevTool = {
   faqs: ToolFaq[];
   related: string[]; // slugs
   pro?: boolean; // premium tool — usable free with limits, full with Pro
+  serverSide?: boolean; // processed on the server (not in-browser) — e.g. Office conversion
 };
 
 export const devTools: DevTool[] = [
@@ -1732,6 +1734,30 @@ export const devTools: DevTool[] = [
     ],
     related: ["images-to-pdf", "merge-pdf", "compress-pdf"],
   },
+  {
+    slug: "office-to-pdf",
+    name: "Office to PDF (Word, Excel, PowerPoint)",
+    tagline: "Convert Word, PowerPoint, and Excel files to PDF.",
+    description:
+      "Convert Word (DOCX), PowerPoint (PPTX), and Excel (XLSX) documents to PDF online. High-fidelity Office to PDF conversion for OhoTool Pro.",
+    keywords: ["word to pdf", "docx to pdf", "ppt to pdf", "pptx to pdf", "excel to pdf", "office to pdf"],
+    icon: FileInputIcon,
+    intro:
+      "Convert Microsoft Office documents — Word, PowerPoint, and Excel — into clean, high-fidelity PDFs. Because faithful Office conversion needs a real document engine, this tool processes your file securely on our server (unlike our in-browser tools) and is available on OhoTool Pro.",
+    steps: [
+      "Sign in with a Pro account.",
+      "Upload a Word, PowerPoint, or Excel file.",
+      "Convert and download the PDF.",
+    ],
+    faqs: [
+      { q: "Which formats are supported?", a: "Word (.doc, .docx), PowerPoint (.ppt, .pptx), Excel (.xls, .xlsx), and OpenDocument (.odt, .ods, .odp) — converted to PDF." },
+      { q: "Why isn't this done in my browser like your other tools?", a: "Faithful Office-to-PDF conversion requires a full document engine that can't run in the browser, so the file is processed securely on our server and then deleted. That's why it's a Pro feature." },
+      { q: "Is my document kept?", a: "No — it's used only to perform the conversion and is not stored afterward." },
+    ],
+    related: ["merge-pdf", "compress-pdf", "images-to-pdf"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1809,6 +1835,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "pdf-to-images",
       "images-to-pdf",
       "text-to-pdf",
+      "office-to-pdf",
       "sign-pdf",
       "rotate-pdf",
       "delete-pdf-pages",

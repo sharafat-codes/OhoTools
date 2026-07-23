@@ -104,7 +104,9 @@ export function ToolShell({
       {children}
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
-        Runs entirely in your browser — nothing is uploaded.
+        {tool.serverSide
+          ? "Your file is processed securely on our server for conversion, then deleted."
+          : "Runs entirely in your browser — nothing is uploaded."}
       </p>
 
       {/* How to use */}
