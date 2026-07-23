@@ -52,10 +52,12 @@ export function ImageToText() {
   const [busy, setBusy] = React.useState(false);
   const [status, setStatus] = React.useState("");
   const [progress, setProgress] = React.useState(0);
+  const [notice, setNotice] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   function onFile(f: File | undefined) {
     setError(null);
+    setNotice(null);
     setText("");
     if (!f) return;
     if (f.size > MAX_BYTES) {
@@ -73,6 +75,7 @@ export function ImageToText() {
     if (!file) return;
     setBusy(true);
     setError(null);
+    setNotice(null);
     setText("");
     setProgress(0);
     setStatus("Loading OCR engine…");
@@ -95,11 +98,23 @@ export function ImageToText() {
       const { data } = await worker.recognize(input);
       await worker.terminate();
       const out = (data.text ?? "").trim();
-      setText(out);
-      if (!out) {
+      const confidence = Math.round((data as { confidence?: number }).confidence ?? 0);
+
+      // Tesseract scores ~80-95 on clear text and drops well below 50 on
+      // stylized art / logos / low-contrast images. Rather than dump
+      // unreadable gibberish, tell the user the image isn't OCR-friendly.
+      if (!out || confidence < 50) {
+        setText("");
         setError(
-          "No readable text was found. This works best on clear photos or scans of real text — stylized graphics and low-contrast images are hard to read.",
+          "We couldn't find clearly readable text in that image. OCR works best on clear photos, screenshots, or scans of real text — stylized graphics, logos, and low-contrast images can't be read reliably.",
         );
+      } else {
+        setText(out);
+        if (confidence < 75) {
+          setNotice(
+            "Low confidence — the image may be blurry, low-contrast, or stylized, so some text below may be imperfect.",
+          );
+        }
       }
     } catch {
       setError("Something went wrong while reading the image. Please try again.");
@@ -118,11 +133,16 @@ export function ImageToText() {
         <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
 
+      <p className="text-xs text-muted-foreground">
+        Best on clear screenshots, documents, and photos of real text. Stylized graphics, logos, and decorative fonts can&apos;t be read reliably.
+      </p>
+
       {preview && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img src={preview} alt="Selected" className="max-h-48 w-fit max-w-full rounded-lg border border-border" />
       )}
       {error && <p className="text-sm text-destructive">{error}</p>}
+      {notice && <p className="text-sm text-amber-600 dark:text-amber-500">{notice}</p>}
 
       <div className="flex items-center gap-3">
         <Button className="w-fit" onClick={recognize} disabled={busy || !file}>
