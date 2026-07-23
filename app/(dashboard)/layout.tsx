@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/dal";
+import { requireUser, isAdmin } from "@/lib/dal";
 import { AppSidebar } from "@/modules/dashboard/components/app-sidebar";
 import { Topbar } from "@/modules/dashboard/components/topbar";
 
@@ -11,6 +11,7 @@ export default async function DashboardLayout({
   // real check. Every dashboard route renders through here.
   const user = await requireUser();
   const plan = (user as { plan?: string }).plan ?? "FREE";
+  const admin = isAdmin(user as { role?: string | null; email?: string | null });
 
   return (
     <div className="flex min-h-full flex-1">
@@ -18,6 +19,7 @@ export default async function DashboardLayout({
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar
           user={{ name: user.name, email: user.email, image: user.image }}
+          isAdmin={admin}
         />
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>

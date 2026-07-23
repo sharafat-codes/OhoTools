@@ -14,8 +14,8 @@ export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const hasSession = Boolean(getSessionCookie(req));
 
-  // Signed-out users cannot reach the dashboard.
-  if (!hasSession && pathname.startsWith("/dashboard")) {
+  // Signed-out users cannot reach the dashboard or admin (role checked in DAL).
+  if (!hasSession && (pathname.startsWith("/dashboard") || pathname.startsWith("/admin"))) {
     const url = new URL("/login", req.nextUrl);
     url.searchParams.set("redirect", pathname);
     return NextResponse.redirect(url);
@@ -32,6 +32,7 @@ export default function proxy(req: NextRequest) {
 export const config = {
   matcher: [
     "/dashboard/:path*",
+    "/admin/:path*",
     "/login",
     "/signup",
     "/forgot-password",

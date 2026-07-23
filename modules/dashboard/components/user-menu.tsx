@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { LogOutIcon, SettingsIcon } from "lucide-react";
+import { LogOutIcon, SettingsIcon, ShieldIcon } from "lucide-react";
 
 import { signOut } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,7 +28,7 @@ function getInitials(name: string, email: string) {
   return (initials || email[0]).toUpperCase();
 }
 
-export function UserMenu({ user }: { user: MenuUser }) {
+export function UserMenu({ user, isAdmin }: { user: MenuUser; isAdmin?: boolean }) {
   const router = useRouter();
 
   async function handleSignOut() {
@@ -54,6 +54,12 @@ export function UserMenu({ user }: { user: MenuUser }) {
           </span>
         </div>
         <DropdownMenuSeparator />
+        {isAdmin && (
+          <DropdownMenuItem render={<Link href="/admin" />}>
+            <ShieldIcon />
+            Admin
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
           <SettingsIcon />
           Settings

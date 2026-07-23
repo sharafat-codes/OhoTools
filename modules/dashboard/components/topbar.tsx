@@ -16,7 +16,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { SidebarNav } from "@/modules/dashboard/components/sidebar-nav";
 import { UserMenu, type MenuUser } from "@/modules/dashboard/components/user-menu";
 
-export function Topbar({ user }: { user: MenuUser }) {
+export function Topbar({ user, isAdmin }: { user: MenuUser; isAdmin?: boolean }) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -53,7 +53,7 @@ export function Topbar({ user }: { user: MenuUser }) {
       <div className="flex-1" />
 
       <ThemeToggle />
-      <UserMenu user={user} />
+      <UserMenu user={user} isAdmin={isAdmin} />
     </header>
   );
 }
