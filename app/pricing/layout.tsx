@@ -23,6 +23,7 @@ export default async function PricingLayout({
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
+            <Link href="/refunds" className="hover:text-foreground">Refunds</Link>
           </div>
         </div>
       </footer>
