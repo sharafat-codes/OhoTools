@@ -101,7 +101,7 @@ export function BillingView({
               </p>
             )}
           </div>
-          {provider === "stripe" && subscription && (
+          {subscription && (
             <Button variant="outline" onClick={manage} disabled={isPending}>
               {isPending && action === "manage" && (
                 <LoaderCircleIcon className="animate-spin" />
@@ -154,8 +154,8 @@ export function BillingView({
                     Current plan
                   </Button>
                 ) : plan.id === "FREE" ? (
-                  provider === "stripe" ? (
-                    <Button variant="outline" onClick={manage} disabled={isPending || !subscription}>
+                  subscription ? (
+                    <Button variant="outline" onClick={manage} disabled={isPending}>
                       Downgrade
                     </Button>
                   ) : (
