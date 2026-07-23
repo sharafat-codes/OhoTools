@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { syncStripeForCustomer } from "@/lib/stripe-sync";
+import { isPaddleConfigured } from "@/lib/paddle";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
 export const metadata: Metadata = { title: "Billing" };
@@ -56,6 +57,9 @@ export default async function BillingPage({
             : null
         }
         checkoutStatus={checkout ?? null}
+        provider={isPaddleConfigured ? "paddle" : "stripe"}
+        userId={user.id}
+        email={user.email}
       />
     </div>
   );

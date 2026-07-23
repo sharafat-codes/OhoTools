@@ -11,6 +11,7 @@ import {
 } from "@/modules/billing/actions";
 import { PLANS, PLAN_BY_ID, type PlanId } from "@/lib/plans";
 import { cn } from "@/lib/utils";
+import { PaddleUpgradeButton } from "@/components/paddle-upgrade-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -32,10 +33,16 @@ export function BillingView({
   currentPlan,
   subscription,
   checkoutStatus,
+  provider = "stripe",
+  userId,
+  email,
 }: {
   currentPlan: string;
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
+  provider?: "stripe" | "paddle";
+  userId: string;
+  email?: string;
 }) {
   const [isPending, startTransition] = React.useTransition();
   const [action, setAction] = React.useState<string | null>(null);
@@ -94,7 +101,7 @@ export function BillingView({
               </p>
             )}
           </div>
-          {subscription && (
+          {provider === "stripe" && subscription && (
             <Button variant="outline" onClick={manage} disabled={isPending}>
               {isPending && action === "manage" && (
                 <LoaderCircleIcon className="animate-spin" />
@@ -147,13 +154,23 @@ export function BillingView({
                     Current plan
                   </Button>
                 ) : plan.id === "FREE" ? (
-                  <Button
-                    variant="outline"
-                    onClick={manage}
-                    disabled={isPending || !subscription}
+                  provider === "stripe" ? (
+                    <Button variant="outline" onClick={manage} disabled={isPending || !subscription}>
+                      Downgrade
+                    </Button>
+                  ) : (
+                    <Button variant="outline" disabled>
+                      Cancel via Paddle
+                    </Button>
+                  )
+                ) : provider === "paddle" ? (
+                  <PaddleUpgradeButton
+                    userId={userId}
+                    email={email}
+                    variant={plan.popular ? "default" : "outline"}
                   >
-                    Downgrade
-                  </Button>
+                    Upgrade to {plan.name}
+                  </PaddleUpgradeButton>
                 ) : (
                   <Button
                     onClick={() => upgrade(plan.id)}
@@ -173,7 +190,7 @@ export function BillingView({
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Payments are securely handled by Stripe. Cancel anytime.
+        Payments are securely handled by {provider === "paddle" ? "Paddle" : "Stripe"}. Cancel anytime.
       </p>
     </div>
   );
