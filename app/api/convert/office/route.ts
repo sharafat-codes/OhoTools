@@ -41,6 +41,11 @@ const OPS: Record<string, { path: string; ext: string; mime: string; field?: str
   },
 };
 
+// OCR ops return JSON ({ TextResult }) instead of a downloadable file.
+const OCR_OPS: Record<string, { path: string; field: string }> = {
+  "image-to-text": { path: "ocr/image/toText", field: "imageFile" },
+};
+
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
   if (!user) {
@@ -65,8 +70,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
   }
 
+  const ocr = OCR_OPS[op];
   const spec = OPS[op];
-  if (!spec) {
+  if (!spec && !ocr) {
     return NextResponse.json({ error: "Unsupported conversion." }, { status: 400 });
   }
   if (!(file instanceof File)) {
@@ -74,6 +80,26 @@ export async function POST(req: NextRequest) {
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json({ error: "File too large (max 15 MB)." }, { status: 413 });
+  }
+
+  // OCR: returns recognized text as JSON.
+  if (ocr) {
+    try {
+      const upstream = new FormData();
+      upstream.append(ocr.field, file, file.name);
+      const res = await fetch(`https://api.cloudmersive.com/${ocr.path}`, {
+        method: "POST",
+        headers: { Apikey: apiKey },
+        body: upstream,
+      });
+      if (!res.ok) {
+        return NextResponse.json({ error: "Text recognition failed. Try a clearer image." }, { status: 502 });
+      }
+      const j = (await res.json()) as { TextResult?: string };
+      return NextResponse.json({ text: (j.TextResult ?? "").trim() });
+    } catch {
+      return NextResponse.json({ error: "Recognition service error. Try again." }, { status: 500 });
+    }
   }
 
   try {

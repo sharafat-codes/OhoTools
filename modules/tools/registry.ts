@@ -76,6 +76,7 @@ import {
   PresentationIcon,
   SheetIcon,
   CameraIcon,
+  ScanTextIcon,
   ScalingIcon,
   ShieldCheckIcon,
   Dice5Icon,
@@ -1893,6 +1894,25 @@ export const devTools: DevTool[] = [
     ],
     related: ["pdf-to-images", "split-pdf", "strip-html"],
   },
+  {
+    slug: "image-to-text",
+    name: "Image to Text (OCR)",
+    tagline: "Extract text from images, photos, and scans.",
+    description:
+      "Convert image to text online with OCR. Extract text from photos, screenshots, and scanned documents (JPG, PNG) — an OhoTool Pro feature.",
+    keywords: ["image to text", "photo to text", "ocr online", "extract text from image", "picture to text"],
+    icon: ScanTextIcon,
+    intro:
+      "Pull the text out of an image, screenshot, photo, or scanned document using optical character recognition (OCR). Accurate OCR needs a real recognition engine, so your image is processed securely on our server and then deleted. Available on OhoTool Pro.",
+    steps: ["Sign in with Pro.", "Upload an image or photo of text.", "Extract and copy the recognized text."],
+    faqs: [
+      { q: "What images work best?", a: "Clear, well-lit images and scans with readable text. Higher resolution and good contrast improve accuracy." },
+      { q: "Why isn't this free/in-browser like your other tools?", a: "Accurate OCR requires a machine-learning engine that can't run in the browser, so it's processed on our server (and the image is deleted afterward). That's why it's a Pro feature." },
+    ],
+    related: ["pdf-to-text", "image-converter", "strip-html"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -1949,6 +1969,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "bulk-image-converter",
       "heic-to-jpg",
       "heic-to-png",
+      "image-to-text",
       "base64",
       "url-encoder",
       "html-entities",
