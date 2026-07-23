@@ -41,11 +41,6 @@ const OPS: Record<string, { path: string; ext: string; mime: string; field?: str
   },
 };
 
-// OCR ops return JSON ({ TextResult }) instead of a downloadable file.
-const OCR_OPS: Record<string, { path: string; field: string }> = {
-  "image-to-text": { path: "ocr/image/toText", field: "imageFile" },
-};
-
 // Web ops take a text input (a URL or HTML) as a JSON body, return a PDF.
 const WEB_OPS: Record<string, { path: string; bodyKey: string; ext: string; mime: string }> = {
   "url-to-pdf": { path: "convert/web/url/to/pdf", bodyKey: "Url", ext: "pdf", mime: "application/pdf" },
@@ -114,9 +109,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const ocr = OCR_OPS[op];
   const spec = OPS[op];
-  if (!spec && !ocr) {
+  if (!spec) {
     return NextResponse.json({ error: "Unsupported conversion." }, { status: 400 });
   }
   if (!(file instanceof File)) {
@@ -124,30 +118,6 @@ export async function POST(req: NextRequest) {
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json({ error: "File too large (max 15 MB)." }, { status: 413 });
-  }
-
-  // OCR: returns recognized text as JSON.
-  if (ocr) {
-    try {
-      const upstream = new FormData();
-      upstream.append(ocr.field, file, file.name);
-      const res = await fetch(`https://api.cloudmersive.com/${ocr.path}`, {
-        method: "POST",
-        headers: { Apikey: apiKey },
-        body: upstream,
-      });
-      if (!res.ok) {
-        const detail = await res.text().catch(() => "");
-        return NextResponse.json(
-          { error: `Text recognition failed (${res.status})${detail ? `: ${detail.slice(0, 300)}` : ""}` },
-          { status: 502 },
-        );
-      }
-      const j = (await res.json()) as { TextResult?: string };
-      return NextResponse.json({ text: (j.TextResult ?? "").trim() });
-    } catch {
-      return NextResponse.json({ error: "Recognition service error. Try again." }, { status: 500 });
-    }
   }
 
   try {

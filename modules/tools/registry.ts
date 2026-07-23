@@ -1900,19 +1900,18 @@ export const devTools: DevTool[] = [
     name: "Image to Text (OCR)",
     tagline: "Extract text from images, photos, and scans.",
     description:
-      "Convert image to text online with OCR. Extract text from photos, screenshots, and scanned documents (JPG, PNG) — an OhoTool Pro feature.",
+      "Free online OCR — convert image to text right in your browser. Extract text from photos, screenshots, and scanned documents (JPG, PNG). Private: your image never leaves your device.",
     keywords: ["image to text", "photo to text", "ocr online", "extract text from image", "picture to text"],
     icon: ScanTextIcon,
     intro:
-      "Pull the text out of an image, screenshot, photo, or scanned document using optical character recognition (OCR). Accurate OCR needs a real recognition engine, so your image is processed securely on our server and then deleted. Available on OhoTool Pro.",
-    steps: ["Sign in with Pro.", "Upload an image or photo of text.", "Extract and copy the recognized text."],
+      "Pull the text out of an image, screenshot, photo, or scanned document using optical character recognition (OCR). It runs entirely in your browser — your image is never uploaded, so it stays completely private. The recognition engine downloads once on first use, then works offline.",
+    steps: ["Upload an image or photo of text.", "Click Extract text (the engine loads on first use).", "Copy the recognized text."],
     faqs: [
-      { q: "What images work best?", a: "Clear, well-lit images and scans with readable text. Higher resolution and good contrast improve accuracy." },
-      { q: "Why isn't this free/in-browser like your other tools?", a: "Accurate OCR requires a machine-learning engine that can't run in the browser, so it's processed on our server (and the image is deleted afterward). That's why it's a Pro feature." },
+      { q: "Is my image uploaded anywhere?", a: "No — recognition happens locally in your browser using an in-page OCR engine, so the image never leaves your device." },
+      { q: "What images work best?", a: "Clear, well-lit photos and scans of real text with good contrast. Stylized graphics, decorative fonts, and low-resolution images are harder to read accurately." },
+      { q: "Why does the first run take a moment?", a: "The OCR engine (a few MB) downloads once on your first extraction, then it's cached for instant use afterward." },
     ],
     related: ["pdf-to-text", "image-converter", "strip-html"],
-    pro: true,
-    serverSide: true,
   },
   {
     slug: "url-to-pdf",
