@@ -4,6 +4,9 @@ import { LockIcon, ZapIcon, TimerIcon } from "lucide-react";
 import { SendTool } from "@/modules/transfer/components/send-tool";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { SITE_URL } from "@/lib/site";
+import { FREE_MAX_BYTES } from "@/lib/transfer-shared";
+
+const MAX_MB = Math.round(FREE_MAX_BYTES / 1024 / 1024);
 
 const title = "Send a File — Free Encrypted File Sharing";
 const description =
@@ -47,7 +50,7 @@ const faqs = [
   },
   {
     q: "How big can the file be?",
-    a: "Up to 100 MB per file right now. That covers photos, documents, audio, and most everyday transfers.",
+    a: `Up to ${MAX_MB} MB per file right now. That covers photos, documents, audio, and most everyday transfers.`,
   },
   {
     q: "How does the person download it?",

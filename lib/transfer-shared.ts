@@ -3,7 +3,9 @@
 // pulling in the server-only Supabase admin client.)
 
 export const TRANSFER_BUCKET = "transfers";
-export const FREE_MAX_BYTES = 100 * 1024 * 1024; // 100 MB per transfer (free tier)
+// 50 MB matches Supabase's free-tier global upload limit. Raising this requires
+// bumping the Supabase project's global file-size limit (paid plan).
+export const FREE_MAX_BYTES = 50 * 1024 * 1024;
 export const MAX_EXPIRY_HOURS = 24;
 
 export const EXPIRY_OPTIONS = [
