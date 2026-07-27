@@ -1941,6 +1941,15 @@ export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
 }
 
+/** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
+export function ogImageUrl(p: { eyebrow?: string; title: string; subtitle?: string }): string {
+  const q = new URLSearchParams();
+  if (p.eyebrow) q.set("eyebrow", p.eyebrow);
+  q.set("title", p.title);
+  if (p.subtitle) q.set("subtitle", p.subtitle);
+  return `${SITE_URL}/og?${q.toString()}`;
+}
+
 /**
  * Full page metadata for a tool — title, description, keywords, canonical, and
  * per-tool Open Graph / Twitter (so social previews name the actual tool
@@ -1951,6 +1960,13 @@ export function toolMetadata(slug: string): Metadata {
   if (!tool) return {};
   const path = `/tools/${slug}`;
   const ogTitle = `${tool.name} · ${SITE_NAME}`;
+  const cat = getToolCategory(slug);
+  const image = ogImageUrl({
+    eyebrow: cat ? `${cat.name} tool` : "Online tool",
+    title: tool.name,
+    subtitle: tool.tagline,
+  });
+  const images = [{ url: image, width: 1200, height: 630 }];
   return {
     title: tool.name,
     description: tool.description,
@@ -1962,11 +1978,13 @@ export function toolMetadata(slug: string): Metadata {
       siteName: SITE_NAME,
       title: ogTitle,
       description: tool.description,
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description: tool.description,
+      images,
     },
   };
 }
@@ -2294,6 +2312,12 @@ export function categoryMetadata(slug: string): Metadata {
   if (!cat) return {};
   const path = `/tools/${slug}`;
   const ogTitle = `${cat.seoTitle} · ${SITE_NAME}`;
+  const image = ogImageUrl({
+    eyebrow: "Free tools",
+    title: cat.h1,
+    subtitle: cat.seoDescription,
+  });
+  const images = [{ url: image, width: 1200, height: 630 }];
   return {
     title: cat.seoTitle,
     description: cat.seoDescription,
@@ -2305,11 +2329,13 @@ export function categoryMetadata(slug: string): Metadata {
       siteName: SITE_NAME,
       title: ogTitle,
       description: cat.seoDescription,
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description: cat.seoDescription,
+      images,
     },
   };
 }

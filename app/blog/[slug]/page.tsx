@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { getPost, posts } from "@/modules/blog";
-import { getTool } from "@/modules/tools/registry";
+import { getTool, ogImageUrl } from "@/modules/tools/registry";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -29,6 +29,12 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
   const { meta } = post;
+  const image = ogImageUrl({
+    eyebrow: meta.tags[0] ? `${meta.tags[0]} · Guide` : "Guide",
+    title: meta.title,
+    subtitle: meta.description,
+  });
+  const images = [{ url: image, width: 1200, height: 630 }];
   return {
     title: meta.title,
     description: meta.description,
@@ -40,6 +46,13 @@ export async function generateMetadata({
       description: meta.description,
       url: `${siteUrl}/blog/${meta.slug}`,
       publishedTime: meta.date,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images,
     },
   };
 }
