@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
-import { getTool, toolCategories, devTools, categoryAnchor } from "@/modules/tools/registry";
+import { getTool, toolCategories, devTools, categoryAnchor, categorySlugForName } from "@/modules/tools/registry";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -38,13 +38,31 @@ export default function ToolsHub() {
       </div>
 
       <div className="mt-12 flex flex-col gap-10">
-        {toolCategories.map((cat) => (
+        {toolCategories.map((cat) => {
+          const catSlug = categorySlugForName(cat.name);
+          return (
           <section key={cat.name} id={categoryAnchor(cat.name)} className="scroll-mt-20">
-            <div className="mb-4">
-              <h2 className="font-heading text-xl font-semibold tracking-tight">
-                {cat.name} tools
-              </h2>
-              <p className="text-sm text-muted-foreground">{cat.blurb}</p>
+            <div className="mb-4 flex items-end justify-between gap-3">
+              <div>
+                <h2 className="font-heading text-xl font-semibold tracking-tight">
+                  {catSlug ? (
+                    <Link href={`/tools/${catSlug}`} className="hover:underline">
+                      {cat.name} tools
+                    </Link>
+                  ) : (
+                    <>{cat.name} tools</>
+                  )}
+                </h2>
+                <p className="text-sm text-muted-foreground">{cat.blurb}</p>
+              </div>
+              {catSlug && (
+                <Link
+                  href={`/tools/${catSlug}`}
+                  className="shrink-0 whitespace-nowrap text-sm font-medium text-muted-foreground hover:text-foreground"
+                >
+                  View all →
+                </Link>
+              )}
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {cat.slugs.map((slug) => {
@@ -75,7 +93,8 @@ export default function ToolsHub() {
               })}
             </div>
           </section>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-12 flex flex-col items-center gap-3 rounded-2xl border border-border bg-muted/30 px-6 py-10 text-center">

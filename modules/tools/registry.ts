@@ -2111,3 +2111,205 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     ],
   },
 ];
+
+// ── Category landing pages ───────────────────────────────────────────────────
+// Dedicated, indexable pages per category (e.g. /tools/pdf) that target the
+// fat head terms individual tool pages can't rank for ("pdf tools", etc.).
+export type CategoryPage = {
+  slug: string; // URL segment under /tools
+  name: string; // must match a toolCategories name
+  seoTitle: string;
+  seoDescription: string;
+  keywords: string[];
+  h1: string;
+  intro: string;
+  faqs: ToolFaq[];
+  /** Curated tool list (overrides the category's default slugs, e.g. a
+   * cross-category collection like "image"). */
+  toolSlugs?: string[];
+};
+
+export const categoryPages: CategoryPage[] = [
+  {
+    slug: "pdf",
+    name: "PDF",
+    seoTitle: "PDF Tools",
+    seoDescription:
+      "Free online PDF tools — merge, split, compress, rotate, watermark, add page numbers, sign, and convert PDF to and from Word, images, and text. Fast and private.",
+    keywords: ["pdf tools", "merge pdf", "split pdf", "compress pdf", "pdf to word", "word to pdf", "edit pdf online"],
+    h1: "Free PDF tools",
+    intro:
+      "Everything you need to work with PDFs — merge, split, compress, rotate, watermark, number, and sign, plus conversions to and from Word, images, and plain text. Most tools run right in your browser, so your files stay private.",
+    faqs: [
+      { q: "Are these PDF tools free?", a: "Yes. The core PDF tools are free and unlimited with no sign-up. A few advanced conversions (like Word↔PDF) are Pro features." },
+      { q: "Are my PDFs uploaded to a server?", a: "Most PDF tools run entirely in your browser, so your files never leave your device. The advanced Office conversions are processed securely on our server and deleted right after." },
+      { q: "Is there a file size limit?", a: "Browser-based tools are limited mainly by your device's memory; server conversions accept files up to 15 MB." },
+    ],
+  },
+  {
+    slug: "converters",
+    name: "Converters",
+    seoTitle: "Online Converters",
+    seoDescription:
+      "Free online converters — convert images (JPG, PNG, WebP, HEIC), extract text with OCR, Markdown ↔ HTML, Base64, JSON/YAML/CSV, units, timezones, and number bases. Browser-based and private.",
+    keywords: ["online converter", "image converter", "heic to jpg", "markdown to html", "base64 converter", "unit converter", "image to text"],
+    h1: "Free online converters",
+    intro:
+      "Convert between formats without installing anything — images, documents, data, units, and more. Everything runs in your browser unless noted, so your files stay on your device.",
+    faqs: [
+      { q: "Do these converters upload my files?", a: "No — image, text, and data converters run locally in your browser. Your files are never uploaded." },
+      { q: "What image formats are supported?", a: "JPG, PNG, WebP, and HEIC, plus resizing, compression, and OCR (image to text)." },
+    ],
+  },
+  {
+    slug: "developer",
+    name: "Developer",
+    seoTitle: "Developer Tools",
+    seoDescription:
+      "Free online developer tools — JSON, SQL, and XML formatters, JWT decoder, regex tester, cron explainer, chmod and CIDR calculators, hashing, and validators. Fast, private, browser-based.",
+    keywords: ["developer tools", "online dev tools", "json formatter", "jwt decoder", "regex tester", "cron expression", "hash generator"],
+    h1: "Free developer tools",
+    intro:
+      "A fast, private toolkit for everyday development — format and validate code and data, decode tokens, test regular expressions, explain cron schedules, and more. No sign-up, nothing uploaded.",
+    faqs: [
+      { q: "Do these tools send my data anywhere?", a: "No. Every developer tool runs entirely in your browser — your code, tokens, and data never leave your device." },
+      { q: "Is the JWT decoder safe to use?", a: "Yes — decoding happens locally in your browser, so your tokens are never transmitted or stored." },
+    ],
+  },
+  {
+    slug: "image",
+    name: "Converters",
+    seoTitle: "Image Tools",
+    seoDescription:
+      "Free online image tools — convert JPG, PNG, WebP, and HEIC, resize and compress images, bulk-convert, extract text with OCR, and turn images into PDFs. Private and browser-based.",
+    keywords: ["image tools", "image converter", "compress image", "resize image", "heic to jpg", "image to text", "images to pdf"],
+    h1: "Free image tools",
+    intro:
+      "Convert, resize, compress, and read text from images — all in your browser, so your photos never get uploaded. Handle one image or batches of them in seconds.",
+    faqs: [
+      { q: "Are my images uploaded?", a: "No — image tools process everything locally in your browser. Your images never leave your device." },
+      { q: "Can I convert HEIC photos from my iPhone?", a: "Yes — convert HEIC to JPG or PNG instantly, right in the browser." },
+    ],
+    toolSlugs: [
+      "image-converter",
+      "image-resizer",
+      "compress-image",
+      "bulk-image-converter",
+      "heic-to-jpg",
+      "heic-to-png",
+      "image-to-text",
+      "images-to-pdf",
+      "pdf-to-images",
+      "image-to-base64",
+      "favicon-generator",
+    ],
+  },
+  {
+    slug: "calculators",
+    name: "Calculators",
+    seoTitle: "Online Calculators",
+    seoDescription:
+      "Free online calculators — percentage, tip, discount, GST/VAT, loan, BMI, BMR, GPA, aspect ratio, age, and date difference. Instant, accurate, no sign-up.",
+    keywords: ["online calculator", "percentage calculator", "loan calculator", "bmi calculator", "age calculator", "discount calculator"],
+    h1: "Free online calculators",
+    intro:
+      "Quick, accurate calculators for money, health, dates, and everyday math. Each one works instantly in your browser — no sign-up required.",
+    faqs: [
+      { q: "Are these calculators free?", a: "Yes — every calculator is completely free to use, with no account and no limits." },
+      { q: "Do they work on mobile?", a: "Yes — all calculators are responsive and work on phones, tablets, and desktops." },
+    ],
+  },
+  {
+    slug: "text",
+    name: "Text",
+    seoTitle: "Text Tools",
+    seoDescription:
+      "Free online text tools — word counter, case converter, find & replace, remove line breaks, strip HTML, word frequency, text diff, slugify, and lorem ipsum. Fast and private.",
+    keywords: ["text tools", "word counter", "case converter", "text diff", "remove line breaks", "strip html"],
+    h1: "Free text tools",
+    intro:
+      "Clean up, transform, and analyze text without leaving your browser — count words, change case, find and replace, compare versions, and more. Nothing is uploaded.",
+    faqs: [
+      { q: "Is my text sent to a server?", a: "No — every text tool runs locally in your browser, so your content stays private." },
+      { q: "Is there a length limit?", a: "You can paste large amounts of text; the practical limit is your device's memory." },
+    ],
+  },
+  {
+    slug: "generators",
+    name: "Generators",
+    seoTitle: "Online Generators",
+    seoDescription:
+      "Free online generators — QR codes, Wi-Fi QR, bulk QR, CSS gradients, box-shadows, color shades, strong passwords, random strings and numbers, UUIDs, and hashes.",
+    keywords: ["qr code generator", "password generator", "uuid generator", "css gradient generator", "hash generator", "wifi qr code"],
+    h1: "Free online generators",
+    intro:
+      "Generate the codes, styles, and values you need in seconds — QR codes, CSS effects, secure passwords, UUIDs, and more. Everything runs privately in your browser.",
+    faqs: [
+      { q: "Are generated passwords safe?", a: "Yes — passwords and random values are generated locally in your browser and never transmitted or stored." },
+      { q: "Can I create QR codes for free?", a: "Yes — static QR codes are free. Dynamic QR codes with scan analytics and branding are Pro features." },
+    ],
+  },
+  {
+    slug: "web-seo",
+    name: "Web & SEO",
+    seoTitle: "Web & SEO Tools",
+    seoDescription:
+      "Free web & SEO tools — UTM campaign link builder, meta tag generator with live preview, and favicon generator. Ship and market your site faster.",
+    keywords: ["seo tools", "utm builder", "meta tag generator", "favicon generator", "open graph tags"],
+    h1: "Free web & SEO tools",
+    intro:
+      "Handy utilities for shipping and marketing a website — build trackable campaign links, generate SEO and Open Graph meta tags, and create favicons. All free and browser-based.",
+    faqs: [
+      { q: "Are these tools free?", a: "Yes — every web & SEO tool here is free to use with no sign-up." },
+      { q: "Do the meta tags work for social sharing?", a: "Yes — the meta tag generator produces title, description, and Open Graph tags for search engines and social previews." },
+    ],
+  },
+];
+
+export function getCategoryPage(slug: string) {
+  return categoryPages.find((c) => c.slug === slug);
+}
+
+/** URL slug of the canonical category-landing page for a category name. */
+export function categorySlugForName(name: string): string | undefined {
+  return categoryPages.find((c) => c.name === name)?.slug;
+}
+
+/** The tool slugs shown on a category page (curated override or the category default). */
+export function categoryPageToolSlugs(cat: CategoryPage): string[] {
+  if (cat.toolSlugs) return cat.toolSlugs;
+  return toolCategories.find((c) => c.name === cat.name)?.slugs ?? [];
+}
+
+/** URL for the category-landing page a tool belongs to (falls back to the hub). */
+export function categoryPathForTool(slug: string): string {
+  const cat = getToolCategory(slug);
+  const page = cat && categoryPages.find((c) => c.name === cat.name);
+  return page ? `/tools/${page.slug}` : "/tools";
+}
+
+/** Full page metadata for a category landing page. */
+export function categoryMetadata(slug: string): Metadata {
+  const cat = getCategoryPage(slug);
+  if (!cat) return {};
+  const path = `/tools/${slug}`;
+  const ogTitle = `${cat.seoTitle} · ${SITE_NAME}`;
+  return {
+    title: cat.seoTitle,
+    description: cat.seoDescription,
+    keywords: cat.keywords,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      url: `${SITE_URL}${path}`,
+      siteName: SITE_NAME,
+      title: ogTitle,
+      description: cat.seoDescription,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: cat.seoDescription,
+    },
+  };
+}

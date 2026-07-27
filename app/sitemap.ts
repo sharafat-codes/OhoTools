@@ -1,11 +1,18 @@
 import type { MetadataRoute } from "next";
 
-import { devTools } from "@/modules/tools/registry";
+import { devTools, categoryPages } from "@/modules/tools/registry";
 import { posts } from "@/modules/blog";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
+
+  const categoryHubs: MetadataRoute.Sitemap = categoryPages.map((c) => ({
+    url: `${siteUrl}/tools/${c.slug}`,
+    lastModified,
+    changeFrequency: "weekly",
+    priority: 0.75,
+  }));
 
   const toolPages: MetadataRoute.Sitemap = devTools.map((t) => ({
     url: `${siteUrl}/tools/${t.slug}`,
@@ -25,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/`, lastModified, changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/tools`, lastModified, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    ...categoryHubs,
     ...toolPages,
     { url: `${siteUrl}/blog`, lastModified, changeFrequency: "weekly", priority: 0.7 },
     ...blogPages,

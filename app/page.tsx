@@ -24,7 +24,7 @@ import {
   devTools,
   getTool,
   toolCategories,
-  categoryAnchor,
+  categorySlugForName,
 } from "@/modules/tools/registry";
 import { SITE_URL as siteUrl } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -262,10 +262,11 @@ export default async function Home() {
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {toolCategories.map((cat) => {
                 const CIcon = CATEGORY_ICONS[cat.name] ?? SparklesIcon;
+                const catSlug = categorySlugForName(cat.name);
                 return (
                   <Link
                     key={cat.name}
-                    href={`/tools#${categoryAnchor(cat.name)}`}
+                    href={catSlug ? `/tools/${catSlug}` : "/tools"}
                     className="group flex flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-foreground/20"
                   >
                     <div className="flex items-center gap-3">

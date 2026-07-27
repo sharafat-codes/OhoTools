@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
-import { getTool, getToolCategory, categoryAnchor, type DevTool } from "@/modules/tools/registry";
+import { getTool, getToolCategory, categoryPathForTool, type DevTool } from "@/modules/tools/registry";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
@@ -20,11 +20,12 @@ export function ToolShell({
     .filter((t): t is DevTool => Boolean(t));
 
   const category = getToolCategory(tool.slug);
+  const categoryPath = categoryPathForTool(tool.slug);
   const crumbs = [
     { name: "Home", item: `${siteUrl}/` },
     { name: "Tools", item: `${siteUrl}/tools` },
     ...(category
-      ? [{ name: category.name, item: `${siteUrl}/tools#${categoryAnchor(category.name)}` }]
+      ? [{ name: category.name, item: `${siteUrl}${categoryPath}` }]
       : []),
     { name: tool.name, item: `${siteUrl}/tools/${tool.slug}` },
   ];
@@ -76,7 +77,7 @@ export function ToolShell({
         {category && (
           <>
             <span aria-hidden>/</span>
-            <Link href={`/tools#${categoryAnchor(category.name)}`} className="hover:text-foreground">
+            <Link href={categoryPath} className="hover:text-foreground">
               {category.name}
             </Link>
           </>
