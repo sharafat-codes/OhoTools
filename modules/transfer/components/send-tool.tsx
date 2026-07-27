@@ -5,13 +5,18 @@ import { createClient } from "@supabase/supabase-js";
 import QRCode from "qrcode";
 import { UploadIcon, Loader2Icon, LockIcon, RotateCcwIcon } from "lucide-react";
 
+import Link from "next/link";
+
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/copy-button";
+import { useSession } from "@/lib/auth-client";
+import { isPro } from "@/lib/plans";
 import {
   TRANSFER_BUCKET,
   FREE_MAX_BYTES,
   EXPIRY_OPTIONS,
+  EXPIRY_OPTIONS_PRO,
 } from "@/lib/transfer-shared";
 import {
   generateKey,
@@ -46,6 +51,10 @@ export function SendTool() {
   const [qr, setQr] = React.useState<string | null>(null);
   const [expiresAt, setExpiresAt] = React.useState<string | null>(null);
   const [wasProtected, setWasProtected] = React.useState(false);
+
+  const { data } = useSession();
+  const pro = isPro((data?.user as { plan?: string } | undefined)?.plan ?? "FREE");
+  const expiryOptions = pro ? [...EXPIRY_OPTIONS, ...EXPIRY_OPTIONS_PRO] : EXPIRY_OPTIONS;
 
   function pick(f: File | undefined) {
     setError(null);
@@ -204,18 +213,25 @@ export function SendTool() {
       </label>
 
       <div className="flex justify-between">
-        <div className="flex flex-wrap items-center gap-3">
-          <Label htmlFor="expiry" className="text-sm">Auto-delete after</Label>
-          <select
-            id="expiry"
-            value={hours}
-            onChange={(e) => setHours(Number(e.target.value))}
-            className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
-          >
-            {EXPIRY_OPTIONS.map((o) => (
-              <option key={o.hours} value={o.hours}>{o.label}</option>
-            ))}
-          </select>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex flex-wrap items-center gap-3">
+            <Label htmlFor="expiry" className="text-sm">Auto-delete after</Label>
+            <select
+              id="expiry"
+              value={hours}
+              onChange={(e) => setHours(Number(e.target.value))}
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
+            >
+              {expiryOptions.map((o) => (
+                <option key={o.hours} value={o.hours}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+          {!pro && (
+            <span className="text-xs text-muted-foreground">
+              <Link href="/pricing" className="text-primary hover:underline">Go Pro</Link> for links that last up to 7 days.
+            </span>
+          )}
         </div>
 
         <div className="flex flex-col gap-1.5">

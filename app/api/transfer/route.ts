@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/dal";
 import { isTransferConfigured, createUploadUrl, removeObjects } from "@/lib/transfer-storage";
-import { FREE_MAX_BYTES, MAX_EXPIRY_HOURS } from "@/lib/transfer-shared";
+import { FREE_MAX_BYTES, maxExpiryHours } from "@/lib/transfer-shared";
+import { isPro } from "@/lib/plans";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,7 +50,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid metadata." }, { status: 400 });
   }
 
-  const hours = Math.min(MAX_EXPIRY_HOURS, Math.max(1, Math.floor(Number(body.expiresHours) || MAX_EXPIRY_HOURS)));
+  const user = await getCurrentUser().catch(() => null);
+  const cap = maxExpiryHours(isPro((user as { plan?: string } | null)?.plan ?? "FREE"));
+  const hours = Math.min(cap, Math.max(1, Math.floor(Number(body.expiresHours) || 24)));
   const expiresAt = new Date(Date.now() + hours * 3600 * 1000);
 
   // Optional password gate (client sends SHA-256(verifier) + salt; never the password).
@@ -64,7 +67,6 @@ export async function POST(req: Request) {
     passwordSalt = pw.salt;
   }
 
-  const user = await getCurrentUser().catch(() => null);
   const storagePath = crypto.randomUUID();
 
   const row = await prisma.transfer.create({
