@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, SendIcon } from "lucide-react";
 
 import { getTool, toolCategories, devTools, categoryAnchor, categorySlugForName } from "@/modules/tools/registry";
 import { Button } from "@/components/ui/button";
@@ -97,7 +97,25 @@ export default function ToolsHub() {
         })}
       </div>
 
-      <div className="mt-12 flex flex-col items-center gap-3 rounded-2xl border border-border bg-muted/30 px-6 py-10 text-center">
+      <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start gap-3">
+          <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+            <SendIcon className="size-5" />
+          </span>
+          <div>
+            <h2 className="font-heading text-lg font-semibold">Send a file, securely</h2>
+            <p className="mt-1 max-w-md text-sm text-muted-foreground">
+              Share any file with a private, encrypted link — free, no sign-up, with an optional password.
+            </p>
+          </div>
+        </div>
+        <Button variant="outline" className="shrink-0" render={<Link href="/send" />}>
+          Send a file
+          <ArrowRightIcon />
+        </Button>
+      </div>
+
+      <div className="mt-6 flex flex-col items-center gap-3 rounded-2xl border border-border bg-muted/30 px-6 py-10 text-center">
         <h2 className="font-heading text-xl font-semibold">Need QR codes &amp; barcodes too?</h2>
         <p className="max-w-md text-sm text-muted-foreground">
           Create branded QR codes, track scans, and save everything to the cloud

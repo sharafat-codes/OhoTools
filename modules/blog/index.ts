@@ -21,6 +21,8 @@ import * as excelToPdfGuide from "./posts/how-to-convert-excel-to-pdf";
 import * as powerpointToPdfGuide from "./posts/how-to-convert-powerpoint-to-pdf";
 import * as compressImageGuide from "./posts/how-to-compress-an-image";
 import * as imageToWebpGuide from "./posts/how-to-convert-image-to-webp";
+import * as sendLargeFilesGuide from "./posts/how-to-send-large-files-for-free";
+import * as passwordProtectGuide from "./posts/how-to-password-protect-a-file";
 
 export type PostMeta = {
   slug: string;
@@ -60,6 +62,8 @@ const modules: BlogPost[] = [
   powerpointToPdfGuide,
   compressImageGuide,
   imageToWebpGuide,
+  sendLargeFilesGuide,
+  passwordProtectGuide,
 ];
 
 /** All posts, newest first. */

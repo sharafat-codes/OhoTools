@@ -14,6 +14,7 @@ import {
   CodeIcon,
   GlobeIcon,
   QrCodeIcon,
+  SendIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -361,6 +362,32 @@ export default async function Home() {
                 title="Always growing"
                 body="New tools and features ship regularly — this is just the start."
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Send a file */}
+        <section className="py-16 sm:py-20">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <div className="flex flex-col items-start gap-5 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-4">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-foreground">
+                  <SendIcon className="size-5" />
+                </span>
+                <div>
+                  <h2 className="font-heading text-xl font-semibold tracking-tight">
+                    Need to send a file?
+                  </h2>
+                  <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+                    Share any file with a private, end-to-end encrypted link — free and no
+                    sign-up. Add a password, and it auto-deletes within 24 hours.
+                  </p>
+                </div>
+              </div>
+              <Button className="shrink-0" render={<Link href="/send" />}>
+                Send a file
+                <ArrowRightIcon />
+              </Button>
             </div>
           </div>
         </section>

@@ -8,9 +8,9 @@ import { FREE_MAX_BYTES } from "@/lib/transfer-shared";
 
 const MAX_MB = Math.round(FREE_MAX_BYTES / 1024 / 1024);
 
-const title = "Send a File — Free Encrypted File Sharing";
+const title = "Send a File — Free, Encrypted File Sharing (No Sign-Up)";
 const description =
-  "Share files with a link — no sign-up. Files are encrypted in your browser before upload and auto-delete within 24 hours. A private, secure way to send a file to any device.";
+  "Send and share files online for free with a secure link — no sign-up. Files are end-to-end encrypted in your browser, can be password-protected, and auto-delete within 24 hours. Transfer files between your phone and computer in seconds.";
 
 export const metadata: Metadata = {
   title,
@@ -19,8 +19,12 @@ export const metadata: Metadata = {
     "send a file",
     "share files online",
     "send large files free",
+    "free file transfer",
     "encrypted file sharing",
+    "password protect a file",
+    "send files without sign up",
     "transfer files between devices",
+    "send file from phone to computer",
     "share file by link",
   ],
   alternates: { canonical: "/send" },
@@ -37,24 +41,36 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    q: "Is it really private?",
-    a: "Yes. Your file is encrypted in your browser with a key that lives only in the share link. We store just the encrypted blob — we can't read your file, and neither can anyone without the link.",
+    q: "How do I send a file for free?",
+    a: `Choose a file (up to ${MAX_MB} MB), optionally set a password and expiry, and click Create secure link. You get a link and a QR code to share — no account or payment needed.`,
+  },
+  {
+    q: "Is it really private and secure?",
+    a: "Yes. Your file is end-to-end encrypted in your browser with a key that lives only in the share link. We store only the encrypted blob — we can't read your file, and neither can anyone without the link.",
+  },
+  {
+    q: "Can I password-protect a file I send?",
+    a: "Yes. Add an optional password when sending, and the recipient must enter it to download. The password never reaches our servers — only you and the recipient know it.",
   },
   {
     q: "Do I need an account?",
     a: "No. You can send a file and get a share link without signing up.",
   },
   {
+    q: "Can I send a file from my phone to my computer (or vice versa)?",
+    a: "Yes — that's a perfect use. Create the link on one device, then open it (or scan the QR code) on the other to download. No cable or USB drive needed.",
+  },
+  {
     q: "How long do files last?",
-    a: "You choose an expiry up to 24 hours. After that the file is automatically and permanently deleted.",
+    a: "You choose an expiry up to 24 hours. After that the file is automatically and permanently deleted from our servers.",
   },
   {
     q: "How big can the file be?",
     a: `Up to ${MAX_MB} MB per file right now. That covers photos, documents, audio, and most everyday transfers.`,
   },
   {
-    q: "How does the person download it?",
-    a: "Send them the link (or let them scan the QR code). It opens a page that decrypts the file in their browser and downloads it.",
+    q: "How does the recipient download it?",
+    a: "Send them the link (or let them scan the QR code). It opens a page that decrypts the file in their browser and downloads it — no app or account required.",
   },
 ];
 
