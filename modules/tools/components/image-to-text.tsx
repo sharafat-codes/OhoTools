@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 const MAX_BYTES = 15 * 1024 * 1024; // 15 MB
 
@@ -132,6 +133,8 @@ export function ImageToText() {
         <span className="text-xs text-muted-foreground">JPG, PNG, or a photo/scan of a document — up to 15 MB.</span>
         <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 
       <p className="text-xs text-muted-foreground">
         Best on clear screenshots, documents, and photos of real text. Stylized graphics, logos, and decorative fonts can&apos;t be read reliably.

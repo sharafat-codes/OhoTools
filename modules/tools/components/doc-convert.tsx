@@ -7,6 +7,7 @@ import { UploadIcon, DownloadIcon, Loader2Icon, SparklesIcon, CheckCircle2Icon }
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/auth-client";
 import { isPro } from "@/lib/plans";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 export function DocConvert({
   op,
@@ -98,6 +99,16 @@ export function DocConvert({
           }}
         />
       </label>
+
+      <CloudImport
+        accept={accept}
+        onFile={(f) => {
+          setFile(f);
+          setError(null);
+          setDone(false);
+        }}
+        onError={setError}
+      />
 
       {file && <p className="text-sm text-muted-foreground">Selected: {file.name}</p>}
       {error && <p className="text-sm text-destructive">{error}</p>}
