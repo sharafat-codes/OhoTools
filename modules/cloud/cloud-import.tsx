@@ -2,14 +2,15 @@
 
 import * as React from "react";
 import Script from "next/script";
-import { CloudIcon, Loader2Icon } from "lucide-react";
+import { CloudIcon, HardDriveIcon, Loader2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { isGoogleDriveConfigured, importFromGoogleDrive } from "./google-drive";
 
 const APP_KEY = process.env.NEXT_PUBLIC_DROPBOX_APP_KEY;
 
 export function isCloudImportConfigured(): boolean {
-  return Boolean(APP_KEY);
+  return Boolean(APP_KEY) || isGoogleDriveConfigured();
 }
 
 type DropboxFile = { name: string; link: string; bytes: number };
@@ -28,7 +29,7 @@ declare global {
   }
 }
 
-// Pull the chosen file into the browser as a File. Dropbox "direct" links are
+// Pull a chosen file into the browser as a File. Dropbox "direct" links are
 // usually CORS-friendly; if a direct fetch is blocked we fall back to our
 // same-origin proxy.
 async function fetchAsFile(link: string, name: string): Promise<File> {
@@ -51,9 +52,9 @@ function toFileList(files: File[]): FileList {
 }
 
 /**
- * "Import from Dropbox" button. Renders nothing until a Dropbox app key is set.
- * Pass `onFile` for single-file tools, or `multiple` + `onFileList` for tools
- * that take a FileList (their existing `addFiles` handler works directly).
+ * "Import from Dropbox / Google Drive" buttons. Renders only for the providers
+ * that are configured. Pass `onFile` for single-file tools, or `multiple` +
+ * `onFileList` for tools whose `addFiles` handler takes a FileList.
  */
 export function CloudImport({
   onFile,
@@ -71,17 +72,25 @@ export function CloudImport({
   accept?: string;
   disabled?: boolean;
 }) {
-  const [ready, setReady] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [dbxReady, setDbxReady] = React.useState(false);
+  const [busy, setBusy] = React.useState(false);
 
-  if (!APP_KEY) return null;
+  const dropbox = Boolean(APP_KEY);
+  const google = isGoogleDriveConfigured();
+  if (!dropbox && !google) return null;
 
   const extensions = (accept ?? "")
     .split(",")
     .map((s) => s.trim())
     .filter((s) => s.startsWith("."));
 
-  function open() {
+  function deliver(files: File[]) {
+    if (!files.length) return;
+    if (multiple && onFileList) onFileList(toFileList(files));
+    else onFile?.(files[0]);
+  }
+
+  function openDropbox() {
     const dbx = window.Dropbox;
     if (!dbx) return;
     dbx.choose({
@@ -90,42 +99,63 @@ export function CloudImport({
       extensions: extensions.length ? extensions : undefined,
       success: async (files) => {
         if (!files.length) return;
-        setLoading(true);
+        setBusy(true);
         try {
-          if (multiple && onFileList) {
-            const fetched = await Promise.all(files.map((f) => fetchAsFile(f.link, f.name)));
-            onFileList(toFileList(fetched));
-          } else {
-            onFile?.(await fetchAsFile(files[0].link, files[0].name));
-          }
+          deliver(await Promise.all(files.map((f) => fetchAsFile(f.link, f.name))));
         } catch {
           onError?.("Couldn't import from Dropbox. Please try again or upload directly.");
         }
-        setLoading(false);
+        setBusy(false);
       },
     });
   }
 
+  async function openGoogle() {
+    setBusy(true);
+    try {
+      deliver(await importFromGoogleDrive({ accept, multiple }));
+    } catch {
+      onError?.("Couldn't import from Google Drive. Please try again or upload directly.");
+    }
+    setBusy(false);
+  }
+
   return (
-    <>
-      <Script
-        id="dropboxjs"
-        src="https://www.dropbox.com/static/api/2/dropins.js"
-        data-app-key={APP_KEY}
-        strategy="lazyOnload"
-        onReady={() => setReady(true)}
-        onLoad={() => setReady(true)}
-      />
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={open}
-        disabled={disabled || loading || !ready}
-      >
-        {loading ? <Loader2Icon className="size-4 animate-spin" /> : <CloudIcon className="size-4" />}
-        {loading ? "Importing…" : "From Dropbox"}
-      </Button>
-    </>
+    <div className="flex flex-wrap gap-2">
+      {dropbox && (
+        <>
+          <Script
+            id="dropboxjs"
+            src="https://www.dropbox.com/static/api/2/dropins.js"
+            data-app-key={APP_KEY}
+            strategy="lazyOnload"
+            onReady={() => setDbxReady(true)}
+            onLoad={() => setDbxReady(true)}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={openDropbox}
+            disabled={disabled || busy || !dbxReady}
+          >
+            {busy ? <Loader2Icon className="size-4 animate-spin" /> : <CloudIcon className="size-4" />}
+            From Dropbox
+          </Button>
+        </>
+      )}
+      {google && (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={openGoogle}
+          disabled={disabled || busy}
+        >
+          {busy ? <Loader2Icon className="size-4 animate-spin" /> : <HardDriveIcon className="size-4" />}
+          From Google Drive
+        </Button>
+      )}
+    </div>
   );
 }
