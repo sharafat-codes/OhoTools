@@ -166,26 +166,23 @@ export function SendTool() {
             />
             <CopyButton value={link} label="Copy" />
           </div>
-          <div className="flex justify-between">
-            {expiresAt && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                Auto-deletes on {new Date(expiresAt).toLocaleString()}.{" "}
-                {wasProtected
-                  ? "Password-protected — share the password with the recipient separately (not in the same message as the link)."
-                  : "The decryption key is in the link — anyone with it can open the file."}
-              </p>
-            )}
-
-            {qr && (
-              <div className="flex flex-col items-center gap-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={qr} alt="QR code for the download link" className="size-44 rounded-lg border border-border" />
-                <p className="text-xs text-muted-foreground">Scan to open on your phone</p>
-              </div>
-            )}
-          </div>
+          {expiresAt && (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Auto-deletes on {new Date(expiresAt).toLocaleString()}.{" "}
+              {wasProtected
+                ? "Password-protected — share the password with the recipient separately (not in the same message as the link)."
+                : "The decryption key is in the link — anyone with it can open the file."}
+            </p>
+          )}
         </div>
 
+        {qr && (
+          <div className="flex flex-col items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={qr} alt="QR code for the download link" className="size-44 rounded-lg border border-border" />
+            <p className="text-xs text-muted-foreground">Scan to open on your phone</p>
+          </div>
+        )}
 
         <Button variant="outline" className="w-fit" onClick={reset}>
           <RotateCcwIcon className="size-4" /> Send another file
@@ -206,31 +203,34 @@ export function SendTool() {
         <input type="file" className="hidden" onChange={(e) => pick(e.target.files?.[0])} />
       </label>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Label htmlFor="expiry" className="text-sm">Auto-delete after</Label>
-        <select
-          id="expiry"
-          value={hours}
-          onChange={(e) => setHours(Number(e.target.value))}
-          className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
-        >
-          {EXPIRY_OPTIONS.map((o) => (
-            <option key={o.hours} value={o.hours}>{o.label}</option>
-          ))}
-        </select>
-      </div>
+      <div className="flex justify-between">
+        <div className="flex flex-wrap items-center gap-3">
+          <Label htmlFor="expiry" className="text-sm">Auto-delete after</Label>
+          <select
+            id="expiry"
+            value={hours}
+            onChange={(e) => setHours(Number(e.target.value))}
+            className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          >
+            {EXPIRY_OPTIONS.map((o) => (
+              <option key={o.hours} value={o.hours}>{o.label}</option>
+            ))}
+          </select>
+        </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="pw" className="text-sm">Password <span className="text-muted-foreground">(optional)</span></Label>
-        <input
-          id="pw"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Require a password to download"
-          autoComplete="new-password"
-          className="w-full max-w-xs rounded-lg border border-border bg-background px-3 py-2 text-sm"
-        />
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="pw" className="text-sm">Password <span className="text-muted-foreground">(optional)</span></Label>
+          <input
+            id="pw"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Require a password to download"
+            autoComplete="new-password"
+            className="w-full max-w-xs rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          />
+        </div>
+
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
