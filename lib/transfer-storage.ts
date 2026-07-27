@@ -44,5 +44,6 @@ export async function removeObjects(paths: string[]): Promise<void> {
     await admin().storage.from(TRANSFER_BUCKET).remove(paths);
   } catch {
     /* best effort */
+    console.log("something went wrong!")
   }
 }
