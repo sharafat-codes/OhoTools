@@ -1,60 +1,108 @@
 import Link from "next/link";
-import QRCode from "qrcode";
 import {
   ArrowRightIcon,
-  BarChart3Icon,
   CheckIcon,
   LayersIcon,
-  PaletteIcon,
-  ScanBarcodeIcon,
-  SparklesIcon,
   TerminalIcon,
   ZapIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+  FileTextIcon,
+  ArrowLeftRightIcon,
+  CalculatorIcon,
+  TypeIcon,
+  CodeIcon,
+  GlobeIcon,
+  QrCodeIcon,
   type LucideIcon,
 } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { qrToSvgString } from "@/modules/qr/render";
 import { PLANS } from "@/lib/plans";
+import {
+  devTools,
+  getTool,
+  toolCategories,
+  categoryAnchor,
+} from "@/modules/tools/registry";
+import { SITE_URL as siteUrl } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
+// Icon per category for the showcase (keyed by registry category name).
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  Developer: CodeIcon,
+  "Web & SEO": GlobeIcon,
+  Converters: ArrowLeftRightIcon,
+  PDF: FileTextIcon,
+  Calculators: CalculatorIcon,
+  Text: TypeIcon,
+  Generators: SparklesIcon,
+};
+
+// High-intent tools surfaced on the homepage — deep links that also spread
+// internal-link equity to the pages we most want to rank.
+const HERO_TILES = [
+  "word-to-pdf",
+  "image-to-text",
+  "merge-pdf",
+  "json-formatter",
+  "qr-code",
+  "compress-image",
+  "pdf-to-word",
+  "case-converter",
+  "unit-converter",
+];
+
+const POPULAR = [
+  "word-to-pdf",
+  "pdf-to-word",
+  "merge-pdf",
+  "compress-pdf",
+  "image-to-text",
+  "image-converter",
+  "compress-image",
+  "images-to-pdf",
+  "json-formatter",
+  "qr-code",
+  "password-generator",
+  "unit-converter",
+];
 
 const faqs = [
   {
-    q: "What's a dynamic QR code?",
-    a: "A dynamic QR encodes a short link you own. You can change where it points at any time — even after it's printed — and every scan is tracked with analytics.",
+    q: "Are OhoTool's tools really free?",
+    a: "Yes. All 80+ core tools are free and unlimited — no ads, no sign-up. A Pro plan adds advanced extras like dynamic QR codes, scan analytics, custom branding, and Office↔PDF conversions.",
   },
   {
-    q: "Do the codes ever expire?",
-    a: "Static QR codes never expire. Dynamic codes stay live as long as your account is active, and you can set an optional expiry date per code.",
+    q: "Do I need an account to use the tools?",
+    a: "No. Every tool works instantly in your browser without an account. You only sign in if you want to save your work or use Pro features.",
   },
   {
-    q: "Can I add my logo and brand colors?",
-    a: "Yes. On Pro you can drop a logo in the center, choose rounded or dot module shapes, apply color gradients, and export as PNG, SVG, or PDF.",
+    q: "Is my data uploaded to a server?",
+    a: "For most tools, no — they run entirely in your browser, so your files never leave your device. A few advanced conversions are processed securely on our server and deleted immediately afterward.",
   },
   {
-    q: "Is there an API?",
-    a: "Pro includes API keys and a REST endpoint so you can generate QR codes programmatically from your own apps and scripts.",
+    q: "What file conversions do you support?",
+    a: "Word, PowerPoint, and Excel to PDF; PDF to Word; images to and from PDF; HEIC to JPG/PNG; image format conversion and compression; image-to-text (OCR); and Markdown/HTML/code conversions — among many others.",
+  },
+  {
+    q: "What do I get with Pro?",
+    a: "Dynamic QR codes you can edit anytime, scan analytics, custom branding with SVG/PDF export, bulk generation, advanced Office↔PDF conversions, and an API.",
   },
   {
     q: "Can I cancel anytime?",
-    a: "Absolutely. Manage or cancel your subscription in one click from the billing portal — no emails, no hassle.",
+    a: "Absolutely — manage or cancel your subscription in one click from the billing portal. No emails, no hassle.",
   },
 ];
 
 export default async function Home() {
   const user = await getCurrentUser();
 
-  const heroQr = await QRCode.toString(siteUrl, {
-    type: "svg",
-    margin: 1,
-    color: { dark: "#0a0a0a", light: "#ffffff" },
-  });
   const brandedQr = qrToSvgString({
     data: siteUrl,
     fgColor: "#6d28d9",
@@ -70,19 +118,20 @@ export default async function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      { "@type": "Organization", name: "OhoTool", url: siteUrl },
       {
-        "@type": "Organization",
+        "@type": "WebSite",
         name: "OhoTool",
         url: siteUrl,
       },
       {
         "@type": "SoftwareApplication",
         name: "OhoTool",
-        applicationCategory: "BusinessApplication",
+        applicationCategory: "UtilitiesApplication",
         operatingSystem: "Web",
         url: siteUrl,
         description:
-          "Generate dynamic QR codes and barcodes, track scans with analytics, add branding, export SVG/PDF, and automate with an API.",
+          "80+ free online tools that run in your browser — PDF and document converters, image tools, text utilities, calculators, developer tools, and QR codes.",
         offers: PLANS.map((p) => ({
           "@type": "Offer",
           name: p.name,
@@ -120,68 +169,210 @@ export default async function Home() {
             <div className="flex flex-col items-start">
               <Badge variant="secondary" className="mb-5">
                 <SparklesIcon className="size-3.5" />
-                Now with dynamic QR + scan analytics
+                {devTools.length} tools · more added every week
               </Badge>
               <h1 className="font-heading text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
-                QR codes that work as hard as you do.
+                Every online tool you need, in one place.
               </h1>
               <p className="mt-6 max-w-lg text-pretty text-lg text-muted-foreground">
-                Create branded QR codes and barcodes, change where they point
-                anytime, and track every scan. Plus bulk generation and an API —
-                all from one modern dashboard.
+                Convert PDFs and documents, edit and compress images, wrangle
+                text and code, crunch numbers, and generate QR codes.{" "}
+                {devTools.length} fast, private tools — no sign-up, nothing
+                uploaded.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button size="lg" render={<Link href={user ? "/dashboard" : "/signup"} />}>
-                  {user ? "Go to dashboard" : "Start for free"}
+                <Button size="lg" render={<Link href="/tools" />}>
+                  Explore all tools
                   <ArrowRightIcon />
                 </Button>
-                <Button size="lg" variant="outline" render={<Link href="#features" />}>
-                  See features
+                <Button
+                  size="lg"
+                  variant="outline"
+                  render={<Link href={user ? "/dashboard" : "/signup"} />}
+                >
+                  {user ? "Go to dashboard" : "Create free account"}
                 </Button>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
-                Free forever plan · No credit card required
+                Free forever · No credit card · Runs in your browser
               </p>
             </div>
 
-            {/* Real, scannable QR */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <div
-                  className="mx-auto w-full max-w-52 overflow-hidden rounded-xl [&>svg]:block [&>svg]:h-auto [&>svg]:w-full"
-                  dangerouslySetInnerHTML={{ __html: heroQr }}
-                />
-                <p className="mt-4 text-center text-sm font-medium">Scan me →</p>
-                <p className="text-center text-xs text-muted-foreground">
-                  This is a live OhoTool QR code.
-                </p>
-                <div className="absolute -right-3 -top-3 flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium shadow-sm">
-                  <BarChart3Icon className="size-3.5 text-primary" />
-                  1,204 scans
+            {/* Tools wall — a taste of the breadth, each tile a real tool */}
+            <div className="lg:justify-self-end">
+              <div className="w-full max-w-md rounded-2xl border border-border bg-card p-4 shadow-sm">
+                <div className="grid grid-cols-3 gap-3">
+                  {HERO_TILES.map((slug) => {
+                    const t = getTool(slug);
+                    if (!t) return null;
+                    const TIcon = t.icon;
+                    return (
+                      <Link
+                        key={slug}
+                        href={`/tools/${slug}`}
+                        className="group flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-background p-3 text-center transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                      >
+                        <span className="grid size-9 place-items-center rounded-lg bg-muted text-foreground">
+                          <TIcon className="size-4.5" />
+                        </span>
+                        <span className="text-[11px] font-medium leading-tight text-muted-foreground group-hover:text-foreground">
+                          {t.name}
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
+                <Link
+                  href="/tools"
+                  className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-muted/60 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  + {devTools.length - HERO_TILES.length} more tools
+                  <ArrowRightIcon className="size-3.5" />
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* Segments strip */}
-          <div className="mx-auto w-full max-w-6xl px-4 pb-8 sm:px-6">
-            <p className="text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
-              Built for restaurants · retail · events · agencies · creators
-            </p>
+          {/* Trust strip */}
+          <div className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6">
+            <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border/60 bg-muted/20 px-6 py-5 text-center sm:grid-cols-4">
+              {[
+                { value: `${devTools.length}`, label: "Free tools" },
+                { value: `${toolCategories.length}`, label: "Categories" },
+                { value: "100%", label: "Private by default" },
+                { value: "$0", label: "To get started" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div className="font-heading text-2xl font-semibold">{s.value}</div>
+                  <div className="text-xs text-muted-foreground">{s.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Features */}
-        <section id="features" className="scroll-mt-20 border-t border-border/60 bg-muted/20 py-20 sm:py-28">
+        {/* Categories */}
+        <section className="border-t border-border/60 bg-muted/20 py-20 sm:py-24">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
             <SectionHeading
-              eyebrow="Features"
-              title="Everything you need to run QR at scale"
-              subtitle="From a one-off code to thousands, with the branding, tracking, and automation that businesses actually need."
+              eyebrow="Browse by category"
+              title="A tool for every job"
+              subtitle="Organized into clear categories so you can find what you need in seconds."
             />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {toolCategories.map((cat) => {
+                const CIcon = CATEGORY_ICONS[cat.name] ?? SparklesIcon;
+                return (
+                  <Link
+                    key={cat.name}
+                    href={`/tools#${categoryAnchor(cat.name)}`}
+                    className="group flex flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-foreground/20"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="grid size-10 place-items-center rounded-lg bg-muted text-foreground">
+                        <CIcon className="size-5" />
+                      </span>
+                      <div>
+                        <h3 className="font-heading font-medium">{cat.name}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          {cat.slugs.length} tools
+                        </p>
+                      </div>
+                      <ArrowRightIcon className="ml-auto size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+                    </div>
+                    <p className="mt-3 text-sm text-muted-foreground">{cat.blurb}</p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
 
+        {/* Popular tools */}
+        <section className="py-20 sm:py-24">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <SectionHeading
+              eyebrow="Popular tools"
+              title="What people use most"
+              subtitle="The go-to tools our visitors reach for every day."
+            />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {POPULAR.map((slug) => {
+                const t = getTool(slug);
+                if (!t) return null;
+                const TIcon = t.icon;
+                return (
+                  <Link key={slug} href={`/tools/${slug}`} className="group">
+                    <div className="flex h-full items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/20">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                        <TIcon className="size-5" />
+                      </span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5 font-heading font-medium">
+                          {t.name}
+                          {t.pro && (
+                            <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
+                              Pro
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="mt-1 text-sm text-muted-foreground">{t.tagline}</p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="mt-8 flex justify-center">
+              <Button variant="outline" render={<Link href="/tools" />}>
+                See all {devTools.length} tools
+                <ArrowRightIcon />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Why OhoTool */}
+        <section className="border-t border-border/60 bg-muted/20 py-20 sm:py-24">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <SectionHeading
+              eyebrow="Why OhoTool"
+              title="Fast, private, and genuinely free"
+            />
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <FeatureCard
+                icon={ShieldCheckIcon}
+                title="Private by default"
+                body="Most tools run entirely in your browser — your files never leave your device."
+              />
+              <FeatureCard
+                icon={ZapIcon}
+                title="Instant, no sign-up"
+                body="Open a tool and use it. No account, no install, no waiting."
+              />
+              <FeatureCard
+                icon={SparklesIcon}
+                title="Free & unlimited"
+                body="The full core toolkit is free with no ads and no usage caps."
+              />
+              <FeatureCard
+                icon={LayersIcon}
+                title="Always growing"
+                body="New tools and features ship regularly — this is just the start."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Pro */}
+        <section id="pro" className="scroll-mt-20 py-20 sm:py-24">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <SectionHeading
+              eyebrow="OhoTool Pro"
+              title="Level up when you need more"
+              subtitle="Everything free, plus dynamic QR codes with analytics, advanced document conversions, bulk tools, and an API."
+            />
             <div className="mt-12 grid gap-4 md:grid-cols-6">
-              {/* Big: dynamic + analytics */}
               <FeatureCard
                 className="md:col-span-4"
                 icon={ZapIcon}
@@ -190,12 +381,10 @@ export default async function Home() {
               >
                 <AnalyticsMock />
               </FeatureCard>
-
-              {/* Branding */}
               <FeatureCard
                 className="md:col-span-2"
-                icon={PaletteIcon}
-                title="On-brand by default"
+                icon={QrCodeIcon}
+                title="On-brand codes"
                 body="Logo, colors, gradients, and shapes. Export PNG, SVG, or PDF."
               >
                 <div
@@ -203,8 +392,12 @@ export default async function Home() {
                   dangerouslySetInnerHTML={{ __html: brandedQr }}
                 />
               </FeatureCard>
-
-              {/* API */}
+              <FeatureCard
+                className="md:col-span-3"
+                icon={FileTextIcon}
+                title="Advanced conversions"
+                body="Word, PowerPoint, and Excel to PDF, PDF to Word, and more — powered on our server."
+              />
               <FeatureCard
                 className="md:col-span-3"
                 icon={TerminalIcon}
@@ -217,36 +410,12 @@ export default async function Home() {
   --output qr.png`}</code>
                 </pre>
               </FeatureCard>
-
-              {/* Bulk */}
-              <FeatureCard
-                className="md:col-span-3"
-                icon={LayersIcon}
-                title="Bulk generation"
-                body="Upload a CSV and download hundreds of codes as a ZIP in one go."
-              />
-
-              {/* Barcode */}
-              <FeatureCard
-                className="md:col-span-3"
-                icon={ScanBarcodeIcon}
-                title="Barcodes too"
-                body="Every major format — Code 128, EAN, UPC, and more."
-              />
-
-              {/* History */}
-              <FeatureCard
-                className="md:col-span-3"
-                icon={SparklesIcon}
-                title="Saved to the cloud"
-                body="Your whole history in one place, searchable and re-downloadable."
-              />
             </div>
           </div>
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="scroll-mt-20 py-20 sm:py-28">
+        <section id="pricing" className="scroll-mt-20 border-t border-border/60 bg-muted/20 py-20 sm:py-24">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
             <SectionHeading
               eyebrow="Pricing"
@@ -293,7 +462,7 @@ export default async function Home() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="scroll-mt-20 border-t border-border/60 bg-muted/20 py-20 sm:py-28">
+        <section id="faq" className="scroll-mt-20 py-20 sm:py-24">
           <div className="mx-auto w-full max-w-3xl px-4 sm:px-6">
             <SectionHeading eyebrow="FAQ" title="Questions, answered" />
             <div className="mt-10 flex flex-col gap-3">
@@ -314,20 +483,29 @@ export default async function Home() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-20 sm:py-28">
+        <section className="border-t border-border/60 py-20 sm:py-28">
           <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
             <div className="flex flex-col items-center rounded-3xl border border-border bg-card px-6 py-14 text-center">
               <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-                Start generating in seconds
+                Pick a tool and get going
               </h2>
               <p className="mt-4 max-w-md text-muted-foreground">
-                Free to start. Upgrade anytime for branding, analytics, and API
-                access.
+                {devTools.length} free tools, ready in your browser. Upgrade
+                anytime for QR analytics, advanced conversions, and the API.
               </p>
-              <Button size="lg" className="mt-8" render={<Link href={user ? "/dashboard" : "/signup"} />}>
-                {user ? "Open dashboard" : "Create your free account"}
-                <ArrowRightIcon />
-              </Button>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button size="lg" render={<Link href="/tools" />}>
+                  Explore all tools
+                  <ArrowRightIcon />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  render={<Link href={user ? "/dashboard" : "/signup"} />}
+                >
+                  {user ? "Open dashboard" : "Create free account"}
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -337,9 +515,8 @@ export default async function Home() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <Logo size="sm" />
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
-            <a href="#features" className="hover:text-foreground">Features</a>
-            <a href="#pricing" className="hover:text-foreground">Pricing</a>
             <Link href="/tools" className="hover:text-foreground">Tools</Link>
+            <a href="#pricing" className="hover:text-foreground">Pricing</a>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>

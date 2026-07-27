@@ -26,24 +26,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "OhoTool — QR codes, barcodes & scan analytics",
+    default: "OhoTool — Free Online Tools for PDF, Images, Text & More",
     template: "%s · OhoTool",
   },
   description:
-    "Generate dynamic QR codes and barcodes, track scans with analytics, add your logo, export SVG/PDF, and automate with an API. A modern toolkit for businesses and creators.",
+    "80+ free online tools that run right in your browser — convert Word & PDF, compress and resize images, extract text with OCR, format code, calculate, and generate QR codes. No sign-up, nothing uploaded.",
   keywords: [
-    "QR code generator",
-    "dynamic QR code",
-    "QR code with logo",
-    "barcode generator",
-    "QR scan analytics",
-    "bulk QR codes",
-    "QR code API",
+    "free online tools",
+    "online tools",
+    "pdf tools",
+    "word to pdf",
+    "pdf to word",
+    "compress pdf",
+    "image to text",
+    "image converter",
+    "json formatter",
+    "qr code generator",
+    "developer tools",
   ],
   authors: [{ name: "OhoTool" }],
   creator: "OhoTool",
@@ -53,15 +57,15 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     siteName: "OhoTool",
-    title: "OhoTool — QR codes, barcodes & scan analytics",
+    title: "OhoTool — Free Online Tools for PDF, Images, Text & More",
     description:
-      "Dynamic QR codes with scan analytics, custom branding, bulk generation, and an API. The modern toolkit for businesses and creators.",
+      "80+ fast, private, browser-based tools: PDF & document converters, image tools, text utilities, calculators, developer tools, and QR codes. Free — no sign-up, nothing uploaded.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OhoTool — QR codes, barcodes & scan analytics",
+    title: "OhoTool — Free Online Tools for PDF, Images, Text & More",
     description:
-      "Dynamic QR codes with scan analytics, custom branding, bulk generation, and an API.",
+      "80+ fast, private, browser-based tools: PDF & document converters, image tools, text utilities, calculators, and developer tools. Free, no sign-up.",
   },
   robots: {
     index: true,

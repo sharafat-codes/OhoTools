@@ -86,6 +86,9 @@ import {
   GraduationCapIcon,
   type LucideIcon,
 } from "lucide-react";
+import type { Metadata } from "next";
+
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 
 export type ToolFaq = { q: string; a: string };
 
@@ -1936,6 +1939,36 @@ export const devTools: DevTool[] = [
 
 export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
+}
+
+/**
+ * Full page metadata for a tool — title, description, keywords, canonical, and
+ * per-tool Open Graph / Twitter (so social previews name the actual tool
+ * instead of inheriting the site-wide card). Used by every tool page.
+ */
+export function toolMetadata(slug: string): Metadata {
+  const tool = getTool(slug);
+  if (!tool) return {};
+  const path = `/tools/${slug}`;
+  const ogTitle = `${tool.name} · ${SITE_NAME}`;
+  return {
+    title: tool.name,
+    description: tool.description,
+    keywords: tool.keywords,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      url: `${SITE_URL}${path}`,
+      siteName: SITE_NAME,
+      title: ogTitle,
+      description: tool.description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: tool.description,
+    },
+  };
 }
 
 /** A stable anchor id for a category section on the /tools hub. */

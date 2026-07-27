@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { LogoGlyph } from "@/components/logo";
 
-export const alt = "OhoTool — QR codes, barcodes & scan analytics";
+export const alt = "OhoTool — Free online tools for PDF, images, text & more";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -40,17 +40,17 @@ export default function OpengraphImage() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-          <div style={{ fontSize: "76px", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: "900px" }}>
-            QR codes, barcodes & scan analytics
+          <div style={{ fontSize: "76px", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: "980px" }}>
+            Every online tool you need — free & private
           </div>
-          <div style={{ fontSize: "34px", color: "#a1a1a1", maxWidth: "820px" }}>
-            Dynamic QR codes you can edit anytime, custom branding, bulk
-            generation, and an API.
+          <div style={{ fontSize: "34px", color: "#a1a1a1", maxWidth: "860px" }}>
+            80+ browser-based tools for PDF, images, text, and code. No sign-up,
+            nothing uploaded.
           </div>
         </div>
 
         <div style={{ display: "flex", gap: "16px" }}>
-          {["Dynamic QR", "Scan analytics", "Branding", "Bulk & API"].map((t) => (
+          {["PDF & converters", "Image tools", "Developer", "QR + analytics"].map((t) => (
             <div
               key={t}
               style={{

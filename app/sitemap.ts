@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { devTools } from "@/modules/tools/registry";
 import { posts } from "@/modules/blog";
-
-const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

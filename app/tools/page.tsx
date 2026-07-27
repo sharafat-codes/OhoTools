@@ -8,9 +8,19 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Free Developer Tools",
+  title: "Free Online Tools",
   description:
-    "Free online developer tools — JSON formatter, Base64, JWT decoder, regex tester, password generator, color converter, and more. Fast, private, browser-based.",
+    "80+ free online tools — PDF & document converters (Word, Excel, PowerPoint), image tools, text utilities, calculators, developer tools, and QR codes. Fast, private, browser-based. No sign-up.",
+  keywords: [
+    "free online tools",
+    "online tools",
+    "pdf tools",
+    "image tools",
+    "text tools",
+    "developer tools",
+    "converters",
+    "calculators",
+  ],
   alternates: { canonical: "/tools" },
 };
 
@@ -19,11 +29,11 @@ export default function ToolsHub() {
     <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-          Free developer &amp; text tools
+          Free online tools
         </h1>
         <p className="mt-4 text-muted-foreground">
-          {devTools.length} fast, private, browser-based utilities. No sign-up,
-          nothing uploaded.
+          {devTools.length} fast, private, browser-based tools for PDF, images,
+          text, code, and more. No sign-up, nothing uploaded.
         </p>
       </div>
 

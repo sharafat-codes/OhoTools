@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {

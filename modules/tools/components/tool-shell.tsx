@@ -5,8 +5,7 @@ import { getTool, getToolCategory, categoryAnchor, type DevTool } from "@/module
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
-
-const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 export function ToolShell({
   tool,
@@ -37,8 +36,9 @@ export function ToolShell({
         "@type": "WebApplication",
         name: `${tool.name} — OhoTool`,
         description: tool.description,
-        applicationCategory: "DeveloperApplication",
+        applicationCategory: "UtilitiesApplication",
         operatingSystem: "Web",
+        browserRequirements: "Requires JavaScript. Runs in any modern browser.",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       },
       {
