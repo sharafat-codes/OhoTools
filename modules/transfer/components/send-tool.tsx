@@ -166,23 +166,26 @@ export function SendTool() {
             />
             <CopyButton value={link} label="Copy" />
           </div>
-          {expiresAt && (
-            <p className="mt-2 text-xs text-muted-foreground">
-              Auto-deletes on {new Date(expiresAt).toLocaleString()}.{" "}
-              {wasProtected
-                ? "Password-protected — share the password with the recipient separately (not in the same message as the link)."
-                : "The decryption key is in the link — anyone with it can open the file."}
-            </p>
+          <div className="flex justify-between">
+            {expiresAt && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Auto-deletes on {new Date(expiresAt).toLocaleString()}.{" "}
+                {wasProtected
+                  ? "Password-protected — share the password with the recipient separately (not in the same message as the link)."
+                  : "The decryption key is in the link — anyone with it can open the file."}
+              </p>
+            )}
+          </div>
+
+          {qr && (
+            <div className="flex flex-col items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={qr} alt="QR code for the download link" className="size-44 rounded-lg border border-border" />
+              <p className="text-xs text-muted-foreground">Scan to open on your phone</p>
+            </div>
           )}
         </div>
 
-        {qr && (
-          <div className="flex flex-col items-center gap-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={qr} alt="QR code for the download link" className="size-44 rounded-lg border border-border" />
-            <p className="text-xs text-muted-foreground">Scan to open on your phone</p>
-          </div>
-        )}
 
         <Button variant="outline" className="w-fit" onClick={reset}>
           <RotateCcwIcon className="size-4" /> Send another file
