@@ -23,6 +23,7 @@ interface DocsViewInstance {
 interface PickerBuilderInstance {
   setDeveloperKey(key: string): PickerBuilderInstance;
   setOAuthToken(token: string): PickerBuilderInstance;
+  setAppId(appId: string): PickerBuilderInstance;
   addView(view: DocsViewInstance): PickerBuilderInstance;
   setTitle(title: string): PickerBuilderInstance;
   enableFeature(feature: unknown): PickerBuilderInstance;
@@ -45,7 +46,7 @@ interface GoogleGlobal {
         client_id: string;
         scope: string;
         callback: (r: TokenResponse) => void;
-        error_callback?: () => void;
+        error_callback?: (err: { type?: string; message?: string }) => void;
       }): TokenClient;
     };
   };
@@ -84,13 +85,23 @@ function ensureReady(): Promise<void> {
   return readyPromise;
 }
 
+/** Warm up the Google scripts on mount so the sign-in popup opens cleanly on
+ * click (a popup opened after a fresh network load can be blocked). */
+export function preloadGoogleDrive(): void {
+  if (isGoogleDriveConfigured()) ensureReady().catch(() => {});
+}
+
 function getToken(): Promise<string> {
   return new Promise((resolve, reject) => {
     const client = window.google!.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID!,
       scope: SCOPE,
-      callback: (r) => (r.access_token ? resolve(r.access_token) : reject(new Error("No access token"))),
-      error_callback: () => reject(new Error("Google sign-in was cancelled")),
+      callback: (r) =>
+        r.access_token
+          ? resolve(r.access_token)
+          : reject(new Error(r.error ? `Google auth error: ${r.error}` : "No access token returned")),
+      error_callback: (err) =>
+        reject(new Error(err?.type ? `Google sign-in ${err.type}` : "Google sign-in failed")),
     });
     client.requestAccessToken();
   });
@@ -114,9 +125,14 @@ function pick(
 ): Promise<Array<{ id: string; name: string }>> {
   return new Promise((resolve) => {
     const picker = window.google!.picker;
+    // The Cloud project number is the leading segment of the OAuth client ID.
+    // Passing it as the app id is what lets the drive.file scope read files the
+    // user picks here (otherwise the download 404s).
+    const appId = (GOOGLE_CLIENT_ID ?? "").split("-")[0];
     let builder = new picker.PickerBuilder()
       .setDeveloperKey(GOOGLE_API_KEY!)
       .setOAuthToken(token)
+      .setAppId(appId)
       .addView(chooseView(accept))
       .setCallback((data) => {
         const action = data[picker.Response.ACTION];
@@ -142,7 +158,10 @@ async function download(id: string, name: string, token: string): Promise<File> 
     `https://www.googleapis.com/drive/v3/files/${id}?alt=media&supportsAllDrives=true`,
     { headers: { Authorization: `Bearer ${token}` } },
   );
-  if (!res.ok) throw new Error("download failed");
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Drive download failed (${res.status})${detail ? `: ${detail.slice(0, 150)}` : ""}`);
+  }
   const blob = await res.blob();
   return new File([blob], name, { type: blob.type || "application/octet-stream" });
 }

@@ -5,7 +5,7 @@ import Script from "next/script";
 import { CloudIcon, HardDriveIcon, Loader2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { isGoogleDriveConfigured, importFromGoogleDrive } from "./google-drive";
+import { isGoogleDriveConfigured, importFromGoogleDrive, preloadGoogleDrive } from "./google-drive";
 
 const APP_KEY = process.env.NEXT_PUBLIC_DROPBOX_APP_KEY;
 
@@ -75,6 +75,10 @@ export function CloudImport({
   const [dbxReady, setDbxReady] = React.useState(false);
   const [busy, setBusy] = React.useState(false);
 
+  React.useEffect(() => {
+    preloadGoogleDrive();
+  }, []);
+
   const dropbox = Boolean(APP_KEY);
   const google = isGoogleDriveConfigured();
   if (!dropbox && !google) return null;
@@ -114,8 +118,9 @@ export function CloudImport({
     setBusy(true);
     try {
       deliver(await importFromGoogleDrive({ accept, multiple }));
-    } catch {
-      onError?.("Couldn't import from Google Drive. Please try again or upload directly.");
+    } catch (e) {
+      console.error("Google Drive import:", e);
+      onError?.(e instanceof Error ? e.message : "Couldn't import from Google Drive.");
     }
     setBusy(false);
   }
