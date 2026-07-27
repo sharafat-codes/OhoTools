@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "prisma generate && next build",
-  "crons": [{ "path": "/api/cron/purge-transfers", "schedule": "0 * * * *" }]
+  "crons": [{ "path": "/api/cron/purge-transfers", "schedule": "0 3 * * *" }]
 }
