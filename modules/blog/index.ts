@@ -16,6 +16,11 @@ import * as imageToTextGuide from "./posts/how-to-extract-text-from-an-image";
 import * as compressPdfGuide from "./posts/how-to-compress-a-pdf";
 import * as urlToPdfGuide from "./posts/how-to-save-a-webpage-as-pdf";
 import * as heicGuide from "./posts/how-to-convert-heic-to-jpg";
+import * as wordToPdfGuide from "./posts/how-to-convert-word-to-pdf";
+import * as excelToPdfGuide from "./posts/how-to-convert-excel-to-pdf";
+import * as powerpointToPdfGuide from "./posts/how-to-convert-powerpoint-to-pdf";
+import * as compressImageGuide from "./posts/how-to-compress-an-image";
+import * as imageToWebpGuide from "./posts/how-to-convert-image-to-webp";
 
 export type PostMeta = {
   slug: string;
@@ -50,6 +55,11 @@ const modules: BlogPost[] = [
   compressPdfGuide,
   urlToPdfGuide,
   heicGuide,
+  wordToPdfGuide,
+  excelToPdfGuide,
+  powerpointToPdfGuide,
+  compressImageGuide,
+  imageToWebpGuide,
 ];
 
 /** All posts, newest first. */

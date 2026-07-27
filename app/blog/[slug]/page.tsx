@@ -5,8 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 
 import { getPost, posts } from "@/modules/blog";
 import { getTool } from "@/modules/tools/registry";
-
-const siteUrl = process.env.BETTER_AUTH_URL || "https://ohotool.com";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function formatDate(iso: string) {
