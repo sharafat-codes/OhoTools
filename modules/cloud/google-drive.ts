@@ -118,11 +118,31 @@ function chooseView(accept: string | undefined): DocsViewInstance {
   return view;
 }
 
+type PickedDoc = { id: string; name: string; mimeType: string };
+
+// Native Google Editors files have no binary; they must be exported to a real
+// format instead of downloaded.
+const GOOGLE_EXPORT: Record<string, { mimeType: string; ext: string }> = {
+  "application/vnd.google-apps.document": {
+    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ext: "docx",
+  },
+  "application/vnd.google-apps.spreadsheet": {
+    mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ext: "xlsx",
+  },
+  "application/vnd.google-apps.presentation": {
+    mimeType: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ext: "pptx",
+  },
+  "application/vnd.google-apps.drawing": { mimeType: "image/png", ext: "png" },
+};
+
 function pick(
   token: string,
   accept: string | undefined,
   multiple: boolean,
-): Promise<Array<{ id: string; name: string }>> {
+): Promise<PickedDoc[]> {
   return new Promise((resolve) => {
     const picker = window.google!.picker;
     // The Cloud project number is the leading segment of the OAuth client ID.
@@ -142,6 +162,7 @@ function pick(
             docs.map((d) => ({
               id: String(d[picker.Document.ID]),
               name: String(d[picker.Document.NAME] ?? "download"),
+              mimeType: String(d[picker.Document.MIME_TYPE] ?? ""),
             })),
           );
         } else if (action === picker.Action.CANCEL) {
@@ -153,17 +174,27 @@ function pick(
   });
 }
 
-async function download(id: string, name: string, token: string): Promise<File> {
-  const res = await fetch(
-    `https://www.googleapis.com/drive/v3/files/${id}?alt=media&supportsAllDrives=true`,
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
+async function download(doc: PickedDoc, token: string): Promise<File> {
+  let url: string;
+  let name = doc.name;
+  let fallbackType = "application/octet-stream";
+
+  if (doc.mimeType.startsWith("application/vnd.google-apps.")) {
+    const map = GOOGLE_EXPORT[doc.mimeType] ?? { mimeType: "application/pdf", ext: "pdf" };
+    url = `https://www.googleapis.com/drive/v3/files/${doc.id}/export?mimeType=${encodeURIComponent(map.mimeType)}`;
+    if (!/\.[a-z0-9]+$/i.test(name)) name = `${name}.${map.ext}`;
+    fallbackType = map.mimeType;
+  } else {
+    url = `https://www.googleapis.com/drive/v3/files/${doc.id}?alt=media&supportsAllDrives=true`;
+  }
+
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
     throw new Error(`Drive download failed (${res.status})${detail ? `: ${detail.slice(0, 150)}` : ""}`);
   }
   const blob = await res.blob();
-  return new File([blob], name, { type: blob.type || "application/octet-stream" });
+  return new File([blob], name, { type: blob.type || fallbackType });
 }
 
 /** Open the Google Picker and return the chosen file(s) as File objects. */
@@ -176,5 +207,5 @@ export async function importFromGoogleDrive(opts: {
   const token = await getToken();
   const docs = await pick(token, opts.accept, Boolean(opts.multiple));
   if (!docs.length) return [];
-  return Promise.all(docs.map((d) => download(d.id, d.name, token)));
+  return Promise.all(docs.map((d) => download(d, token)));
 }
