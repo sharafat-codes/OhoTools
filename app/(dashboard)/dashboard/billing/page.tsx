@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { syncStripeForCustomer } from "@/lib/stripe-sync";
 import { isPaddleConfigured } from "@/lib/paddle";
+import { syncPaddleForUser } from "@/lib/paddle-sync";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
 export const metadata: Metadata = { title: "Billing" };
@@ -21,10 +22,15 @@ export default async function BillingPage({
     include: { subscription: true },
   });
 
-  // Reconcile straight from Stripe on return from checkout, so the plan is
-  // correct even if the webhook was missed (common in local dev).
-  if (checkout === "success" && dbUser?.stripeCustomerId) {
-    await syncStripeForCustomer(dbUser.stripeCustomerId);
+  // Reconcile straight from the payment provider on return from checkout, so
+  // the plan is correct even if the webhook was slow or missed. Stripe keys off
+  // the stored customer id; Paddle looks the customer up by email.
+  if (checkout === "success") {
+    if (dbUser?.stripeCustomerId) {
+      await syncStripeForCustomer(dbUser.stripeCustomerId);
+    } else if (isPaddleConfigured) {
+      await syncPaddleForUser({ userId: user.id, email: user.email });
+    }
     dbUser = await prisma.user.findUnique({
       where: { id: user.id },
       include: { subscription: true },

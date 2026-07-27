@@ -31,9 +31,28 @@ export async function POST(req: NextRequest) {
     if (event.eventType.startsWith("subscription.")) {
       const data = event.data as {
         status?: string;
+        customerId?: string;
         customData?: { userId?: string } | null;
       };
-      const userId = data.customData?.userId;
+      let userId = data.customData?.userId;
+
+      // Fallback: if customData didn't carry our userId, map via the Paddle
+      // customer's email so cancellations/renewals still resolve to a user.
+      if (!userId && data.customerId) {
+        try {
+          const customer = await getPaddle().customers.get(data.customerId);
+          if (customer?.email) {
+            const u = await prisma.user.findUnique({
+              where: { email: customer.email },
+              select: { id: true },
+            });
+            userId = u?.id;
+          }
+        } catch {
+          // ignore — nothing we can do without a mappable user
+        }
+      }
+
       if (userId) {
         const canceled = event.eventType === "subscription.canceled" || data.status === "canceled";
         const active = data.status === "active" || data.status === "trialing";
