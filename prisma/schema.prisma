@@ -52,6 +52,7 @@ model User {
   barcodes     Barcode[]
   dynamicLinks DynamicLink[]
   apiKeys      ApiKey[]
+  transfers    Transfer[]
   subscription Subscription?
 
   @@map("user")
@@ -249,4 +250,34 @@ model Subscription {
   updatedAt DateTime @updatedAt
 
   @@map("subscription")
+}
+
+// ─── Send: end-to-end encrypted file transfer (share by link) ────────────────
+// Files are encrypted in the browser; the server only ever stores ciphertext
+// (in object storage) plus these metadata fields. The decryption key lives in
+// the share link's URL fragment and is never sent to the server. Rows + objects
+// are purged after expiry (max 24h) by a cron job.
+model Transfer {
+  id          String @id @default(cuid())
+  storagePath String @unique
+
+  // Encrypted metadata (filename + MIME type), base64 — needs the link key to read.
+  metaCipher String @db.Text
+  metaIv     String
+  contentIv  String
+
+  size      Int // ciphertext byte length (for UI + quota)
+  downloads Int @default(0)
+
+  expiresAt DateTime
+
+  // Optional owner (for "My Files" later); anonymous transfers have none.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+  @@index([userId, createdAt])
+  @@map("transfer")
 }
