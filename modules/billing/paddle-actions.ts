@@ -28,7 +28,13 @@ export async function createPaddlePortalSession(): Promise<ActionResult> {
     const url = session.urls?.general?.overview;
     if (!url) return { error: "Could not open the billing portal." };
     return { url };
-  } catch {
-    return { error: "Could not open the billing portal. Try again." };
+  } catch (err) {
+    const e = err as { code?: string; detail?: string; message?: string };
+    const detail = e.detail || e.message || e.code;
+    return {
+      error: detail
+        ? `Could not open the billing portal: ${detail}`
+        : "Could not open the billing portal. Try again.",
+    };
   }
 }
