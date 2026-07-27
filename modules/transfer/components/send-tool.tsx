@@ -175,15 +175,15 @@ export function SendTool() {
                   : "The decryption key is in the link — anyone with it can open the file."}
               </p>
             )}
-          </div>
 
-          {qr && (
-            <div className="flex flex-col items-center gap-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={qr} alt="QR code for the download link" className="size-44 rounded-lg border border-border" />
-              <p className="text-xs text-muted-foreground">Scan to open on your phone</p>
-            </div>
-          )}
+            {qr && (
+              <div className="flex flex-col items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={qr} alt="QR code for the download link" className="size-44 rounded-lg border border-border" />
+                <p className="text-xs text-muted-foreground">Scan to open on your phone</p>
+              </div>
+            )}
+          </div>
         </div>
 
 
