@@ -11,6 +11,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/lib/auth-client";
 import { isPro } from "@/lib/plans";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 const FREE_LIMIT = 3;
 const selectClass =
@@ -118,6 +119,8 @@ export function PdfToImages() {
         <span className="text-xs text-muted-foreground">Converted to images in your browser — nothing is uploaded.</span>
         <input type="file" accept="application/pdf" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="application/pdf" onFile={(f) => onFile(f)} onError={setError} />
 
       {!pro && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/5 p-3 text-sm">

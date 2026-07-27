@@ -11,6 +11,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/lib/auth-client";
 import { isPro } from "@/lib/plans";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 const FREE_LIMIT = 1;
 const selectClass =
@@ -137,6 +138,8 @@ export function CompressPdf() {
         <span className="text-xs text-muted-foreground">Compressed in your browser — nothing is uploaded.</span>
         <input type="file" accept="application/pdf" multiple className="hidden" onChange={(e) => addFiles(e.target.files)} />
       </label>
+
+      <CloudImport accept="application/pdf" multiple onFileList={addFiles} onError={setError} />
 
       {!pro && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/5 p-3 text-sm">

@@ -6,6 +6,7 @@ import { UploadIcon, Loader2Icon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 async function getPdfjs() {
   const pdfjs = await import("pdfjs-dist");
@@ -55,6 +56,8 @@ export function PdfToText() {
         <span className="text-xs text-muted-foreground">Text is extracted in your browser — nothing is uploaded.</span>
         <input type="file" accept="application/pdf" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="application/pdf" onFile={(f) => onFile(f)} onError={setError} />
 
       {busy && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">

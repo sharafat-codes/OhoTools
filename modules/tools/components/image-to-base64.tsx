@@ -6,6 +6,7 @@ import { UploadIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 export function ImageToBase64() {
   const [dataUri, setDataUri] = React.useState<string | null>(null);
@@ -45,6 +46,8 @@ export function ImageToBase64() {
           onChange={(e) => onFile(e.target.files?.[0])}
         />
       </label>
+
+      <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

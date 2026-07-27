@@ -6,6 +6,7 @@ import { UploadIcon, DownloadIcon, Loader2Icon, PenLineIcon } from "lucide-react
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 const selectClass =
   "h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30";
@@ -182,6 +183,8 @@ export function SignPdf() {
         <span className="text-xs text-muted-foreground">Signed in your browser — nothing is uploaded.</span>
         <input type="file" accept="application/pdf" className="hidden" onChange={(e) => onPdf(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="application/pdf" onFile={(f) => onPdf(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

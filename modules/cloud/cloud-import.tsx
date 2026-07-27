@@ -44,14 +44,28 @@ async function fetchAsFile(link: string, name: string): Promise<File> {
   }
 }
 
-/** "Import from Dropbox" button. Renders nothing until a Dropbox app key is set. */
+function toFileList(files: File[]): FileList {
+  const dt = new DataTransfer();
+  files.forEach((f) => dt.items.add(f));
+  return dt.files;
+}
+
+/**
+ * "Import from Dropbox" button. Renders nothing until a Dropbox app key is set.
+ * Pass `onFile` for single-file tools, or `multiple` + `onFileList` for tools
+ * that take a FileList (their existing `addFiles` handler works directly).
+ */
 export function CloudImport({
   onFile,
+  onFileList,
+  multiple,
   onError,
   accept,
   disabled,
 }: {
-  onFile: (file: File) => void;
+  onFile?: (file: File) => void;
+  onFileList?: (files: FileList) => void;
+  multiple?: boolean;
   onError?: (message: string) => void;
   /** Same string as the file input's `accept` (e.g. ".doc,.docx" or "image/*"). */
   accept?: string;
@@ -72,16 +86,20 @@ export function CloudImport({
     if (!dbx) return;
     dbx.choose({
       linkType: "direct",
-      multiselect: false,
+      multiselect: Boolean(multiple),
       extensions: extensions.length ? extensions : undefined,
       success: async (files) => {
-        const picked = files[0];
-        if (!picked) return;
+        if (!files.length) return;
         setLoading(true);
         try {
-          onFile(await fetchAsFile(picked.link, picked.name));
+          if (multiple && onFileList) {
+            const fetched = await Promise.all(files.map((f) => fetchAsFile(f.link, f.name)));
+            onFileList(toFileList(fetched));
+          } else {
+            onFile?.(await fetchAsFile(files[0].link, files[0].name));
+          }
         } catch {
-          onError?.("Couldn't import that file from Dropbox. Please try again or upload it directly.");
+          onError?.("Couldn't import from Dropbox. Please try again or upload directly.");
         }
         setLoading(false);
       },

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 function triggerDownload(url: string, name: string) {
   const a = document.createElement("a");
@@ -92,6 +93,8 @@ export function ImageResizer() {
         <span className="text-xs text-muted-foreground">Resize any image to exact dimensions — in your browser.</span>
         <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

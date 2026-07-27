@@ -7,6 +7,7 @@ import { DownloadIcon, UploadIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/copy-button";
 import { Card, CardContent } from "@/components/ui/card";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 const SIZES = [16, 32, 48, 64, 180, 192, 512];
 
@@ -86,6 +87,8 @@ export function FaviconGenerator() {
           onChange={(e) => handleFile(e.target.files?.[0])}
         />
       </label>
+
+      <CloudImport accept="image/*" onFile={(f) => handleFile(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

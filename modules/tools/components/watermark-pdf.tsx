@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 function downloadPdf(bytes: Uint8Array, name: string) {
   const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
@@ -83,6 +84,8 @@ export function WatermarkPdf() {
         <span className="text-xs text-muted-foreground">Watermarked in your browser — nothing is uploaded.</span>
         <input type="file" accept="application/pdf" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="application/pdf" onFile={(f) => onFile(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

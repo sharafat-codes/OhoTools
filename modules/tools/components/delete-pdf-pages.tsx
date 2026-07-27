@@ -6,6 +6,7 @@ import { UploadIcon, DownloadIcon, Loader2Icon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 function parsePages(input: string, max: number): number[] {
   const pages = new Set<number>();
@@ -89,6 +90,8 @@ export function DeletePdfPages() {
         <span className="text-xs text-muted-foreground">Edited in your browser — nothing is uploaded.</span>
         <input type="file" accept="application/pdf" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="application/pdf" onFile={(f) => onFile(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

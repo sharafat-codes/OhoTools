@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 type Fmt = "image/png" | "image/jpeg" | "image/webp";
 const EXT: Record<Fmt, string> = { "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp" };
@@ -92,6 +93,8 @@ export function ImageConverter() {
         <span className="text-xs text-muted-foreground">Convert between PNG, JPG, and WebP — in your browser.</span>
         <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
       </label>
+
+      <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

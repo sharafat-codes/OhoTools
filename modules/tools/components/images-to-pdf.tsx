@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/lib/auth-client";
 import { isPro } from "@/lib/plans";
+import { CloudImport } from "@/modules/cloud/cloud-import";
 
 const FREE_LIMIT = 3;
 const A4 = { w: 595.28, h: 841.89 };
@@ -124,6 +125,8 @@ export function ImagesToPdf() {
         <span className="text-xs text-muted-foreground">Combined into a PDF in your browser — nothing is uploaded.</span>
         <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => addFiles(e.target.files)} />
       </label>
+
+      <CloudImport accept="image/*" multiple onFileList={addFiles} onError={setError} />
 
       {!pro && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/5 p-3 text-sm">
