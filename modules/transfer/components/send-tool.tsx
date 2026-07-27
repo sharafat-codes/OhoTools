@@ -13,7 +13,14 @@ import {
   FREE_MAX_BYTES,
   EXPIRY_OPTIONS,
 } from "@/lib/transfer-shared";
-import { generateKey, exportKey, encryptFile } from "@/lib/crypto-transfer";
+import {
+  generateKey,
+  exportKey,
+  encryptFile,
+  randomSaltB64url,
+  deriveVerifier,
+  sha256B64url,
+} from "@/lib/crypto-transfer";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -31,12 +38,14 @@ function humanSize(bytes: number) {
 export function SendTool() {
   const [file, setFile] = React.useState<File | null>(null);
   const [hours, setHours] = React.useState(24);
+  const [password, setPassword] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [status, setStatus] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
   const [link, setLink] = React.useState<string | null>(null);
   const [qr, setQr] = React.useState<string | null>(null);
   const [expiresAt, setExpiresAt] = React.useState<string | null>(null);
+  const [wasProtected, setWasProtected] = React.useState(false);
 
   function pick(f: File | undefined) {
     setError(null);
@@ -59,6 +68,14 @@ export function SendTool() {
       const enc = await encryptFile(file, key);
 
       setStatus("Preparing…");
+      let passwordPayload: { hash: string; salt: string } | undefined;
+      const pw = password.trim();
+      if (pw) {
+        const salt = randomSaltB64url();
+        const verifier = await deriveVerifier(pw, salt);
+        passwordPayload = { hash: await sha256B64url(verifier), salt };
+      }
+
       const res = await fetch("/api/transfer", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -68,6 +85,7 @@ export function SendTool() {
           contentIv: enc.contentIv,
           size: enc.content.byteLength,
           expiresHours: hours,
+          password: passwordPayload,
         }),
       });
       const j = (await res.json().catch(() => ({}))) as {
@@ -101,6 +119,7 @@ export function SendTool() {
       const keyStr = await exportKey(key);
       const shareLink = `${window.location.origin}/f/${j.id}#${keyStr}`;
       setLink(shareLink);
+      setWasProtected(Boolean(passwordPayload));
       setExpiresAt(j.expiresAt ?? null);
       setQr(
         await QRCode.toDataURL(shareLink, { margin: 1, width: 320, color: { dark: "#0a0a0a", light: "#ffffff" } }),
@@ -118,6 +137,8 @@ export function SendTool() {
     setQr(null);
     setError(null);
     setExpiresAt(null);
+    setPassword("");
+    setWasProtected(false);
   }
 
   if (!isConfigured()) {
@@ -147,7 +168,10 @@ export function SendTool() {
           </div>
           {expiresAt && (
             <p className="mt-2 text-xs text-muted-foreground">
-              Auto-deletes on {new Date(expiresAt).toLocaleString()}. The decryption key is in the link — anyone with it can open the file.
+              Auto-deletes on {new Date(expiresAt).toLocaleString()}.{" "}
+              {wasProtected
+                ? "Password-protected — share the password with the recipient separately (not in the same message as the link)."
+                : "The decryption key is in the link — anyone with it can open the file."}
             </p>
           )}
         </div>
@@ -191,6 +215,19 @@ export function SendTool() {
             <option key={o.hours} value={o.hours}>{o.label}</option>
           ))}
         </select>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="pw" className="text-sm">Password <span className="text-muted-foreground">(optional)</span></Label>
+        <input
+          id="pw"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Require a password to download"
+          autoComplete="new-password"
+          className="w-full max-w-xs rounded-lg border border-border bg-background px-3 py-2 text-sm"
+        />
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}

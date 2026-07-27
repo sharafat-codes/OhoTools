@@ -108,3 +108,34 @@ export async function decryptContent(
     ab(content),
   );
 }
+
+// ── Optional password gate ───────────────────────────────────────────────────
+// The password never leaves the browser. We derive a verifier with PBKDF2 and
+// hand the server only SHA-256(verifier) + salt at creation; at download the
+// client re-derives the verifier and the server checks its hash. This gates
+// access to the ciphertext without the server ever seeing the password.
+
+export function randomSaltB64url(): string {
+  return bytesToB64url(crypto.getRandomValues(new Uint8Array(16)));
+}
+
+export async function deriveVerifier(password: string, saltB64url: string): Promise<string> {
+  const material = await crypto.subtle.importKey(
+    "raw",
+    ab(new TextEncoder().encode(password)),
+    "PBKDF2",
+    false,
+    ["deriveBits"],
+  );
+  const bits = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", salt: ab(b64urlToBytes(saltB64url)), iterations: 100_000, hash: "SHA-256" },
+    material,
+    256,
+  );
+  return bytesToB64url(bits);
+}
+
+export async function sha256B64url(input: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", ab(new TextEncoder().encode(input)));
+  return bytesToB64url(digest);
+}

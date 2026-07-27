@@ -22,6 +22,7 @@ export async function POST(req: Request) {
     contentIv?: unknown;
     size?: unknown;
     expiresHours?: unknown;
+    password?: { hash?: unknown; salt?: unknown } | null;
   };
   try {
     body = await req.json();
@@ -51,11 +52,23 @@ export async function POST(req: Request) {
   const hours = Math.min(MAX_EXPIRY_HOURS, Math.max(1, Math.floor(Number(body.expiresHours) || MAX_EXPIRY_HOURS)));
   const expiresAt = new Date(Date.now() + hours * 3600 * 1000);
 
+  // Optional password gate (client sends SHA-256(verifier) + salt; never the password).
+  let passwordHash: string | null = null;
+  let passwordSalt: string | null = null;
+  const pw = body.password;
+  if (pw && typeof pw.hash === "string" && typeof pw.salt === "string") {
+    if (pw.hash.length > 200 || pw.salt.length > 200) {
+      return NextResponse.json({ error: "Invalid password data." }, { status: 400 });
+    }
+    passwordHash = pw.hash;
+    passwordSalt = pw.salt;
+  }
+
   const user = await getCurrentUser().catch(() => null);
   const storagePath = crypto.randomUUID();
 
   const row = await prisma.transfer.create({
-    data: { storagePath, metaCipher, metaIv, contentIv, size, expiresAt, userId: user?.id ?? null },
+    data: { storagePath, metaCipher, metaIv, contentIv, size, expiresAt, passwordHash, passwordSalt, userId: user?.id ?? null },
   });
 
   try {

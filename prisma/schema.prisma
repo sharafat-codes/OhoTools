@@ -269,6 +269,13 @@ model Transfer {
   size      Int // ciphertext byte length (for UI + quota)
   downloads Int @default(0)
 
+  // Optional password gate. We store only a hash of the client-derived PBKDF2
+  // verifier (+ its salt); the raw password is never sent to or stored on the
+  // server. The server withholds the signed download URL until the recipient
+  // proves knowledge of the password.
+  passwordHash String?
+  passwordSalt String?
+
   expiresAt DateTime
 
   // Optional owner (for "My Files" later); anonymous transfers have none.
