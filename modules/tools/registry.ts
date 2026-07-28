@@ -93,6 +93,8 @@ import {
   AudioLinesIcon,
   ListMusicIcon,
   Volume2Icon,
+  CropIcon,
+  CircleUserRoundIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -2191,6 +2193,91 @@ export const devTools: DevTool[] = [
     ],
     related: ["change-volume", "audio-converter", "trim-audio"],
   },
+  {
+    slug: "crop-image",
+    name: "Crop Image",
+    tagline: "Crop an image to any size or aspect ratio.",
+    description:
+      "Free online image cropper. Drag to crop any JPG, PNG, or WebP to the exact size or aspect ratio you need — right in your browser, no upload.",
+    keywords: ["crop image", "image cropper", "crop photo online", "crop picture", "crop jpg"],
+    icon: CropIcon,
+    intro:
+      "Crop an image down to just the part you want — drag the box, resize the corners, or pick an aspect ratio like 1:1 or 16:9. It runs entirely in your browser, so your image never leaves your device.",
+    steps: ["Choose an image.", "Drag the crop box and resize the corners (or pick an aspect ratio).", "Crop and download."],
+    faqs: [
+      { q: "Is my image uploaded?", a: "No — cropping happens entirely in your browser; your image never leaves your device." },
+      { q: "Does cropping reduce quality?", a: "No — it keeps the original pixels inside your selection at full quality (JPEGs are re-saved at high quality)." },
+    ],
+    related: ["rotate-image", "circle-crop", "image-resizer"],
+  },
+  {
+    slug: "rotate-image",
+    name: "Rotate & Flip Image",
+    tagline: "Rotate or flip an image in your browser.",
+    description:
+      "Free online image rotator. Rotate an image left or right and flip it horizontally or vertically — right in your browser, no upload, no watermark.",
+    keywords: ["rotate image", "flip image", "rotate photo", "flip photo horizontally", "turn image sideways"],
+    icon: RotateCwIcon,
+    intro:
+      "Rotate an image 90° at a time or mirror it horizontally or vertically, with a live preview. It runs entirely in your browser, so your image never leaves your device.",
+    steps: ["Choose an image.", "Rotate or flip until it looks right.", "Download the result."],
+    faqs: [
+      { q: "Is my image uploaded?", a: "No — everything happens in your browser; your image never leaves your device." },
+      { q: "Will rotating lose quality?", a: "No — 90° rotations and flips are lossless. JPEGs are re-saved at high quality." },
+    ],
+    related: ["crop-image", "circle-crop", "image-converter"],
+  },
+  {
+    slug: "circle-crop",
+    name: "Circle Crop",
+    tagline: "Crop an image into a circle for avatars.",
+    description:
+      "Free online circle image cropper. Crop any photo into a perfect circle with a transparent background — great for avatars and profile pictures. In your browser, no upload.",
+    keywords: ["circle crop", "round profile picture", "crop image into circle", "circular crop", "round avatar maker"],
+    icon: CircleUserRoundIcon,
+    intro:
+      "Turn a photo into a round avatar or profile picture. It crops from the center to a circle and saves a PNG with a transparent background. Everything runs in your browser, so your image never leaves your device.",
+    steps: ["Choose an image.", "Preview the circular crop.", "Download the PNG."],
+    faqs: [
+      { q: "Does the result have a transparent background?", a: "Yes — the corners outside the circle are transparent, so it drops cleanly onto any background." },
+      { q: "Is my image uploaded?", a: "No — cropping happens in your browser; your image never leaves your device." },
+    ],
+    related: ["crop-image", "rotate-image", "favicon-generator"],
+  },
+  {
+    slug: "add-text-to-image",
+    name: "Add Text to Image",
+    tagline: "Add a caption or watermark to an image.",
+    description:
+      "Free online tool to add text to an image. Add a caption, title, or watermark with your choice of size, color, and position — right in your browser, no upload.",
+    keywords: ["add text to image", "add text to photo", "caption image", "text on picture", "image watermark text"],
+    icon: TypeIcon,
+    intro:
+      "Add a caption, title, or watermark to an image and position it top, center, or bottom — with a live preview and your choice of size and color. Everything runs in your browser, so your image never leaves your device.",
+    steps: ["Choose an image.", "Type your text and set the size, color, and position.", "Download the result."],
+    faqs: [
+      { q: "Can I control where the text goes?", a: "Yes — place it at the top, center, or bottom, and adjust the size and color to fit." },
+      { q: "Is my image uploaded?", a: "No — the text is drawn in your browser; your image never leaves your device." },
+    ],
+    related: ["crop-image", "rotate-image", "watermark-pdf"],
+  },
+  {
+    slug: "image-to-ico",
+    name: "Image to ICO",
+    tagline: "Convert an image to a Windows .ico icon.",
+    description:
+      "Free online image to ICO converter. Turn a PNG or JPG into a multi-size Windows .ico icon (favicon) right in your browser — no upload, no watermark.",
+    keywords: ["image to ico", "png to ico", "ico converter", "favicon ico", "convert image to icon"],
+    icon: AppWindowIcon,
+    intro:
+      "Convert an image into a Windows .ico icon containing multiple sizes — perfect for a favicon or app icon. It runs entirely in your browser, so your image never leaves your device.",
+    steps: ["Choose an image (a square PNG works best).", "Pick which sizes to include.", "Create and download the .ico."],
+    faqs: [
+      { q: "What sizes are included?", a: "Standard makes a 16, 32, and 48 px icon; All sizes adds 64, 128, and 256 px for high-DPI displays." },
+      { q: "Is my image uploaded?", a: "No — the ICO is built in your browser; your image never leaves your device." },
+    ],
+    related: ["favicon-generator", "crop-image", "image-converter"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2271,6 +2358,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Audio",
     blurb: "Convert, trim, merge, clean, and adjust audio — in your browser.",
     slugs: ["audio-converter", "trim-audio", "merge-audio", "change-volume", "enhance-audio"],
+  },
+  {
+    name: "Image Editing",
+    blurb: "Crop, rotate, add text, and more — in your browser.",
+    slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "image-to-ico"],
   },
   {
     name: "Developer",
@@ -2599,6 +2691,22 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are my audio files uploaded?", a: "No — these tools process audio locally in your browser using an in-page engine, so your files never leave your device." },
       { q: "What formats can I convert to?", a: "MP3, WAV, and M4A (AAC). Trimming keeps the original format; merging and volume changes output MP3." },
       { q: "Do I need an account?", a: "No — every audio tool is free and works instantly with no sign-up." },
+    ],
+  },
+  {
+    slug: "image-editing",
+    name: "Image Editing",
+    seoTitle: "Image Editing Tools",
+    seoDescription:
+      "Free online image editing tools — crop, rotate, flip, circle-crop for avatars, add text to photos, and convert images to ICO. Everything runs in your browser; nothing is uploaded.",
+    keywords: ["image editing tools", "crop image", "rotate image", "add text to image", "circle crop", "image to ico"],
+    h1: "Free image editing tools",
+    intro:
+      "Crop, rotate, flip, round-crop, and caption your images — all in your browser, so your photos never leave your device. No sign-up, no watermarks.",
+    faqs: [
+      { q: "Are my images uploaded?", a: "No — every image editing tool runs locally in your browser, so your photos never leave your device." },
+      { q: "What formats can I edit?", a: "JPG, PNG, WebP, and most common image formats. Crop, rotate, and text keep your format; circle-crop outputs a transparent PNG and Image to ICO outputs a .ico file." },
+      { q: "Do I need an account?", a: "No — all image editing tools are free with no sign-up." },
     ],
   },
 ];

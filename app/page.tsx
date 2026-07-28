@@ -17,6 +17,7 @@ import {
   SendIcon,
   FilmIcon,
   AudioLinesIcon,
+  CropIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,6 +42,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   AI: SparklesIcon,
   "Video & GIF": FilmIcon,
   Audio: AudioLinesIcon,
+  "Image Editing": CropIcon,
   Developer: CodeIcon,
   "Web & SEO": GlobeIcon,
   Converters: ArrowLeftRightIcon,
