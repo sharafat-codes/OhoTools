@@ -2,14 +2,17 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { DownloadIcon, Loader2Icon, SparklesIcon, CheckCircle2Icon } from "lucide-react";
+import { Loader2Icon, SparklesIcon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/auth-client";
 import { isPro } from "@/lib/plans";
 import { CloudImport } from "@/modules/cloud/cloud-import";
+
+type Result = { url: string; name: string; size: number };
 
 export function DocConvert({
   op,
@@ -33,13 +36,26 @@ export function DocConvert({
   const [file, setFile] = React.useState<File | null>(null);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const [done, setDone] = React.useState(false);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
+
+  function pick(f: File) {
+    setFile(f);
+    setError(null);
+    clearResult();
+  }
 
   async function convert() {
     if (!file) return;
     setBusy(true);
     setError(null);
-    setDone(false);
+    clearResult();
     try {
       const fd = new FormData();
       fd.append("file", file);
@@ -52,13 +68,8 @@ export function DocConvert({
         return;
       }
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${file.name.replace(/\.[^.]+$/, "") || "document"}.${outExt}`;
-      a.click();
-      URL.revokeObjectURL(url);
-      setDone(true);
+      const name = `${file.name.replace(/\.[^.]+$/, "") || "document"}.${outExt}`;
+      setResult({ url: URL.createObjectURL(blob), name, size: blob.size });
     } catch {
       setError("Something went wrong. Please try again.");
     }
@@ -88,36 +99,19 @@ export function DocConvert({
 
       <Dropzone
         accept={accept}
-        onFile={(f) => {
-          setFile(f);
-          setError(null);
-          setDone(false);
-        }}
+        onFile={pick}
         title={`Drag & drop a ${inLabel}, or click to browse`}
         hint={hint}
       />
 
-      <CloudImport
-        accept={accept}
-        onFile={(f) => {
-          setFile(f);
-          setError(null);
-          setDone(false);
-        }}
-        onError={setError}
-      />
+      <CloudImport accept={accept} onFile={pick} onError={setError} />
 
       {file && <p className="text-sm text-muted-foreground">Selected: {file.name}</p>}
       {error && <p className="text-sm text-destructive">{error}</p>}
-      {done && (
-        <p className="flex items-center gap-1.5 text-sm text-emerald-500">
-          <CheckCircle2Icon className="size-4" /> Converted — check your downloads.
-        </p>
-      )}
 
       {pro ? (
         <Button className="w-fit" onClick={convert} disabled={busy || !file}>
-          {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
+          {busy ? <Loader2Icon className="animate-spin" /> : null}
           {actionLabel}
         </Button>
       ) : (
@@ -125,6 +119,8 @@ export function DocConvert({
           {loggedIn ? "Upgrade to convert" : "Sign up to convert"}
         </Button>
       )}
+
+      {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
     </div>
   );
 }

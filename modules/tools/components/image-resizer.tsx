@@ -8,7 +8,7 @@ import { Dropzone } from "@/modules/tools/components/dropzone";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { ResultCard } from "@/modules/tools/components/tool-result";
 import { CloudImport } from "@/modules/cloud/cloud-import";
 
 function triggerDownload(url: string, name: string) {
@@ -122,16 +122,14 @@ export function ImageResizer() {
           </div>
 
           {result && (
-            <Card>
-              <CardContent className="flex flex-col gap-3 py-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={result} alt="Resized preview" className="max-h-64 w-fit max-w-full rounded-lg border border-border" />
-                <Button className="w-fit" onClick={() => triggerDownload(result, `${srcName}-${width}x${height}.png`)}>
-                  <DownloadIcon />
-                  Download PNG
-                </Button>
-              </CardContent>
-            </Card>
+            <ResultCard title="Resized">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={result} alt="Resized preview" className="max-h-64 w-fit max-w-full rounded-lg border border-border" />
+              <Button className="w-fit" onClick={() => triggerDownload(result, `${srcName}-${width}x${height}.png`)}>
+                <DownloadIcon />
+                Download PNG
+              </Button>
+            </ResultCard>
           )}
         </>
       )}

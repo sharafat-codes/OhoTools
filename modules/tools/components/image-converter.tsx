@@ -8,7 +8,7 @@ import { Dropzone } from "@/modules/tools/components/dropzone";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Card, CardContent } from "@/components/ui/card";
+import { ResultCard } from "@/modules/tools/components/tool-result";
 import { CloudImport } from "@/modules/cloud/cloud-import";
 
 type Fmt = "image/png" | "image/jpeg" | "image/webp";
@@ -141,28 +141,26 @@ export function ImageConverter() {
           </div>
 
           {result && (
-            <Card>
-              <CardContent className="flex flex-col gap-3 py-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={result.url} alt="Converted preview" className="max-h-64 w-fit max-w-full rounded-lg border border-border" />
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="text-sm text-muted-foreground">
-                    {formatBytes(origSize)} → {formatBytes(result.size)}
-                    {origSize > 0 && (
-                      <span className={result.size < origSize ? "text-emerald-500" : "text-muted-foreground"}>
-                        {" "}
-                        ({result.size < origSize ? "−" : "+"}
-                        {Math.abs(Math.round((1 - result.size / origSize) * 100))}%)
-                      </span>
-                    )}
-                  </span>
-                  <Button onClick={() => triggerDownload(result.url, `${srcName}.${EXT[fmt]}`)}>
-                    <DownloadIcon />
-                    Download {EXT[fmt].toUpperCase()}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <ResultCard title="Converted">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={result.url} alt="Converted preview" className="max-h-64 w-fit max-w-full rounded-lg border border-border" />
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="text-sm text-muted-foreground">
+                  {formatBytes(origSize)} → {formatBytes(result.size)}
+                  {origSize > 0 && (
+                    <span className={result.size < origSize ? "text-emerald-500" : "text-muted-foreground"}>
+                      {" "}
+                      ({result.size < origSize ? "−" : "+"}
+                      {Math.abs(Math.round((1 - result.size / origSize) * 100))}%)
+                    </span>
+                  )}
+                </span>
+                <Button onClick={() => triggerDownload(result.url, `${srcName}.${EXT[fmt]}`)}>
+                  <DownloadIcon />
+                  Download {EXT[fmt].toUpperCase()}
+                </Button>
+              </div>
+            </ResultCard>
           )}
         </>
       )}

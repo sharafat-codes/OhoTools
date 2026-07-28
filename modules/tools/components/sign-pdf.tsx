@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { DownloadIcon, Loader2Icon, PenLineIcon } from "lucide-react";
+import { Loader2Icon, PenLineIcon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,8 @@ const SIZES = [
   { value: "200", label: "Medium" },
   { value: "260", label: "Large" },
 ];
+
+type Result = { url: string; name: string; size: number };
 
 async function toPngBytes(dataUrl: string): Promise<Uint8Array> {
   const res = await fetch(dataUrl);
@@ -61,14 +64,23 @@ export function SignPdf() {
   const [size, setSize] = React.useState("200");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
 
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const drawing = React.useRef(false);
   const hasDrawn = React.useRef(false);
 
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
+
   async function onPdf(f: File | undefined) {
     if (!f) return;
     setError(null);
+    clearResult();
     setFile(f);
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -164,13 +176,11 @@ export function SignPdf() {
       else if (position.endsWith("center")) x = (width - sigW) / 2;
       if (position.startsWith("top")) y = height - sigH - margin;
       page.drawImage(png, { x, y, width: sigW, height: sigH });
-      const bytes = await doc.save();
-      const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "signed.pdf";
-      a.click();
-      URL.revokeObjectURL(url);
+      const blob = new Blob([new Uint8Array(await doc.save())], { type: "application/pdf" });
+      setResult((prev) => {
+        if (prev) URL.revokeObjectURL(prev.url);
+        return { url: URL.createObjectURL(blob), name: "signed.pdf", size: blob.size };
+      });
     } catch {
       setError("Could not sign the PDF.");
     }
@@ -265,10 +275,12 @@ export function SignPdf() {
               </select>
             </div>
             <Button className="mb-0.5" onClick={apply} disabled={busy}>
-              {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
-              Sign &amp; download
+              {busy ? <Loader2Icon className="animate-spin" /> : null}
+              Sign PDF
             </Button>
           </div>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>

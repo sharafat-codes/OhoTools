@@ -3,9 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import JSZip from "jszip";
-import { DownloadIcon, SparklesIcon, Loader2Icon } from "lucide-react";
+import { SparklesIcon, Loader2Icon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,14 +30,7 @@ function parseRanges(input: string, max: number): number[] {
   return [...pages].sort((x, y) => x - y);
 }
 
-function downloadBytes(bytes: Uint8Array, name: string) {
-  const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+type Result = { url: string; name: string; size: number };
 
 export function SplitPdf() {
   const { data } = useSession();
@@ -47,10 +41,26 @@ export function SplitPdf() {
   const [ranges, setRanges] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function setResultBlob(blob: Blob, name: string) {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return { url: URL.createObjectURL(blob), name, size: blob.size };
+    });
+  }
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
 
   async function onFile(f: File | undefined) {
     if (!f) return;
     setError(null);
+    clearResult();
     setFile(f);
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -78,7 +88,8 @@ export function SplitPdf() {
       const out = await PDFDocument.create();
       const copied = await out.copyPages(src, pages.map((p) => p - 1));
       copied.forEach((p) => out.addPage(p));
-      downloadBytes(await out.save(), "extracted.pdf");
+      const blob = new Blob([new Uint8Array(await out.save())], { type: "application/pdf" });
+      setResultBlob(blob, "extracted.pdf");
     } catch {
       setError("Could not extract those pages.");
     }
@@ -101,12 +112,7 @@ export function SplitPdf() {
         zip.file(`${base}-${i + 1}.pdf`, await out.save());
       }
       const blob = await zip.generateAsync({ type: "blob" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${base}-pages.zip`;
-      a.click();
-      URL.revokeObjectURL(url);
+      setResultBlob(blob, `${base}-pages.zip`);
     } catch {
       setError("Could not split the PDF.");
     }
@@ -143,7 +149,7 @@ export function SplitPdf() {
                 className="font-mono"
               />
               <Button onClick={extract} disabled={busy}>
-                {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
+                {busy ? <Loader2Icon className="animate-spin" /> : null}
                 Extract
               </Button>
             </div>
@@ -160,7 +166,7 @@ export function SplitPdf() {
               </div>
               {pro ? (
                 <Button variant="outline" onClick={burst} disabled={busy}>
-                  {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
+                  {busy ? <Loader2Icon className="animate-spin" /> : null}
                   Split all ({pageCount})
                 </Button>
               ) : (
@@ -171,6 +177,8 @@ export function SplitPdf() {
               )}
             </div>
           </div>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>

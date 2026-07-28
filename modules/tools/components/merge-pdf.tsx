@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { DownloadIcon, XIcon, ArrowUpIcon, ArrowDownIcon, SparklesIcon, Loader2Icon } from "lucide-react";
+import { XIcon, ArrowUpIcon, ArrowDownIcon, SparklesIcon, Loader2Icon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import { CloudImport } from "@/modules/cloud/cloud-import";
 const FREE_LIMIT = 2;
 
 type Item = { id: number; file: File };
+type Result = { url: string; name: string; size: number };
 
 export function MergePdf() {
   const { data } = useSession();
@@ -24,6 +26,14 @@ export function MergePdf() {
   const [items, setItems] = React.useState<Item[]>([]);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
 
   function addFiles(files: FileList | null) {
     if (!files) return;
@@ -33,10 +43,12 @@ export function MergePdf() {
     if (next.length) {
       setItems((prev) => [...prev, ...next]);
       setError(null);
+      clearResult();
     }
   }
 
   function move(id: number, dir: -1 | 1) {
+    clearResult();
     setItems((prev) => {
       const i = prev.findIndex((x) => x.id === id);
       const j = i + dir;
@@ -45,6 +57,11 @@ export function MergePdf() {
       [copy[i], copy[j]] = [copy[j], copy[i]];
       return copy;
     });
+  }
+
+  function remove(id: number) {
+    clearResult();
+    setItems((p) => p.filter((x) => x.id !== id));
   }
 
   async function merge() {
@@ -59,13 +76,11 @@ export function MergePdf() {
         const pages = await out.copyPages(src, src.getPageIndices());
         pages.forEach((p) => out.addPage(p));
       }
-      const bytes = await out.save();
-      const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "merged.pdf";
-      a.click();
-      URL.revokeObjectURL(url);
+      const blob = new Blob([new Uint8Array(await out.save())], { type: "application/pdf" });
+      setResult((prev) => {
+        if (prev) URL.revokeObjectURL(prev.url);
+        return { url: URL.createObjectURL(blob), name: "merged.pdf", size: blob.size };
+      });
     } catch {
       setError("Could not merge those files. Make sure they're valid, unencrypted PDFs.");
     }
@@ -116,7 +131,7 @@ export function MergePdf() {
                     <button type="button" onClick={() => move(item.id, 1)} disabled={i === items.length - 1} aria-label="Move down" className="shrink-0 text-muted-foreground hover:text-foreground disabled:opacity-30">
                       <ArrowDownIcon className="size-4" />
                     </button>
-                    <button type="button" onClick={() => setItems((p) => p.filter((x) => x.id !== item.id))} aria-label="Remove" className="shrink-0 text-muted-foreground hover:text-foreground">
+                    <button type="button" onClick={() => remove(item.id)} aria-label="Remove" className="shrink-0 text-muted-foreground hover:text-foreground">
                       <XIcon className="size-4" />
                     </button>
                   </CardContent>
@@ -129,11 +144,13 @@ export function MergePdf() {
 
           <div className="flex flex-wrap gap-2">
             <Button onClick={merge} disabled={busy || items.length < 2}>
-              {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
+              {busy ? <Loader2Icon className="animate-spin" /> : null}
               Merge {overLimit ? `first ${FREE_LIMIT}` : items.length} PDFs
             </Button>
-            <Button variant="ghost" onClick={() => setItems([])}>Clear</Button>
+            <Button variant="ghost" onClick={() => { clearResult(); setItems([]); }}>Clear</Button>
           </div>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>

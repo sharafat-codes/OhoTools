@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { DownloadIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,14 +26,7 @@ function parsePages(input: string, max: number): number[] {
   return [...pages];
 }
 
-function downloadPdf(bytes: Uint8Array, name: string) {
-  const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+type Result = { url: string; name: string; size: number };
 
 export function DeletePdfPages() {
   const [file, setFile] = React.useState<File | null>(null);
@@ -40,10 +34,19 @@ export function DeletePdfPages() {
   const [toDelete, setToDelete] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
 
   async function onFile(f: File | undefined) {
     if (!f) return;
     setError(null);
+    clearResult();
     setFile(f);
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -77,7 +80,11 @@ export function DeletePdfPages() {
       const out = await PDFDocument.create();
       const pages = await out.copyPages(src, keep);
       pages.forEach((p) => out.addPage(p));
-      downloadPdf(await out.save(), "edited.pdf");
+      const blob = new Blob([new Uint8Array(await out.save())], { type: "application/pdf" });
+      setResult((prev) => {
+        if (prev) URL.revokeObjectURL(prev.url);
+        return { url: URL.createObjectURL(blob), name: "edited.pdf", size: blob.size };
+      });
     } catch {
       setError("Could not edit the PDF.");
     }
@@ -113,11 +120,13 @@ export function DeletePdfPages() {
                 className="font-mono"
               />
               <Button onClick={run} disabled={busy}>
-                {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
-                Delete &amp; download
+                {busy ? <Loader2Icon className="animate-spin" /> : null}
+                Delete pages
               </Button>
             </div>
           </div>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>

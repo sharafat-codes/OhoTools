@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { DownloadIcon, XIcon, ArrowUpIcon, ArrowDownIcon, SparklesIcon, Loader2Icon } from "lucide-react";
+import { XIcon, ArrowUpIcon, ArrowDownIcon, SparklesIcon, Loader2Icon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ const selectClass =
   "h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30";
 
 type Item = { id: number; file: File };
+type Result = { url: string; name: string; size: number };
 
 function loadImage(file: File): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -55,6 +57,14 @@ export function ImagesToPdf() {
   const [pageMode, setPageMode] = React.useState("fit");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
 
   function addFiles(files: FileList | null) {
     if (!files) return;
@@ -64,10 +74,12 @@ export function ImagesToPdf() {
     if (next.length) {
       setItems((prev) => [...prev, ...next]);
       setError(null);
+      clearResult();
     }
   }
 
   function move(id: number, dir: -1 | 1) {
+    clearResult();
     setItems((prev) => {
       const i = prev.findIndex((x) => x.id === id);
       const j = i + dir;
@@ -76,6 +88,11 @@ export function ImagesToPdf() {
       [copy[i], copy[j]] = [copy[j], copy[i]];
       return copy;
     });
+  }
+
+  function remove(id: number) {
+    clearResult();
+    setItems((p) => p.filter((x) => x.id !== id));
   }
 
   async function create() {
@@ -104,13 +121,11 @@ export function ImagesToPdf() {
           page.drawImage(png, { x: 0, y: 0, width: iw, height: ih });
         }
       }
-      const bytes = await pdf.save();
-      const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "images.pdf";
-      a.click();
-      URL.revokeObjectURL(url);
+      const blob = new Blob([new Uint8Array(await pdf.save())], { type: "application/pdf" });
+      setResult((prev) => {
+        if (prev) URL.revokeObjectURL(prev.url);
+        return { url: URL.createObjectURL(blob), name: "images.pdf", size: blob.size };
+      });
     } catch {
       setError("Could not create the PDF. Try different images.");
     }
@@ -148,7 +163,7 @@ export function ImagesToPdf() {
         <>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="itp-page">Page size</Label>
-            <select id="itp-page" value={pageMode} onChange={(e) => setPageMode(e.target.value)} className={`${selectClass} w-fit`}>
+            <select id="itp-page" value={pageMode} onChange={(e) => { clearResult(); setPageMode(e.target.value); }} className={`${selectClass} w-fit`}>
               <option value="fit">Fit to each image</option>
               <option value="a4">A4 (portrait)</option>
             </select>
@@ -169,7 +184,7 @@ export function ImagesToPdf() {
                     <button type="button" onClick={() => move(item.id, 1)} disabled={i === items.length - 1} aria-label="Move down" className="shrink-0 text-muted-foreground hover:text-foreground disabled:opacity-30">
                       <ArrowDownIcon className="size-4" />
                     </button>
-                    <button type="button" onClick={() => setItems((p) => p.filter((x) => x.id !== item.id))} aria-label="Remove" className="shrink-0 text-muted-foreground hover:text-foreground">
+                    <button type="button" onClick={() => remove(item.id)} aria-label="Remove" className="shrink-0 text-muted-foreground hover:text-foreground">
                       <XIcon className="size-4" />
                     </button>
                   </CardContent>
@@ -182,11 +197,13 @@ export function ImagesToPdf() {
 
           <div className="flex flex-wrap gap-2">
             <Button onClick={create} disabled={busy}>
-              {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
+              {busy ? <Loader2Icon className="animate-spin" /> : null}
               Create PDF{overLimit ? ` (first ${FREE_LIMIT})` : ""}
             </Button>
-            <Button variant="ghost" onClick={() => setItems([])}>Clear</Button>
+            <Button variant="ghost" onClick={() => { clearResult(); setItems([]); }}>Clear</Button>
           </div>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>

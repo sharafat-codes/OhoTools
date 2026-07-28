@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { DownloadIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,14 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { CloudImport } from "@/modules/cloud/cloud-import";
 
-function downloadPdf(bytes: Uint8Array, name: string) {
-  const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+type Result = { url: string; name: string; size: number };
 
 export function WatermarkPdf() {
   const [file, setFile] = React.useState<File | null>(null);
@@ -27,10 +21,19 @@ export function WatermarkPdf() {
   const [opacity, setOpacity] = React.useState(20);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
 
   async function onFile(f: File | undefined) {
     if (!f) return;
     setError(null);
+    clearResult();
     setFile(f);
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -71,7 +74,11 @@ export function WatermarkPdf() {
           rotate: degrees(45),
         });
       }
-      downloadPdf(await doc.save(), "watermarked.pdf");
+      const blob = new Blob([new Uint8Array(await doc.save())], { type: "application/pdf" });
+      setResult((prev) => {
+        if (prev) URL.revokeObjectURL(prev.url);
+        return { url: URL.createObjectURL(blob), name: "watermarked.pdf", size: blob.size };
+      });
     } catch {
       setError("Could not add the watermark.");
     }
@@ -108,9 +115,11 @@ export function WatermarkPdf() {
             <Slider value={[opacity]} min={5} max={60} onValueChange={(v) => setOpacity(Array.isArray(v) ? v[0] : v)} />
           </div>
           <Button className="w-fit" onClick={run} disabled={busy}>
-            {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
-            Add watermark &amp; download
+            {busy ? <Loader2Icon className="animate-spin" /> : null}
+            Add watermark
           </Button>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>

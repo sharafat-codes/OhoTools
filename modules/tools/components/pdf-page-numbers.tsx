@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { DownloadIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,14 +14,7 @@ import { CloudImport } from "@/modules/cloud/cloud-import";
 const selectClass =
   "h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30";
 
-function downloadPdf(bytes: Uint8Array, name: string) {
-  const url = URL.createObjectURL(new Blob([new Uint8Array(bytes)], { type: "application/pdf" }));
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+type Result = { url: string; name: string; size: number };
 
 export function PdfPageNumbers() {
   const [file, setFile] = React.useState<File | null>(null);
@@ -29,10 +23,19 @@ export function PdfPageNumbers() {
   const [start, setStart] = React.useState("1");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [result, setResult] = React.useState<Result | null>(null);
+
+  function clearResult() {
+    setResult((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+  }
 
   async function onFile(f: File | undefined) {
     if (!f) return;
     setError(null);
+    clearResult();
     setFile(f);
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -64,7 +67,11 @@ export function PdfPageNumbers() {
         else if (position === "bottom-left") x = 40;
         page.drawText(label, { x, y: 24, size, font, color: rgb(0.4, 0.4, 0.4) });
       });
-      downloadPdf(await doc.save(), "numbered.pdf");
+      const blob = new Blob([new Uint8Array(await doc.save())], { type: "application/pdf" });
+      setResult((prev) => {
+        if (prev) URL.revokeObjectURL(prev.url);
+        return { url: URL.createObjectURL(blob), name: "numbered.pdf", size: blob.size };
+      });
     } catch {
       setError("Could not add page numbers.");
     }
@@ -103,10 +110,12 @@ export function PdfPageNumbers() {
               <Input id="pn-start" type="number" min={0} value={start} onChange={(e) => setStart(e.target.value)} />
             </div>
             <Button className="mb-0.5" onClick={run} disabled={busy}>
-              {busy ? <Loader2Icon className="animate-spin" /> : <DownloadIcon />}
-              Add numbers &amp; download
+              {busy ? <Loader2Icon className="animate-spin" /> : null}
+              Add numbers
             </Button>
           </div>
+
+          {result && <FileResult href={result.url} filename={result.name} meta={formatBytes(result.size)} />}
         </>
       )}
     </div>
