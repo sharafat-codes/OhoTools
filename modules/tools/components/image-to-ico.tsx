@@ -43,6 +43,7 @@ function encodeIco(pngs: { size: number; data: Uint8Array }[]): Blob {
 export function ImageToIco() {
   const [file, setFile] = React.useState<File | null>(null);
   const [img, setImg] = React.useState<HTMLImageElement | null>(null);
+  const [srcUrl, setSrcUrl] = React.useState<string | null>(null);
   const [set, setSet] = React.useState("standard");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -54,14 +55,20 @@ export function ImageToIco() {
       const image = await loadImageFromFile(f);
       setFile(f);
       setImg(image);
+      setSrcUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(f);
+      });
     } catch {
       setError("Could not read that image.");
     }
   }
 
   function reset() {
+    if (srcUrl) URL.revokeObjectURL(srcUrl);
     setFile(null);
     setImg(null);
+    setSrcUrl(null);
     setError(null);
   }
 
@@ -121,7 +128,7 @@ export function ImageToIco() {
             <div key={s} className="flex flex-col items-center gap-1.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={img?.src}
+                src={srcUrl ?? undefined}
                 alt={`${s}px preview`}
                 width={Math.min(s, 64)}
                 height={Math.min(s, 64)}

@@ -181,7 +181,7 @@ export function CropImage() {
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
-              className="absolute inset-0 touch-none"
+              className="absolute inset-0 touch-none overflow-hidden rounded"
               style={{ cursor: "crosshair" }}
             >
               <div
