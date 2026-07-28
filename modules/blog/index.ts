@@ -23,6 +23,9 @@ import * as compressImageGuide from "./posts/how-to-compress-an-image";
 import * as imageToWebpGuide from "./posts/how-to-convert-image-to-webp";
 import * as sendLargeFilesGuide from "./posts/how-to-send-large-files-for-free";
 import * as passwordProtectGuide from "./posts/how-to-password-protect-a-file";
+import * as cropImageGuide from "./posts/how-to-crop-an-image-online";
+import * as audioToMp3Guide from "./posts/how-to-convert-audio-to-mp3";
+import * as removeNoiseGuide from "./posts/how-to-remove-background-noise-from-audio";
 
 export type PostMeta = {
   slug: string;
@@ -64,6 +67,9 @@ const modules: BlogPost[] = [
   imageToWebpGuide,
   sendLargeFilesGuide,
   passwordProtectGuide,
+  cropImageGuide,
+  audioToMp3Guide,
+  removeNoiseGuide,
 ];
 
 /** All posts, newest first. */
