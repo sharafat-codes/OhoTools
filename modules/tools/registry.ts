@@ -2171,7 +2171,25 @@ export const devTools: DevTool[] = [
       { q: "What does normalize do?", a: "Normalize adjusts the whole track toward a standard loudness level — useful when a file is too quiet or uneven." },
       { q: "Is my audio uploaded?", a: "No — processing runs locally in your browser; your audio never leaves your device." },
     ],
-    related: ["audio-converter", "trim-audio", "merge-audio"],
+    related: ["audio-converter", "trim-audio", "enhance-audio"],
+  },
+  {
+    slug: "enhance-audio",
+    name: "Audio Enhancer & Cleaner",
+    tagline: "Reduce noise and make audio clearer.",
+    description:
+      "Free online audio enhancer and cleaner. Reduce background noise, enhance voice clarity, and normalize loudness right in your browser — no upload, no watermark.",
+    keywords: ["audio enhancer", "clean audio", "reduce background noise", "noise reduction online", "improve audio quality", "enhance voice recording"],
+    icon: WandSparklesIcon,
+    intro:
+      "Clean up a noisy recording — cut background hiss and hum, enhance voice clarity, and even out the loudness. It runs entirely in your browser, so your audio never leaves your device. The result is saved as an MP3.",
+    steps: ["Choose an audio file.", "Pick an enhancement mode.", "Enhance and download the MP3."],
+    faqs: [
+      { q: "What does the noise reduction do?", a: "It applies a spectral denoiser that lowers steady background noise — hiss, fans, hum — while keeping the main sound intact." },
+      { q: "Will it fix any recording?", a: "It helps most with mild-to-moderate background noise and quiet or uneven voice recordings. Very heavy noise or distortion can't be fully removed." },
+      { q: "Is my audio uploaded?", a: "No — enhancement runs locally in your browser; your audio never leaves your device." },
+    ],
+    related: ["change-volume", "audio-converter", "trim-audio"],
   },
 ];
 
@@ -2251,8 +2269,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   },
   {
     name: "Audio",
-    blurb: "Convert, trim, merge, and adjust audio — in your browser.",
-    slugs: ["audio-converter", "trim-audio", "merge-audio", "change-volume"],
+    blurb: "Convert, trim, merge, clean, and adjust audio — in your browser.",
+    slugs: ["audio-converter", "trim-audio", "merge-audio", "change-volume", "enhance-audio"],
   },
   {
     name: "Developer",

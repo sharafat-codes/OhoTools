@@ -82,6 +82,35 @@ const OPS: Record<string, OpDef> = {
       return ["-i", i, "-vn", ...filter, "-c:a", "libmp3lame", "-b:a", "192k", out];
     },
   },
+  "enhance-audio": {
+    accept: "audio/*",
+    controls: [
+      {
+        key: "mode",
+        label: "Enhancement",
+        default: "voice",
+        options: [
+          { label: "Enhance voice (podcast / vocals)", value: "voice" },
+          { label: "Reduce background noise", value: "denoise" },
+          { label: "Clean up & normalize", value: "clean" },
+        ],
+      },
+    ],
+    outExt: () => "mp3",
+    build: (o, i, out) => {
+      // Built-in libavfilter chains — no external model needed.
+      // voice: cut rumble/hiss bands, even out dynamics, normalize loudness.
+      // denoise: spectral denoiser for steady background noise.
+      // clean: light denoise + rumble cut + normalize.
+      const chains: Record<string, string> = {
+        voice:
+          "highpass=f=100,lowpass=f=12000,acompressor=threshold=-18dB:ratio=3:attack=20:release=250,loudnorm=I=-16:TP=-1.5:LRA=11",
+        denoise: "afftdn=nr=20:nf=-25",
+        clean: "highpass=f=80,afftdn=nr=12,loudnorm=I=-16:TP=-1.5:LRA=11",
+      };
+      return ["-i", i, "-vn", "-af", chains[o.mode] || chains.voice, "-c:a", "libmp3lame", "-b:a", "192k", out];
+    },
+  },
   "trim-audio": {
     accept: "audio/*",
     isTrim: true,
