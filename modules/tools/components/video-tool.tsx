@@ -371,7 +371,7 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
       )}
 
       <p className="text-xs text-muted-foreground">
-        Everything runs in your browser — your video is never uploaded. The engine (~30&nbsp;MB) downloads once on first use. Best for short clips.
+        The processing engine (~30&nbsp;MB) downloads once on first use, then works offline. Best for short clips.
       </p>
     </div>
   );
