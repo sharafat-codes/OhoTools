@@ -21,6 +21,18 @@ export const CONVERT_OPS: Record<
   "to-text": { path: "convert/autodetect/to/txt", ext: "txt", mime: "text/plain" },
   "heic-to-jpg": { path: "image/convert/heic/jpg", ext: "jpg", mime: "image/jpeg", field: "imageFile" },
   "heic-to-png": { path: "image/convert/heic/png", ext: "png", mime: "image/png", field: "imageFile" },
+  "csv-to-xlsx": {
+    path: "convert/csv/to/xlsx",
+    ext: "xlsx",
+    mime: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  },
+  "xlsx-to-csv": { path: "convert/xlsx/to/csv", ext: "csv", mime: "text/csv" },
+  "pdf-to-pptx": {
+    path: "convert/pdf/to/pptx",
+    ext: "pptx",
+    mime: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  },
+  "html-to-pdf": { path: "convert/html/to/pdf", ext: "pdf", mime: "application/pdf" },
 };
 
 // Text (URL / HTML) → file conversions: JSON request body.

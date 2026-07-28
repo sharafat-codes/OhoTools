@@ -2278,6 +2278,82 @@ export const devTools: DevTool[] = [
     ],
     related: ["favicon-generator", "crop-image", "image-converter"],
   },
+  {
+    slug: "csv-to-xlsx",
+    name: "CSV to Excel",
+    tagline: "Convert a CSV file to an Excel spreadsheet.",
+    description:
+      "Convert CSV to Excel (XLSX) online. Turn a comma-separated file into a proper .xlsx spreadsheet with columns ready to sort and filter. An OhoTool Pro tool.",
+    keywords: ["csv to excel", "csv to xlsx", "convert csv to excel", "csv to spreadsheet", "open csv in excel"],
+    icon: FileSpreadsheetIcon,
+    intro:
+      "Turn a raw CSV file into a real Excel spreadsheet (.xlsx) — with the data split into proper columns you can sort, filter, and format. The file is processed securely on our server and deleted right after.",
+    steps: ["Choose your CSV file.", "Click Convert to Excel.", "Download the .xlsx spreadsheet."],
+    faqs: [
+      { q: "Why convert CSV to XLSX?", a: "CSV is just plain text; XLSX is a full Excel workbook with typed cells, formatting, and multiple sheets. Converting makes the data easier to work with in Excel." },
+      { q: "Is my file kept?", a: "No — it's processed on our server only to perform the conversion, then deleted." },
+    ],
+    related: ["xlsx-to-csv", "excel-to-pdf", "json-to-csv"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "xlsx-to-csv",
+    name: "Excel to CSV",
+    tagline: "Convert an Excel spreadsheet to a CSV file.",
+    description:
+      "Convert Excel (XLSX) to CSV online. Export a spreadsheet to a clean comma-separated file for imports, databases, and data tools. An OhoTool Pro tool.",
+    keywords: ["excel to csv", "xlsx to csv", "convert excel to csv", "spreadsheet to csv", "export excel as csv"],
+    icon: SheetIcon,
+    intro:
+      "Export an Excel spreadsheet (.xlsx) to a clean CSV file — perfect for importing into databases, analytics tools, or anything that expects comma-separated values. The file is processed securely on our server and deleted right after.",
+    steps: ["Choose your .xlsx file.", "Click Convert to CSV.", "Download the .csv file."],
+    faqs: [
+      { q: "Which sheet gets exported?", a: "The first worksheet is exported to CSV, since CSV files hold a single table of data." },
+      { q: "Is my file kept?", a: "No — it's processed on our server only to perform the conversion, then deleted." },
+    ],
+    related: ["csv-to-xlsx", "excel-to-pdf", "json-to-csv"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "pdf-to-pptx",
+    name: "PDF to PowerPoint",
+    tagline: "Convert a PDF into an editable PowerPoint.",
+    description:
+      "Convert PDF to PowerPoint (PPTX) online. Turn a PDF into editable slides you can reuse and present. An OhoTool Pro tool.",
+    keywords: ["pdf to powerpoint", "pdf to pptx", "convert pdf to ppt", "pdf to slides", "pdf to presentation"],
+    icon: PresentationIcon,
+    intro:
+      "Turn a PDF into an editable PowerPoint presentation (.pptx) — each page becomes a slide you can reuse, re-order, and present. The file is processed securely on our server and deleted right after.",
+    steps: ["Choose your PDF.", "Click Convert to PowerPoint.", "Download the .pptx presentation."],
+    faqs: [
+      { q: "Will the slides be fully editable?", a: "Text and elements are converted to editable slide content where possible. Complex or heavily-designed PDFs may need some tidying up." },
+      { q: "Is my file kept?", a: "No — it's processed on our server only to perform the conversion, then deleted." },
+    ],
+    related: ["pdf-to-word", "powerpoint-to-pdf", "pdf-to-images"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "html-to-pdf",
+    name: "HTML to PDF",
+    tagline: "Convert an HTML file into a PDF.",
+    description:
+      "Convert HTML to PDF online. Turn an .html file into a clean, shareable PDF with the layout preserved. An OhoTool Pro tool.",
+    keywords: ["html to pdf", "convert html to pdf", "webpage html to pdf", "save html as pdf", "html file to pdf"],
+    icon: CodeXmlIcon,
+    intro:
+      "Convert an HTML file into a polished PDF with the page layout preserved — great for invoices, reports, and templates. The file is processed securely on our server and deleted right after.",
+    steps: ["Choose your .html file.", "Click Convert to PDF.", "Download the PDF."],
+    faqs: [
+      { q: "What about a live web page?", a: "To convert a page by its address, use the URL to PDF tool instead. This tool converts an HTML file you upload." },
+      { q: "Is my file kept?", a: "No — it's processed on our server only to perform the conversion, then deleted." },
+    ],
+    related: ["url-to-pdf", "markdown-to-html", "text-to-pdf"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2394,6 +2470,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "unit-converter",
       "timezone-converter",
       "json-yaml",
+      "csv-to-xlsx",
+      "xlsx-to-csv",
       "markdown-to-html",
       "html-to-markdown",
       "image-converter",
@@ -2428,11 +2506,13 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "images-to-pdf",
       "text-to-pdf",
       "url-to-pdf",
+      "html-to-pdf",
       "office-to-pdf",
       "word-to-pdf",
       "powerpoint-to-pdf",
       "excel-to-pdf",
       "pdf-to-word",
+      "pdf-to-pptx",
       "sign-pdf",
       "rotate-pdf",
       "delete-pdf-pages",
