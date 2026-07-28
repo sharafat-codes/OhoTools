@@ -26,6 +26,9 @@ import * as passwordProtectGuide from "./posts/how-to-password-protect-a-file";
 import * as cropImageGuide from "./posts/how-to-crop-an-image-online";
 import * as audioToMp3Guide from "./posts/how-to-convert-audio-to-mp3";
 import * as removeNoiseGuide from "./posts/how-to-remove-background-noise-from-audio";
+import * as csvToExcelGuide from "./posts/how-to-convert-csv-to-excel";
+import * as pdfToPptxGuide from "./posts/how-to-convert-pdf-to-powerpoint";
+import * as htmlToPdfGuide from "./posts/how-to-convert-html-to-pdf";
 
 export type PostMeta = {
   slug: string;
@@ -70,6 +73,9 @@ const modules: BlogPost[] = [
   cropImageGuide,
   audioToMp3Guide,
   removeNoiseGuide,
+  csvToExcelGuide,
+  pdfToPptxGuide,
+  htmlToPdfGuide,
 ];
 
 /** All posts, newest first. */
