@@ -2509,7 +2509,7 @@ export const devTools: DevTool[] = [
       { q: "Where are my notes stored?", a: "Only in this browser, on this device. Nothing is uploaded to a server. Clearing your browser data will remove them." },
       { q: "Do I need an account?", a: "No — it works instantly with no sign-up." },
     ],
-    related: ["word-counter", "text-to-speech", "case-converter"],
+    related: ["word-counter", "case-converter", "countdown-timer"],
   },
   {
     slug: "stopwatch",
@@ -2561,23 +2561,6 @@ export const devTools: DevTool[] = [
       { q: "Can I change the lengths?", a: "Yes — set any focus and break duration before you start." },
     ],
     related: ["countdown-timer", "stopwatch", "online-notepad"],
-  },
-  {
-    slug: "text-to-speech",
-    name: "Text to Speech",
-    tagline: "Read any text aloud with natural voices.",
-    description:
-      "Free online text to speech. Paste text and hear it read aloud with your device's voices — adjust the voice, speed, and pitch. No sign-up, nothing uploaded.",
-    keywords: ["text to speech", "tts", "read text aloud", "text to voice", "text reader online"],
-    icon: Volume2Icon,
-    intro:
-      "Paste any text and have it read aloud — great for proofreading, accessibility, or listening on the go. Choose from the voices installed on your device and adjust the speed and pitch. It runs in your browser, so your text is never uploaded.",
-    steps: ["Paste or type your text.", "Pick a voice and adjust speed and pitch.", "Press Play to listen."],
-    faqs: [
-      { q: "Can I download the audio?", a: "Not currently — this tool plays the speech live using your browser's built-in voices. A downloadable audio export would require a paid speech service." },
-      { q: "Why are the voices different on each device?", a: "The available voices come from your browser and operating system, so the list varies between devices." },
-    ],
-    related: ["online-notepad", "word-counter", "ai-summarizer"],
   },
   {
     slug: "invoice-generator",
@@ -2697,7 +2680,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Productivity",
     blurb: "Notepad, timers, invoices, and everyday utilities.",
-    slugs: ["online-notepad", "stopwatch", "countdown-timer", "pomodoro-timer", "text-to-speech", "invoice-generator"],
+    slugs: ["online-notepad", "stopwatch", "countdown-timer", "pomodoro-timer", "invoice-generator"],
   },
   {
     name: "Developer",
@@ -3053,8 +3036,8 @@ export const categoryPages: CategoryPage[] = [
     name: "Productivity",
     seoTitle: "Productivity Tools",
     seoDescription:
-      "Free online productivity tools — an autosaving notepad, stopwatch, countdown and Pomodoro timers, text to speech, and an invoice generator. In your browser, no sign-up.",
-    keywords: ["productivity tools", "online notepad", "online timer", "pomodoro timer", "text to speech", "invoice generator"],
+      "Free online productivity tools — an autosaving notepad, stopwatch, countdown and Pomodoro timers, and an invoice generator. In your browser, no sign-up.",
+    keywords: ["productivity tools", "online notepad", "online timer", "pomodoro timer", "invoice generator", "stopwatch"],
     h1: "Free productivity tools",
     intro:
       "Everyday utilities that just work — jot notes that autosave, time your focus sessions, listen to text read aloud, and generate a clean invoice PDF. Everything runs in your browser, so your data stays on your device.",
