@@ -4,7 +4,7 @@ import type { PostMeta } from "@/modules/blog";
 
 export const meta: PostMeta = {
   slug: "how-to-format-and-validate-json",
-  title: "How to Format, Validate, and Fix JSON (Common Errors Explained)",
+  title: "How to Format & Fix JSON (Common Errors)",
   description:
     "Learn how to format and validate JSON, minify it for production, and fix the most common JSON syntax errors — trailing commas, single quotes, and more.",
   keywords: [

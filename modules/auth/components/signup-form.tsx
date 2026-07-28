@@ -49,7 +49,7 @@ export function SignupForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Create your account</CardTitle>
+        <CardTitle as="h1" className="text-lg">Create your account</CardTitle>
         <CardDescription>Start using OhoTool for free.</CardDescription>
       </CardHeader>
       <CardContent>

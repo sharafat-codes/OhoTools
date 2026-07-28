@@ -51,7 +51,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Set a new password</CardTitle>
+        <CardTitle as="h1" className="text-lg">Set a new password</CardTitle>
         <CardDescription>Choose a strong password you don&apos;t use elsewhere.</CardDescription>
       </CardHeader>
       <CardContent>

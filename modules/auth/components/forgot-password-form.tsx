@@ -56,7 +56,7 @@ export function ForgotPasswordForm() {
           <div className="mb-1 grid size-9 place-items-center rounded-lg bg-muted text-foreground">
             <MailCheckIcon className="size-4.5" />
           </div>
-          <CardTitle className="text-lg">Check your email</CardTitle>
+          <CardTitle as="h1" className="text-lg">Check your email</CardTitle>
           <CardDescription>
             If an account exists for that address, we&apos;ve sent a link to
             reset your password.
@@ -74,7 +74,7 @@ export function ForgotPasswordForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Reset your password</CardTitle>
+        <CardTitle as="h1" className="text-lg">Reset your password</CardTitle>
         <CardDescription>
           Enter your email and we&apos;ll send you a reset link.
         </CardDescription>
