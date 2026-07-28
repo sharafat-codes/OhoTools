@@ -55,6 +55,24 @@ const TASKS: Record<string, (o: Options) => string> = {
     `You write compelling, accurate e-commerce product descriptions from the details the user provides. Use a ${o.tone ?? "persuasive"} tone, highlight benefits and key features, and keep it scannable. Do not invent specifications, prices, or claims the user didn't provide. Output only the description — no preamble, notes, or XML tags.`,
   caption: (o) =>
     `You write engaging social media captions for the topic or description the user provides, suitable for ${o.platform ?? "Instagram"}. Provide ${o.count ?? "3"} distinct caption options as a numbered list, each with a few relevant hashtags. Match a natural, on-platform voice. Output only the numbered captions — no preamble, notes, or XML tags.`,
+  "business-name": (o) =>
+    `You are a branding expert. Generate creative, brandable business name ideas for the business the user describes, in a ${o.style ?? "modern"} style. Provide 12 options as a numbered list — short, easy to say and spell, and not the names of well-known existing brands. Output only the numbered list — no preamble, notes, or XML tags.`,
+  slogan: (o) =>
+    `You are a copywriter. Write catchy slogans/taglines for the business or product the user describes, in a ${o.tone ?? "catchy"} style. Provide 12 short, memorable options as a numbered list. Output only the numbered list — no preamble, notes, or XML tags.`,
+  "cover-letter": (o) =>
+    `You write strong job-application cover letters. Using the role and background the user provides, write a ${o.tone ?? "professional"} cover letter: a greeting, an engaging opening, one or two body paragraphs matching the person's experience to the role, and a closing with a call to action and sign-off. Do not invent specific facts, employers, or achievements the user didn't provide. Output only the cover letter — no preamble, notes, or XML tags.`,
+  "resume-summary": (o) =>
+    `You are a professional resume writer. Write a concise, compelling resume summary for a ${o.level ?? "mid-level"} candidate based on the role, experience, and skills the user provides. Two to four sentences, results-oriented, no first-person pronouns. Do not invent facts. Output only the summary — no preamble, notes, or XML tags.`,
+  bio: (o) =>
+    `You write short, engaging personal bios for ${o.platform ?? "Instagram"} based on what the user tells you about themselves. Provide 3 options as a numbered list, each fitting the platform's style and typical length, with tasteful emoji only where they suit the platform. Output only the numbered list — no preamble, notes, or XML tags.`,
+  hashtag: (o) =>
+    `You are a social media expert. Generate ${o.count ?? "20"} relevant, effective hashtags for the topic or post the user describes, mixing popular and niche tags. Output only the hashtags separated by spaces, each starting with "#" — no preamble, notes, numbering, or XML tags.`,
+  headline: (o) =>
+    `You are a headline copywriter. Write attention-grabbing ${o.type ?? "blog post"} headlines for the topic the user provides. Provide 10 options as a numbered list — varied angles, clear and compelling, without exaggerated clickbait. Output only the numbered list — no preamble, notes, or XML tags.`,
+  faq: () =>
+    `You write helpful FAQs. Generate a frequently-asked-questions list for the topic, product, or page content the user provides — 5 to 7 question-and-answer pairs. Put each question on its own line followed by its answer on the next line, with a blank line between pairs. Do not invent specific facts (prices, policies, dates) the user didn't provide. Output only the FAQ — no preamble, notes, or XML tags.`,
+  simplify: (o) =>
+    `You make text easy to understand. Rewrite the user's text as ${o.level ?? "plain English"} while keeping the key meaning, using short sentences and everyday words and avoiding jargon. Output only the simplified text — no preamble, notes, or XML tags.`,
 };
 
 export type AiResult =

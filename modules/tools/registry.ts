@@ -102,6 +102,12 @@ import {
   TimerIcon,
   HourglassIcon,
   AlarmClockIcon,
+  RocketIcon,
+  BriefcaseIcon,
+  UserRoundIcon,
+  HeadingIcon,
+  MessagesSquareIcon,
+  BookOpenIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -2163,6 +2169,177 @@ export const devTools: DevTool[] = [
     serverSide: true,
   },
   {
+    slug: "business-name-generator",
+    name: "Business Name Generator",
+    tagline: "Brainstorm brandable business names with AI.",
+    description:
+      "Free AI business name generator. Describe your business and get brandable, available-sounding name ideas in seconds. Free daily runs, unlimited on Pro.",
+    keywords: ["business name generator", "company name generator", "brand name generator", "startup name ideas", "name generator"],
+    icon: RocketIcon,
+    intro:
+      "Stuck on what to call your business? Describe what you do and get a batch of short, brandable name ideas to shortlist. Pick a style, run it as many times as you like for fresh options. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Describe your business, product, or industry.", "Pick a naming style.", "Generate and shortlist your favorites."],
+    faqs: [
+      { q: "Are the names available to register?", a: "Always check domain and trademark availability yourself — the tool suggests ideas but can't verify registration." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["slogan-generator", "caption-generator", "bio-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "slogan-generator",
+    name: "Slogan Generator",
+    tagline: "Create catchy slogans and taglines.",
+    description:
+      "Free AI slogan generator. Describe your business or product and get catchy, memorable taglines. Free daily runs, unlimited on Pro.",
+    keywords: ["slogan generator", "tagline generator", "catchphrase generator", "motto generator", "business slogan"],
+    icon: MegaphoneIcon,
+    intro:
+      "Get a batch of catchy slogan and tagline ideas for your business or product — just describe it and pick a tone. Run it again for fresh angles. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Describe your business or product.", "Pick a tone.", "Generate and pick your favorite tagline."],
+    faqs: [
+      { q: "Can I use these commercially?", a: "Yes — but check that a slogan isn't already trademarked by someone else before you build a brand around it." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["business-name-generator", "caption-generator", "product-description-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "cover-letter-generator",
+    name: "Cover Letter Generator",
+    tagline: "Write a tailored cover letter in seconds.",
+    description:
+      "Free AI cover letter generator. Enter the role and your background and get a polished, tailored cover letter. Free daily runs, unlimited on Pro.",
+    keywords: ["cover letter generator", "ai cover letter", "write a cover letter", "cover letter maker", "job application letter"],
+    icon: FileTextIcon,
+    intro:
+      "Turn the job details and your background into a polished, tailored cover letter — greeting, a strong opening, experience matched to the role, and a confident close. Pick a tone and edit to taste. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste the job description and your key experience.", "Pick a tone.", "Generate, then tweak and send."],
+    faqs: [
+      { q: "Will it make things up about me?", a: "It writes around the details you provide and avoids inventing employers, dates, or achievements — always review before sending." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["resume-summary-generator", "ai-email-writer", "ai-grammar-checker"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "resume-summary-generator",
+    name: "Resume Summary Generator",
+    tagline: "Write a strong resume summary or profile.",
+    description:
+      "Free AI resume summary generator. Turn your role, experience, and skills into a concise professional summary for your resume. Free daily runs, unlimited on Pro.",
+    keywords: ["resume summary generator", "professional summary generator", "cv summary", "resume profile", "resume summary examples"],
+    icon: BriefcaseIcon,
+    intro:
+      "Get a concise, results-oriented professional summary for the top of your resume — just enter your role, experience, and key skills, and pick your level. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Enter your role, experience, and skills.", "Pick your experience level.", "Generate and paste it into your resume."],
+    faqs: [
+      { q: "How long is the summary?", a: "Two to four punchy sentences — the ideal length for a resume profile that recruiters actually read." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["cover-letter-generator", "ai-paraphraser", "ai-grammar-checker"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "bio-generator",
+    name: "Bio Generator",
+    tagline: "Write a catchy bio for any profile.",
+    description:
+      "Free AI bio generator. Create a short, engaging bio for Instagram, LinkedIn, X, or any profile. Free daily runs, unlimited on Pro.",
+    keywords: ["bio generator", "instagram bio generator", "linkedin bio generator", "profile bio", "social media bio"],
+    icon: UserRoundIcon,
+    intro:
+      "Tell it a bit about yourself and get short, engaging bio options tuned to the platform — Instagram, LinkedIn, X, and more. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Describe yourself — what you do and your vibe.", "Pick the platform.", "Generate and pick your favorite bio."],
+    faqs: [
+      { q: "Does it fit character limits?", a: "It aims for the typical length of the platform you choose; trim as needed for hard limits." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["hashtag-generator", "caption-generator", "business-name-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "hashtag-generator",
+    name: "Hashtag Generator",
+    tagline: "Get relevant hashtags for any post.",
+    description:
+      "Free AI hashtag generator. Enter a topic and get a mix of popular and niche hashtags for Instagram, TikTok, and more. Free daily runs, unlimited on Pro.",
+    keywords: ["hashtag generator", "instagram hashtag generator", "tiktok hashtags", "hashtags for reels", "best hashtags"],
+    icon: TagsIcon,
+    intro:
+      "Enter your topic or describe your post and get a set of relevant hashtags — a mix of popular and niche tags to widen reach. Choose how many you want. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Describe your post or topic.", "Choose how many hashtags.", "Generate and copy the set."],
+    faqs: [
+      { q: "How many hashtags should I use?", a: "It varies by platform — the tool lets you generate 10, 20, or 30 so you can match each network's best practice." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["caption-generator", "bio-generator", "headline-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "headline-generator",
+    name: "Headline Generator",
+    tagline: "Generate click-worthy titles and headlines.",
+    description:
+      "Free AI headline generator. Get attention-grabbing titles for blog posts, YouTube videos, ads, and more. Free daily runs, unlimited on Pro.",
+    keywords: ["headline generator", "title generator", "blog title generator", "youtube title generator", "ai headline"],
+    icon: HeadingIcon,
+    intro:
+      "Enter your topic and get a batch of compelling headline options — for blog posts, YouTube videos, news, or ads. Varied angles, clear and clickable without the cheap clickbait. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Enter your topic or article summary.", "Pick the content type.", "Generate and choose the strongest headline."],
+    faqs: [
+      { q: "What kinds of headlines can it write?", a: "Blog posts, YouTube video titles, news headlines, and ad headlines — pick the type to match the format." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["ai-summarizer", "hashtag-generator", "faq-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "faq-generator",
+    name: "FAQ Generator",
+    tagline: "Generate an FAQ from any topic or page.",
+    description:
+      "Free AI FAQ generator. Turn a topic, product, or page into a set of clear question-and-answer pairs — great for SEO and support. Free daily runs, unlimited on Pro.",
+    keywords: ["faq generator", "faq maker", "questions and answers generator", "faq schema content", "generate faqs"],
+    icon: MessagesSquareIcon,
+    intro:
+      "Paste a topic, product summary, or page content and get a ready-to-use FAQ — clear questions with concise answers. Great for support pages and SEO. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste your topic, product, or page content.", "Generate the FAQ.", "Copy the question-and-answer pairs."],
+    faqs: [
+      { q: "Will it invent facts like prices?", a: "No — it writes around what you provide and avoids inventing specifics like prices or policies, so review and fill those in." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["headline-generator", "ai-summarizer", "meta-tag-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "simplify-text",
+    name: "Simplify Text",
+    tagline: "Rewrite complex text in plain language.",
+    description:
+      "Free AI text simplifier. Turn complex or jargon-heavy writing into clear, plain language anyone can understand. Free daily runs, unlimited on Pro.",
+    keywords: ["simplify text", "text simplifier", "plain english converter", "explain simply", "make text easier to read"],
+    icon: BookOpenIcon,
+    intro:
+      "Paste dense, technical, or jargon-heavy text and get a version that's easy to understand — short sentences, everyday words, meaning intact. Choose how simple you want it. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste the text you want to simplify.", "Pick how simple to make it.", "Generate the plain-language version."],
+    faqs: [
+      { q: "Does it keep the meaning?", a: "Yes — it simplifies the wording and structure while preserving the key meaning of your text." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["ai-summarizer", "ai-paraphraser", "text-shortener"],
+    pro: true,
+    serverSide: true,
+  },
+  {
     slug: "video-to-gif",
     name: "Video to GIF",
     tagline: "Turn a video clip into an animated GIF.",
@@ -2655,11 +2832,20 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "tone-changer",
       "text-expander",
       "text-shortener",
+      "simplify-text",
       "ai-translator",
       "ai-grammar-checker",
       "ai-email-writer",
-      "product-description-generator",
+      "cover-letter-generator",
+      "resume-summary-generator",
+      "business-name-generator",
+      "slogan-generator",
+      "bio-generator",
+      "hashtag-generator",
+      "headline-generator",
       "caption-generator",
+      "product-description-generator",
+      "faq-generator",
     ],
   },
   {
