@@ -19,11 +19,12 @@ export const PLANS: Plan[] = [
     price: 0,
     tagline: "Everything you need, no account required.",
     features: [
-      "80+ online tools — free & unlimited",
+      "130+ online tools — free, no ads",
+      "AI writing tools — free daily use",
+      "PDF, image, audio & video tools",
       "Encrypted file sharing (Send)",
       "Import from Dropbox & Google Drive",
       "QR & barcode generator",
-      "No ads",
     ],
   },
   {
@@ -34,7 +35,8 @@ export const PLANS: Plan[] = [
     popular: true,
     features: [
       "Everything in Free",
-      "Word, Excel & PowerPoint ↔ PDF conversions",
+      "Unlimited AI — 20+ writing & content tools",
+      "Office ↔ PDF, CSV ↔ Excel & more converters",
       "Send links that last up to 7 days",
       "Conversions API for automation",
       "Dynamic QR codes + scan analytics",

@@ -59,34 +59,34 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
 const HERO_TILES = [
   "word-to-pdf",
   "image-to-text",
+  "ai-summarizer",
   "merge-pdf",
-  "json-formatter",
   "qr-code",
   "compress-image",
   "pdf-to-word",
-  "case-converter",
-  "unit-converter",
+  "json-formatter",
+  "online-notepad",
 ];
 
 const POPULAR = [
   "word-to-pdf",
   "pdf-to-word",
   "merge-pdf",
-  "compress-pdf",
+  "ai-summarizer",
   "image-to-text",
   "image-converter",
   "compress-image",
-  "images-to-pdf",
+  "ai-humanizer",
   "json-formatter",
   "qr-code",
   "password-generator",
-  "unit-converter",
+  "invoice-generator",
 ];
 
 const faqs = [
   {
     q: "Are OhoTool's tools really free?",
-    a: "Yes. All 80+ core tools are free and unlimited — no ads, no sign-up. A Pro plan adds advanced extras like dynamic QR codes, scan analytics, custom branding, and Office↔PDF conversions.",
+    a: "Most of our 130+ tools are free and unlimited — no ads, no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.",
   },
   {
     q: "Do I need an account to use the tools?",
@@ -98,11 +98,11 @@ const faqs = [
   },
   {
     q: "What file conversions do you support?",
-    a: "Word, PowerPoint, and Excel to PDF; PDF to Word; images to and from PDF; HEIC to JPG/PNG; image format conversion and compression; image-to-text (OCR); and Markdown/HTML/code conversions — among many others.",
+    a: "Word, PowerPoint, and Excel to PDF; PDF to Word and PowerPoint; CSV↔Excel; HTML to PDF; images to and from PDF; HEIC to JPG/PNG; image conversion, compression, and editing; image-to-text (OCR); audio and video conversion; and Markdown/HTML/code conversions — among many others.",
   },
   {
     q: "What do I get with Pro?",
-    a: "Dynamic QR codes you can edit anytime, scan analytics, custom branding with SVG/PDF export, bulk generation, advanced Office↔PDF conversions, and an API.",
+    a: "Unlimited AI writing tools, advanced document conversions (Office↔PDF, CSV↔Excel, and more), dynamic QR codes with scan analytics and branding, bulk generation, and an API.",
   },
   {
     q: "Can I cancel anytime?",
@@ -141,7 +141,7 @@ export default async function Home() {
         operatingSystem: "Web",
         url: siteUrl,
         description:
-          "80+ free online tools that run in your browser — PDF and document converters, image tools, text utilities, calculators, developer tools, and QR codes.",
+          "130+ free online tools — PDF & document converters, AI writing tools, image, audio & video tools, text utilities, calculators, developer tools, and QR codes.",
         offers: PLANS.map((p) => ({
           "@type": "Offer",
           name: p.name,
@@ -185,10 +185,10 @@ export default async function Home() {
                 Every online tool you need, in one place.
               </h1>
               <p className="mt-6 max-w-lg text-pretty text-lg text-muted-foreground">
-                Convert PDFs and documents, edit and compress images, wrangle
-                text and code, crunch numbers, and generate QR codes.{" "}
-                {devTools.length} fast, private tools — no sign-up, nothing
-                uploaded.
+                Convert PDFs, edit images, write with AI, wrangle text and code,
+                crunch numbers, and generate QR codes.{" "}
+                {devTools.length} fast tools — no sign-up, and most run right in
+                your browser.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button size="lg" render={<Link href="/tools" />}>
@@ -407,11 +407,17 @@ export default async function Home() {
             <SectionHeading
               eyebrow="OhoTool Pro"
               title="Level up when you need more"
-              subtitle="Everything free, plus dynamic QR codes with analytics, advanced document conversions, bulk tools, and an API."
+              subtitle="Everything free, plus unlimited AI writing tools, advanced document conversions, dynamic QR codes with analytics, and an API."
             />
             <div className="mt-12 grid gap-4 md:grid-cols-6">
               <FeatureCard
-                className="md:col-span-4"
+                className="md:col-span-3"
+                icon={SparklesIcon}
+                title="Unlimited AI tools"
+                body="Summarize, paraphrase, humanize, translate, write emails, and 20+ more. Everyone gets a free daily allowance — Pro removes the cap."
+              />
+              <FeatureCard
+                className="md:col-span-3"
                 icon={ZapIcon}
                 title="Dynamic QR + scan analytics"
                 body="Point a printed code anywhere, then re-point it whenever you want. Track scans over time, by device and referrer."
@@ -420,8 +426,14 @@ export default async function Home() {
               </FeatureCard>
               <FeatureCard
                 className="md:col-span-2"
+                icon={FileTextIcon}
+                title="Advanced conversions"
+                body="Office↔PDF, CSV↔Excel, PDF→PowerPoint, and more — processed on our server."
+              />
+              <FeatureCard
+                className="md:col-span-2"
                 icon={QrCodeIcon}
-                title="On-brand codes"
+                title="On-brand QR codes"
                 body="Logo, colors, gradients, and shapes. Export PNG, SVG, or PDF."
               >
                 <div
@@ -430,13 +442,7 @@ export default async function Home() {
                 />
               </FeatureCard>
               <FeatureCard
-                className="md:col-span-3"
-                icon={FileTextIcon}
-                title="Advanced conversions"
-                body="Word, PowerPoint, and Excel to PDF, PDF to Word, and more — powered on our server."
-              />
-              <FeatureCard
-                className="md:col-span-3"
+                className="md:col-span-2"
                 icon={TerminalIcon}
                 title="Automate with the API"
                 body="Generate codes programmatically with a simple REST endpoint."

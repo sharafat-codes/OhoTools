@@ -11,12 +11,12 @@ import { Badge } from "@/components/ui/badge";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "OhoTool pricing — every tool is free forever. Upgrade to Pro for dynamic QR codes, scan analytics, branding, bulk generation, and API access.",
+    "OhoTool pricing — 130+ tools free. Upgrade to Pro for unlimited AI, advanced document conversions, dynamic QR analytics, bulk tools, and API access.",
   alternates: { canonical: "/pricing" },
 };
 
 const REASSURANCE = [
-  { icon: InfinityIcon, label: "60+ free tools" },
+  { icon: InfinityIcon, label: "130+ free tools" },
   { icon: ShieldOffIcon, label: "No ads, ever" },
   { icon: ZapIcon, label: "No sign-up to use tools" },
   { icon: XCircleIcon, label: "Cancel anytime" },
@@ -25,11 +25,11 @@ const REASSURANCE = [
 const FAQS = [
   {
     q: "Are the tools really free?",
-    a: "Yes. Every tool on OhoTool is free to use, with no limits and no ads — most don't even require an account. Pro is only for the account-based extras like dynamic QR codes and the API.",
+    a: "The vast majority are free and unlimited with no ads, and most don't even need an account. The AI tools give everyone a free daily allowance; Pro removes the limit. A few advanced document conversions are Pro features.",
   },
   {
     q: "What do I actually get with Pro?",
-    a: "Dynamic QR codes you can edit after printing, scan analytics, logo and color branding, SVG/PDF export, unlimited saved codes, bulk generation, API access, and priority support.",
+    a: "Unlimited AI tools, advanced document conversions (Office↔PDF, CSV↔Excel, PDF→PowerPoint, and more), dynamic QR codes with scan analytics and branding, bulk generation, API access, and priority support.",
   },
   {
     q: "Do I need an account to use the tools?",
@@ -52,8 +52,8 @@ export default async function PricingPage() {
           Simple, honest pricing
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Every tool on OhoTool is free forever. Upgrade only when you need dynamic QR codes,
-          analytics, branding, bulk generation, and the API.
+          Most tools are free forever. Upgrade for unlimited AI, advanced document conversions,
+          dynamic QR analytics, bulk tools, and the API.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
           {REASSURANCE.map((r) => (
