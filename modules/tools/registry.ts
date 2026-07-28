@@ -87,6 +87,9 @@ import {
   ScrollTextIcon,
   LanguagesIcon,
   SpellCheckIcon,
+  FilmIcon,
+  VideoIcon,
+  Music2Icon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -2014,6 +2017,91 @@ export const devTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+  {
+    slug: "video-to-gif",
+    name: "Video to GIF",
+    tagline: "Turn a video clip into an animated GIF.",
+    description:
+      "Free online video to GIF converter. Turn MP4, WebM, or MOV clips into animated GIFs right in your browser — choose the frame rate and size. Nothing is uploaded.",
+    keywords: ["video to gif", "mp4 to gif", "convert video to gif", "gif maker", "webm to gif"],
+    icon: FilmIcon,
+    intro:
+      "Convert a short video clip into an animated GIF — great for reactions, demos, and social posts. It runs entirely in your browser, so your video never leaves your device. Best for short clips.",
+    steps: ["Choose a video.", "Pick the frame rate and width.", "Convert and download the GIF."],
+    faqs: [
+      { q: "Is my video uploaded?", a: "No — the conversion runs locally in your browser, so your video never leaves your device." },
+      { q: "Why keep clips short?", a: "GIFs are large and processing happens in your browser, so short clips (a few seconds) give the best size and speed." },
+    ],
+    related: ["compress-video", "video-to-mp4", "image-converter"],
+  },
+  {
+    slug: "video-to-mp4",
+    name: "Video to MP4",
+    tagline: "Convert WebM, MOV, MKV & more to MP4.",
+    description:
+      "Free online video converter. Convert WebM, MOV, MKV, AVI, and more to MP4 (H.264) right in your browser — no upload, no watermark.",
+    keywords: ["video to mp4", "webm to mp4", "mov to mp4", "mkv to mp4", "video converter"],
+    icon: VideoIcon,
+    intro:
+      "Convert videos to the universally-compatible MP4 (H.264) format — great for playback anywhere. It runs entirely in your browser, so your video never leaves your device. Best for short clips.",
+    steps: ["Choose a video.", "Click Convert.", "Download the MP4."],
+    faqs: [
+      { q: "Which formats can I convert?", a: "WebM, MOV, MKV, AVI, and most common video formats — all converted to MP4 (H.264 video, AAC audio)." },
+      { q: "Is my video uploaded?", a: "No — conversion runs locally in your browser; your video never leaves your device." },
+    ],
+    related: ["compress-video", "video-to-gif", "video-to-mp3"],
+  },
+  {
+    slug: "compress-video",
+    name: "Compress Video",
+    tagline: "Shrink video file size in your browser.",
+    description:
+      "Free online video compressor. Reduce MP4 and other video file sizes right in your browser — pick a quality level. No upload, no watermark.",
+    keywords: ["compress video", "video compressor", "reduce video size", "make video smaller", "shrink mp4"],
+    icon: ShrinkIcon,
+    intro:
+      "Make a video smaller so it fits an upload limit or shares faster. Choose a quality level and compress — all in your browser, so your video never leaves your device. Best for short clips.",
+    steps: ["Choose a video.", "Pick a quality level.", "Compress and download."],
+    faqs: [
+      { q: "How much smaller will it get?", a: "It depends on the source, but re-encoding at a higher compression level often cuts size substantially with little visible loss." },
+      { q: "Is my video uploaded?", a: "No — compression runs locally in your browser; your video never leaves your device." },
+    ],
+    related: ["video-to-mp4", "video-to-gif", "compress-image"],
+  },
+  {
+    slug: "trim-video",
+    name: "Trim Video",
+    tagline: "Cut a clip from your video.",
+    description:
+      "Free online video trimmer. Cut a start-to-end clip from any video right in your browser — fast, no upload, no watermark.",
+    keywords: ["trim video", "cut video", "video trimmer", "video cutter", "clip video"],
+    icon: ScissorsIcon,
+    intro:
+      "Cut out just the part you need by setting a start and end time. It runs entirely in your browser, so your video never leaves your device. Best for short clips.",
+    steps: ["Choose a video.", "Set the start and end time (hh:mm:ss).", "Trim and download the clip."],
+    faqs: [
+      { q: "How accurate is the cut?", a: "Trimming is fast and cuts to the nearest keyframe, so the start may shift by a fraction of a second." },
+      { q: "Is my video uploaded?", a: "No — trimming runs locally in your browser; your video never leaves your device." },
+    ],
+    related: ["compress-video", "video-to-gif", "video-to-mp3"],
+  },
+  {
+    slug: "video-to-mp3",
+    name: "Video to MP3",
+    tagline: "Extract audio from a video as MP3.",
+    description:
+      "Free online video to MP3 converter. Extract the audio track from any video as an MP3 right in your browser — pick the bitrate. No upload.",
+    keywords: ["video to mp3", "extract audio from video", "mp4 to mp3", "video to audio", "convert video to mp3"],
+    icon: Music2Icon,
+    intro:
+      "Pull the audio out of a video and save it as an MP3 — great for talks, music, and podcasts. It runs entirely in your browser, so your video never leaves your device.",
+    steps: ["Choose a video.", "Pick the audio bitrate.", "Extract and download the MP3."],
+    faqs: [
+      { q: "What quality can I get?", a: "Choose 128, 192, or 320 kbps — higher bitrate means better quality and a larger file." },
+      { q: "Is my video uploaded?", a: "No — extraction runs locally in your browser; your video never leaves your device." },
+    ],
+    related: ["video-to-mp4", "trim-video", "compress-video"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2084,6 +2172,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "AI",
     blurb: "Summarize, rewrite, translate, and fix text with AI.",
     slugs: ["ai-summarizer", "ai-paraphraser", "ai-translator", "ai-grammar-checker"],
+  },
+  {
+    name: "Video & GIF",
+    blurb: "Convert, compress, trim, and extract — in your browser.",
+    slugs: ["video-to-gif", "video-to-mp4", "compress-video", "trim-video", "video-to-mp3"],
   },
   {
     name: "Developer",
@@ -2380,6 +2473,22 @@ export const categoryPages: CategoryPage[] = [
       { q: "Which AI powers these tools?", a: "They're powered by Anthropic's Claude models for high-quality, context-aware results." },
       { q: "Are the AI tools free?", a: "They're a Pro feature — the underlying AI has a per-use cost. All of OhoTool's other tools are free." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to produce the result and is not stored on our servers afterward." },
+    ],
+  },
+  {
+    slug: "video",
+    name: "Video & GIF",
+    seoTitle: "Video & GIF Tools",
+    seoDescription:
+      "Free online video tools — convert video to GIF or MP4, compress video, trim clips, and extract audio to MP3. Everything runs in your browser; nothing is uploaded.",
+    keywords: ["video tools", "video to gif", "video to mp4", "compress video", "trim video", "video to mp3"],
+    h1: "Free video & GIF tools",
+    intro:
+      "Convert, compress, trim, and extract audio from videos — all in your browser, so your files never leave your device. No sign-up, no watermarks. Best for short clips.",
+    faqs: [
+      { q: "Are my videos uploaded?", a: "No — these tools process video locally in your browser using an in-page engine, so your files never leave your device." },
+      { q: "Why is there a file size limit?", a: "Processing happens in your browser's memory, so large videos can be slow or fail. Short clips work best." },
+      { q: "Do I need an account?", a: "No — every video tool is free and works instantly with no sign-up." },
     ],
   },
 ];
