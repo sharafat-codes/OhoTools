@@ -98,6 +98,10 @@ import {
   ExpandIcon,
   MailIcon,
   PackageIcon,
+  NotebookPenIcon,
+  TimerIcon,
+  HourglassIcon,
+  AlarmClockIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -2490,6 +2494,108 @@ export const devTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+  {
+    slug: "online-notepad",
+    name: "Online Notepad",
+    tagline: "A simple notepad that saves as you type.",
+    description:
+      "Free online notepad. A distraction-free place to write quick notes that autosave in your browser — with word count and one-click download. No sign-up.",
+    keywords: ["online notepad", "notepad online", "notes online", "web notepad", "quick notes"],
+    icon: NotebookPenIcon,
+    intro:
+      "A clean, distraction-free notepad in your browser. Everything you type saves automatically to this device, so your notes are still here when you come back. Nothing is uploaded — download a .txt copy any time.",
+    steps: ["Start typing — your notes save automatically.", "Come back any time; they'll still be here.", "Download a .txt copy or copy the text when you need it."],
+    faqs: [
+      { q: "Where are my notes stored?", a: "Only in this browser, on this device. Nothing is uploaded to a server. Clearing your browser data will remove them." },
+      { q: "Do I need an account?", a: "No — it works instantly with no sign-up." },
+    ],
+    related: ["word-counter", "text-to-speech", "case-converter"],
+  },
+  {
+    slug: "stopwatch",
+    name: "Online Stopwatch",
+    tagline: "Start, stop, and lap — right in your browser.",
+    description:
+      "Free online stopwatch with lap times. Start, pause, and record laps with a big, clear display. No download, no sign-up.",
+    keywords: ["online stopwatch", "stopwatch", "stopwatch online", "lap timer", "web stopwatch"],
+    icon: TimerIcon,
+    intro:
+      "A precise online stopwatch with a big, easy-to-read display and lap times — perfect for workouts, cooking, study sessions, and timing anything. Runs entirely in your browser.",
+    steps: ["Press Start to begin timing.", "Tap Lap to record split times.", "Pause or Reset whenever you're done."],
+    faqs: [
+      { q: "Does it keep timing if I switch tabs?", a: "It keeps counting based on the real clock, so the elapsed time stays accurate when you come back." },
+      { q: "Is there a sound?", a: "The stopwatch is silent; for an alert when time runs out, use the Countdown Timer." },
+    ],
+    related: ["countdown-timer", "pomodoro-timer", "online-notepad"],
+  },
+  {
+    slug: "countdown-timer",
+    name: "Countdown Timer",
+    tagline: "Set a timer with a sound alert.",
+    description:
+      "Free online countdown timer. Set minutes and seconds, hit start, and get a sound alert when time's up. Quick presets, big display, no sign-up.",
+    keywords: ["countdown timer", "online timer", "timer online", "set a timer", "timer with alarm"],
+    icon: HourglassIcon,
+    intro:
+      "Set a countdown, press start, and get a clear chime when time runs out — great for cooking, workouts, breaks, and focus sessions. Use the quick presets or set an exact time. Runs in your browser.",
+    steps: ["Enter minutes and seconds (or tap a preset).", "Press Start.", "Hear the alert when the timer reaches zero."],
+    faqs: [
+      { q: "Will it alert me when done?", a: "Yes — it plays a chime when the countdown reaches zero. Keep the tab open and your volume on." },
+      { q: "Do I need to install anything?", a: "No — it runs entirely in your browser with no sign-up." },
+    ],
+    related: ["pomodoro-timer", "stopwatch", "online-notepad"],
+  },
+  {
+    slug: "pomodoro-timer",
+    name: "Pomodoro Timer",
+    tagline: "Focus in sprints with work/break cycles.",
+    description:
+      "Free online Pomodoro timer. Work in focused 25-minute sprints with short breaks and a chime between phases. Adjustable, no sign-up.",
+    keywords: ["pomodoro timer", "pomodoro", "focus timer", "study timer", "25 minute timer"],
+    icon: AlarmClockIcon,
+    intro:
+      "The Pomodoro technique: focus for a set sprint, take a short break, repeat. This timer runs the cycle for you with a chime between phases and a round counter, and you can adjust the focus and break lengths. Runs in your browser.",
+    steps: ["Set your focus and break lengths (defaults 25 / 5).", "Start the focus sprint.", "When the chime sounds, start your break — then the next sprint."],
+    faqs: [
+      { q: "What is the Pomodoro technique?", a: "A time-management method: work in focused intervals (traditionally 25 minutes) separated by short breaks to stay fresh and productive." },
+      { q: "Can I change the lengths?", a: "Yes — set any focus and break duration before you start." },
+    ],
+    related: ["countdown-timer", "stopwatch", "online-notepad"],
+  },
+  {
+    slug: "text-to-speech",
+    name: "Text to Speech",
+    tagline: "Read any text aloud with natural voices.",
+    description:
+      "Free online text to speech. Paste text and hear it read aloud with your device's voices — adjust the voice, speed, and pitch. No sign-up, nothing uploaded.",
+    keywords: ["text to speech", "tts", "read text aloud", "text to voice", "text reader online"],
+    icon: Volume2Icon,
+    intro:
+      "Paste any text and have it read aloud — great for proofreading, accessibility, or listening on the go. Choose from the voices installed on your device and adjust the speed and pitch. It runs in your browser, so your text is never uploaded.",
+    steps: ["Paste or type your text.", "Pick a voice and adjust speed and pitch.", "Press Play to listen."],
+    faqs: [
+      { q: "Can I download the audio?", a: "Not currently — this tool plays the speech live using your browser's built-in voices. A downloadable audio export would require a paid speech service." },
+      { q: "Why are the voices different on each device?", a: "The available voices come from your browser and operating system, so the list varies between devices." },
+    ],
+    related: ["online-notepad", "word-counter", "ai-summarizer"],
+  },
+  {
+    slug: "invoice-generator",
+    name: "Invoice Generator",
+    tagline: "Create and download a professional invoice PDF.",
+    description:
+      "Free invoice generator. Fill in your details and line items and download a clean, professional invoice as a PDF — built in your browser, nothing uploaded.",
+    keywords: ["invoice generator", "free invoice generator", "create invoice", "invoice maker", "invoice template pdf"],
+    icon: ReceiptIcon,
+    intro:
+      "Create a clean, professional invoice in minutes — add your business and client details, line items, tax, and notes, then download it as a PDF. Everything is built right in your browser, so your data is never uploaded.",
+    steps: ["Fill in your business and client details.", "Add line items, tax, and any notes.", "Download the finished invoice as a PDF."],
+    faqs: [
+      { q: "Is my invoice data uploaded?", a: "No — the PDF is generated entirely in your browser, so nothing you enter leaves your device." },
+      { q: "Can I use my own currency?", a: "Yes — set any currency symbol, and totals and tax are calculated automatically." },
+    ],
+    related: ["excel-to-pdf", "text-to-pdf", "online-notepad"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2587,6 +2693,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Image Editing",
     blurb: "Crop, rotate, add text, and more — in your browser.",
     slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "image-to-ico"],
+  },
+  {
+    name: "Productivity",
+    blurb: "Notepad, timers, invoices, and everyday utilities.",
+    slugs: ["online-notepad", "stopwatch", "countdown-timer", "pomodoro-timer", "text-to-speech", "invoice-generator"],
   },
   {
     name: "Developer",
@@ -2935,6 +3046,21 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are my images uploaded?", a: "No — every image editing tool runs locally in your browser, so your photos never leave your device." },
       { q: "What formats can I edit?", a: "JPG, PNG, WebP, and most common image formats. Crop, rotate, and text keep your format; circle-crop outputs a transparent PNG and Image to ICO outputs a .ico file." },
       { q: "Do I need an account?", a: "No — all image editing tools are free with no sign-up." },
+    ],
+  },
+  {
+    slug: "productivity",
+    name: "Productivity",
+    seoTitle: "Productivity Tools",
+    seoDescription:
+      "Free online productivity tools — an autosaving notepad, stopwatch, countdown and Pomodoro timers, text to speech, and an invoice generator. In your browser, no sign-up.",
+    keywords: ["productivity tools", "online notepad", "online timer", "pomodoro timer", "text to speech", "invoice generator"],
+    h1: "Free productivity tools",
+    intro:
+      "Everyday utilities that just work — jot notes that autosave, time your focus sessions, listen to text read aloud, and generate a clean invoice PDF. Everything runs in your browser, so your data stays on your device.",
+    faqs: [
+      { q: "Do these tools upload my data?", a: "No — they run entirely in your browser. Your notes, invoices, and text never leave your device." },
+      { q: "Do I need an account?", a: "No — every productivity tool here is free and works instantly with no sign-up." },
     ],
   },
 ];
