@@ -2078,7 +2078,7 @@ export const devTools: DevTool[] = [
     icon: ScissorsIcon,
     intro:
       "Cut out just the part you need by setting a start and end time. It runs entirely in your browser, so your video never leaves your device. Best for short clips.",
-    steps: ["Choose a video.", "Set the start and end time (hh:mm:ss).", "Trim and download the clip."],
+    steps: ["Choose a video.", "Drag the Start and End sliders to select the clip range.", "Trim and download the clip."],
     faqs: [
       { q: "How accurate is the cut?", a: "Trimming is fast and cuts to the nearest keyframe, so the start may shift by a fraction of a second." },
       { q: "Is my video uploaded?", a: "No — trimming runs locally in your browser; your video never leaves your device." },

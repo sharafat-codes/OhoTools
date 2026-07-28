@@ -195,8 +195,20 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
       await ff.writeFile(inName, await fetchFile(file));
 
       setStatus("Processing…");
+      // Trim by RE-ENCODING (not "-c copy"): stream-copy can only cut on
+      // keyframes, so the clip's opening seconds play audio-only (black video)
+      // until the first keyframe. Re-encoding puts a keyframe at frame 0 → the
+      // cut is frame-accurate and video plays from the very start.
       const args = isTrim
-        ? ["-i", inName, "-ss", start.toFixed(2), "-to", end.toFixed(2), "-c", "copy", outName]
+        ? [
+            "-i", inName,
+            "-ss", start.toFixed(2),
+            "-to", end.toFixed(2),
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+            "-c:a", "aac", "-b:a", "128k",
+            "-movflags", "+faststart",
+            outName,
+          ]
         : def.build(opts, inName, outName);
       await ff.exec(args);
 
