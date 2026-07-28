@@ -16,6 +16,7 @@ import {
   QrCodeIcon,
   SendIcon,
   FilmIcon,
+  AudioLinesIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -39,6 +40,7 @@ import { SiteHeader } from "@/modules/marketing/components/site-header";
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
   AI: SparklesIcon,
   "Video & GIF": FilmIcon,
+  Audio: AudioLinesIcon,
   Developer: CodeIcon,
   "Web & SEO": GlobeIcon,
   Converters: ArrowLeftRightIcon,

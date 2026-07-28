@@ -90,6 +90,9 @@ import {
   FilmIcon,
   VideoIcon,
   Music2Icon,
+  AudioLinesIcon,
+  ListMusicIcon,
+  Volume2Icon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -2102,6 +2105,74 @@ export const devTools: DevTool[] = [
     ],
     related: ["video-to-mp4", "trim-video", "compress-video"],
   },
+  {
+    slug: "audio-converter",
+    name: "Audio Converter",
+    tagline: "Convert audio to MP3, WAV, or M4A.",
+    description:
+      "Free online audio converter. Convert MP3, WAV, M4A, and more between formats right in your browser — no upload, no watermark.",
+    keywords: ["audio converter", "convert to mp3", "wav to mp3", "m4a to mp3", "audio format converter"],
+    icon: AudioLinesIcon,
+    intro:
+      "Convert an audio file to MP3, WAV, or M4A — great for compatibility with any player or app. It runs entirely in your browser, so your audio never leaves your device.",
+    steps: ["Choose an audio file.", "Pick the output format.", "Convert and download."],
+    faqs: [
+      { q: "Which formats are supported?", a: "You can convert most common audio files to MP3, WAV, or M4A (AAC)." },
+      { q: "Is my audio uploaded?", a: "No — conversion runs locally in your browser, so your audio never leaves your device." },
+    ],
+    related: ["trim-audio", "merge-audio", "change-volume"],
+  },
+  {
+    slug: "trim-audio",
+    name: "Trim Audio",
+    tagline: "Cut a clip from an audio file.",
+    description:
+      "Free online audio trimmer. Cut a start-to-end clip from any MP3 or audio file right in your browser — fast, no upload, no watermark.",
+    keywords: ["trim audio", "cut audio", "audio trimmer", "mp3 cutter", "audio cutter online"],
+    icon: ScissorsIcon,
+    intro:
+      "Keep just the part of an audio file you need by dragging a start and end point. It runs entirely in your browser, so your audio never leaves your device.",
+    steps: ["Choose an audio file.", "Drag the Start and End sliders to select the clip.", "Trim and download."],
+    faqs: [
+      { q: "Does trimming re-compress my audio?", a: "No — it copies the selected span without re-encoding, so there's no quality loss and it's fast." },
+      { q: "Is my audio uploaded?", a: "No — trimming runs locally in your browser; your audio never leaves your device." },
+    ],
+    related: ["audio-converter", "merge-audio", "change-volume"],
+  },
+  {
+    slug: "merge-audio",
+    name: "Merge Audio",
+    tagline: "Join multiple audio files into one.",
+    description:
+      "Free online audio joiner. Combine multiple MP3 or audio files into a single track right in your browser — reorder them, no upload, no watermark.",
+    keywords: ["merge audio", "join audio", "combine mp3", "audio joiner", "concatenate audio"],
+    icon: ListMusicIcon,
+    intro:
+      "Combine several audio files into one continuous track — reorder them however you like. It runs entirely in your browser, so your files never leave your device. The result is saved as an MP3.",
+    steps: ["Add two or more audio files.", "Drag to reorder them.", "Merge and download the combined MP3."],
+    faqs: [
+      { q: "Can I reorder the files?", a: "Yes — use the up/down arrows to set the order before merging." },
+      { q: "Is my audio uploaded?", a: "No — merging runs locally in your browser; your files never leave your device." },
+    ],
+    related: ["trim-audio", "audio-converter", "change-volume"],
+  },
+  {
+    slug: "change-volume",
+    name: "Change Audio Volume",
+    tagline: "Make audio louder, quieter, or normalized.",
+    description:
+      "Free online audio volume changer. Boost, reduce, or normalize the loudness of any audio file right in your browser — no upload, no watermark.",
+    keywords: ["change audio volume", "make audio louder", "increase mp3 volume", "normalize audio", "audio volume booster"],
+    icon: Volume2Icon,
+    intro:
+      "Turn an audio file up or down, or normalize it to a consistent loudness. It runs entirely in your browser, so your audio never leaves your device. The result is saved as an MP3.",
+    steps: ["Choose an audio file.", "Pick louder, quieter, or normalize.", "Apply and download."],
+    faqs: [
+      { q: "What does normalize do?", a: "Normalize adjusts the whole track toward a standard loudness level — useful when a file is too quiet or uneven." },
+      { q: "Is my audio uploaded?", a: "No — processing runs locally in your browser; your audio never leaves your device." },
+    ],
+    related: ["audio-converter", "trim-audio", "merge-audio"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2177,6 +2248,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Video & GIF",
     blurb: "Convert, compress, trim, and extract — in your browser.",
     slugs: ["video-to-gif", "video-to-mp4", "compress-video", "trim-video", "video-to-mp3"],
+  },
+  {
+    name: "Audio",
+    blurb: "Convert, trim, merge, and adjust audio — in your browser.",
+    slugs: ["audio-converter", "trim-audio", "merge-audio", "change-volume"],
   },
   {
     name: "Developer",
@@ -2489,6 +2565,22 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are my videos uploaded?", a: "No — these tools process video locally in your browser using an in-page engine, so your files never leave your device." },
       { q: "Why is there a file size limit?", a: "Processing happens in your browser's memory, so large videos can be slow or fail. Short clips work best." },
       { q: "Do I need an account?", a: "No — every video tool is free and works instantly with no sign-up." },
+    ],
+  },
+  {
+    slug: "audio",
+    name: "Audio",
+    seoTitle: "Audio Tools",
+    seoDescription:
+      "Free online audio tools — convert audio to MP3/WAV/M4A, trim and cut clips, merge tracks, and change or normalize volume. Everything runs in your browser; nothing is uploaded.",
+    keywords: ["audio tools", "audio converter", "trim audio", "merge audio", "change audio volume", "mp3 cutter"],
+    h1: "Free audio tools",
+    intro:
+      "Convert, trim, merge, and adjust the volume of audio files — all in your browser, so your files never leave your device. No sign-up, no watermarks.",
+    faqs: [
+      { q: "Are my audio files uploaded?", a: "No — these tools process audio locally in your browser using an in-page engine, so your files never leave your device." },
+      { q: "What formats can I convert to?", a: "MP3, WAV, and M4A (AAC). Trimming keeps the original format; merging and volume changes output MP3." },
+      { q: "Do I need an account?", a: "No — every audio tool is free and works instantly with no sign-up." },
     ],
   },
 ];

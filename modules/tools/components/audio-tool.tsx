@@ -1,14 +1,31 @@
 "use client";
 
 import * as React from "react";
-import { Loader2Icon, DownloadIcon, RotateCcwIcon } from "lucide-react";
+import { Loader2Icon, RotateCcwIcon } from "lucide-react";
 
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dropzone } from "@/modules/tools/components/dropzone";
 import { getFfmpeg } from "@/modules/tools/components/ffmpeg-client";
+import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
-const MAX_BYTES = 100 * 1024 * 1024; // 100 MB — browser memory limit; best for short clips
+const MAX_BYTES = 100 * 1024 * 1024; // 100 MB — browser memory limit
+
+const MIME: Record<string, string> = {
+  mp3: "audio/mpeg",
+  wav: "audio/wav",
+  m4a: "audio/mp4",
+  ogg: "audio/ogg",
+  aac: "audio/aac",
+  flac: "audio/flac",
+};
+
+// Codecs confirmed available in the standard single-thread @ffmpeg/core build.
+function codecArgs(fmt: string): string[] {
+  if (fmt === "wav") return ["-c:a", "pcm_s16le"];
+  if (fmt === "m4a") return ["-c:a", "aac", "-b:a", "192k"];
+  return ["-c:a", "libmp3lame", "-b:a", "192k"]; // mp3
+}
 
 type Control = {
   key: string;
@@ -19,82 +36,71 @@ type Control = {
 
 type OpDef = {
   accept: string;
-  outExt: string;
-  outMime: string;
+  isTrim?: boolean;
   controls?: Control[];
+  // Output extension can depend on the chosen options and the input's extension.
+  outExt: (opts: Record<string, string>, inExt: string) => string;
   build: (opts: Record<string, string>, inName: string, outName: string) => string[];
 };
 
 const OPS: Record<string, OpDef> = {
-  "video-to-gif": {
-    accept: "video/*",
-    outExt: "gif",
-    outMime: "image/gif",
+  "audio-converter": {
+    accept: "audio/*",
     controls: [
-      { key: "fps", label: "Frame rate", default: "15", options: [
-        { label: "10 fps", value: "10" }, { label: "15 fps", value: "15" }, { label: "24 fps", value: "24" },
-      ] },
-      { key: "width", label: "Width", default: "480", options: [
-        { label: "320px", value: "320" }, { label: "480px", value: "480" }, { label: "640px", value: "640" },
-      ] },
+      {
+        key: "format",
+        label: "Convert to",
+        default: "mp3",
+        options: [
+          { label: "MP3", value: "mp3" },
+          { label: "WAV", value: "wav" },
+          { label: "M4A (AAC)", value: "m4a" },
+        ],
+      },
     ],
-    build: (o, i, out) => ["-i", i, "-vf", `fps=${o.fps},scale=${o.width}:-1:flags=lanczos`, "-loop", "0", out],
+    outExt: (o) => o.format || "mp3",
+    build: (o, i, out) => ["-i", i, "-vn", ...codecArgs(o.format || "mp3"), out],
   },
-  "video-to-mp4": {
-    accept: "video/*,.mkv,.avi,.webm,.mov",
-    outExt: "mp4",
-    outMime: "video/mp4",
-    build: (_o, i, out) => ["-i", i, "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-c:a", "aac", out],
-  },
-  "compress-video": {
-    accept: "video/*",
-    outExt: "mp4",
-    outMime: "video/mp4",
+  "change-volume": {
+    accept: "audio/*",
     controls: [
-      { key: "crf", label: "Quality", default: "28", options: [
-        { label: "Smaller file", value: "30" }, { label: "Balanced", value: "28" }, { label: "Higher quality", value: "24" },
-      ] },
+      {
+        key: "level",
+        label: "Adjust",
+        default: "1.5",
+        options: [
+          { label: "Quieter (50%)", value: "0.5" },
+          { label: "Louder (150%)", value: "1.5" },
+          { label: "Much louder (200%)", value: "2.0" },
+          { label: "Normalize loudness", value: "normalize" },
+        ],
+      },
     ],
-    build: (o, i, out) => ["-i", i, "-c:v", "libx264", "-preset", "veryfast", "-crf", o.crf, "-c:a", "aac", "-b:a", "128k", out],
+    outExt: () => "mp3",
+    build: (o, i, out) => {
+      const filter = o.level === "normalize" ? ["-af", "loudnorm"] : ["-af", `volume=${o.level || "1.5"}`];
+      return ["-i", i, "-vn", ...filter, "-c:a", "libmp3lame", "-b:a", "192k", out];
+    },
   },
-  "trim-video": {
-    accept: "video/*",
-    outExt: "mp4",
-    outMime: "video/mp4",
+  "trim-audio": {
+    accept: "audio/*",
+    isTrim: true,
+    outExt: (_o, inExt) => inExt || "mp3",
     // Args are built from the slider values in run(); this is unused for trim.
     build: (_o, i, out) => ["-i", i, "-c", "copy", out],
   },
-  "video-to-mp3": {
-    accept: "video/*",
-    outExt: "mp3",
-    outMime: "audio/mpeg",
-    controls: [
-      { key: "quality", label: "Bitrate", default: "192k", options: [
-        { label: "128 kbps", value: "128k" }, { label: "192 kbps", value: "192k" }, { label: "320 kbps", value: "320k" },
-      ] },
-    ],
-    build: (o, i, out) => ["-i", i, "-vn", "-acodec", "libmp3lame", "-b:a", o.quality, out],
-  },
 };
-
-function humanSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-}
 
 function fmtTime(s: number) {
   if (!isFinite(s) || s < 0) s = 0;
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
+  const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60);
-  const pad = (n: number) => n.toString().padStart(2, "0");
-  return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${m}:${pad(sec)}`;
+  return `${m}:${sec.toString().padStart(2, "0")}`;
 }
 
-export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string }) {
+export function AudioTool({ op, actionLabel }: { op: string; actionLabel: string }) {
   const def = OPS[op];
-  const isTrim = op === "trim-video";
+  const isTrim = op === "trim-audio";
 
   const [file, setFile] = React.useState<File | null>(null);
   const [srcUrl, setSrcUrl] = React.useState<string | null>(null);
@@ -108,20 +114,23 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
   const [status, setStatus] = React.useState("");
   const [pct, setPct] = React.useState(0);
   const [error, setError] = React.useState<string | null>(null);
-  const [outUrl, setOutUrl] = React.useState<string | null>(null);
-  const [outSize, setOutSize] = React.useState(0);
+  const [out, setOut] = React.useState<{ url: string; size: number; ext: string } | null>(null);
 
   if (!def) return null;
 
-  function pick(f: File | undefined) {
-    setError(null);
-    setOutUrl((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
+  function clearOut() {
+    setOut((prev) => {
+      if (prev) URL.revokeObjectURL(prev.url);
       return null;
     });
+  }
+
+  function pick(f: File | undefined) {
+    setError(null);
+    clearOut();
     if (!f) return;
     if (f.size > MAX_BYTES) {
-      setError(`That file is ${humanSize(f.size)}. The limit is ${Math.round(MAX_BYTES / 1024 / 1024)} MB — try a shorter clip.`);
+      setError(`That file is ${formatBytes(f.size)}. The limit is ${Math.round(MAX_BYTES / 1024 / 1024)} MB.`);
       return;
     }
     setFile(f);
@@ -134,10 +143,9 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
 
   function reset() {
     if (srcUrl) URL.revokeObjectURL(srcUrl);
-    if (outUrl) URL.revokeObjectURL(outUrl);
+    clearOut();
     setFile(null);
     setSrcUrl(null);
-    setOutUrl(null);
     setDuration(0);
     setError(null);
   }
@@ -150,76 +158,61 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
     }
     setBusy(true);
     setError(null);
-    setOutUrl((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
-      return null;
-    });
+    clearOut();
     setPct(0);
     try {
       setStatus("Loading engine…");
       const { fetchFile } = await import("@ffmpeg/util");
       const ff = await getFfmpeg(setPct);
 
-      const inExt = file.name.split(".").pop()?.toLowerCase() || "mp4";
+      const inExt = file.name.split(".").pop()?.toLowerCase() || "mp3";
       const inName = `input.${inExt}`;
-      const outName = `output.${def.outExt}`;
+      const outExt = def.outExt(opts, inExt);
+      const outName = `output.${outExt}`;
       await ff.writeFile(inName, await fetchFile(file));
 
       setStatus("Processing…");
-      // Trim by RE-ENCODING (not "-c copy"): stream-copy can only cut on
-      // keyframes, so the clip's opening seconds play audio-only (black video)
-      // until the first keyframe. Re-encoding puts a keyframe at frame 0 → the
-      // cut is frame-accurate and video plays from the very start.
       const args = isTrim
-        ? [
-            "-i", inName,
-            "-ss", start.toFixed(2),
-            "-to", end.toFixed(2),
-            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
-            "-c:a", "aac", "-b:a", "128k",
-            "-movflags", "+faststart",
-            outName,
-          ]
+        ? ["-i", inName, "-ss", start.toFixed(2), "-to", end.toFixed(2), "-c", "copy", outName]
         : def.build(opts, inName, outName);
       await ff.exec(args);
 
       const data = await ff.readFile(outName);
       const bytes = typeof data === "string" ? new TextEncoder().encode(data) : new Uint8Array(data);
-      const blob = new Blob([bytes], { type: def.outMime });
+      const blob = new Blob([bytes], { type: MIME[outExt] || "audio/mpeg" });
       if (blob.size === 0) throw new Error("empty output");
-      setOutUrl(URL.createObjectURL(blob));
-      setOutSize(blob.size);
+      setOut({ url: URL.createObjectURL(blob), size: blob.size, ext: outExt });
     } catch {
-      setError("Couldn't process that clip. It may be an unsupported format or too long for in-browser processing — try a shorter clip.");
+      setError("Couldn't process that audio. It may be an unsupported format — try converting it to MP3 first.");
     }
     setStatus("");
     setPct(0);
     setBusy(false);
   }
 
-  const baseName = file?.name.replace(/\.[^.]+$/, "") || "output";
+  const baseName = file?.name.replace(/\.[^.]+$/, "") || "audio";
 
-  // ── Empty state: dropzone ───────────────────────────────────────────────
+  // ── Empty state ─────────────────────────────────────────────────────────
   if (!file) {
     return (
       <Dropzone
         accept={def.accept}
         onFile={(f) => pick(f)}
-        title="Drag & drop a video, or click to browse"
-        hint={`MP4, WebM, MOV and more — up to ${Math.round(MAX_BYTES / 1024 / 1024)} MB. Runs in your browser, nothing uploaded.`}
+        title="Drag & drop an audio file, or click to browse"
+        hint={`MP3, WAV, M4A, and more — up to ${Math.round(MAX_BYTES / 1024 / 1024)} MB. Runs in your browser, nothing uploaded.`}
       />
     );
   }
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Source card */}
+      {/* Source */}
       <div className="rounded-2xl border border-border bg-card p-4">
         <div className="mb-3 flex items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-medium">{file.name}</p>
             <p className="text-xs text-muted-foreground">
-              {humanSize(file.size)}
+              {formatBytes(file.size)}
               {duration > 0 ? ` · ${fmtTime(duration)}` : ""}
             </p>
           </div>
@@ -228,7 +221,7 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
           </Button>
         </div>
         {srcUrl && (
-          <video
+          <audio
             src={srcUrl}
             controls
             preload="metadata"
@@ -242,12 +235,12 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
                 }
               }
             }}
-            className="max-h-64 w-full rounded-lg bg-black"
+            className="w-full"
           />
         )}
       </div>
 
-      {/* Trim: duration-aware range sliders */}
+      {/* Trim range */}
       {isTrim && (
         <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-4">
           <div className="flex items-center justify-between text-sm">
@@ -263,8 +256,7 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
                 <input
                   type="range" min={0} max={duration} step={0.1} value={start}
                   onChange={(e) => setStart(Math.min(Number(e.target.value), end - 0.1))}
-                  className="w-full accent-primary"
-                  disabled={busy}
+                  className="w-full accent-primary" disabled={busy}
                 />
               </div>
               <div className="flex items-center gap-3">
@@ -272,25 +264,24 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
                 <input
                   type="range" min={0} max={duration} step={0.1} value={end}
                   onChange={(e) => setEnd(Math.max(Number(e.target.value), start + 0.1))}
-                  className="w-full accent-primary"
-                  disabled={busy}
+                  className="w-full accent-primary" disabled={busy}
                 />
               </div>
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground">Loading video…</p>
+            <p className="text-xs text-muted-foreground">Loading audio…</p>
           )}
         </div>
       )}
 
-      {/* Non-trim controls */}
+      {/* Controls */}
       {!isTrim && def.controls && def.controls.length > 0 && (
         <div className="flex flex-wrap items-end gap-4">
           {def.controls.map((c) => (
             <div key={c.key} className="flex flex-col gap-1.5">
-              <Label htmlFor={`v-${c.key}`} className="text-sm">{c.label}</Label>
+              <Label htmlFor={`a-${c.key}`} className="text-sm">{c.label}</Label>
               <select
-                id={`v-${c.key}`}
+                id={`a-${c.key}`}
                 value={opts[c.key]}
                 onChange={(e) => setOpts((p) => ({ ...p, [c.key]: e.target.value }))}
                 className="rounded-lg border border-border bg-background px-3 py-2 text-sm"
@@ -324,25 +315,14 @@ export function VideoTool({ op, actionLabel }: { op: string; actionLabel: string
       </div>
 
       {/* Result */}
-      {outUrl && (
-        <div className="flex flex-col gap-3 rounded-2xl border border-primary/30 bg-primary/5 p-4">
-          <p className="text-sm font-medium">Done — {humanSize(outSize)}</p>
-          {def.outMime.startsWith("image") && (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img src={outUrl} alt="Result" className="max-h-72 w-fit max-w-full rounded-lg border border-border" />
-          )}
-          {def.outMime.startsWith("video") && (
-            <video src={outUrl} controls className="max-h-72 w-full rounded-lg bg-black" />
-          )}
-          {def.outMime.startsWith("audio") && <audio src={outUrl} controls className="w-full" />}
-          <Button size="sm" className="w-fit" render={<a href={outUrl} download={`${baseName}.${def.outExt}`} />}>
-            <DownloadIcon className="size-4" /> Download
-          </Button>
-        </div>
+      {out && (
+        <FileResult href={out.url} filename={`${baseName}.${out.ext}`} meta={formatBytes(out.size)}>
+          <audio src={out.url} controls className="w-full" />
+        </FileResult>
       )}
 
       <p className="text-xs text-muted-foreground">
-        The processing engine (~30&nbsp;MB) downloads once on first use, then works offline. Best for short clips.
+        The processing engine (~30&nbsp;MB) downloads once on first use, then works offline.
       </p>
     </div>
   );
