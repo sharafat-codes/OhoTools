@@ -36,6 +36,7 @@ import { SiteHeader } from "@/modules/marketing/components/site-header";
 
 // Icon per category for the showcase (keyed by registry category name).
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  AI: SparklesIcon,
   Developer: CodeIcon,
   "Web & SEO": GlobeIcon,
   Converters: ArrowLeftRightIcon,

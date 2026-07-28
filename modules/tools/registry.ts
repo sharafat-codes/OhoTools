@@ -84,6 +84,9 @@ import {
   RemoveFormattingIcon,
   FlameIcon,
   GraduationCapIcon,
+  ScrollTextIcon,
+  LanguagesIcon,
+  SpellCheckIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -1935,6 +1938,82 @@ export const devTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+  {
+    slug: "ai-summarizer",
+    name: "AI Summarizer",
+    tagline: "Summarize any text in seconds.",
+    description:
+      "Free AI text summarizer. Paste an article, report, or document and get a concise summary or key bullet points — powered by Claude. An OhoTool Pro feature.",
+    keywords: ["ai summarizer", "text summarizer", "summarize text", "tl;dr generator", "summary generator"],
+    icon: ScrollTextIcon,
+    intro:
+      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by Claude AI. Available on OhoTool Pro.",
+    steps: ["Paste your text.", "Choose the length and format.", "Summarize and copy the result."],
+    faqs: [
+      { q: "What can I summarize?", a: "Articles, reports, transcripts, emails, notes — any text up to about 20,000 characters per run." },
+      { q: "Is my text stored?", a: "No — your text is sent to the AI model to generate the summary and is not stored on our servers afterward." },
+    ],
+    related: ["ai-paraphraser", "ai-translator", "word-counter"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "ai-paraphraser",
+    name: "AI Paraphraser",
+    tagline: "Rewrite text in any tone.",
+    description:
+      "Free AI paraphrasing tool. Rewrite and rephrase text while keeping the meaning — choose a professional, casual, or concise tone. Powered by Claude. An OhoTool Pro feature.",
+    keywords: ["ai paraphraser", "paraphrasing tool", "rewrite text", "rephrase text", "reword"],
+    icon: WandSparklesIcon,
+    intro:
+      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let Claude AI rewrite it. Available on OhoTool Pro.",
+    steps: ["Paste your text.", "Pick a tone.", "Rewrite and copy the result."],
+    faqs: [
+      { q: "Will it keep my meaning?", a: "Yes — the paraphraser preserves your original meaning and key details while changing the wording and tone." },
+      { q: "Is my text stored?", a: "No — your text is sent to the AI model to rewrite it and is not stored on our servers afterward." },
+    ],
+    related: ["ai-summarizer", "ai-grammar-checker", "case-converter"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "ai-translator",
+    name: "AI Translator",
+    tagline: "Translate text into 20+ languages.",
+    description:
+      "Free AI translator. Translate text between English, Spanish, French, German, Chinese, Arabic, and more — with natural, context-aware results from Claude. An OhoTool Pro feature.",
+    keywords: ["ai translator", "translate text", "language translator", "online translator", "translate english to spanish"],
+    icon: LanguagesIcon,
+    intro:
+      "Translate text into 20+ languages with natural, context-aware results — powered by Claude AI. Great for messages, documents, and content. Available on OhoTool Pro.",
+    steps: ["Paste your text.", "Choose the target language.", "Translate and copy the result."],
+    faqs: [
+      { q: "Which languages are supported?", a: "20+ major languages including Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, and more." },
+      { q: "Is it better than a basic translator?", a: "It's context-aware, so it handles tone and idioms more naturally than word-for-word tools." },
+    ],
+    related: ["ai-summarizer", "ai-paraphraser", "image-to-text"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "ai-grammar-checker",
+    name: "AI Grammar Checker",
+    tagline: "Fix grammar, spelling & punctuation.",
+    description:
+      "Free AI grammar checker. Fix spelling, grammar, and punctuation while keeping your meaning and tone — powered by Claude. An OhoTool Pro feature.",
+    keywords: ["ai grammar checker", "grammar checker", "spell checker", "fix grammar", "proofreader"],
+    icon: SpellCheckIcon,
+    intro:
+      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by Claude AI. Paste a draft and get a corrected version back. Available on OhoTool Pro.",
+    steps: ["Paste your text.", "Run the checker.", "Copy the corrected text."],
+    faqs: [
+      { q: "Will it change my meaning?", a: "No — it corrects mechanics (spelling, grammar, punctuation) while preserving your meaning and tone." },
+      { q: "Is my text stored?", a: "No — your text is sent to the AI model to correct it and is not stored on our servers afterward." },
+    ],
+    related: ["ai-paraphraser", "ai-summarizer", "word-counter"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2001,6 +2080,11 @@ export function getToolCategory(slug: string) {
 
 // Grouping for the hub — improves navigation and topical SEO structure.
 export const toolCategories: { name: string; blurb: string; slugs: string[] }[] = [
+  {
+    name: "AI",
+    blurb: "Summarize, rewrite, translate, and fix text with AI.",
+    slugs: ["ai-summarizer", "ai-paraphraser", "ai-translator", "ai-grammar-checker"],
+  },
   {
     name: "Developer",
     blurb: "Format, inspect, and test.",
@@ -2280,6 +2364,22 @@ export const categoryPages: CategoryPage[] = [
     faqs: [
       { q: "Are these tools free?", a: "Yes — every web & SEO tool here is free to use with no sign-up." },
       { q: "Do the meta tags work for social sharing?", a: "Yes — the meta tag generator produces title, description, and Open Graph tags for search engines and social previews." },
+    ],
+  },
+  {
+    slug: "ai",
+    name: "AI",
+    seoTitle: "AI Text Tools",
+    seoDescription:
+      "AI-powered text tools — summarize, paraphrase, translate, and fix grammar with Claude. Fast, natural results. An OhoTool Pro feature.",
+    keywords: ["ai tools", "ai text tools", "ai summarizer", "ai paraphraser", "ai translator", "ai grammar checker"],
+    h1: "AI text tools",
+    intro:
+      "Summarize, rewrite, translate, and proofread text with AI — powered by Claude. Paste your text, pick your options, and get natural results in seconds. Available on OhoTool Pro.",
+    faqs: [
+      { q: "Which AI powers these tools?", a: "They're powered by Anthropic's Claude models for high-quality, context-aware results." },
+      { q: "Are the AI tools free?", a: "They're a Pro feature — the underlying AI has a per-use cost. All of OhoTool's other tools are free." },
+      { q: "Is my text stored?", a: "No — your text is sent to the AI model to produce the result and is not stored on our servers afterward." },
     ],
   },
 ];
