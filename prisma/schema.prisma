@@ -53,6 +53,7 @@ model User {
   dynamicLinks DynamicLink[]
   apiKeys      ApiKey[]
   transfers    Transfer[]
+  aiUsage      AiUsage[]
   subscription Subscription?
 
   @@map("user")
@@ -287,4 +288,20 @@ model Transfer {
   @@index([expiresAt])
   @@index([userId, createdAt])
   @@map("transfer")
+}
+
+// ─── AI tools: per-user daily usage (freemium quota) ─────────────────────────
+// Free (logged-in) users get a small number of AI runs per UTC day; Pro is
+// unlimited (never written here). One row per user per day.
+model AiUsage {
+  id     String @id @default(cuid())
+  userId String
+  day    String // UTC "YYYY-MM-DD"
+  count  Int    @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, day])
+  @@index([userId])
+  @@map("ai_usage")
 }

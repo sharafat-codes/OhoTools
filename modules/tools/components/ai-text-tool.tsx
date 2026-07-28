@@ -19,6 +19,7 @@ export type AiControl = {
 };
 
 const MAX_CHARS = 20_000;
+const FREE_LIMIT = 5; // must match FREE_DAILY_AI_LIMIT in lib/ai-usage.ts
 
 export function AiTextTool({
   task,
@@ -44,6 +45,8 @@ export function AiTextTool({
   const [result, setResult] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [remaining, setRemaining] = React.useState<number | null>(null);
+  const [quotaHit, setQuotaHit] = React.useState(false);
 
   const tooLong = text.length > MAX_CHARS;
 
@@ -58,11 +61,23 @@ export function AiTextTool({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ task, text, options: opts }),
       });
-      const j = (await res.json().catch(() => ({}))) as { result?: string; error?: string };
+      const j = (await res.json().catch(() => ({}))) as {
+        result?: string;
+        error?: string;
+        usage?: { remaining: number; limit: number };
+      };
       if (!res.ok) {
         setError(j.error || "Something went wrong. Please try again.");
+        if (res.status === 429) {
+          setQuotaHit(true);
+          setRemaining(0);
+        }
       } else {
         setResult(j.result || "");
+        if (j.usage) {
+          setRemaining(j.usage.remaining);
+          if (j.usage.remaining <= 0) setQuotaHit(true);
+        }
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -70,24 +85,41 @@ export function AiTextTool({
     setBusy(false);
   }
 
+  // Access banner shown above the input.
+  const banner = (() => {
+    if (pro) return null;
+    if (!loggedIn) {
+      return (
+        <>
+          <span className="flex-1 text-muted-foreground">
+            Sign up to use AI tools free — <span className="font-medium text-foreground">{FREE_LIMIT} runs a day</span>, or go Pro for unlimited.
+          </span>
+          <Link href="/signup" className="shrink-0 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90">
+            Sign up
+          </Link>
+        </>
+      );
+    }
+    return (
+      <>
+        <span className="flex-1 text-muted-foreground">
+          <span className="font-medium text-foreground">Free plan</span> —{" "}
+          {remaining === null ? `${FREE_LIMIT} AI runs a day` : `${remaining} of ${FREE_LIMIT} runs left today`}.
+          Go Pro for unlimited.
+        </span>
+        <Link href="/pricing" className="shrink-0 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90">
+          Go Pro
+        </Link>
+      </>
+    );
+  })();
+
   return (
     <div className="flex flex-col gap-4">
-      {!pro && (
+      {banner && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/5 p-3 text-sm">
           <SparklesIcon className="size-4 shrink-0 text-primary" />
-          <span className="flex-1 text-muted-foreground">
-            {loggedIn ? (
-              <>AI tools are a <span className="font-medium text-foreground">Pro</span> feature.</>
-            ) : (
-              <>Sign up and go <span className="font-medium text-foreground">Pro</span> to use AI tools.</>
-            )}
-          </span>
-          <Link
-            href={loggedIn ? "/pricing" : "/signup"}
-            className="shrink-0 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
-          >
-            {loggedIn ? "Go Pro" : "Sign up"}
-          </Link>
+          {banner}
         </div>
       )}
 
@@ -129,14 +161,19 @@ export function AiTextTool({
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      {pro ? (
+      {!loggedIn ? (
+        <Button className="w-fit" render={<Link href="/signup" />}>
+          Sign up to use AI tools
+        </Button>
+      ) : !pro && quotaHit ? (
+        <Button className="w-fit" render={<Link href="/pricing" />}>
+          <SparklesIcon className="size-4" />
+          Upgrade to Pro for unlimited AI
+        </Button>
+      ) : (
         <Button className="w-fit" onClick={run} disabled={busy || !text.trim() || tooLong}>
           {busy ? <Loader2Icon className="animate-spin" /> : <WandSparklesIcon className="size-4" />}
           {actionLabel}
-        </Button>
-      ) : (
-        <Button className="w-fit" render={<Link href={loggedIn ? "/pricing" : "/signup"} />}>
-          {loggedIn ? `Upgrade to use ${actionLabel}` : "Sign up to use AI tools"}
         </Button>
       )}
 

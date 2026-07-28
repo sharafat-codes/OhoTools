@@ -95,6 +95,9 @@ import {
   Volume2Icon,
   CropIcon,
   CircleUserRoundIcon,
+  ExpandIcon,
+  MailIcon,
+  PackageIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -1951,11 +1954,11 @@ export const devTools: DevTool[] = [
     name: "AI Summarizer",
     tagline: "Summarize any text in seconds.",
     description:
-      "Free AI text summarizer. Paste an article, report, or document and get a concise summary or key bullet points — powered by advanced AI. An OhoTool Pro feature.",
+      "Free AI text summarizer. Paste an article, report, or document and get a concise summary or key bullet points — powered by advanced AI. Free daily runs; unlimited on Pro.",
     keywords: ["ai summarizer", "text summarizer", "summarize text", "tl;dr generator", "summary generator"],
     icon: ScrollTextIcon,
     intro:
-      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by advanced AI. Available on OhoTool Pro.",
+      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by advanced AI. Free users get a few runs a day; Pro is unlimited.",
     steps: ["Paste your text.", "Choose the length and format.", "Summarize and copy the result."],
     faqs: [
       { q: "What can I summarize?", a: "Articles, reports, transcripts, emails, notes — any text up to about 20,000 characters per run." },
@@ -1970,11 +1973,11 @@ export const devTools: DevTool[] = [
     name: "AI Paraphraser",
     tagline: "Rewrite text in any tone.",
     description:
-      "Free AI paraphrasing tool. Rewrite and rephrase text while keeping the meaning — choose a professional, casual, or concise tone. Powered by advanced AI. An OhoTool Pro feature.",
+      "Free AI paraphrasing tool. Rewrite and rephrase text while keeping the meaning — choose a professional, casual, or concise tone. Powered by advanced AI. Free daily runs; unlimited on Pro.",
     keywords: ["ai paraphraser", "paraphrasing tool", "rewrite text", "rephrase text", "reword"],
     icon: WandSparklesIcon,
     intro:
-      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let AI rewrite it. Available on OhoTool Pro.",
+      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let AI rewrite it. Free users get a few runs a day; Pro is unlimited.",
     steps: ["Paste your text.", "Pick a tone.", "Rewrite and copy the result."],
     faqs: [
       { q: "Will it keep my meaning?", a: "Yes — the paraphraser preserves your original meaning and key details while changing the wording and tone." },
@@ -1989,11 +1992,11 @@ export const devTools: DevTool[] = [
     name: "AI Translator",
     tagline: "Translate text into 20+ languages.",
     description:
-      "Free AI translator. Translate text between English, Spanish, French, German, Chinese, Arabic, and more — with natural, context-aware results. An OhoTool Pro feature.",
+      "Free AI translator. Translate text between English, Spanish, French, German, Chinese, Arabic, and more — with natural, context-aware results. Free daily runs; unlimited on Pro.",
     keywords: ["ai translator", "translate text", "language translator", "online translator", "translate english to spanish"],
     icon: LanguagesIcon,
     intro:
-      "Translate text into 20+ languages with natural, context-aware results — powered by advanced AI. Great for messages, documents, and content. Available on OhoTool Pro.",
+      "Translate text into 20+ languages with natural, context-aware results — powered by advanced AI. Great for messages, documents, and content. Free users get a few runs a day; Pro is unlimited.",
     steps: ["Paste your text.", "Choose the target language.", "Translate and copy the result."],
     faqs: [
       { q: "Which languages are supported?", a: "20+ major languages including Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, and more." },
@@ -2008,17 +2011,150 @@ export const devTools: DevTool[] = [
     name: "AI Grammar Checker",
     tagline: "Fix grammar, spelling & punctuation.",
     description:
-      "Free AI grammar checker. Fix spelling, grammar, and punctuation while keeping your meaning and tone — powered by advanced AI. An OhoTool Pro feature.",
+      "Free AI grammar checker. Fix spelling, grammar, and punctuation while keeping your meaning and tone — powered by advanced AI. Free daily runs; unlimited on Pro.",
     keywords: ["ai grammar checker", "grammar checker", "spell checker", "fix grammar", "proofreader"],
     icon: SpellCheckIcon,
     intro:
-      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by advanced AI. Paste a draft and get a corrected version back. Available on OhoTool Pro.",
+      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by advanced AI. Paste a draft and get a corrected version back. Free users get a few runs a day; Pro is unlimited.",
     steps: ["Paste your text.", "Run the checker.", "Copy the corrected text."],
     faqs: [
       { q: "Will it change my meaning?", a: "No — it corrects mechanics (spelling, grammar, punctuation) while preserving your meaning and tone." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to correct it and is not stored on our servers afterward." },
     ],
     related: ["ai-paraphraser", "ai-summarizer", "word-counter"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "ai-humanizer",
+    name: "AI Humanizer",
+    tagline: "Make AI-generated text read naturally.",
+    description:
+      "Free AI humanizer. Rewrite AI-generated text so it reads naturally and human-written, while keeping the meaning. Free daily runs, unlimited on Pro.",
+    keywords: ["ai humanizer", "humanize ai text", "make ai text sound human", "ai to human text", "humanize text"],
+    icon: WandSparklesIcon,
+    intro:
+      "Paste AI-generated text and get a version that reads more naturally — varied sentences, natural phrasing, and none of the robotic, repetitive patterns — with the original meaning intact. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste your text.", "Run the humanizer.", "Copy the natural-sounding result."],
+    faqs: [
+      { q: "Does it change the meaning?", a: "No — it rewrites the phrasing and flow for a more natural read while preserving your meaning and facts." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["ai-paraphraser", "tone-changer", "ai-grammar-checker"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "text-expander",
+    name: "Text Expander",
+    tagline: "Make text longer and more detailed.",
+    description:
+      "Free AI text expander. Turn short notes into longer, more detailed writing while keeping your meaning and tone. Free daily runs, unlimited on Pro.",
+    keywords: ["text expander", "make text longer", "expand text", "sentence expander", "lengthen text"],
+    icon: ExpandIcon,
+    intro:
+      "Turn brief notes or a short draft into a fuller, more detailed piece — with added explanation and examples, keeping your meaning and tone. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste your short text.", "Run the expander.", "Copy the longer version."],
+    faqs: [
+      { q: "Will it invent facts?", a: "It adds explanation and detail around what you wrote and avoids inventing specific facts or figures." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["text-shortener", "ai-paraphraser", "ai-summarizer"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "text-shortener",
+    name: "Text Shortener",
+    tagline: "Shorten text while keeping the meaning.",
+    description:
+      "Free AI text shortener. Condense long text into a shorter version that keeps the key meaning and tone. Free daily runs, unlimited on Pro.",
+    keywords: ["text shortener", "make text shorter", "shorten text", "sentence shortener", "condense text"],
+    icon: ShrinkIcon,
+    intro:
+      "Trim wordy text down to a shorter, tighter version that keeps the key points and tone — great for fitting a limit or cutting fluff. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste your text.", "Run the shortener.", "Copy the shorter version."],
+    faqs: [
+      { q: "Will it lose important points?", a: "It removes filler and redundancy while keeping the essential meaning of your text." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["text-expander", "ai-summarizer", "ai-paraphraser"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "tone-changer",
+    name: "Tone Changer",
+    tagline: "Rewrite text in a different tone.",
+    description:
+      "Free AI tone changer. Rewrite text in a professional, friendly, formal, casual, or confident tone while keeping the meaning. Free daily runs, unlimited on Pro.",
+    keywords: ["tone changer", "change tone of text", "rewrite tone", "make text professional", "make text friendly"],
+    icon: PaletteIcon,
+    intro:
+      "Paste your text and rewrite it in the tone you need — professional, friendly, formal, casual, confident, or empathetic — while keeping the meaning. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Paste your text.", "Pick the tone.", "Run and copy the rewritten text."],
+    faqs: [
+      { q: "Which tones are available?", a: "Professional, friendly, formal, casual, confident, and empathetic — pick the one that fits." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["ai-paraphraser", "ai-humanizer", "ai-email-writer"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "ai-email-writer",
+    name: "AI Email Writer",
+    tagline: "Write clear emails from a few notes.",
+    description:
+      "Free AI email writer. Turn a few notes into a clear, well-structured email with the tone and length you choose. Free daily runs, unlimited on Pro.",
+    keywords: ["ai email writer", "email generator", "write an email", "professional email generator", "email writing ai"],
+    icon: MailIcon,
+    intro:
+      "Describe what you want to say and get a polished email back — with a subject line, greeting, and sign-off — in the tone and length you choose. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Describe the email (or paste a rough draft).", "Pick tone and length.", "Run and copy the email."],
+    faqs: [
+      { q: "Can it reply to an email?", a: "Yes — paste the message you received plus a note on how you want to respond, and it drafts a reply." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["tone-changer", "ai-paraphraser", "ai-grammar-checker"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "product-description-generator",
+    name: "Product Description Generator",
+    tagline: "Write product descriptions that sell.",
+    description:
+      "Free AI product description generator. Turn product details into a compelling, scannable description for your store. Free daily runs, unlimited on Pro.",
+    keywords: ["product description generator", "ai product description", "ecommerce description writer", "write product description", "shopify description generator"],
+    icon: PackageIcon,
+    intro:
+      "Enter your product name and a few features, and get a compelling, benefit-focused description ready for your store or marketplace. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Enter the product name and key features.", "Pick a tone.", "Run and copy the description."],
+    faqs: [
+      { q: "Will it make up specs?", a: "No — it writes around the details you provide and avoids inventing specifications, prices, or claims." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["caption-generator", "ai-paraphraser", "tone-changer"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "caption-generator",
+    name: "Caption Generator",
+    tagline: "Generate social media captions with hashtags.",
+    description:
+      "Free AI caption generator. Get engaging social media captions with hashtags for Instagram, LinkedIn, X, and more. Free daily runs, unlimited on Pro.",
+    keywords: ["caption generator", "instagram caption generator", "social media caption", "ai captions", "hashtag caption generator"],
+    icon: HashIcon,
+    intro:
+      "Describe your post or topic and get several ready-to-use caption options with relevant hashtags, tuned to the platform you choose. Free users get a few runs a day; Pro is unlimited.",
+    steps: ["Describe your post or topic.", "Pick the platform.", "Run and copy your favorite caption."],
+    faqs: [
+      { q: "Which platforms are supported?", a: "Instagram, LinkedIn, X (Twitter), Facebook, and TikTok — each with a fitting voice and hashtags." },
+      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+    ],
+    related: ["product-description-generator", "ai-paraphraser", "tone-changer"],
     pro: true,
     serverSide: true,
   },
@@ -2423,7 +2559,19 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "AI",
     blurb: "Summarize, rewrite, translate, and fix text with AI.",
-    slugs: ["ai-summarizer", "ai-paraphraser", "ai-translator", "ai-grammar-checker"],
+    slugs: [
+      "ai-summarizer",
+      "ai-paraphraser",
+      "ai-humanizer",
+      "tone-changer",
+      "text-expander",
+      "text-shortener",
+      "ai-translator",
+      "ai-grammar-checker",
+      "ai-email-writer",
+      "product-description-generator",
+      "caption-generator",
+    ],
   },
   {
     name: "Video & GIF",
@@ -2730,14 +2878,14 @@ export const categoryPages: CategoryPage[] = [
     name: "AI",
     seoTitle: "AI Text Tools",
     seoDescription:
-      "AI-powered text tools — summarize, paraphrase, translate, and fix grammar with AI. Fast, natural results. An OhoTool Pro feature.",
+      "AI-powered text tools — summarize, paraphrase, humanize, translate, fix grammar, change tone, write emails, and more. Free daily runs; unlimited on Pro.",
     keywords: ["ai tools", "ai text tools", "ai summarizer", "ai paraphraser", "ai translator", "ai grammar checker"],
     h1: "AI text tools",
     intro:
-      "Summarize, rewrite, translate, and proofread text with AI — powered by advanced AI. Paste your text, pick your options, and get natural results in seconds. Available on OhoTool Pro.",
+      "Summarize, rewrite, humanize, translate, and proofread text — plus change tone, expand or shorten, write emails, product descriptions, and captions. Paste your text and get natural results in seconds. Free users get a few runs a day; go Pro for unlimited.",
     faqs: [
       { q: "Which AI powers these tools?", a: "They use leading large language models to produce high-quality, context-aware results." },
-      { q: "Are the AI tools free?", a: "They're a Pro feature — the underlying AI has a per-use cost. All of OhoTool's other tools are free." },
+      { q: "Are the AI tools free?", a: "Yes, with a daily limit — sign in and you get a set number of free AI runs per day. The underlying AI has a per-use cost, so unlimited use is part of Pro." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to produce the result and is not stored on our servers afterward." },
     ],
   },

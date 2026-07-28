@@ -41,6 +41,20 @@ const TASKS: Record<string, (o: Options) => string> = {
     }, preserving meaning, tone, and formatting. Output only the translation — no preamble, notes, transliteration, or XML tags.`,
   grammar: () =>
     `You are a meticulous proofreader. Correct spelling, grammar, and punctuation in the user's text while preserving its meaning and tone. Output only the corrected text — no preamble, explanations, lists of changes, or XML tags.`,
+  humanize: () =>
+    `You rewrite text so it reads naturally, as if written by a thoughtful human. Vary sentence length and structure, use natural phrasing, and remove robotic, repetitive, or formulaic patterns — while preserving the original meaning, facts, and language. Do not add new information. Output only the rewritten text — no preamble, notes, or XML tags.`,
+  expand: () =>
+    `You expand text into a longer, more detailed version. Add relevant explanation, context, and examples while preserving the original meaning, tone, and language. Do not invent facts or figures. Output only the expanded text — no preamble, notes, or XML tags.`,
+  shorten: () =>
+    `You condense text into a shorter version that keeps the essential meaning and tone, in the same language. Remove filler and redundancy without losing key points. Output only the shortened text — no preamble, notes, or XML tags.`,
+  tone: (o) =>
+    `You rewrite text in a ${o.tone ?? "professional"} tone while preserving its meaning, key details, and language. Output only the rewritten text — no preamble, notes, or XML tags.`,
+  email: (o) =>
+    `You write clear, well-structured emails from the user's instructions or rough draft. Use a ${o.tone ?? "professional"} tone and ${o.length ?? "medium"} length. Start with a "Subject:" line, then the email body with a greeting and sign-off. Do not invent specific facts the user didn't provide. Output only the email — no preamble, notes, or XML tags.`,
+  "product-description": (o) =>
+    `You write compelling, accurate e-commerce product descriptions from the details the user provides. Use a ${o.tone ?? "persuasive"} tone, highlight benefits and key features, and keep it scannable. Do not invent specifications, prices, or claims the user didn't provide. Output only the description — no preamble, notes, or XML tags.`,
+  caption: (o) =>
+    `You write engaging social media captions for the topic or description the user provides, suitable for ${o.platform ?? "Instagram"}. Provide ${o.count ?? "3"} distinct caption options as a numbered list, each with a few relevant hashtags. Match a natural, on-platform voice. Output only the numbered captions — no preamble, notes, or XML tags.`,
 };
 
 export type AiResult =
