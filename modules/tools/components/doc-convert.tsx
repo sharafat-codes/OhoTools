@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { UploadIcon, DownloadIcon, Loader2Icon, SparklesIcon, CheckCircle2Icon } from "lucide-react";
+import { DownloadIcon, Loader2Icon, SparklesIcon, CheckCircle2Icon } from "lucide-react";
+
+import { Dropzone } from "@/modules/tools/components/dropzone";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/lib/auth-client";
@@ -84,21 +86,16 @@ export function DocConvert({
         </div>
       )}
 
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:bg-muted/50">
-        <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose a {inLabel}</span>
-        <span className="text-xs text-muted-foreground">{hint}</span>
-        <input
-          type="file"
-          accept={accept}
-          className="hidden"
-          onChange={(e) => {
-            setFile(e.target.files?.[0] ?? null);
-            setError(null);
-            setDone(false);
-          }}
-        />
-      </label>
+      <Dropzone
+        accept={accept}
+        onFile={(f) => {
+          setFile(f);
+          setError(null);
+          setDone(false);
+        }}
+        title={`Drag & drop a ${inLabel}, or click to browse`}
+        hint={hint}
+      />
 
       <CloudImport
         accept={accept}

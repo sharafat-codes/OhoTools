@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { UploadIcon, DownloadIcon, XIcon, ArrowUpIcon, ArrowDownIcon, SparklesIcon, Loader2Icon } from "lucide-react";
+import { DownloadIcon, XIcon, ArrowUpIcon, ArrowDownIcon, SparklesIcon, Loader2Icon } from "lucide-react";
+
+import { Dropzone } from "@/modules/tools/components/dropzone";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -74,12 +76,13 @@ export function MergePdf() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:bg-muted/50">
-        <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose PDF files</span>
-        <span className="text-xs text-muted-foreground">Combined in your browser — nothing is uploaded.</span>
-        <input type="file" accept="application/pdf" multiple className="hidden" onChange={(e) => addFiles(e.target.files)} />
-      </label>
+      <Dropzone
+        accept="application/pdf"
+        multiple
+        onFiles={addFiles}
+        title="Drag & drop PDFs, or click to browse"
+        hint="Combined in your browser — nothing is uploaded."
+      />
 
       <CloudImport accept="application/pdf" multiple onFileList={addFiles} onError={setError} />
 

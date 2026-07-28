@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { UploadIcon, DownloadIcon } from "lucide-react";
+import { DownloadIcon } from "lucide-react";
+
+import { Dropzone } from "@/modules/tools/components/dropzone";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,12 +89,12 @@ export function ImageResizer() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:bg-muted/50">
-        <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose an image</span>
-        <span className="text-xs text-muted-foreground">Resize any image to exact dimensions — in your browser.</span>
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
-      </label>
+      <Dropzone
+        accept="image/*"
+        onFile={(f) => onFile(f)}
+        title="Drag & drop an image, or click to browse"
+        hint="Resize any image to exact dimensions — in your browser."
+      />
 
       <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 

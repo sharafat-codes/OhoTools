@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { UploadIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
+
+import { Dropzone } from "@/modules/tools/components/dropzone";
 
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -127,12 +129,12 @@ export function ImageToText() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:bg-muted/50">
-        <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose an image</span>
-        <span className="text-xs text-muted-foreground">JPG, PNG, or a photo/scan of a document — up to 15 MB.</span>
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
-      </label>
+      <Dropzone
+        accept="image/*"
+        onFile={(f) => onFile(f)}
+        title="Drag & drop an image, or click to browse"
+        hint="JPG, PNG, or a photo/scan of a document — up to 15 MB."
+      />
 
       <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 

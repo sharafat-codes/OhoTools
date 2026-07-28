@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { UploadIcon, DownloadIcon, Loader2Icon } from "lucide-react";
+import { DownloadIcon, Loader2Icon } from "lucide-react";
+
+import { Dropzone } from "@/modules/tools/components/dropzone";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -71,12 +73,12 @@ export function PdfPageNumbers() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:bg-muted/50">
-        <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose a PDF</span>
-        <span className="text-xs text-muted-foreground">Numbered in your browser — nothing is uploaded.</span>
-        <input type="file" accept="application/pdf" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
-      </label>
+      <Dropzone
+        accept="application/pdf"
+        onFile={(f) => onFile(f)}
+        title="Drag & drop a PDF, or click to browse"
+        hint="Numbered in your browser — nothing is uploaded."
+      />
 
       <CloudImport accept="application/pdf" onFile={(f) => onFile(f)} onError={setError} />
 

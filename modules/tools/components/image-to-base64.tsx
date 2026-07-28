@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { UploadIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
+
+import { Dropzone } from "@/modules/tools/components/dropzone";
 
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/copy-button";
@@ -35,17 +37,12 @@ export function ImageToBase64() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-border p-8 text-center hover:bg-muted/40">
-        <UploadIcon className="size-6 text-muted-foreground" />
-        <span className="text-sm font-medium">Choose an image</span>
-        <span className="text-xs text-muted-foreground">PNG, JPG, SVG, GIF, WebP — up to 5MB</span>
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => onFile(e.target.files?.[0])}
-        />
-      </label>
+      <Dropzone
+        accept="image/*"
+        onFile={(f) => onFile(f)}
+        title="Drag & drop an image, or click to browse"
+        hint="PNG, JPG, SVG, GIF, WebP — up to 5MB"
+      />
 
       <CloudImport accept="image/*" onFile={(f) => onFile(f)} onError={setError} />
 
