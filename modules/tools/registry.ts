@@ -1951,11 +1951,11 @@ export const devTools: DevTool[] = [
     name: "AI Summarizer",
     tagline: "Summarize any text in seconds.",
     description:
-      "Free AI text summarizer. Paste an article, report, or document and get a concise summary or key bullet points — powered by Claude. An OhoTool Pro feature.",
+      "Free AI text summarizer. Paste an article, report, or document and get a concise summary or key bullet points — powered by advanced AI. An OhoTool Pro feature.",
     keywords: ["ai summarizer", "text summarizer", "summarize text", "tl;dr generator", "summary generator"],
     icon: ScrollTextIcon,
     intro:
-      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by Claude AI. Available on OhoTool Pro.",
+      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by advanced AI. Available on OhoTool Pro.",
     steps: ["Paste your text.", "Choose the length and format.", "Summarize and copy the result."],
     faqs: [
       { q: "What can I summarize?", a: "Articles, reports, transcripts, emails, notes — any text up to about 20,000 characters per run." },
@@ -1970,11 +1970,11 @@ export const devTools: DevTool[] = [
     name: "AI Paraphraser",
     tagline: "Rewrite text in any tone.",
     description:
-      "Free AI paraphrasing tool. Rewrite and rephrase text while keeping the meaning — choose a professional, casual, or concise tone. Powered by Claude. An OhoTool Pro feature.",
+      "Free AI paraphrasing tool. Rewrite and rephrase text while keeping the meaning — choose a professional, casual, or concise tone. Powered by advanced AI. An OhoTool Pro feature.",
     keywords: ["ai paraphraser", "paraphrasing tool", "rewrite text", "rephrase text", "reword"],
     icon: WandSparklesIcon,
     intro:
-      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let Claude AI rewrite it. Available on OhoTool Pro.",
+      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let AI rewrite it. Available on OhoTool Pro.",
     steps: ["Paste your text.", "Pick a tone.", "Rewrite and copy the result."],
     faqs: [
       { q: "Will it keep my meaning?", a: "Yes — the paraphraser preserves your original meaning and key details while changing the wording and tone." },
@@ -1989,11 +1989,11 @@ export const devTools: DevTool[] = [
     name: "AI Translator",
     tagline: "Translate text into 20+ languages.",
     description:
-      "Free AI translator. Translate text between English, Spanish, French, German, Chinese, Arabic, and more — with natural, context-aware results from Claude. An OhoTool Pro feature.",
+      "Free AI translator. Translate text between English, Spanish, French, German, Chinese, Arabic, and more — with natural, context-aware results. An OhoTool Pro feature.",
     keywords: ["ai translator", "translate text", "language translator", "online translator", "translate english to spanish"],
     icon: LanguagesIcon,
     intro:
-      "Translate text into 20+ languages with natural, context-aware results — powered by Claude AI. Great for messages, documents, and content. Available on OhoTool Pro.",
+      "Translate text into 20+ languages with natural, context-aware results — powered by advanced AI. Great for messages, documents, and content. Available on OhoTool Pro.",
     steps: ["Paste your text.", "Choose the target language.", "Translate and copy the result."],
     faqs: [
       { q: "Which languages are supported?", a: "20+ major languages including Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, and more." },
@@ -2008,11 +2008,11 @@ export const devTools: DevTool[] = [
     name: "AI Grammar Checker",
     tagline: "Fix grammar, spelling & punctuation.",
     description:
-      "Free AI grammar checker. Fix spelling, grammar, and punctuation while keeping your meaning and tone — powered by Claude. An OhoTool Pro feature.",
+      "Free AI grammar checker. Fix spelling, grammar, and punctuation while keeping your meaning and tone — powered by advanced AI. An OhoTool Pro feature.",
     keywords: ["ai grammar checker", "grammar checker", "spell checker", "fix grammar", "proofreader"],
     icon: SpellCheckIcon,
     intro:
-      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by Claude AI. Paste a draft and get a corrected version back. Available on OhoTool Pro.",
+      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by advanced AI. Paste a draft and get a corrected version back. Available on OhoTool Pro.",
     steps: ["Paste your text.", "Run the checker.", "Copy the corrected text."],
     faqs: [
       { q: "Will it change my meaning?", a: "No — it corrects mechanics (spelling, grammar, punctuation) while preserving your meaning and tone." },
@@ -2730,13 +2730,13 @@ export const categoryPages: CategoryPage[] = [
     name: "AI",
     seoTitle: "AI Text Tools",
     seoDescription:
-      "AI-powered text tools — summarize, paraphrase, translate, and fix grammar with Claude. Fast, natural results. An OhoTool Pro feature.",
+      "AI-powered text tools — summarize, paraphrase, translate, and fix grammar with AI. Fast, natural results. An OhoTool Pro feature.",
     keywords: ["ai tools", "ai text tools", "ai summarizer", "ai paraphraser", "ai translator", "ai grammar checker"],
     h1: "AI text tools",
     intro:
-      "Summarize, rewrite, translate, and proofread text with AI — powered by Claude. Paste your text, pick your options, and get natural results in seconds. Available on OhoTool Pro.",
+      "Summarize, rewrite, translate, and proofread text with AI — powered by advanced AI. Paste your text, pick your options, and get natural results in seconds. Available on OhoTool Pro.",
     faqs: [
-      { q: "Which AI powers these tools?", a: "They're powered by Anthropic's Claude models for high-quality, context-aware results." },
+      { q: "Which AI powers these tools?", a: "They use leading large language models to produce high-quality, context-aware results." },
       { q: "Are the AI tools free?", a: "They're a Pro feature — the underlying AI has a per-use cost. All of OhoTool's other tools are free." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to produce the result and is not stored on our servers afterward." },
     ],
