@@ -10,6 +10,7 @@ import {
   createPortalSession,
 } from "@/modules/billing/actions";
 import { createPaddlePortalSession } from "@/modules/billing/paddle-actions";
+import { createLemonCheckout, createLemonPortalSession } from "@/modules/billing/lemon-actions";
 import { PLANS, PLAN_BY_ID, type PlanId } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import { PaddleUpgradeButton } from "@/components/paddle-upgrade-button";
@@ -41,7 +42,7 @@ export function BillingView({
   currentPlan: string;
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
-  provider?: "stripe" | "paddle";
+  provider?: "stripe" | "paddle" | "lemonsqueezy";
   userId: string;
   email?: string;
 }) {
@@ -96,10 +97,40 @@ export function BillingView({
     });
   }
 
+  function upgradeLemon(plan: PlanId) {
+    if (plan === "FREE") return;
+    setAction(plan);
+    startTransition(async () => {
+      const res = await createLemonCheckout(plan);
+      if ("error" in res) {
+        toast.error(res.error);
+        setAction(null);
+        return;
+      }
+      window.location.href = res.url;
+    });
+  }
+
+  function manageLemon() {
+    setAction("manage");
+    startTransition(async () => {
+      const res = await createLemonPortalSession();
+      if ("error" in res) {
+        toast.error(res.error);
+        setAction(null);
+        return;
+      }
+      window.location.href = res.url;
+    });
+  }
+
   const current = PLAN_BY_ID[currentPlan as PlanId] ?? PLAN_BY_ID.FREE;
   // A Stripe subscription row means Stripe manages it; otherwise a Pro user on
-  // the Paddle provider is managed through Paddle's customer portal.
+  // a Merchant-of-Record provider is managed through that provider's portal.
   const paddleManaged = !subscription && provider === "paddle" && current.id !== "FREE";
+  const lemonManaged = !subscription && provider === "lemonsqueezy" && current.id !== "FREE";
+  const hostedManaged = paddleManaged || lemonManaged;
+  const manageHosted = lemonManaged ? manageLemon : managePaddle;
 
   return (
     <div className="flex flex-col gap-6">
@@ -118,10 +149,10 @@ export function BillingView({
               </p>
             )}
           </div>
-          {(subscription || paddleManaged) && (
+          {(subscription || hostedManaged) && (
             <Button
               variant="outline"
-              onClick={subscription ? manage : managePaddle}
+              onClick={subscription ? manage : manageHosted}
               disabled={isPending}
             >
               {isPending && action === "manage" && (
@@ -179,8 +210,8 @@ export function BillingView({
                     <Button variant="outline" onClick={manage} disabled={isPending}>
                       Downgrade
                     </Button>
-                  ) : paddleManaged ? (
-                    <Button variant="outline" onClick={managePaddle} disabled={isPending}>
+                  ) : hostedManaged ? (
+                    <Button variant="outline" onClick={manageHosted} disabled={isPending}>
                       Cancel subscription
                     </Button>
                   ) : (
@@ -188,6 +219,17 @@ export function BillingView({
                       Downgrade
                     </Button>
                   )
+                ) : provider === "lemonsqueezy" ? (
+                  <Button
+                    onClick={() => upgradeLemon(plan.id)}
+                    disabled={isPending}
+                    variant={plan.popular ? "default" : "outline"}
+                  >
+                    {isPending && action === plan.id && (
+                      <LoaderCircleIcon className="animate-spin" />
+                    )}
+                    Upgrade to {plan.name}
+                  </Button>
                 ) : provider === "paddle" ? (
                   <PaddleUpgradeButton
                     userId={userId}
@@ -215,7 +257,7 @@ export function BillingView({
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Payments are securely handled by {provider === "paddle" ? "Paddle" : "Stripe"}. Cancel anytime.
+        Payments are securely handled by {provider === "lemonsqueezy" ? "Lemon Squeezy" : provider === "paddle" ? "Paddle" : "Stripe"}. Cancel anytime.
       </p>
     </div>
   );

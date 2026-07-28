@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { syncStripeForCustomer } from "@/lib/stripe-sync";
 import { isPaddleConfigured } from "@/lib/paddle";
 import { syncPaddleForUser } from "@/lib/paddle-sync";
+import { isLemonConfigured } from "@/lib/lemonsqueezy";
+import { syncLemonForUser } from "@/lib/lemon-sync";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
 export const metadata: Metadata = { title: "Billing" };
@@ -26,11 +28,11 @@ export default async function BillingPage({
   // the plan is correct even if the webhook was slow or missed. Stripe keys off
   // the stored customer id; Paddle looks the customer up by email.
   if (checkout === "success") {
-    if (dbUser?.stripeCustomerId) {
-      await syncStripeForCustomer(dbUser.stripeCustomerId);
-    } else if (isPaddleConfigured) {
-      await syncPaddleForUser({ userId: user.id, email: user.email });
-    }
+    // Reconcile from whichever provider(s) are configured. Each is upgrade-only
+    // (sets PRO if an active subscription is found), so running them is safe.
+    if (dbUser?.stripeCustomerId) await syncStripeForCustomer(dbUser.stripeCustomerId);
+    if (isLemonConfigured) await syncLemonForUser({ userId: user.id, email: user.email });
+    if (isPaddleConfigured) await syncPaddleForUser({ userId: user.id, email: user.email });
     dbUser = await prisma.user.findUnique({
       where: { id: user.id },
       include: { subscription: true },
@@ -63,7 +65,7 @@ export default async function BillingPage({
             : null
         }
         checkoutStatus={checkout ?? null}
-        provider={isPaddleConfigured ? "paddle" : "stripe"}
+        provider={isLemonConfigured ? "lemonsqueezy" : isPaddleConfigured ? "paddle" : "stripe"}
         userId={user.id}
         email={user.email}
       />
