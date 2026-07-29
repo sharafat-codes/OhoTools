@@ -7,6 +7,19 @@ import { lemonStatusIsPro } from "@/lib/lemonsqueezy";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+// Only these carry a subscription lifecycle status in data.attributes.status.
+// NOT subscription_payment_* — those carry an INVOICE (status "paid"/"refunded"),
+// which would otherwise be misread as a non-Pro status and wrongly downgrade.
+const LIFECYCLE_EVENTS = new Set([
+  "subscription_created",
+  "subscription_updated",
+  "subscription_cancelled",
+  "subscription_resumed",
+  "subscription_expired",
+  "subscription_paused",
+  "subscription_unpaused",
+]);
+
 // Lemon Squeezy webhooks -> keep User.plan in sync (PRO/FREE).
 // Signature is an HMAC-SHA256 hex of the raw body using the signing secret.
 // Our userId is attached as custom data at checkout (meta.custom_data.user_id).
@@ -44,7 +57,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const name = event.meta?.event_name ?? "";
-    if (name.startsWith("subscription")) {
+    if (LIFECYCLE_EVENTS.has(name)) {
       const status = event.data?.attributes?.status ?? "";
       let userId = event.meta?.custom_data?.user_id;
 
