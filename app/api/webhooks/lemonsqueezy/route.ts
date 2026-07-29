@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
   let event: {
     meta?: { event_name?: string; custom_data?: { user_id?: string } };
-    data?: { attributes?: { status?: string; user_email?: string } };
+    data?: { id?: string; attributes?: { status?: string; user_email?: string } };
   };
   try {
     event = JSON.parse(raw);
@@ -59,7 +59,13 @@ export async function POST(req: NextRequest) {
 
       if (userId && status) {
         const plan = lemonStatusIsPro(status) ? "PRO" : "FREE";
-        await prisma.user.update({ where: { id: userId }, data: { plan } }).catch(() => {});
+        const subId = event.data?.id;
+        await prisma.user
+          .update({
+            where: { id: userId },
+            data: { plan, ...(subId ? { lemonSubscriptionId: subId } : {}) },
+          })
+          .catch(() => {});
       }
     }
   } catch {
