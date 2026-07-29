@@ -29,6 +29,11 @@ import * as removeNoiseGuide from "./posts/how-to-remove-background-noise-from-a
 import * as csvToExcelGuide from "./posts/how-to-convert-csv-to-excel";
 import * as pdfToPptxGuide from "./posts/how-to-convert-pdf-to-powerpoint";
 import * as htmlToPdfGuide from "./posts/how-to-convert-html-to-pdf";
+import * as onlineNotepadGuide from "./posts/free-online-notepad";
+import * as invoiceGuide from "./posts/how-to-make-a-free-invoice";
+import * as businessNameGuide from "./posts/how-to-come-up-with-a-business-name";
+import * as humanizeGuide from "./posts/how-to-humanize-ai-text";
+import * as pomodoroGuide from "./posts/what-is-the-pomodoro-technique";
 
 export type PostMeta = {
   slug: string;
@@ -76,6 +81,11 @@ const modules: BlogPost[] = [
   csvToExcelGuide,
   pdfToPptxGuide,
   htmlToPdfGuide,
+  onlineNotepadGuide,
+  invoiceGuide,
+  businessNameGuide,
+  humanizeGuide,
+  pomodoroGuide,
 ];
 
 /** All posts, newest first. */
