@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRightIcon, SendIcon } from "lucide-react";
 
-import { getTool, toolCategories, devTools, categoryAnchor, categorySlugForName } from "@/modules/tools/registry";
+import { getTool, toolCategories, devTools, categorySlugForName } from "@/modules/tools/registry";
+import { ToolsExplorer, type ToolGroup } from "@/modules/tools/components/tools-explorer";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Free Online Tools",
   description:
-    "80+ free online tools — PDF & document converters (Word, Excel, PowerPoint), image tools, text utilities, calculators, developer tools, and QR codes. Fast, private, browser-based. No sign-up.",
+    "130+ free online tools — PDF & document converters (Word, Excel, PowerPoint), AI writing tools, image, audio & video tools, calculators, developer tools, and QR codes. Fast, private, browser-based. No sign-up.",
   keywords: [
     "free online tools",
     "online tools",
@@ -25,6 +24,27 @@ export const metadata: Metadata = {
 };
 
 export default function ToolsHub() {
+  const groups: ToolGroup[] = toolCategories.map((cat) => ({
+    name: cat.name,
+    blurb: cat.blurb,
+    slug: categorySlugForName(cat.name) ?? null,
+    tools: cat.slugs
+      .map((slug) => {
+        const tool = getTool(slug);
+        if (!tool) return null;
+        const Icon = tool.icon;
+        return {
+          slug,
+          name: tool.name,
+          tagline: tool.tagline,
+          pro: !!tool.pro,
+          search: `${tool.name} ${tool.tagline} ${tool.keywords.join(" ")}`.toLowerCase(),
+          icon: <Icon className="size-5" />,
+        };
+      })
+      .filter((t): t is NonNullable<typeof t> => Boolean(t)),
+  }));
+
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-2xl text-center">
@@ -37,64 +57,8 @@ export default function ToolsHub() {
         </p>
       </div>
 
-      <div className="mt-12 flex flex-col gap-10">
-        {toolCategories.map((cat) => {
-          const catSlug = categorySlugForName(cat.name);
-          return (
-          <section key={cat.name} id={categoryAnchor(cat.name)} className="scroll-mt-20">
-            <div className="mb-4 flex items-end justify-between gap-3">
-              <div>
-                <h2 className="font-heading text-xl font-semibold tracking-tight">
-                  {catSlug ? (
-                    <Link href={`/tools/${catSlug}`} className="hover:underline">
-                      {cat.name} tools
-                    </Link>
-                  ) : (
-                    <>{cat.name} tools</>
-                  )}
-                </h2>
-                <p className="text-sm text-muted-foreground">{cat.blurb}</p>
-              </div>
-              {catSlug && (
-                <Link
-                  href={`/tools/${catSlug}`}
-                  className="shrink-0 whitespace-nowrap text-sm font-medium text-muted-foreground hover:text-foreground"
-                >
-                  View all →
-                </Link>
-              )}
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {cat.slugs.map((slug) => {
-                const tool = getTool(slug);
-                if (!tool) return null;
-                const Icon = tool.icon;
-                return (
-                  <Link key={slug} href={`/tools/${slug}`} className="group">
-                    <Card className="h-full transition-colors hover:border-foreground/20">
-                      <CardContent className="flex items-start gap-3">
-                        <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
-                          <Icon className="size-5" />
-                        </div>
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-1.5 font-heading font-medium">
-                            {tool.name}
-                            {tool.pro && <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">Pro</Badge>}
-                            <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-                          </div>
-                          <p className="mt-1 text-sm text-muted-foreground">
-                            {tool.tagline}
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-          );
-        })}
+      <div className="mt-12">
+        <ToolsExplorer groups={groups} />
       </div>
 
       <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">

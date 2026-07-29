@@ -5,6 +5,7 @@ import { getTool, getToolCategory, categoryPathForTool, type DevTool } from "@/m
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
+import { RecentToolTracker } from "@/modules/tools/components/recent-tools";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 export function ToolShell({
@@ -68,6 +69,7 @@ export function ToolShell({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <RecentToolTracker slug={tool.slug} name={tool.name} />
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">

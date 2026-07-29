@@ -13,6 +13,7 @@ import {
 import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { devTools, getTool, toolCategories, categorySlugForName } from "@/modules/tools/registry";
+import { RecentTools } from "@/modules/tools/components/recent-tools";
 import { isPro, FREE_SAVE_LIMIT } from "@/lib/plans";
 import { getAiUsageToday, FREE_DAILY_AI_LIMIT } from "@/lib/ai-usage";
 import { cn } from "@/lib/utils";
@@ -139,6 +140,9 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Recently used (client-side, this browser) */}
+      <RecentTools />
 
       {/* Jump back in — popular tools */}
       <Card className="mt-4">
