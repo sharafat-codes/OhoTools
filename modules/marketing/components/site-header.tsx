@@ -14,6 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ToolSearch } from "@/components/tool-search";
 
 const LINKS = [
   { label: "Tools", href: "/tools" },
@@ -44,6 +45,7 @@ export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ToolSearch />
           <ThemeToggle />
           {isAuthed ? (
             <Button size="sm" render={<Link href="/dashboard" />}>

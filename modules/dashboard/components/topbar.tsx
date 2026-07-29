@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ToolSearch } from "@/components/tool-search";
 import { SidebarNav } from "@/modules/dashboard/components/sidebar-nav";
 import { UserMenu, type MenuUser } from "@/modules/dashboard/components/user-menu";
 
@@ -50,6 +51,7 @@ export function Topbar({ user, isAdmin }: { user: MenuUser; isAdmin?: boolean })
         </SheetContent>
       </Sheet>
 
+      <ToolSearch className="ml-1" />
       <div className="flex-1" />
 
       <ThemeToggle />
