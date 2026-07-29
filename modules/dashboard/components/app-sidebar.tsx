@@ -26,7 +26,7 @@ export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
           </div>
           <p className="mt-1 text-xs text-muted-foreground">
             {plan === "FREE"
-              ? "Upgrade for unlimited saves and more."
+              ? "Upgrade for unlimited AI & more."
               : "Manage your subscription and billing."}
           </p>
         </Link>

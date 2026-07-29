@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRightIcon,
   BarChart3Icon,
-  PlusIcon,
   QrCodeIcon,
   ScanBarcodeIcon,
   ZapIcon,
+  SparklesIcon,
+  WandSparklesIcon,
   type LucideIcon,
 } from "lucide-react";
 
 import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { devTools } from "@/modules/tools/registry";
+import { devTools, getTool, toolCategories, categorySlugForName } from "@/modules/tools/registry";
 import { isPro, FREE_SAVE_LIMIT } from "@/lib/plans";
+import { getAiUsageToday, FREE_DAILY_AI_LIMIT } from "@/lib/ai-usage";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,110 +22,49 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
+// A cross-category set of high-use tools to surface on the dashboard.
+const POPULAR = [
+  "word-to-pdf",
+  "ai-summarizer",
+  "merge-pdf",
+  "compress-image",
+  "image-to-text",
+  "ai-humanizer",
+  "qr-code",
+  "invoice-generator",
+  "json-formatter",
+];
+
 export default async function DashboardPage() {
   const user = await requireUser();
   const firstName = user.name?.split(" ")[0] || "there";
   const pro = isPro((user as { plan?: string }).plan ?? "FREE");
 
-  const [qrCount, barcodeCount, linkCount, scanAgg, recentLinks] =
-    await Promise.all([
-      prisma.qRCode.count({ where: { userId: user.id } }),
-      prisma.barcode.count({ where: { userId: user.id } }),
-      prisma.dynamicLink.count({ where: { userId: user.id } }),
-      prisma.dynamicLink.aggregate({
-        where: { userId: user.id },
-        _sum: { scanCount: true },
-      }),
-      prisma.dynamicLink.findMany({
-        where: { userId: user.id },
-        orderBy: { createdAt: "desc" },
-        take: 4,
-      }),
-    ]);
+  const [qrCount, barcodeCount, linkCount, scanAgg, recentLinks, aiUsedToday] = await Promise.all([
+    prisma.qRCode.count({ where: { userId: user.id } }),
+    prisma.barcode.count({ where: { userId: user.id } }),
+    prisma.dynamicLink.count({ where: { userId: user.id } }),
+    prisma.dynamicLink.aggregate({ where: { userId: user.id }, _sum: { scanCount: true } }),
+    prisma.dynamicLink.findMany({ where: { userId: user.id }, orderBy: { createdAt: "desc" }, take: 4 }),
+    getAiUsageToday(user.id).catch(() => 0),
+  ]);
 
   const totalScans = scanAgg._sum.scanCount ?? 0;
-  const proTools = devTools.filter((t) => t.pro);
-
-  const stats = [
-    { label: "QR codes", value: qrCount, icon: QrCodeIcon, href: "/dashboard/qr" },
-    { label: "Barcodes", value: barcodeCount, icon: ScanBarcodeIcon, href: "/dashboard/barcodes" },
-    { label: "Dynamic links", value: linkCount, icon: ZapIcon, href: "/dashboard/links" },
-    { label: "Total scans", value: totalScans, icon: BarChart3Icon, href: "/dashboard/links" },
-  ];
-
-  const quickActions: { icon: LucideIcon; title: string; desc: string; href: string }[] = [
-    { icon: QrCodeIcon, title: "New QR code", desc: "Static or dynamic, with branding", href: "/dashboard/qr" },
-    { icon: ScanBarcodeIcon, title: "New barcode", desc: "Every major format", href: "/dashboard/barcodes" },
-    { icon: ZapIcon, title: "New dynamic link", desc: "Editable + scan analytics", href: "/dashboard/qr" },
-  ];
+  const aiRemaining = Math.max(0, FREE_DAILY_AI_LIMIT - aiUsedToday);
+  const popularTools = POPULAR.map((s) => getTool(s)).filter((t): t is NonNullable<typeof t> => Boolean(t));
 
   return (
     <div className="mx-auto w-full max-w-5xl">
       <div className="mb-8">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">
-          Welcome back, {firstName}
-        </h1>
+        <h1 className="font-heading text-2xl font-semibold tracking-tight">Welcome back, {firstName}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Here&apos;s what&apos;s happening with your account.
+          {devTools.length}+ tools at your fingertips. Here&apos;s your account at a glance.
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => {
-          const Icon = s.icon;
-          return (
-            <Link key={s.label} href={s.href}>
-              <Card className="transition-colors hover:border-foreground/20">
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">{s.label}</span>
-                    <Icon className="size-4 text-muted-foreground" />
-                  </div>
-                  <div className="mt-2 font-heading text-3xl font-semibold tabular-nums">
-                    {s.value.toLocaleString()}
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 grid gap-4 lg:grid-cols-3">
-        {/* Quick actions */}
-        <div className="lg:col-span-2">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>Quick actions</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-3 sm:grid-cols-3">
-              {quickActions.map((a) => {
-                const Icon = a.icon;
-                return (
-                  <Link
-                    key={a.title}
-                    href={a.href}
-                    className="group flex flex-col gap-2 rounded-lg border border-border p-3 transition-colors hover:border-foreground/20 hover:bg-muted/40"
-                  >
-                    <div className="grid size-9 place-items-center rounded-lg bg-muted text-foreground">
-                      <Icon className="size-4.5" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1 text-sm font-medium">
-                        {a.title}
-                        <PlusIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-                      </div>
-                      <p className="text-xs text-muted-foreground">{a.desc}</p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Plan / usage */}
+      {/* Plan · AI usage · Saved */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        {/* Plan */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
@@ -132,43 +72,87 @@ export default async function DashboardPage() {
               <Badge variant="secondary">{pro ? "PRO" : "FREE"}</Badge>
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-3">
             {pro ? (
-              <p className="text-sm text-muted-foreground">
-                Unlimited saves, branding, analytics, and API access. Thanks for
-                being Pro! 🎉
-              </p>
+              <>
+                <p className="text-sm text-muted-foreground">
+                  Unlimited AI, advanced conversions, analytics, and API access. Thanks for being Pro! 🎉
+                </p>
+                <Button variant="outline" size="sm" className="w-fit" render={<Link href="/dashboard/billing" />}>
+                  Manage subscription
+                </Button>
+              </>
             ) : (
               <>
-                <UsageBar label="QR codes" used={qrCount} limit={FREE_SAVE_LIMIT} />
-                <UsageBar label="Barcodes" used={barcodeCount} limit={FREE_SAVE_LIMIT} />
-                <Button size="sm" className="mt-1" render={<Link href="/dashboard/billing" />}>
+                <p className="text-sm text-muted-foreground">
+                  Go Pro for unlimited AI, advanced conversions, and more.
+                </p>
+                <Button size="sm" className="w-fit" render={<Link href="/dashboard/billing" />}>
+                  <SparklesIcon className="size-4" />
                   Upgrade to Pro
                 </Button>
               </>
             )}
           </CardContent>
         </Card>
+
+        {/* AI usage */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <WandSparklesIcon className="size-4 text-primary" /> AI usage
+              </span>
+              <Link href="/tools/ai" className="text-xs font-medium text-primary hover:underline">
+                AI tools →
+              </Link>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3">
+            {pro ? (
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Unlimited</span> AI runs on Pro — go wild.
+              </p>
+            ) : (
+              <>
+                <UsageBar label="AI runs today" used={aiUsedToday} limit={FREE_DAILY_AI_LIMIT} />
+                <p className="text-xs text-muted-foreground">
+                  {aiRemaining > 0
+                    ? `${aiRemaining} free run${aiRemaining === 1 ? "" : "s"} left today.`
+                    : "Daily free limit reached — resets tomorrow."}
+                </p>
+              </>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Saved items */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Saved items</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2 text-sm">
+            <SavedRow icon={QrCodeIcon} label="QR codes" value={qrCount} href="/dashboard/qr" limit={pro ? undefined : FREE_SAVE_LIMIT} />
+            <SavedRow icon={ScanBarcodeIcon} label="Barcodes" value={barcodeCount} href="/dashboard/barcodes" limit={pro ? undefined : FREE_SAVE_LIMIT} />
+            <SavedRow icon={ZapIcon} label="Dynamic links" value={linkCount} href="/dashboard/links" />
+            <SavedRow icon={BarChart3Icon} label="Total scans" value={totalScans} href="/dashboard/links" />
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Pro tools */}
+      {/* Jump back in — popular tools */}
       <Card className="mt-4">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            {pro ? "Your Pro tools" : "Pro tools"}
+            Jump back in
             <Link href="/tools" className="text-xs font-medium text-primary hover:underline">
               Browse all {devTools.length} tools →
             </Link>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {!pro && (
-            <p className="mb-3 text-sm text-muted-foreground">
-              These work free with limits — upgrade to Pro for unlimited use and one-click ZIP export.
-            </p>
-          )}
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {proTools.map((t) => {
+            {popularTools.map((t) => {
               const Icon = t.icon;
               return (
                 <Link
@@ -180,7 +164,10 @@ export default async function DashboardPage() {
                     <Icon className="size-4.5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="truncate text-sm font-medium">{t.name}</div>
+                    <div className="flex items-center gap-1.5 truncate text-sm font-medium">
+                      {t.name}
+                      {t.pro && <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">Pro</Badge>}
+                    </div>
                     <div className="truncate text-xs text-muted-foreground">{t.tagline}</div>
                   </div>
                 </Link>
@@ -190,30 +177,42 @@ export default async function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Recent dynamic links */}
+      {/* Browse by category */}
       <Card className="mt-4">
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            Recent dynamic links
-            {linkCount > 0 && (
+          <CardTitle>Browse by category</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {toolCategories.map((cat) => {
+              const slug = categorySlugForName(cat.name);
+              return (
+                <Link
+                  key={cat.name}
+                  href={slug ? `/tools/${slug}` : "/tools"}
+                  className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                >
+                  {cat.name}
+                  <span className="ml-1.5 text-xs text-muted-foreground">{cat.slugs.length}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Recent dynamic links */}
+      {linkCount > 0 && (
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              Recent dynamic links
               <Link href="/dashboard/links" className="text-xs font-medium text-primary hover:underline">
                 View all
               </Link>
-            )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {recentLinks.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 py-8 text-center">
-              <p className="text-sm text-muted-foreground">
-                No dynamic links yet — create one to track scans.
-              </p>
-              <Button variant="outline" size="sm" render={<Link href="/dashboard/qr" />}>
-                Create dynamic QR
-                <ArrowRightIcon />
-              </Button>
-            </div>
-          ) : (
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="flex flex-col divide-y divide-border">
               {recentLinks.map((l) => (
                 <Link
@@ -232,22 +231,41 @@ export default async function DashboardPage() {
                 </Link>
               ))}
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
 
-function UsageBar({
+function SavedRow({
+  icon: Icon,
   label,
-  used,
+  value,
+  href,
   limit,
 }: {
+  icon: LucideIcon;
   label: string;
-  used: number;
-  limit: number;
+  value: number;
+  href: string;
+  limit?: number;
 }) {
+  return (
+    <Link href={href} className="flex items-center justify-between gap-2 hover:opacity-80">
+      <span className="flex items-center gap-2 text-muted-foreground">
+        <Icon className="size-4" />
+        {label}
+      </span>
+      <span className="tabular-nums font-medium">
+        {value.toLocaleString()}
+        {limit !== undefined && <span className="text-xs font-normal text-muted-foreground"> / {limit}</span>}
+      </span>
+    </Link>
+  );
+}
+
+function UsageBar({ label, used, limit }: { label: string; used: number; limit: number }) {
   const pct = Math.min(100, (used / limit) * 100);
   const atLimit = used >= limit;
   return (
