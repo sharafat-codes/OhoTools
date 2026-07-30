@@ -25,8 +25,14 @@ export type ToolGroup = {
   tools: ToolItem[];
 };
 
-export function ToolsExplorer({ groups }: { groups: ToolGroup[] }) {
-  const [query, setQuery] = React.useState("");
+export function ToolsExplorer({
+  groups,
+  initialQuery = "",
+}: {
+  groups: ToolGroup[];
+  initialQuery?: string;
+}) {
+  const [query, setQuery] = React.useState(initialQuery);
   const [cat, setCat] = React.useState("all");
 
   const q = query.trim().toLowerCase();

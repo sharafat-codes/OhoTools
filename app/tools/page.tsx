@@ -23,7 +23,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools" },
 };
 
-export default function ToolsHub() {
+export default async function ToolsHub({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
   const groups: ToolGroup[] = toolCategories.map((cat) => ({
     name: cat.name,
     blurb: cat.blurb,
@@ -58,7 +63,7 @@ export default function ToolsHub() {
       </div>
 
       <div className="mt-12">
-        <ToolsExplorer groups={groups} />
+        <ToolsExplorer groups={groups} initialQuery={q ?? ""} />
       </div>
 
       <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
