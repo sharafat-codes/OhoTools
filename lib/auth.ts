@@ -7,10 +7,13 @@ import { sendEmail, renderActionEmail } from "@/lib/email";
 // BETTER_AUTH_SECRET and BETTER_AUTH_URL are read from the environment
 // automatically by Better Auth.
 
-// Google sign-in turns on only when its OAuth credentials are present, so the
-// app (and local dev) runs fine before they're configured.
-const googleConfigured =
-  !!process.env.GOOGLE_CLIENT_ID && !!process.env.GOOGLE_CLIENT_SECRET;
+// Reuse the same Google OAuth client the Drive picker already uses
+// (NEXT_PUBLIC_GOOGLE_CLIENT_ID) — only the server-side secret is new. A
+// dedicated GOOGLE_CLIENT_ID still takes precedence if it's set. Sign-in turns
+// on only once both an id and secret are present, so dev runs fine without them.
+const googleClientId =
+  process.env.GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+const googleConfigured = !!googleClientId && !!process.env.GOOGLE_CLIENT_SECRET;
 
 /** Whether Google social login is available — used to gate the UI button. */
 export const isGoogleAuthEnabled = googleConfigured;
@@ -65,7 +68,7 @@ export const auth = betterAuth({
   socialProviders: googleConfigured
     ? {
         google: {
-          clientId: process.env.GOOGLE_CLIENT_ID as string,
+          clientId: googleClientId as string,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         },
       }
