@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -27,6 +28,10 @@ const geistMono = Geist_Mono({
 });
 
 import { SITE_URL as siteUrl } from "@/lib/site";
+
+// Google Analytics 4 — injected only on the production deployment so local dev
+// and Vercel preview traffic don't pollute the analytics property.
+const GA_ID = "G-V5RLQLB88Y";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -100,6 +105,20 @@ export default function RootLayout({
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
+        {process.env.VERCEL_ENV === "production" && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
