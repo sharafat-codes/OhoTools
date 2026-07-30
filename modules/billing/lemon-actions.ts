@@ -76,8 +76,12 @@ export async function createLemonPortalSession(): Promise<ActionResult> {
       select: { lemonSubscriptionId: true },
     });
     if (dbUser?.lemonSubscriptionId) {
-      const url = await portalUrlForSubscription(dbUser.lemonSubscriptionId);
-      if (url) return { url };
+      try {
+        const url = await portalUrlForSubscription(dbUser.lemonSubscriptionId);
+        if (url) return { url };
+      } catch {
+        // Stored id is stale/invalid — fall through to the email lookup below.
+      }
     }
 
     // 2) Fallback: find the subscription by the account email, then fetch its
