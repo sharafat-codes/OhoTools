@@ -151,7 +151,7 @@ export function ReceiveFile({ id }: { id: string }) {
   if (phase === "locked") {
     return (
       <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-8 text-center">
-        <div className="grid size-14 place-items-center rounded-2xl bg-muted text-foreground">
+        <div className="grid size-14 place-items-center rounded-2xl bg-primary/10 text-primary">
           <LockIcon className="size-7" />
         </div>
         <div>
@@ -183,7 +183,7 @@ export function ReceiveFile({ id }: { id: string }) {
   // ready
   return (
     <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-8 text-center">
-      <div className="grid size-14 place-items-center rounded-2xl bg-muted text-foreground">
+      <div className="grid size-14 place-items-center rounded-2xl bg-primary/10 text-primary">
         <FileIcon className="size-7" />
       </div>
       <div>

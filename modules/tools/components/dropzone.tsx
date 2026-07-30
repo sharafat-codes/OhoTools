@@ -66,7 +66,7 @@ export function Dropzone({
         drag ? "border-primary bg-primary/10" : "border-border bg-muted/30 hover:border-foreground/25 hover:bg-muted/50",
       )}
     >
-      <div className="grid size-12 place-items-center rounded-full bg-muted text-foreground">
+      <div className="grid size-12 place-items-center rounded-full bg-primary/10 text-primary">
         <UploadCloudIcon className="size-6" />
       </div>
       <div>

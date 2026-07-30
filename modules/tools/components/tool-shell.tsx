@@ -90,13 +90,13 @@ export function ToolShell({
 
       {/* Header */}
       <div className="mb-3 flex items-start gap-3">
-        <div className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-foreground">
+        <div className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
           <Icon className="size-5" />
         </div>
         <div>
           <div className="flex items-center gap-2">
             <h1 className="font-heading text-2xl font-semibold tracking-tight">{tool.name}</h1>
-            {tool.pro && <Badge variant="secondary">Pro</Badge>}
+            {tool.pro && <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary">Pro</Badge>}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
         </div>
@@ -161,9 +161,9 @@ export function ToolShell({
               const RIcon = r.icon;
               return (
                 <Link key={r.slug} href={`/tools/${r.slug}`} className="group">
-                  <Card className="h-full transition-colors hover:border-foreground/20">
+                  <Card className="h-full transition-colors hover:border-primary/40">
                     <CardContent className="flex items-center gap-2.5">
-                      <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                      <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
                         <RIcon className="size-4" />
                       </div>
                       <span className="text-sm font-medium">{r.name}</span>

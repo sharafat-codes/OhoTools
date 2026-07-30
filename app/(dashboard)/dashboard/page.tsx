@@ -70,7 +70,12 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               Plan
-              <Badge variant="secondary">{pro ? "PRO" : "FREE"}</Badge>
+              <Badge
+                variant="secondary"
+                className={cn(pro && "border-primary/30 bg-primary/10 text-primary")}
+              >
+                {pro ? "PRO" : "FREE"}
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
@@ -162,15 +167,15 @@ export default async function DashboardPage() {
                 <Link
                   key={t.slug}
                   href={`/tools/${t.slug}`}
-                  className="group flex items-center gap-3 rounded-lg border border-border p-3 transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                  className="group flex items-center gap-3 rounded-lg border border-border p-3 transition-colors hover:border-primary/40 hover:bg-muted/40"
                 >
-                  <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                  <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="size-4.5" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 truncate text-sm font-medium">
                       {t.name}
-                      {t.pro && <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">Pro</Badge>}
+                      {t.pro && <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">Pro</Badge>}
                     </div>
                     <div className="truncate text-xs text-muted-foreground">{t.tagline}</div>
                   </div>
@@ -194,7 +199,7 @@ export default async function DashboardPage() {
                 <Link
                   key={cat.name}
                   href={slug ? `/tools/${slug}` : "/tools"}
-                  className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                  className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-primary/40 hover:bg-muted/40"
                 >
                   {cat.name}
                   <span className="ml-1.5 text-xs text-muted-foreground">{cat.slugs.length}</span>
@@ -229,7 +234,7 @@ export default async function DashboardPage() {
                     <div className="truncate text-xs text-muted-foreground">→ {l.targetUrl}</div>
                   </div>
                   <div className="flex shrink-0 items-center gap-1.5 text-sm">
-                    <BarChart3Icon className="size-3.5 text-muted-foreground" />
+                    <BarChart3Icon className="size-3.5 text-primary" />
                     <span className="tabular-nums">{l.scanCount}</span>
                   </div>
                 </Link>
@@ -258,7 +263,7 @@ function SavedRow({
   return (
     <Link href={href} className="flex items-center justify-between gap-2 hover:opacity-80">
       <span className="flex items-center gap-2 text-muted-foreground">
-        <Icon className="size-4" />
+        <Icon className="size-4 text-primary" />
         {label}
       </span>
       <span className="tabular-nums font-medium">

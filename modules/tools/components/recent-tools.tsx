@@ -49,7 +49,7 @@ export function RecentTools() {
     <Card className="mt-4">
       <CardHeader>
         <CardTitle className="flex items-center gap-1.5">
-          <HistoryIcon className="size-4" /> Recently used
+          <HistoryIcon className="size-4 text-primary" /> Recently used
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -58,7 +58,7 @@ export function RecentTools() {
             <Link
               key={t.slug}
               href={`/tools/${t.slug}`}
-              className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-foreground/20 hover:bg-muted/40"
+              className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-primary/40 hover:bg-muted/40"
             >
               {t.name}
             </Link>

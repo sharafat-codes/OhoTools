@@ -160,7 +160,7 @@ export default function SendPage() {
 function Point({ icon: Icon, title, body }: { icon: typeof LockIcon; title: string; body: string }) {
   return (
     <div className="rounded-xl border border-border bg-card p-4 text-center">
-      <div className="mx-auto mb-2 grid size-9 place-items-center rounded-lg bg-muted text-foreground">
+      <div className="mx-auto mb-2 grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
         <Icon className="size-4.5" />
       </div>
       <div className="text-sm font-medium">{title}</div>

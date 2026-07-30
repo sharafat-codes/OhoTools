@@ -148,8 +148,8 @@ function Chip({
       className={cn(
         "rounded-lg border px-3 py-1.5 text-sm transition-colors",
         active
-          ? "border-foreground bg-foreground text-background"
-          : "border-border hover:border-foreground/20 hover:bg-muted/40",
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border hover:border-primary/40 hover:bg-muted/40",
       )}
     >
       {children}
@@ -160,16 +160,16 @@ function Chip({
 function ToolCard({ tool }: { tool: ToolItem }) {
   return (
     <Link href={`/tools/${tool.slug}`} className="group">
-      <Card className="h-full transition-colors hover:border-foreground/20">
+      <Card className="h-full transition-colors hover:border-primary/40">
         <CardContent className="flex items-start gap-3">
-          <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+          <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
             {tool.icon}
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 font-heading font-medium">
               {tool.name}
               {tool.pro && (
-                <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
+                <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">
                   Pro
                 </Badge>
               )}

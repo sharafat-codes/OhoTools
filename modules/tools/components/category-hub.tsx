@@ -99,16 +99,16 @@ export function CategoryHub({ slug }: { slug: string }) {
           const Icon = t.icon;
           return (
             <Link key={t.slug} href={`/tools/${t.slug}`} className="group">
-              <Card className="h-full transition-colors hover:border-foreground/20">
+              <Card className="h-full transition-colors hover:border-primary/40">
                 <CardContent className="flex items-start gap-3">
-                  <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                  <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="size-5" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 font-heading font-medium">
                       {t.name}
                       {t.pro && (
-                        <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">Pro</Badge>
+                        <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">Pro</Badge>
                       )}
                       <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
                     </div>
@@ -154,14 +154,14 @@ export function CategoryHub({ slug }: { slug: string }) {
             <Link
               key={c.slug}
               href={`/tools/${c.slug}`}
-              className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
+              className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
             >
               {c.seoTitle}
             </Link>
           ))}
           <Link
             href="/tools"
-            className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
+            className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
           >
             All tools
           </Link>

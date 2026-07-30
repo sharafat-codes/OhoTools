@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import { SidebarNav } from "@/modules/dashboard/components/sidebar-nav";
+import { cn } from "@/lib/utils";
 
 export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
   return (
@@ -22,7 +23,12 @@ export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium">Your plan</span>
-            <Badge variant="secondary">{plan}</Badge>
+            <Badge
+              variant="secondary"
+              className={cn(plan !== "FREE" && "border-primary/30 bg-primary/10 text-primary")}
+            >
+              {plan}
+            </Badge>
           </div>
           <p className="mt-1 text-xs text-muted-foreground">
             {plan === "FREE"

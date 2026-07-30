@@ -132,7 +132,7 @@ export default async function Home() {
         "@type": "Organization",
         name: "OhoTool",
         url: siteUrl,
-        logo: `${siteUrl}/opengraph-image`,
+        logo: `${siteUrl}/logo-icon.png`,
         description:
           "OhoTool is a free platform of 130+ browser-based tools for PDF, images, audio, video, text, developers, AI writing, and QR codes — private, with no sign-up.",
         founder: { "@type": "Person", name: "Sharafat Ali" },
@@ -197,7 +197,10 @@ export default async function Home() {
           />
           <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:py-28">
             <div className="flex flex-col items-start">
-              <Badge variant="secondary" className="mb-5">
+              <Badge
+                variant="secondary"
+                className="mb-5 border-primary/30 bg-primary/10 text-primary"
+              >
                 <SparklesIcon className="size-3.5" />
                 {devTools.length} tools · more added every week
               </Badge>
@@ -240,9 +243,9 @@ export default async function Home() {
                       <Link
                         key={slug}
                         href={`/tools/${slug}`}
-                        className="group flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-background p-3 text-center transition-colors hover:border-foreground/20 hover:bg-muted/40"
+                        className="group flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-background p-3 text-center transition-colors hover:border-primary/40 hover:bg-muted/40"
                       >
-                        <span className="grid size-9 place-items-center rounded-lg bg-muted text-foreground">
+                        <span className="grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
                           <TIcon className="size-4.5" />
                         </span>
                         <span className="text-[11px] font-medium leading-tight text-muted-foreground group-hover:text-foreground">
@@ -297,10 +300,10 @@ export default async function Home() {
                   <Link
                     key={cat.name}
                     href={catSlug ? `/tools/${catSlug}` : "/tools"}
-                    className="group flex flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-foreground/20"
+                    className="group flex flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="grid size-10 place-items-center rounded-lg bg-muted text-foreground">
+                      <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary">
                         <CIcon className="size-5" />
                       </span>
                       <div>
@@ -334,15 +337,15 @@ export default async function Home() {
                 const TIcon = t.icon;
                 return (
                   <Link key={slug} href={`/tools/${slug}`} className="group">
-                    <div className="flex h-full items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-foreground/20">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                    <div className="flex h-full items-start gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
                         <TIcon className="size-5" />
                       </span>
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5 font-heading font-medium">
                           {t.name}
                           {t.pro && (
-                            <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
+                            <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">
                               Pro
                             </Badge>
                           )}
@@ -400,7 +403,7 @@ export default async function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
             <div className="flex flex-col items-start gap-5 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-start gap-4">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-foreground">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
                   <SendIcon className="size-5" />
                 </span>
                 <div>
@@ -630,7 +633,7 @@ function FeatureCard({
 }) {
   return (
     <div className={cn("flex min-w-0 flex-col rounded-xl border border-border bg-card p-5", className)}>
-      <div className="mb-3 grid size-9 place-items-center rounded-lg bg-muted text-foreground">
+      <div className="mb-3 grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
         <Icon className="size-4.5" />
       </div>
       <h3 className="font-heading font-medium">{title}</h3>

@@ -242,7 +242,11 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
             <CardTitle className="flex items-center gap-2">
               Branding & shape
               {!isPro && (
-                <Badge variant="secondary" render={<Link href="/dashboard/billing" />}>
+                <Badge
+                  variant="secondary"
+                  className="border-primary/30 bg-primary/10 text-primary"
+                  render={<Link href="/dashboard/billing" />}
+                >
                   <LockIcon className="size-3" />
                   Pro
                 </Badge>

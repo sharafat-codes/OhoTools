@@ -88,7 +88,7 @@ export function ToolSearch({ className }: { className?: string }) {
         onClick={openSearch}
         aria-label="Search tools"
         className={cn(
-          "inline-flex items-center gap-2 rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground",
+          "inline-flex items-center gap-2 rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground",
           className,
         )}
       >

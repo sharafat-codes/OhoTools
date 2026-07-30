@@ -53,7 +53,7 @@ export function ForgotPasswordForm() {
     return (
       <Card>
         <CardHeader>
-          <div className="mb-1 grid size-9 place-items-center rounded-lg bg-muted text-foreground">
+          <div className="mb-1 grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
             <MailCheckIcon className="size-4.5" />
           </div>
           <CardTitle as="h1" className="text-lg">Check your email</CardTitle>

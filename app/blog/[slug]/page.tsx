@@ -135,7 +135,7 @@ export default async function BlogPostPage({
                   href={`/tools/${tool.slug}`}
                   className="flex items-center gap-3 rounded-lg border border-border bg-card p-3 transition-colors hover:border-primary/40"
                 >
-                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-muted text-foreground">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="size-4.5" />
                   </span>
                   <div className="min-w-0">

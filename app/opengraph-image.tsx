@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 
-import { LogoGlyph } from "@/components/logo";
-
 export const alt = "OhoTool — Free online tools for PDF, images, text & more";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -30,11 +28,17 @@ export default function OpengraphImage() {
               width: "72px",
               height: "72px",
               borderRadius: "18px",
-              background: "#fafafa",
-              color: "#0a0a0a",
+              background: "linear-gradient(135deg, #6D28D9 0%, #A855F7 100%)",
             }}
           >
-            <LogoGlyph color="#0a0a0a" size={50} />
+            <div
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "9999px",
+                border: "9px solid #ffffff",
+              }}
+            />
           </div>
           <div style={{ fontSize: "40px", fontWeight: 700 }}>OhoTool</div>
         </div>
@@ -44,7 +48,7 @@ export default function OpengraphImage() {
             Every online tool you need — free & private
           </div>
           <div style={{ fontSize: "34px", color: "#a1a1a1", maxWidth: "860px" }}>
-            80+ browser-based tools for PDF, images, text, and code. No sign-up,
+            130+ browser-based tools for PDF, images, text, and code. No sign-up,
             nothing uploaded.
           </div>
         </div>

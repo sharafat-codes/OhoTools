@@ -2,8 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +28,14 @@ const LINKS = [
 
 export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
+
+  // Hash links (e.g. /#faq) are in-page anchors — never "active".
+  // Section links match their exact path and any nested route below it.
+  const isActive = (href: string) => {
+    if (href.includes("#")) return false;
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   return (
     <header className="sticky top-0 z-30 border-b border-border/60 bg-background/70 backdrop-blur-md">
@@ -37,7 +47,13 @@ export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
             <a
               key={l.href}
               href={l.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              aria-current={isActive(l.href) ? "page" : undefined}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                isActive(l.href)
+                  ? "bg-primary/10 text-primary"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
             >
               {l.label}
             </a>
@@ -82,7 +98,13 @@ export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                    aria-current={isActive(l.href) ? "page" : undefined}
+                    className={cn(
+                      "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      isActive(l.href)
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    )}
                   >
                     {l.label}
                   </a>
