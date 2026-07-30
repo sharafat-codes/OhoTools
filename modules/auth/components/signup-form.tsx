@@ -9,6 +9,7 @@ import { LoaderCircleIcon } from "lucide-react";
 
 import { signUp } from "@/lib/auth-client";
 import { signUpSchema, type SignUpInput } from "@/modules/auth/validations";
+import { SocialAuth } from "@/modules/auth/components/social-buttons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,7 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function SignupForm() {
+export function SignupForm({ googleEnabled = false }: { googleEnabled?: boolean }) {
   const router = useRouter();
   const {
     register,
@@ -53,6 +54,7 @@ export function SignupForm() {
         <CardDescription>Start using OhoTool for free.</CardDescription>
       </CardHeader>
       <CardContent>
+        <SocialAuth enabled={googleEnabled} redirectTo="/dashboard" />
         <form
           id="signup-form"
           onSubmit={handleSubmit(onSubmit)}

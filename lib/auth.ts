@@ -6,6 +6,15 @@ import { sendEmail, renderActionEmail } from "@/lib/email";
 
 // BETTER_AUTH_SECRET and BETTER_AUTH_URL are read from the environment
 // automatically by Better Auth.
+
+// Google sign-in turns on only when its OAuth credentials are present, so the
+// app (and local dev) runs fine before they're configured.
+const googleConfigured =
+  !!process.env.GOOGLE_CLIENT_ID && !!process.env.GOOGLE_CLIENT_SECRET;
+
+/** Whether Google social login is available — used to gate the UI button. */
+export const isGoogleAuthEnabled = googleConfigured;
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -50,6 +59,25 @@ export const auth = betterAuth({
             "If you didn't create a OhoTool account, you can ignore this email.",
         }),
       });
+    },
+  },
+
+  socialProviders: googleConfigured
+    ? {
+        google: {
+          clientId: process.env.GOOGLE_CLIENT_ID as string,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        },
+      }
+    : undefined,
+
+  // If someone signs up with email and later signs in with Google (or vice
+  // versa) using the same verified email, link them into one account instead
+  // of creating a duplicate. Google is trusted because it verifies emails.
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"],
     },
   },
 

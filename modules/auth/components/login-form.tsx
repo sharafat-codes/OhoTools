@@ -9,6 +9,7 @@ import { LoaderCircleIcon } from "lucide-react";
 
 import { signIn } from "@/lib/auth-client";
 import { signInSchema, type SignInInput } from "@/modules/auth/validations";
+import { SocialAuth } from "@/modules/auth/components/social-buttons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,7 +22,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function LoginForm({ redirectTo }: { redirectTo: string }) {
+export function LoginForm({
+  redirectTo,
+  googleEnabled = false,
+}: {
+  redirectTo: string;
+  googleEnabled?: boolean;
+}) {
   const router = useRouter();
   const {
     register,
@@ -52,6 +59,7 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
         <CardDescription>Log in to your OhoTool account.</CardDescription>
       </CardHeader>
       <CardContent>
+        <SocialAuth enabled={googleEnabled} redirectTo={redirectTo} />
         <form
           id="login-form"
           onSubmit={handleSubmit(onSubmit)}
