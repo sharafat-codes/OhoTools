@@ -116,7 +116,7 @@ export default async function Home() {
   const brandedQr = qrToSvgString({
     data: siteUrl,
     fgColor: "#6d28d9",
-    fgColor2: "#db2777",
+    fgColor2: "#a855f7",
     gradient: true,
     bgColor: "#ffffff",
     moduleStyle: "rounded",

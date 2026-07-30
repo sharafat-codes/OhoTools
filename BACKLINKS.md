@@ -176,19 +176,19 @@ Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as
 
 ## Image-generation prompts (ChatGPT / DALL·E)
 
-> ⚠️ AI image models garble exact text/logos. Generate the **visual only (no text)**, then overlay the headline yourself — you can use OhoTool's own [Add Text to Image](https://ohotool.com/tools/add-text-to-image). Brand palette: violet **#6d28d9** → pink **#db2777**.
+> ⚠️ AI image models garble exact text/logos. Generate the **visual only (no text)**, then overlay the headline yourself — you can use OhoTool's own [Add Text to Image](https://ohotool.com/tools/add-text-to-image). Brand palette: violet **#6D28D9** → purple **#A855F7**.
 
 **1) Announcement (1:1):**
-> Clean premium SaaS graphic, 1:1 square. Minimalist 3D illustration of a floating translucent app window surrounded by small floating tool icons — document, photo, play button, sound wave, QR code, sparkle. Soft studio lighting, subtle shadows. Gradient from deep violet (#6d28d9) to hot pink (#db2777) on a light off-white background. Leave empty space in the top third for a headline. Uncluttered, modern tech-startup look. Do NOT include any text, letters, or logos.
+> Clean premium SaaS graphic, 1:1 square. Minimalist 3D illustration of a floating translucent app window surrounded by small floating tool icons — document, photo, play button, sound wave, QR code, sparkle. Soft studio lighting, subtle shadows. Gradient from deep violet (#6D28D9) to purple (#A855F7) on a light off-white background. Leave empty space in the top third for a headline. Uncluttered, modern tech-startup look. Do NOT include any text, letters, or logos.
 
 **2) Privacy (1:1):**
-> Modern flat vector image, 1:1. Concept: privacy — a browser window containing a shield and padlock, a document staying safely inside the browser instead of uploading to a cloud. Violet (#6d28d9) to pink (#db2777) gradient accents, light neutral background, negative space at the bottom. Calm, trustworthy, minimal. No text or letters.
+> Modern flat vector image, 1:1. Concept: privacy — a browser window containing a shield and padlock, a document staying safely inside the browser instead of uploading to a cloud. Violet (#6D28D9) to purple (#A855F7) gradient accents, light neutral background, negative space at the bottom. Calm, trustworthy, minimal. No text or letters.
 
 **3) AI tools (1:1):**
-> Sleek 3D render, 1:1. A glowing magic-wand/sparkle emitting soft particles over a stylized chat/text bubble (AI writing). Violet-to-pink gradient (#6d28d9 → #db2777), glossy soft glow, dark charcoal background. Keep the left side clear for a headline. Premium, futuristic, clean. No readable text.
+> Sleek 3D render, 1:1. A glowing magic-wand/sparkle emitting soft particles over a stylized chat/text bubble (AI writing). Violet-to-purple gradient (#6D28D9 → #A855F7), glossy soft glow, dark charcoal background. Keep the left side clear for a headline. Premium, futuristic, clean. No readable text.
 
 **4) Story / Reel (9:16):**
-> Vertical 9:16 (1080×1920) story background. Bold gradient from deep violet (#6d28d9) top to hot pink (#db2777) bottom, subtle floating 3D tool icons (document, image, sound wave, QR, sparkle) with depth-of-field blur. Large clear center area for a headline + CTA. Energetic app-launch vibe. No text or letters.
+> Vertical 9:16 (1080×1920) story background. Bold gradient from deep violet (#6D28D9) top to purple (#A855F7) bottom, subtle floating 3D tool icons (document, image, sound wave, QR, sparkle) with depth-of-field blur. Large clear center area for a headline + CTA. Energetic app-launch vibe. No text or letters.
 
 **Headlines to overlay:** `130+ free online tools` · `All in your browser. Nothing uploaded.` · `Convert · Edit · Create — free` · `Now with 20+ AI writing tools`
 
