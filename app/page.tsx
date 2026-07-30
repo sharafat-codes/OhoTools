@@ -128,7 +128,19 @@ export default async function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Organization", name: "OhoTool", url: siteUrl },
+      {
+        "@type": "Organization",
+        name: "OhoTool",
+        url: siteUrl,
+        logo: `${siteUrl}/opengraph-image`,
+        description:
+          "OhoTool is a free platform of 130+ browser-based tools for PDF, images, audio, video, text, developers, AI writing, and QR codes — private, with no sign-up.",
+        founder: { "@type": "Person", name: "Sharafat Ali" },
+        sameAs: [
+          "https://www.linkedin.com/in/sharafat-ali-04586028a/",
+          "https://www.facebook.com/codes.ali",
+        ],
+      },
       {
         "@type": "WebSite",
         name: "OhoTool",
