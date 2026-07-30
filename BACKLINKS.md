@@ -93,3 +93,52 @@ Site: https://ohotool.com
 ## Track results
 - New referring domains: **Bing Webmaster → Backlinks** and **GSC → Links**.
 - Re-check **GSC average position** in 3–4 weeks — links + time should pull it off page 6.
+
+---
+
+# Ready-to-post copy
+
+> Post to **one** community at a time (a day or two apart), then **reply to every comment** for the first few hours — engagement is what keeps a post visible. Never cross-post the identical text everywhere.
+
+## Show HN (news.ycombinator.com/submit)
+**URL field:** `https://ohotool.com`
+**Title:** `Show HN: OhoTool – 130+ free browser tools that don't upload your files`
+**First comment (post right after submitting):**
+
+> I got tired of bouncing between a dozen single-purpose tool sites — each with ads, an upload step, and a sign-up wall — just to merge a PDF or convert an image. So I built OhoTool: 130+ everyday tools in one place.
+>
+> The part I care about most: most of them run **entirely client-side** — PDF merge/split/compress (pdf-lib + pdf.js), image convert/resize/compress/crop (canvas), audio/video convert & trim (ffmpeg.wasm), plus the usual dev/text/calculator utilities. Files never leave the browser, and most tools need no account.
+>
+> A few things hit a server by necessity and are labeled as such: high-fidelity Office↔PDF conversions, and the AI writing tools (freemium — small daily free quota, since each call has a cost).
+>
+> Stack: Next.js (App Router) + client-side wasm where possible, on Vercel. Happy to get into the client-side tradeoffs. Feedback very welcome — especially which tools are missing or where the UX trips up.
+
+## r/SideProject
+**Title:** `I built 130+ free online tools that run in your browser (no uploads, no sign-up)`
+**Body:**
+
+> Hey r/SideProject 👋
+>
+> For the last few months I've been building **OhoTool** — one place for the everyday tools I kept googling: PDF merge/compress, image convert/resize/crop, audio & video convert/trim, text & dev utilities, calculators, QR codes, and a set of AI writing tools.
+>
+> What I'm most proud of: most tools run **entirely in your browser** (pdf-lib, canvas, ffmpeg.wasm), so files aren't uploaded anywhere and there's no account needed. It's free; a light Pro plan covers unlimited AI + a few server-side conversions.
+>
+> Would love feedback on (1) which tools you'd actually use and (2) anything confusing in the UX. A few to try: PDF merge → https://ohotool.com/tools/merge-pdf · AI humanizer → https://ohotool.com/tools/ai-humanizer · Image crop → https://ohotool.com/tools/crop-image
+>
+> Thanks! 🙏
+
+## r/InternetIsBeautiful
+*(Rule: descriptive title, no "I made"; disclose you're the maker in a comment.)*
+**Title:** `A collection of 130+ free online tools that run in your browser without uploading your files`
+**URL:** `https://ohotool.com`
+**First comment (required disclosure):**
+
+> Disclosure: I built this. Most tools (PDF, image, audio/video, text) run fully client-side, so nothing gets uploaded. Free, no sign-up. Would love to hear what's missing or broken.
+
+## r/webdev — Showoff Saturday (only in the weekly thread)
+**Comment:**
+
+> **OhoTool** — 130+ browser tools, most running client-side: pdf-lib + pdf.js for PDFs, canvas for images, ffmpeg.wasm for audio/video, the rest are text/dev/calculator utilities. Next.js App Router on Vercel; files never leave the browser. Free. Feedback on the wasm-heavy approach welcome → https://ohotool.com
+
+## Directory blurb (AlternativeTo / SaaSHub / etc.)
+Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as an alternative to **Smallpdf, iLovePDF, TinyPNG, QuillBot**. Deep-link the homepage; add specific tools where the form allows.
