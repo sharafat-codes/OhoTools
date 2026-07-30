@@ -1268,6 +1268,64 @@ export const devTools: DevTool[] = [
     related: ["bulk-image-converter", "image-resizer", "favicon-generator"],
   },
   {
+    slug: "svg-to-png",
+    name: "SVG to PNG",
+    tagline: "Convert SVG files to PNG, JPG, or WebP.",
+    description:
+      "Free online SVG converter. Turn an SVG into a crisp PNG, JPG, or WebP at any scale — all in your browser, nothing uploaded.",
+    keywords: [
+      "svg to png",
+      "svg to jpg",
+      "svg to webp",
+      "svg converter",
+      "convert svg to image",
+      "svg to png converter",
+    ],
+    icon: FileImageIcon,
+    intro:
+      "Upload an SVG and export it as a PNG, JPG, or WebP at the exact size you need. Pick a scale (1×, 2×, 3×) to render sharp, high-resolution output — everything runs in your browser, so your file is never uploaded.",
+    steps: [
+      "Choose or drop an SVG file.",
+      "Pick the output format and a scale.",
+      "Download the rasterized image.",
+    ],
+    faqs: [
+      { q: "Is my SVG uploaded to a server?", a: "No — the SVG is rendered to a canvas and exported entirely in your browser, so the file never leaves your device." },
+      { q: "Can I export at a higher resolution?", a: "Yes — choose a 2×, 3×, or 4× scale to render the SVG larger for crisp, high-DPI output." },
+      { q: "What happens to transparency in JPG?", a: "JPG has no transparency, so transparent areas are filled with white. Choose PNG or WebP to keep transparency." },
+    ],
+    related: ["svg-to-image", "image-converter", "image-resizer"],
+  },
+  {
+    slug: "svg-to-image",
+    name: "SVG Code to Image",
+    tagline: "Paste SVG code and export it as PNG or JPG.",
+    description:
+      "Free online SVG code to image converter. Paste SVG markup, preview it live, and download it as a PNG, JPG, or WebP — privately in your browser.",
+    keywords: [
+      "svg code to png",
+      "svg code to image",
+      "svg to image",
+      "render svg online",
+      "svg markup to png",
+      "convert svg code",
+    ],
+    icon: CodeXmlIcon,
+    intro:
+      "Paste raw SVG markup, see a live preview, and export it as a PNG, JPG, or WebP at any scale. Great for turning an icon or illustration snippet into a shareable image — all in your browser, nothing uploaded.",
+    steps: [
+      "Paste your SVG code.",
+      "Check the live preview, then pick a format and scale.",
+      "Download the image.",
+    ],
+    faqs: [
+      { q: "Does my SVG code get sent anywhere?", a: "No — the markup is rendered and exported locally in your browser; nothing is uploaded." },
+      { q: "Why isn't my SVG rendering?", a: "Make sure it's a complete, valid <svg>…</svg> element with a width/height or viewBox. Images or fonts referenced by external URL may not render, for security reasons." },
+      { q: "Can I control the output size?", a: "Yes — pick a scale multiplier to render larger, sharper output than the SVG's intrinsic size." },
+    ],
+    related: ["svg-to-png", "image-converter", "add-text-to-image"],
+  },
+  {
     slug: "image-resizer",
     name: "Image Resizer",
     tagline: "Resize an image to exact dimensions online.",
@@ -2906,6 +2964,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "image-resizer",
       "compress-image",
       "bulk-image-converter",
+      "svg-to-png",
+      "svg-to-image",
       "heic-to-jpg",
       "heic-to-png",
       "image-to-text",
@@ -3084,6 +3144,8 @@ export const categoryPages: CategoryPage[] = [
       "image-resizer",
       "compress-image",
       "bulk-image-converter",
+      "svg-to-png",
+      "svg-to-image",
       "heic-to-jpg",
       "heic-to-png",
       "image-to-text",
