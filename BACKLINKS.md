@@ -142,3 +142,58 @@ Site: https://ohotool.com
 
 ## Directory blurb (AlternativeTo / SaaSHub / etc.)
 Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as an alternative to **Smallpdf, iLovePDF, TinyPNG, QuillBot**. Deep-link the homepage; add specific tools where the form allows.
+
+---
+
+# Social media (Facebook / Instagram)
+
+> Note: Facebook/Instagram links are `nofollow` — post for **traffic + shares**, not ranking authority. Add an image (posts with visuals get far more reach), and consider putting the link in the **first comment** to dodge FB's link-reach penalty.
+
+## Facebook post copy
+
+**Personal profile:**
+> For the last few months I've been quietly building something 👇
+>
+> **OhoTool** — 130+ free online tools in one place: convert PDFs, edit images, trim audio & video, write with AI, make QR codes, and more.
+>
+> The best part: most run **right in your browser**, so your files are never uploaded anywhere. No ads, no sign-up.
+>
+> It's live and free — I'd love if you tried it and told me what tool to add next 🙏
+> 👉 https://ohotool.com
+
+**Shorter / shareable:**
+> Ever need to merge a PDF, shrink an image, or convert a video — and end up on some sketchy site full of ads? I built the fix.
+>
+> **OhoTool** = 130+ free tools in one place, most running right in your browser (nothing uploaded). Free, no sign-up 👇
+> https://ohotool.com
+>
+> Would mean a lot if you shared it 🙌
+
+**For groups (value-first — check the group's rules/promo day):**
+> Sharing in case it's useful to anyone here: I built **OhoTool**, 130+ free online tools (PDF, image, audio/video, AI writing, QR). Most run in your browser so nothing gets uploaded — free, no sign-up: https://ohotool.com. Happy to add tools people actually want.
+
+**FB tips:** first line is the hook (shows before "See more") · add a screenshot/image · link in first comment ("link in comments 👇") · ask for shares/tags · post in relevant groups (web dev, indie makers, Shopify/ecommerce, students, digital marketing, PK tech/freelancer).
+
+## Image-generation prompts (ChatGPT / DALL·E)
+
+> ⚠️ AI image models garble exact text/logos. Generate the **visual only (no text)**, then overlay the headline yourself — you can use OhoTool's own [Add Text to Image](https://ohotool.com/tools/add-text-to-image). Brand palette: violet **#6d28d9** → pink **#db2777**.
+
+**1) Announcement (1:1):**
+> Clean premium SaaS graphic, 1:1 square. Minimalist 3D illustration of a floating translucent app window surrounded by small floating tool icons — document, photo, play button, sound wave, QR code, sparkle. Soft studio lighting, subtle shadows. Gradient from deep violet (#6d28d9) to hot pink (#db2777) on a light off-white background. Leave empty space in the top third for a headline. Uncluttered, modern tech-startup look. Do NOT include any text, letters, or logos.
+
+**2) Privacy (1:1):**
+> Modern flat vector image, 1:1. Concept: privacy — a browser window containing a shield and padlock, a document staying safely inside the browser instead of uploading to a cloud. Violet (#6d28d9) to pink (#db2777) gradient accents, light neutral background, negative space at the bottom. Calm, trustworthy, minimal. No text or letters.
+
+**3) AI tools (1:1):**
+> Sleek 3D render, 1:1. A glowing magic-wand/sparkle emitting soft particles over a stylized chat/text bubble (AI writing). Violet-to-pink gradient (#6d28d9 → #db2777), glossy soft glow, dark charcoal background. Keep the left side clear for a headline. Premium, futuristic, clean. No readable text.
+
+**4) Story / Reel (9:16):**
+> Vertical 9:16 (1080×1920) story background. Bold gradient from deep violet (#6d28d9) top to hot pink (#db2777) bottom, subtle floating 3D tool icons (document, image, sound wave, QR, sparkle) with depth-of-field blur. Large clear center area for a headline + CTA. Energetic app-launch vibe. No text or letters.
+
+**Headlines to overlay:** `130+ free online tools` · `All in your browser. Nothing uploaded.` · `Convert · Edit · Create — free` · `Now with 20+ AI writing tools`
+
+**Caption + hashtags:**
+> Stop bouncing between sketchy tool sites 🙅 OhoTool = 130+ free tools in one place — PDF, image, audio, video, AI writing & QR — most running right in your browser, so nothing gets uploaded. Free, no sign-up. Try it → ohotool.com
+> #freetools #onlinetools #pdftools #productivity #webtools #aitools #nocode #buildinpublic
+
+**Sizes:** IG feed 1080×1080 (1:1) or 1080×1350 (4:5) · IG story/reel 1080×1920 (9:16) · FB feed 1200×630 or square.
