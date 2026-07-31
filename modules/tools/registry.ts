@@ -3047,16 +3047,16 @@ export const devTools: DevTool[] = [
     name: "Protect PDF (Add Password)",
     tagline: "Password-protect a PDF with encryption.",
     description:
-      "Free online tool to password-protect a PDF. Add a password and encryption so only people who have the password can open it.",
+      "Free online tool to password-protect a PDF. Add a password and AES-256 encryption so only people who have the password can open it — in your browser, nothing uploaded.",
     keywords: ["protect pdf", "password protect pdf", "encrypt pdf", "add password to pdf", "lock pdf", "pdf password"],
     icon: ShieldCheckIcon,
     intro:
-      "Add a password to a PDF so only people who know it can open the document. Your file is processed on our secure server and deleted immediately after — it's never stored.",
+      "Add a password to a PDF so only people who know it can open the document. Encryption (AES-256) runs entirely in your browser, so your file is never uploaded.",
     steps: ["Upload a PDF.", "Choose a password.", "Download the protected PDF."],
     faqs: [
-      { q: "Is my PDF stored?", a: "No — it's processed on our secure server and deleted right after processing; it's never stored." },
-      { q: "What does the password do?", a: "The PDF is encrypted so it can't be opened without the password you set." },
-      { q: "Does this run in my browser?", a: "Unlike most OhoTool tools, PDF encryption runs on our server (it can't be done reliably in the browser), then the file is deleted." },
+      { q: "Is my PDF uploaded?", a: "No — encryption runs entirely in your browser (via qpdf compiled to WebAssembly), so your file never leaves your device." },
+      { q: "What does the password do?", a: "The PDF is encrypted with AES-256 so it can't be opened without the password you set." },
+      { q: "Can I remove the password later?", a: "Yes — use the Unlock PDF tool with the password to produce an unprotected copy." },
     ],
     related: ["unlock-pdf", "merge-pdf", "compress-pdf"],
   },
@@ -3065,15 +3065,15 @@ export const devTools: DevTool[] = [
     name: "Unlock PDF (Remove Password)",
     tagline: "Remove the password from a PDF you can open.",
     description:
-      "Free online tool to unlock a PDF. Enter the current password to remove it and download an unprotected copy.",
+      "Free online tool to unlock a PDF. Enter the current password to remove it and download an unprotected copy — in your browser, nothing uploaded.",
     keywords: ["unlock pdf", "remove pdf password", "decrypt pdf", "pdf password remover", "remove password from pdf"],
     icon: FileKey2Icon,
     intro:
-      "Remove the password from a PDF you're allowed to open by entering its current password. Your file is processed on our secure server and deleted immediately after — it's never stored.",
+      "Remove the password from a PDF you're allowed to open by entering its current password. It works on any standard password-protected PDF and runs entirely in your browser, so your file is never uploaded.",
     steps: ["Upload the protected PDF.", "Enter its current password.", "Download the unlocked PDF."],
     faqs: [
       { q: "Do I need the password?", a: "Yes — you must know the PDF's current password. This tool removes a known password; it can't crack an unknown one." },
-      { q: "Is my PDF stored?", a: "No — it's processed on our secure server and deleted right after; it's never stored." },
+      { q: "Is my PDF uploaded?", a: "No — decryption runs entirely in your browser (via qpdf compiled to WebAssembly), so your file never leaves your device." },
       { q: "Is this allowed?", a: "Only unlock PDFs you own or have permission to modify." },
     ],
     related: ["protect-pdf", "merge-pdf", "compress-pdf"],

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { LoaderCircleIcon, ShieldCheckIcon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { encryptPdf } from "@/modules/tools/components/qpdf-lib";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,15 +34,8 @@ export function ProtectPdf() {
     setError(null);
     setDone(false);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("userPassword", pw);
-      const res = await fetch("/api/pdf/protect", { method: "POST", body: fd });
-      if (!res.ok) {
-        const d = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(d.error || "Could not protect the PDF.");
-      }
-      const url = URL.createObjectURL(await res.blob());
+      const blob = await encryptPdf(file, pw);
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `${file.name.replace(/\.pdf$/i, "") || "document"}-protected.pdf`;
@@ -49,8 +43,8 @@ export function ProtectPdf() {
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       setDone(true);
       toast.success("Protected PDF downloaded");
-    } catch (e) {
-      setError((e as Error).message);
+    } catch {
+      setError("Couldn't protect this PDF. Make sure it's a valid PDF that isn't already password-protected.");
     } finally {
       setBusy(false);
     }
@@ -90,7 +84,7 @@ export function ProtectPdf() {
       {error && <p className="text-sm text-destructive">{error}</p>}
       {done && <p className="text-sm text-emerald-500">Done — your password-protected PDF has been downloaded.</p>}
       <p className="text-xs text-muted-foreground">
-        Your PDF is processed on our secure server and deleted right after — it is never stored.
+        AES-256 encryption, applied entirely in your browser — your PDF is never uploaded.
       </p>
     </div>
   );

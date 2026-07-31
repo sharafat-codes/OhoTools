@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { FileKey2Icon, LoaderCircleIcon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
+import { decryptPdf } from "@/modules/tools/components/qpdf-lib";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,15 +34,8 @@ export function UnlockPdf() {
     setError(null);
     setDone(false);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("password", pw);
-      const res = await fetch("/api/pdf/unlock", { method: "POST", body: fd });
-      if (!res.ok) {
-        const d = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(d.error || "Could not unlock the PDF.");
-      }
-      const url = URL.createObjectURL(await res.blob());
+      const blob = await decryptPdf(file, pw);
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `${file.name.replace(/\.pdf$/i, "") || "document"}-unlocked.pdf`;
@@ -49,8 +43,10 @@ export function UnlockPdf() {
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       setDone(true);
       toast.success("Unlocked PDF downloaded");
-    } catch (e) {
-      setError((e as Error).message);
+    } catch {
+      setError(
+        "Couldn't unlock this PDF. Make sure the password is correct — this removes a password you already know; it can't crack an unknown one.",
+      );
     } finally {
       setBusy(false);
     }
@@ -90,8 +86,7 @@ export function UnlockPdf() {
       {error && <p className="text-sm text-destructive">{error}</p>}
       {done && <p className="text-sm text-emerald-500">Done — your unlocked PDF has been downloaded.</p>}
       <p className="text-xs text-muted-foreground">
-        Only unlock PDFs you own or have permission to. Your PDF is processed on our secure server and deleted right
-        after — never stored.
+        Only unlock PDFs you own or have permission to. Everything runs in your browser — your PDF is never uploaded.
       </p>
     </div>
   );
