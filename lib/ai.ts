@@ -109,9 +109,10 @@ export async function runAiTask(task: string, text: string, options: Options): P
         { role: "user", content: trimmed },
       ],
     };
-    // Reasoning models take reasoning_effort (kept low — these are faithful
-    // transforms, not deep reasoning); older models take a low temperature.
-    if (isReasoningModel) params.reasoning_effort = "low";
+    // Reasoning models take reasoning_effort — kept "minimal" because these are
+    // fast, faithful text transforms, not deep reasoning: this keeps latency and
+    // cost low while still using the newer model. Older models take a low temperature.
+    if (isReasoningModel) params.reasoning_effort = "minimal";
     else params.temperature = 0.3;
 
     const completion = await client().chat.completions.create(params);
