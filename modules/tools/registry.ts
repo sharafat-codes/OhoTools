@@ -2905,6 +2905,40 @@ export const devTools: DevTool[] = [
     ],
     related: ["code-beautifier", "strip-html", "html-entities"],
   },
+  {
+    slug: "css-minifier",
+    name: "CSS Minifier",
+    tagline: "Minify CSS to shrink stylesheet size.",
+    description:
+      "Free online CSS minifier. Compress and optimize your CSS — remove comments and whitespace and compact rules — in your browser with the csso engine.",
+    keywords: ["css minifier", "minify css", "css compressor", "compress css", "css minify online", "optimize css"],
+    icon: FileCode2Icon,
+    intro:
+      "Paste CSS and get a minified, optimized stylesheet using the csso engine — comments and whitespace removed and rules compacted. See how many bytes you save. It all runs in your browser.",
+    steps: ["Paste your CSS.", "See the minified output and size saved.", "Copy or download the result."],
+    faqs: [
+      { q: "Is my CSS uploaded?", a: "No — minification runs entirely in your browser with the csso library; your code never leaves your device." },
+      { q: "Is the output safe to use?", a: "Yes — csso is a well-established optimizer that preserves your styles while compacting the output." },
+    ],
+    related: ["css-gradient-generator", "code-beautifier", "html-minifier"],
+  },
+  {
+    slug: "js-minifier",
+    name: "JavaScript Minifier",
+    tagline: "Minify JavaScript with Terser.",
+    description:
+      "Free online JavaScript minifier. Compress and mangle your JS with the Terser engine to shrink file size — in your browser, nothing uploaded.",
+    keywords: ["javascript minifier", "js minifier", "minify javascript", "minify js", "js compressor", "terser online"],
+    icon: BracesIcon,
+    intro:
+      "Paste JavaScript and get a minified version using Terser — whitespace and comments removed and names shortened where safe. See the size you save. Everything runs in your browser.",
+    steps: ["Paste your JavaScript.", "See the minified output and size saved.", "Copy or download the result."],
+    faqs: [
+      { q: "Is my code uploaded?", a: "No — minification runs entirely in your browser with the Terser library; your code never leaves your device." },
+      { q: "What if my JS has a syntax error?", a: "Terser reports it — fix the syntax and the minified output appears automatically." },
+    ],
+    related: ["json-formatter", "code-beautifier", "css-minifier"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -3035,6 +3069,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "password-strength-checker",
       "svg-optimizer",
       "html-minifier",
+      "css-minifier",
+      "js-minifier",
     ],
   },
   {
