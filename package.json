@@ -34,6 +34,7 @@
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "fast-xml-parser": "^5.10.1",
+    "imagetracerjs": "^1.2.6",
     "js-beautify": "^2.0.3",
     "jspdf": "^4.2.1",
     "jsqr": "^1.4.0",

@@ -2990,6 +2990,40 @@ export const devTools: DevTool[] = [
     ],
     related: ["markdown-to-html", "html-to-pdf", "text-to-pdf"],
   },
+  {
+    slug: "image-to-svg",
+    name: "Image to SVG",
+    tagline: "Vectorize a PNG or JPG into a scalable SVG.",
+    description:
+      "Free online image to SVG converter (vectorizer). Trace a PNG or JPG into a scalable SVG — in your browser, nothing uploaded.",
+    keywords: ["image to svg", "png to svg", "jpg to svg", "vectorize image", "image vectorizer", "convert image to svg", "raster to vector"],
+    icon: PenToolIcon,
+    intro:
+      "Turn a raster image (PNG or JPG) into a scalable SVG by tracing its shapes and colors. Pick a detail level, preview the result, then copy or download the SVG. It all runs in your browser.",
+    steps: ["Upload a PNG or JPG.", "Choose a detail level.", "Copy or download the traced SVG."],
+    faqs: [
+      { q: "Is my image uploaded?", a: "No — tracing runs entirely in your browser; your image never leaves your device." },
+      { q: "What works best?", a: "Logos, icons, and flat graphics vectorize cleanly. Detailed photos produce large SVGs and may look posterized — lower the detail for a smaller file." },
+    ],
+    related: ["svg-to-png", "svg-optimizer", "image-converter"],
+  },
+  {
+    slug: "currency-converter",
+    name: "Currency Converter",
+    tagline: "Convert between world currencies at live rates.",
+    description:
+      "Free online currency converter with live exchange rates for 160+ currencies. Convert any amount between currencies instantly.",
+    keywords: ["currency converter", "exchange rate calculator", "convert currency", "money converter", "usd to eur", "live exchange rates"],
+    icon: CoinsIcon,
+    intro:
+      "Convert any amount between 160+ world currencies using up-to-date exchange rates. Pick your currencies, enter an amount, and see the conversion and the current rate instantly.",
+    steps: ["Enter an amount.", "Pick the currencies to convert from and to.", "See the converted amount and live rate."],
+    faqs: [
+      { q: "How current are the rates?", a: "Rates come from a live source and refresh hourly. The last update time is shown below the result." },
+      { q: "Which currencies are supported?", a: "Over 160 world currencies, including USD, EUR, GBP, JPY, PKR, INR, and more." },
+    ],
+    related: ["unit-converter", "percentage-calculator", "discount-calculator"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -3135,6 +3169,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "unit-converter",
       "timezone-converter",
+      "currency-converter",
       "json-yaml",
       "csv-to-xlsx",
       "xlsx-to-csv",
@@ -3147,6 +3182,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "bulk-image-converter",
       "svg-to-png",
       "svg-to-image",
+      "image-to-svg",
       "heic-to-jpg",
       "heic-to-png",
       "image-to-text",
@@ -3330,6 +3366,7 @@ export const categoryPages: CategoryPage[] = [
       "bulk-image-converter",
       "svg-to-png",
       "svg-to-image",
+      "image-to-svg",
       "heic-to-jpg",
       "heic-to-png",
       "image-to-text",
