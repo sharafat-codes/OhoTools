@@ -48,7 +48,7 @@ export default function OpengraphImage() {
             Every online tool you need — free & private
           </div>
           <div style={{ fontSize: "34px", color: "#a1a1a1", maxWidth: "860px" }}>
-            130+ browser-based tools for PDF, images, text, and code. No sign-up,
+            150+ browser-based tools for PDF, images, text, and code. No sign-up,
             nothing uploaded.
           </div>
         </div>

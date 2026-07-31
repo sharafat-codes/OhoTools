@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     template: "%s · OhoTool",
   },
   description:
-    "80+ free online tools that run right in your browser — convert Word & PDF, compress and resize images, extract text with OCR, format code, calculate, and generate QR codes. No sign-up, nothing uploaded.",
+    "150+ free online tools that run right in your browser — convert Word & PDF, compress and resize images, extract text with OCR, format code, calculate, and generate QR codes. No sign-up, nothing uploaded.",
   keywords: [
     "free online tools",
     "online tools",
@@ -70,13 +70,13 @@ export const metadata: Metadata = {
     siteName: "OhoTool",
     title: "OhoTool — Free Online Tools for PDF, Images, Text & More",
     description:
-      "80+ fast, private, browser-based tools: PDF & document converters, image tools, text utilities, calculators, developer tools, and QR codes. Free — no sign-up, nothing uploaded.",
+      "150+ fast, private, browser-based tools: PDF & document converters, image tools, text utilities, calculators, developer tools, and QR codes. Free — no sign-up, nothing uploaded.",
   },
   twitter: {
     card: "summary_large_image",
     title: "OhoTool — Free Online Tools for PDF, Images, Text & More",
     description:
-      "80+ fast, private, browser-based tools: PDF & document converters, image tools, text utilities, calculators, and developer tools. Free, no sign-up.",
+      "150+ fast, private, browser-based tools: PDF & document converters, image tools, text utilities, calculators, and developer tools. Free, no sign-up.",
   },
   robots: {
     index: true,

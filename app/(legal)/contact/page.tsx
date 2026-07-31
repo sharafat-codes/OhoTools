@@ -30,7 +30,7 @@ export default function ContactPage() {
       <h2>Quick answers</h2>
       <h3>Are the tools really free?</h3>
       <p>
-        Yes — 130+ tools are free with no sign-up, and most run entirely in your browser. A light Pro plan adds
+        Yes — 150+ tools are free with no sign-up, and most run entirely in your browser. A light Pro plan adds
         unlimited AI, advanced conversions, and QR analytics.
       </p>
       <h3>Is my data uploaded?</h3>

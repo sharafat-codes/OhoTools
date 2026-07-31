@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Free Online Tools",
   description:
-    "130+ free online tools — PDF & document converters (Word, Excel, PowerPoint), AI writing tools, image, audio & video tools, calculators, developer tools, and QR codes. Fast, private, browser-based. No sign-up.",
+    "150+ free online tools — PDF & document converters (Word, Excel, PowerPoint), AI writing tools, image, audio & video tools, calculators, developer tools, and QR codes. Fast, private, browser-based. No sign-up.",
   keywords: [
     "free online tools",
     "online tools",

@@ -86,7 +86,7 @@ const POPULAR = [
 const faqs = [
   {
     q: "Are OhoTool's tools really free?",
-    a: "Most of our 130+ tools are free and unlimited — no ads, no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.",
+    a: "Most of our 150+ tools are free and unlimited — no ads, no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.",
   },
   {
     q: "Do I need an account to use the tools?",
@@ -134,7 +134,7 @@ export default async function Home() {
         url: siteUrl,
         logo: `${siteUrl}/logo-icon.png`,
         description:
-          "OhoTool is a free platform of 130+ browser-based tools for PDF, images, audio, video, text, developers, AI writing, and QR codes — private, with no sign-up.",
+          "OhoTool is a free platform of 150+ browser-based tools for PDF, images, audio, video, text, developers, AI writing, and QR codes — private, with no sign-up.",
         founder: { "@type": "Person", name: "Sharafat Ali" },
         sameAs: [
           "https://www.linkedin.com/in/sharafat-ali-04586028a/",
@@ -161,7 +161,7 @@ export default async function Home() {
         operatingSystem: "Web",
         url: siteUrl,
         description:
-          "130+ free online tools — PDF & document converters, AI writing tools, image, audio & video tools, text utilities, calculators, developer tools, and QR codes.",
+          "150+ free online tools — PDF & document converters, AI writing tools, image, audio & video tools, text utilities, calculators, developer tools, and QR codes.",
         offers: PLANS.map((p) => ({
           "@type": "Offer",
           name: p.name,

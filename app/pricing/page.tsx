@@ -11,12 +11,12 @@ import { Badge } from "@/components/ui/badge";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "OhoTool pricing — 130+ tools free. Upgrade to Pro for unlimited AI, advanced document conversions, dynamic QR analytics, bulk tools, and API access.",
+    "OhoTool pricing — 150+ tools free. Upgrade to Pro for unlimited AI, advanced document conversions, dynamic QR analytics, bulk tools, and API access.",
   alternates: { canonical: "/pricing" },
 };
 
 const REASSURANCE = [
-  { icon: InfinityIcon, label: "130+ free tools" },
+  { icon: InfinityIcon, label: "150+ free tools" },
   { icon: ShieldOffIcon, label: "No ads, ever" },
   { icon: ZapIcon, label: "No sign-up to use tools" },
   { icon: XCircleIcon, label: "Cancel anytime" },
