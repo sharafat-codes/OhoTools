@@ -9,8 +9,50 @@ import { ResultCard } from "@/modules/tools/components/tool-result";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { MEME_TEMPLATES, type MemeTemplate } from "@/modules/tools/components/meme-templates";
 
 type Suggestion = { top: string; bottom: string };
+
+/** Build the base image for a template — generated for solid/gradient, loaded for image. */
+function loadTemplate(t: MemeTemplate): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    if (t.kind === "image") {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("Could not load template."));
+      img.src = t.src;
+      return;
+    }
+    const size = 800;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      reject(new Error("Canvas not supported."));
+      return;
+    }
+    if (t.kind === "gradient") {
+      const g = ctx.createLinearGradient(0, 0, size, size);
+      g.addColorStop(0, t.from);
+      g.addColorStop(1, t.to);
+      ctx.fillStyle = g;
+    } else {
+      ctx.fillStyle = t.color;
+    }
+    ctx.fillRect(0, 0, size, size);
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Could not build template."));
+    img.src = canvas.toDataURL("image/png");
+  });
+}
+
+function templateThumbStyle(t: MemeTemplate): React.CSSProperties {
+  if (t.kind === "solid") return { background: t.color };
+  if (t.kind === "gradient") return { backgroundImage: `linear-gradient(135deg, ${t.from}, ${t.to})` };
+  return { backgroundImage: `url(${t.src})`, backgroundSize: "cover", backgroundPosition: "center" };
+}
 
 const FONT_SCALES: Record<string, number> = { S: 0.07, M: 0.09, L: 0.115 };
 const COLORS: Record<string, { fill: string; stroke: string }> = {
@@ -127,6 +169,16 @@ export function MemeGenerator() {
     image.src = objectUrl;
   }
 
+  async function selectTemplate(t: MemeTemplate) {
+    try {
+      const image = await loadTemplate(t);
+      setError(null);
+      setImg(image);
+    } catch {
+      setError("Could not load that template.");
+    }
+  }
+
   async function suggest() {
     if (!idea.trim()) {
       setAiError("Describe your meme first (a topic or situation).");
@@ -188,6 +240,24 @@ export function MemeGenerator() {
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <Label>Start from a template</Label>
+        <div className="flex flex-wrap gap-2">
+          {MEME_TEMPLATES.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => selectTemplate(t)}
+              title={t.name}
+              aria-label={`Use ${t.name} template`}
+              style={templateThumbStyle(t)}
+              className="size-14 shrink-0 rounded-lg border border-border transition-transform hover:scale-105 hover:border-primary/50"
+            />
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground">…or upload your own image below.</p>
+      </div>
+
       <Dropzone
         accept="image/*"
         onFile={onFile}
