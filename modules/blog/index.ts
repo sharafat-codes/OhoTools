@@ -34,6 +34,12 @@ import * as invoiceGuide from "./posts/how-to-make-a-free-invoice";
 import * as businessNameGuide from "./posts/how-to-come-up-with-a-business-name";
 import * as humanizeGuide from "./posts/how-to-humanize-ai-text";
 import * as pomodoroGuide from "./posts/what-is-the-pomodoro-technique";
+import * as removeBgGuide from "./posts/how-to-remove-image-background";
+import * as unlockPdfGuide from "./posts/how-to-unlock-a-pdf";
+import * as protectPdfGuide from "./posts/how-to-password-protect-a-pdf";
+import * as svgToPngGuide from "./posts/how-to-convert-svg-to-png";
+import * as scanQrGuide from "./posts/how-to-scan-a-qr-code";
+import * as minifyGuide from "./posts/how-to-minify-css-javascript-html";
 
 export type PostMeta = {
   slug: string;
@@ -86,6 +92,12 @@ const modules: BlogPost[] = [
   businessNameGuide,
   humanizeGuide,
   pomodoroGuide,
+  removeBgGuide,
+  unlockPdfGuide,
+  protectPdfGuide,
+  svgToPngGuide,
+  scanQrGuide,
+  minifyGuide,
 ];
 
 /** All posts, newest first. */
