@@ -111,10 +111,11 @@ export async function runAiTask(task: string, text: string, options: Options): P
         { role: "user", content: trimmed },
       ],
     };
-    // Reasoning models take reasoning_effort — kept "minimal" because these are
-    // fast, faithful text transforms, not deep reasoning: this keeps latency and
-    // cost low while still using the newer model. Older models take a low temperature.
-    if (isReasoningModel) params.reasoning_effort = "minimal";
+    // Reasoning models take reasoning_effort — set to "none" (no reasoning)
+    // because these are fast, faithful text transforms: lowest latency and cost.
+    // GPT-5.6 accepts none/low/medium/high/xhigh (not "minimal"). Cast because
+    // some SDK type versions lag behind the API's accepted values.
+    if (isReasoningModel) (params as { reasoning_effort?: string }).reasoning_effort = "none";
     else params.temperature = 0.3;
 
     const completion = await client().chat.completions.create(params);
