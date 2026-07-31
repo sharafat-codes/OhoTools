@@ -47,6 +47,10 @@ export function RemoveBackground() {
     try {
       const { removeBackground } = await import("@imgly/background-removal");
       const blob = await removeBackground(srcFile, {
+        // Run inference in a Web Worker so the page doesn't freeze, and use the
+        // smaller quantized model so the download + processing are faster.
+        proxyToWorker: true,
+        model: "isnet_quint8",
         progress: (key: string, current: number, total: number) => {
           if (key.startsWith("fetch")) {
             const pct = total ? Math.round((current / total) * 100) : 0;
