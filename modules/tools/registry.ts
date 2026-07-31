@@ -2939,6 +2939,40 @@ export const devTools: DevTool[] = [
     ],
     related: ["json-formatter", "code-beautifier", "css-minifier"],
   },
+  {
+    slug: "json-xml",
+    name: "JSON to XML Converter",
+    tagline: "Convert JSON to XML and XML to JSON.",
+    description:
+      "Free online JSON to XML and XML to JSON converter. Paste JSON or XML and convert between them instantly — in your browser, nothing uploaded.",
+    keywords: ["json to xml", "xml to json", "json xml converter", "convert json to xml", "convert xml to json"],
+    icon: ArrowLeftRightIcon,
+    intro:
+      "Convert JSON to XML or XML to JSON in one click. Paste your data, pick a direction, and copy the result — attributes and nested structures are preserved. It all runs in your browser.",
+    steps: ["Paste your JSON or XML.", "Choose the conversion direction.", "Copy the converted output."],
+    faqs: [
+      { q: "Is my data uploaded?", a: "No — conversion runs entirely in your browser; your data never leaves your device." },
+      { q: "Are XML attributes handled?", a: "Yes — attributes are preserved using an @_ prefix when converting between XML and JSON." },
+    ],
+    related: ["json-yaml", "json-to-csv", "xml-formatter"],
+  },
+  {
+    slug: "qr-scanner",
+    name: "QR Code Scanner",
+    tagline: "Scan or upload a QR code to read its content.",
+    description:
+      "Free online QR code scanner and reader. Upload a QR image or scan live with your camera to decode its text or link — in your browser, nothing uploaded.",
+    keywords: ["qr code scanner", "qr scanner", "qr code reader", "scan qr code", "read qr code", "qr decoder"],
+    icon: ScanLineIcon,
+    intro:
+      "Read any QR code — upload an image of it or scan it live with your camera — and instantly see the text or link it contains. Decoding happens entirely in your browser, so nothing is uploaded.",
+    steps: ["Upload a QR image, or start your camera.", "The code is decoded automatically.", "Copy the text or open the link."],
+    faqs: [
+      { q: "Is my image or camera uploaded?", a: "No — decoding runs entirely in your browser; images and camera frames never leave your device." },
+      { q: "Does camera scanning work on my phone?", a: "Yes — on a secure (https) connection it uses your device's camera. If it can't access the camera, upload a photo of the QR code instead." },
+    ],
+    related: ["qr-code", "wifi-qr", "bulk-qr-generator"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -3103,6 +3137,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "html-entities",
       "string-escape",
       "json-to-csv",
+      "json-xml",
       "image-to-base64",
       "text-to-binary",
       "number-base-converter",
@@ -3179,6 +3214,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "qr-code",
       "bulk-qr-generator",
       "wifi-qr",
+      "qr-scanner",
       "css-gradient-generator",
       "box-shadow-generator",
       "color-shades-generator",
