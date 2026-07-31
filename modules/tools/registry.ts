@@ -3024,6 +3024,24 @@ export const devTools: DevTool[] = [
     ],
     related: ["unit-converter", "percentage-calculator", "discount-calculator"],
   },
+  {
+    slug: "remove-background",
+    name: "Remove Image Background",
+    tagline: "Automatically remove the background from an image.",
+    description:
+      "Free online background remover. Automatically erase the background from a photo and download a transparent PNG — runs in your browser, nothing uploaded.",
+    keywords: ["remove background", "background remover", "remove image background", "transparent background", "erase background", "background eraser"],
+    icon: EraserIcon,
+    intro:
+      "Remove the background from any photo automatically and get a clean transparent PNG. The AI model runs entirely in your browser, so your image is never uploaded. The first run downloads a one-time model.",
+    steps: ["Upload an image.", "Click Remove background and wait a moment.", "Download the transparent PNG."],
+    faqs: [
+      { q: "Is my image uploaded?", a: "No — background removal runs on your device using an in-browser AI model; your image never leaves your browser." },
+      { q: "Why does the first run take longer?", a: "The first use downloads a one-time AI model (a few MB). After that it's cached and runs much faster." },
+      { q: "What do I get?", a: "A PNG with a transparent background, ready to drop onto any color or design." },
+    ],
+    related: ["crop-image", "circle-crop", "image-converter"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -3129,7 +3147,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Image Editing",
     blurb: "Crop, rotate, add text, and more — in your browser.",
-    slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "meme-generator", "color-picker-from-image", "image-to-ico"],
+    slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "meme-generator", "color-picker-from-image", "remove-background", "image-to-ico"],
   },
   {
     name: "Productivity",
@@ -3370,6 +3388,7 @@ export const categoryPages: CategoryPage[] = [
       "heic-to-jpg",
       "heic-to-png",
       "image-to-text",
+      "remove-background",
       "images-to-pdf",
       "pdf-to-images",
       "image-to-base64",
