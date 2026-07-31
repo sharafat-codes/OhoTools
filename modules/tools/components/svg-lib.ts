@@ -74,3 +74,31 @@ export function rasterizeSvg(
     img.src = url;
   });
 }
+
+/**
+ * Conservative, render-safe SVG optimizer/minifier. Strips comments, the XML
+ * prolog, editor metadata (Inkscape/Illustrator), rounds long decimals, and
+ * collapses whitespace — without touching anything that affects rendering.
+ */
+export function optimizeSvg(svg: string): string {
+  let out = svg;
+  out = out.replace(/<!--[\s\S]*?-->/g, "");
+  out = out.replace(/<\?xml[\s\S]*?\?>/g, "");
+  out = out.replace(/<!DOCTYPE[^>]*>/gi, "");
+  out = out.replace(/<metadata[\s\S]*?<\/metadata>/gi, "");
+  out = out.replace(/<sodipodi:namedview[\s\S]*?\/>/gi, "");
+  // Editor-only attributes and namespace declarations.
+  out = out.replace(/\s(?:inkscape|sodipodi):[\w-]+="[^"]*"/gi, "");
+  out = out.replace(/\sxmlns:(?:inkscape|sodipodi|dc|cc|rdf)="[^"]*"/gi, "");
+  out = out.replace(/\sdata-name="[^"]*"/gi, "");
+  // Round long decimals to 3 places (visually identical, smaller).
+  out = out.replace(/-?\d*\.\d{4,}/g, (m) => {
+    const n = parseFloat(m);
+    return Number.isFinite(n) ? String(Math.round(n * 1000) / 1000) : m;
+  });
+  // Collapse whitespace between tags and runs of whitespace.
+  out = out.replace(/>\s+</g, "><");
+  out = out.replace(/\s{2,}/g, " ");
+  return out.trim();
+}
+

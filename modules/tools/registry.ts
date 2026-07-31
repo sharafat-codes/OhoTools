@@ -2871,6 +2871,40 @@ export const devTools: DevTool[] = [
     ],
     related: ["color-converter", "color-shades-generator", "css-gradient-generator"],
   },
+  {
+    slug: "svg-optimizer",
+    name: "SVG Optimizer",
+    tagline: "Minify and clean up SVG code to shrink the file.",
+    description:
+      "Free online SVG optimizer and minifier. Strip editor metadata, comments, and extra whitespace to make SVGs smaller — in your browser, nothing uploaded.",
+    keywords: ["svg optimizer", "minify svg", "optimize svg online", "svg minifier", "svgo online", "compress svg"],
+    icon: Minimize2Icon,
+    intro:
+      "Paste an SVG and get a smaller, cleaner version — comments, editor metadata (Inkscape/Illustrator), and redundant whitespace are stripped and long decimals rounded, without changing how it looks. Everything runs in your browser.",
+    steps: ["Paste your SVG code.", "See the optimized output and how much smaller it is.", "Copy or download the result."],
+    faqs: [
+      { q: "Will optimizing change how my SVG looks?", a: "No — it only removes invisible bloat (comments, editor metadata, extra whitespace) and rounds long decimals, so the rendering stays the same." },
+      { q: "Is my SVG uploaded?", a: "No — optimization runs entirely in your browser; the code never leaves your device." },
+    ],
+    related: ["svg-to-png", "svg-to-image", "code-beautifier"],
+  },
+  {
+    slug: "html-minifier",
+    name: "HTML Minifier",
+    tagline: "Minify HTML — strip comments and whitespace.",
+    description:
+      "Free online HTML minifier. Remove comments and collapse whitespace to shrink your HTML, while keeping <pre>, <script>, and <style> intact — in your browser.",
+    keywords: ["html minifier", "minify html", "html minify online", "compress html", "html compressor"],
+    icon: CodeIcon,
+    intro:
+      "Paste HTML and get a minified version — comments removed and whitespace collapsed — while the contents of <pre>, <textarea>, <script>, and <style> are preserved exactly. It all runs in your browser.",
+    steps: ["Paste your HTML.", "See the minified output and the size saved.", "Copy or download the result."],
+    faqs: [
+      { q: "Does it break my scripts or preformatted text?", a: "No — the contents of <pre>, <textarea>, <script>, and <style> are preserved exactly; only the surrounding markup is minified." },
+      { q: "Is my HTML uploaded?", a: "No — minification happens entirely in your browser." },
+    ],
+    related: ["code-beautifier", "strip-html", "html-entities"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2999,6 +3033,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "cidr-calculator",
       "credit-card-validator",
       "password-strength-checker",
+      "svg-optimizer",
+      "html-minifier",
     ],
   },
   {
