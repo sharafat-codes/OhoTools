@@ -2822,18 +2822,18 @@ export const devTools: DevTool[] = [
   {
     slug: "meme-generator",
     name: "Meme Generator",
-    tagline: "Add top & bottom captions to an image to make a meme.",
+    tagline: "Add captions to an image — or get caption ideas with AI.",
     description:
-      "Free online meme generator. Upload an image, add classic top and bottom captions, and download your meme — in your browser, no watermark, nothing uploaded.",
-    keywords: ["meme generator", "meme maker", "make a meme", "caption image", "add text to meme", "meme creator"],
+      "Free online meme generator. Upload an image, add classic top and bottom captions (or get AI caption ideas), pick a text size and color, and download — no watermark, nothing uploaded.",
+    keywords: ["meme generator", "ai meme generator", "meme maker", "make a meme", "meme caption generator", "add text to meme"],
     icon: LaughIcon,
     intro:
-      "Turn any image into a meme — add bold top and bottom captions in the classic Impact style, then download it as a PNG. It all runs in your browser, so your image is never uploaded and there's no watermark.",
-    steps: ["Upload an image.", "Type your top and bottom text.", "Download your meme."],
+      "Turn any image into a meme — add bold top and bottom captions in the classic Impact style, choose the text size and color, then download a PNG. Stuck for words? Describe the vibe and get AI caption ideas. The editor runs in your browser and there's no watermark.",
+    steps: ["Upload an image.", "Type captions, or get ideas with AI.", "Pick size/color and download your meme."],
     faqs: [
       { q: "Is my image uploaded anywhere?", a: "No — the meme is drawn on a canvas entirely in your browser, so your image never leaves your device." },
+      { q: "How do the AI captions work?", a: "Describe your topic or situation and AI suggests classic top/bottom caption pairs — tap one to use it, then tweak. AI captions need a free account; the manual editor is free with no sign-up." },
       { q: "Is there a watermark?", a: "No — your downloaded meme is clean, with no watermark or branding." },
-      { q: "Can I change the text size?", a: "The caption size scales to the image automatically, and long lines wrap so they always fit." },
     ],
     related: ["add-text-to-image", "crop-image", "image-converter"],
   },

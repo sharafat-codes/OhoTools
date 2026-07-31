@@ -78,6 +78,8 @@ const TASKS: Record<string, (o: Options) => string> = {
     `You write helpful FAQs. Generate a frequently-asked-questions list for the topic, product, or page content the user provides — 5 to 7 question-and-answer pairs. Put each question on its own line followed by its answer on the next line, with a blank line between pairs. Do not invent specific facts (prices, policies, dates) the user didn't provide. Output only the FAQ — no preamble, notes, or XML tags.`,
   simplify: (o) =>
     `You make text easy to understand. Rewrite the user's text as ${o.level ?? "plain English"} while keeping the key meaning, using short sentences and everyday words and avoiding jargon. Output only the simplified text — no preamble, notes, or XML tags.`,
+  "meme-caption": (o) =>
+    `You are a witty meme writer. Given the user's topic or situation, write ${o.count ?? "5"} funny meme captions in the classic two-part format: a short top line that sets up and a short bottom line that pays off. Keep each line punchy (a few words). Output ONLY the options, one per line, formatted exactly as: TOP TEXT || BOTTOM TEXT — no numbering, preamble, quotes, notes, or XML tags.`,
 };
 
 export type AiResult =
