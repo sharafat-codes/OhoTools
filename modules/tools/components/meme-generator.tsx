@@ -63,12 +63,15 @@ const COLORS: Record<string, { fill: string; stroke: string }> = {
 const selectClass =
   "h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30";
 
+const EMOJIS = ["😂", "🤣", "💀", "🔥", "👀", "💯", "🤡", "😭", "🗿", "🙄", "😎", "🤔", "😳", "✅", "❌", "🚀", "💩", "🥲"];
+
 export function MemeGenerator() {
   const [img, setImg] = React.useState<HTMLImageElement | null>(null);
   const [top, setTop] = React.useState("");
   const [bottom, setBottom] = React.useState("");
   const [fontSize, setFontSize] = React.useState("M");
   const [color, setColor] = React.useState("white");
+  const [activeField, setActiveField] = React.useState<"top" | "bottom">("bottom");
   const [url, setUrl] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -177,6 +180,11 @@ export function MemeGenerator() {
     } catch {
       setError("Could not load that template.");
     }
+  }
+
+  function addEmoji(emoji: string) {
+    if (activeField === "top") setTop((v) => (v ? `${v} ${emoji}` : emoji));
+    else setBottom((v) => (v ? `${v} ${emoji}` : emoji));
   }
 
   async function suggest() {
@@ -319,11 +327,42 @@ export function MemeGenerator() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="meme-top">Top text</Label>
-              <Input id="meme-top" value={top} onChange={(e) => setTop(e.target.value)} placeholder="TOP TEXT" />
+              <Input
+                id="meme-top"
+                value={top}
+                onChange={(e) => setTop(e.target.value)}
+                onFocus={() => setActiveField("top")}
+                placeholder="TOP TEXT"
+              />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="meme-bottom">Bottom text</Label>
-              <Input id="meme-bottom" value={bottom} onChange={(e) => setBottom(e.target.value)} placeholder="BOTTOM TEXT" />
+              <Input
+                id="meme-bottom"
+                value={bottom}
+                onChange={(e) => setBottom(e.target.value)}
+                onFocus={() => setActiveField("bottom")}
+                placeholder="BOTTOM TEXT"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label>
+              Add an emoji <span className="font-normal text-muted-foreground">(to the {activeField} text)</span>
+            </Label>
+            <div className="flex flex-wrap gap-1">
+              {EMOJIS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => addEmoji(e)}
+                  aria-label={`Add ${e}`}
+                  className="grid size-8 place-items-center rounded-md border border-border text-lg leading-none transition-colors hover:border-primary/50 hover:bg-muted/40"
+                >
+                  {e}
+                </button>
+              ))}
             </div>
           </div>
 
