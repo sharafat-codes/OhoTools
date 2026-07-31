@@ -7,9 +7,14 @@ import OpenAI from "openai";
 
 const apiKey = process.env.OPENAI_API_KEY?.trim();
 
-// Default to a small, cheap model — these are simple text transforms that don't
-// need a flagship model. Override with AI_MODEL (e.g. gpt-5-mini) if desired.
-const AI_MODEL = process.env.AI_MODEL?.trim() || "gpt-4o-mini";
+// Default to GPT-5.6 Luna — the cheapest of the GPT-5.6 family, a big quality
+// jump over gpt-4o-mini at a similar price. Override with AI_MODEL (e.g.
+// gpt-5.6-terra for higher quality, or gpt-4o-mini to revert).
+const AI_MODEL = process.env.AI_MODEL?.trim() || "gpt-5.6-luna";
+
+// GPT-5 / o-series are reasoning models: they require max_completion_tokens,
+// reject a custom temperature, and take a reasoning_effort instead.
+const isReasoningModel = /^(gpt-5|o\d)/i.test(AI_MODEL);
 
 export const AI_MAX_INPUT_CHARS = 20_000;
 
@@ -96,15 +101,20 @@ export async function runAiTask(task: string, text: string, options: Options): P
   }
 
   try {
-    const completion = await client().chat.completions.create({
+    const params: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming = {
       model: AI_MODEL,
-      max_tokens: 8192,
-      temperature: 0.3, // low — these are faithful transforms, not creative writing
+      max_completion_tokens: 8192,
       messages: [
         { role: "system", content: build(options) },
         { role: "user", content: trimmed },
       ],
-    });
+    };
+    // Reasoning models take reasoning_effort (kept low — these are faithful
+    // transforms, not deep reasoning); older models take a low temperature.
+    if (isReasoningModel) params.reasoning_effort = "low";
+    else params.temperature = 0.3;
+
+    const completion = await client().chat.completions.create(params);
 
     const choice = completion.choices[0];
     // Newer models expose an explicit refusal string when they decline.
