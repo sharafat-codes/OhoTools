@@ -19,6 +19,15 @@ export function RemoveBackground() {
   const [busy, setBusy] = React.useState(false);
   const [progress, setProgress] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
+  const workerRef = React.useRef<Worker | null>(null);
+
+  // Terminate any in-flight worker when the component unmounts.
+  React.useEffect(() => {
+    return () => {
+      workerRef.current?.terminate();
+      workerRef.current = null;
+    };
+  }, []);
 
   function onFile(file: File | undefined) {
     if (!file) return;
@@ -39,38 +48,52 @@ export function RemoveBackground() {
     });
   }
 
-  async function run() {
+  function run() {
     if (!srcFile) return;
     setBusy(true);
     setError(null);
     setProgress("Loading model…");
-    try {
-      const { removeBackground } = await import("@imgly/background-removal");
-      const blob = await removeBackground(srcFile, {
-        // Run inference in a Web Worker so the page doesn't freeze, and use the
-        // smaller quantized model so the download + processing are faster.
-        proxyToWorker: true,
-        model: "isnet_quint8",
-        progress: (key: string, current: number, total: number) => {
-          if (key.startsWith("fetch")) {
-            const pct = total ? Math.round((current / total) * 100) : 0;
-            setProgress(`Downloading model… ${pct}%`);
-          } else {
-            setProgress("Removing background…");
-          }
-        },
-        output: { format: "image/png" },
-      });
-      setResultUrl((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return URL.createObjectURL(blob);
-      });
-    } catch {
+
+    function fail() {
       setError("Could not remove the background. Try a different image.");
-    } finally {
       setBusy(false);
       setProgress("");
+      workerRef.current?.terminate();
+      workerRef.current = null;
     }
+
+    // Run @imgly entirely in a worker so the page never freezes (see bg-worker).
+    const worker = new Worker(new URL("./bg-worker.ts", import.meta.url), { type: "module" });
+    workerRef.current = worker;
+
+    worker.onmessage = (e: MessageEvent) => {
+      const msg = e.data as
+        | { type: "progress"; key: string; current: number; total: number }
+        | { type: "done"; blob: Blob }
+        | { type: "error" };
+      if (msg.type === "progress") {
+        if (msg.key.startsWith("fetch")) {
+          const pct = msg.total ? Math.round((msg.current / msg.total) * 100) : 0;
+          setProgress(`Downloading model… ${pct}%`);
+        } else {
+          setProgress("Removing background…");
+        }
+      } else if (msg.type === "done") {
+        setResultUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return URL.createObjectURL(msg.blob);
+        });
+        setBusy(false);
+        setProgress("");
+        worker.terminate();
+        workerRef.current = null;
+      } else {
+        fail();
+      }
+    };
+
+    worker.onerror = fail;
+    worker.postMessage({ file: srcFile });
   }
 
   function download() {
