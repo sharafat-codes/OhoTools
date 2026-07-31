@@ -86,6 +86,11 @@ import {
   GraduationCapIcon,
   ScrollTextIcon,
   LanguagesIcon,
+  LaughIcon,
+  ScanLineIcon,
+  EraserIcon,
+  PenToolIcon,
+  Minimize2Icon,
   SpellCheckIcon,
   FilmIcon,
   VideoIcon,
@@ -2814,6 +2819,58 @@ export const devTools: DevTool[] = [
     ],
     related: ["excel-to-pdf", "text-to-pdf", "online-notepad"],
   },
+  {
+    slug: "meme-generator",
+    name: "Meme Generator",
+    tagline: "Add top & bottom captions to an image to make a meme.",
+    description:
+      "Free online meme generator. Upload an image, add classic top and bottom captions, and download your meme — in your browser, no watermark, nothing uploaded.",
+    keywords: ["meme generator", "meme maker", "make a meme", "caption image", "add text to meme", "meme creator"],
+    icon: LaughIcon,
+    intro:
+      "Turn any image into a meme — add bold top and bottom captions in the classic Impact style, then download it as a PNG. It all runs in your browser, so your image is never uploaded and there's no watermark.",
+    steps: ["Upload an image.", "Type your top and bottom text.", "Download your meme."],
+    faqs: [
+      { q: "Is my image uploaded anywhere?", a: "No — the meme is drawn on a canvas entirely in your browser, so your image never leaves your device." },
+      { q: "Is there a watermark?", a: "No — your downloaded meme is clean, with no watermark or branding." },
+      { q: "Can I change the text size?", a: "The caption size scales to the image automatically, and long lines wrap so they always fit." },
+    ],
+    related: ["add-text-to-image", "crop-image", "image-converter"],
+  },
+  {
+    slug: "time-calculator",
+    name: "Time Calculator",
+    tagline: "Add or subtract hours, minutes, and seconds.",
+    description:
+      "Free online time calculator. Add or subtract hours, minutes, and seconds, or get the duration between two times — instantly in your browser.",
+    keywords: ["time calculator", "hours calculator", "add time", "subtract time", "time duration calculator", "add hours and minutes"],
+    icon: ClockIcon,
+    intro:
+      "Add or subtract spans of time, or find the duration between a start and end time — handy for timesheets, cooking, and scheduling. Everything calculates instantly in your browser.",
+    steps: ["Choose add/subtract or duration mode.", "Enter your times or durations.", "See the result instantly."],
+    faqs: [
+      { q: "Can it handle more than 24 hours?", a: "Yes — totals can exceed 24 hours (e.g. a full timesheet), shown as total hours, minutes, and seconds." },
+      { q: "Does it work across midnight?", a: "Yes — in duration mode, an end time earlier than the start is treated as the next day." },
+    ],
+    related: ["date-difference", "age-calculator", "timestamp-converter"],
+  },
+  {
+    slug: "color-picker-from-image",
+    name: "Color Picker from Image",
+    tagline: "Pick colors from an image — get HEX, RGB, and HSL.",
+    description:
+      "Free online image color picker. Upload an image and click any pixel to grab its HEX, RGB, and HSL values — privately in your browser.",
+    keywords: ["color picker from image", "image color picker", "get color from image", "hex from image", "pick color from photo", "eyedropper online"],
+    icon: PipetteIcon,
+    intro:
+      "Upload an image and click anywhere to sample that pixel's exact color — with HEX, RGB, and HSL ready to copy. Great for matching brand colors from a screenshot. It all runs in your browser; your image is never uploaded.",
+    steps: ["Upload an image.", "Click any spot to pick its color.", "Copy the HEX, RGB, or HSL value."],
+    faqs: [
+      { q: "Is my image uploaded?", a: "No — the image is read into a canvas locally in your browser, so it never leaves your device." },
+      { q: "What values do I get?", a: "Each picked color is shown as HEX, RGB, and HSL, and you can copy any of them with one click." },
+    ],
+    related: ["color-converter", "color-shades-generator", "css-gradient-generator"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -2919,7 +2976,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Image Editing",
     blurb: "Crop, rotate, add text, and more — in your browser.",
-    slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "image-to-ico"],
+    slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "meme-generator", "color-picker-from-image", "image-to-ico"],
   },
   {
     name: "Productivity",
@@ -3023,6 +3080,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "aspect-ratio-calculator",
       "age-calculator",
       "date-difference",
+      "time-calculator",
     ],
   },
   {
