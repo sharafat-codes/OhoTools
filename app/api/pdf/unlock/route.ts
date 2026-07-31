@@ -36,11 +36,12 @@ export async function POST(req: Request) {
       body: upstream,
     });
     if (!res.ok) {
-      const detail = await res.text().catch(() => "");
-      return Response.json(
-        { error: `Could not unlock the PDF (${res.status}) — check the password${detail ? `: ${detail.slice(0, 160)}` : ""}` },
-        { status: 502 },
-      );
+      await res.text().catch(() => "");
+      const friendly =
+        res.status === 400
+          ? "Couldn't unlock this PDF. Make sure it's actually password-protected and that the password is correct — this tool removes a password you already know; it can't crack an unknown one."
+          : `Could not unlock the PDF (${res.status}). Please try again.`;
+      return Response.json({ error: friendly }, { status: 502 });
     }
     return new Response(await res.arrayBuffer(), {
       headers: {

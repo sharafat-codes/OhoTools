@@ -39,11 +39,12 @@ export async function POST(req: Request) {
       body: upstream,
     });
     if (!res.ok) {
-      const detail = await res.text().catch(() => "");
-      return Response.json(
-        { error: `Could not protect the PDF (${res.status})${detail ? `: ${detail.slice(0, 200)}` : ""}` },
-        { status: 502 },
-      );
+      await res.text().catch(() => "");
+      const friendly =
+        res.status === 400
+          ? "Couldn't protect this file — make sure it's a valid PDF that isn't already password-protected."
+          : `Could not protect the PDF (${res.status}). Please try again.`;
+      return Response.json({ error: friendly }, { status: 502 });
     }
     return new Response(await res.arrayBuffer(), {
       headers: {
