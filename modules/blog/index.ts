@@ -40,6 +40,12 @@ import * as protectPdfGuide from "./posts/how-to-password-protect-a-pdf";
 import * as svgToPngGuide from "./posts/how-to-convert-svg-to-png";
 import * as scanQrGuide from "./posts/how-to-scan-a-qr-code";
 import * as minifyGuide from "./posts/how-to-minify-css-javascript-html";
+import * as imageToSvgGuide from "./posts/how-to-convert-image-to-svg";
+import * as memeGuide from "./posts/how-to-make-a-meme";
+import * as timeCalcGuide from "./posts/how-to-add-and-subtract-time";
+import * as jsonXmlGuide from "./posts/how-to-convert-json-to-xml";
+import * as mdToPdfGuide from "./posts/how-to-convert-markdown-to-pdf";
+import * as colorPickerGuide from "./posts/how-to-get-hex-color-from-image";
 
 export type PostMeta = {
   slug: string;
@@ -98,6 +104,12 @@ const modules: BlogPost[] = [
   svgToPngGuide,
   scanQrGuide,
   minifyGuide,
+  imageToSvgGuide,
+  memeGuide,
+  timeCalcGuide,
+  jsonXmlGuide,
+  mdToPdfGuide,
+  colorPickerGuide,
 ];
 
 /** All posts, newest first. */
