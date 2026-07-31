@@ -10,11 +10,14 @@ export async function sendEmail({
   to,
   subject,
   html,
+  replyTo,
 }: {
   to: string;
   subject: string;
   html: string;
-}) {
+  /** Set so replies go straight to the sender (e.g. a contact-form submitter). */
+  replyTo?: string;
+}): Promise<{ ok: boolean }> {
   if (!resend) {
     // No key configured — log a readable version so flows stay testable in dev.
     const text = html
@@ -24,14 +27,19 @@ export async function sendEmail({
     console.log(
       `\n[OhoTool email — RESEND_API_KEY not set]\nTo: ${to}\nSubject: ${subject}\n${text.slice(0, 600)}\n`,
     );
-    return;
+    return { ok: false };
   }
 
   try {
-    const { error } = await resend.emails.send({ from, to, subject, html });
-    if (error) console.error("[OhoTool] Resend error:", error);
+    const { error } = await resend.emails.send({ from, to, subject, html, ...(replyTo ? { replyTo } : {}) });
+    if (error) {
+      console.error("[OhoTool] Resend error:", error);
+      return { ok: false };
+    }
+    return { ok: true };
   } catch (e) {
     console.error("[OhoTool] Email send failed:", e);
+    return { ok: false };
   }
 }
 
