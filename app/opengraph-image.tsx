@@ -1,5 +1,8 @@
 import { ImageResponse } from "next/og";
 
+import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
+import { siteConfig } from "@/lib/site";
+
 export const alt = "OhoTool — Free online tools for PDF, images, text & more";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -28,7 +31,7 @@ export default function OpengraphImage() {
               width: "72px",
               height: "72px",
               borderRadius: "18px",
-              background: "linear-gradient(135deg, #6D28D9 0%, #A855F7 100%)",
+              background: `linear-gradient(135deg, ${siteConfig.brand.gradientFrom} 0%, ${siteConfig.brand.gradientTo} 100%)`,
             }}
           >
             <div
@@ -48,8 +51,7 @@ export default function OpengraphImage() {
             Every online tool you need — free & private
           </div>
           <div style={{ fontSize: "34px", color: "#a1a1a1", maxWidth: "860px" }}>
-            150+ browser-based tools for PDF, images, text, and code. No sign-up,
-            nothing uploaded.
+            {`${TOOL_COUNT_LABEL} browser-based tools for PDF, images, text, and code. No sign-up, nothing uploaded.`}
           </div>
         </div>
 

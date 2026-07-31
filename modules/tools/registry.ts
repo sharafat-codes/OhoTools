@@ -3080,6 +3080,15 @@ export const devTools: DevTool[] = [
   },
 ];
 
+/** Exact number of tools. */
+export const TOOL_COUNT = devTools.length;
+/**
+ * Marketing label for the tool count, rounded down to a tidy "N+" (e.g. 150+).
+ * Single source of truth — metadata, JSON-LD, and page copy read this, so the
+ * count never has to be hand-edited across files again.
+ */
+export const TOOL_COUNT_LABEL = `${Math.floor(devTools.length / 10) * 10}+`;
+
 export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
 }

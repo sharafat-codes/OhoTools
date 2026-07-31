@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/modules/marketing/components/contact-form";
+import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -30,7 +31,7 @@ export default function ContactPage() {
       <h2>Quick answers</h2>
       <h3>Are the tools really free?</h3>
       <p>
-        Yes — 150+ tools are free with no sign-up, and most run entirely in your browser. A light Pro plan adds
+        Yes — {TOOL_COUNT_LABEL} tools are free with no sign-up, and most run entirely in your browser. A light Pro plan adds
         unlimited AI, advanced conversions, and QR analytics.
       </p>
       <h3>Is my data uploaded?</h3>

@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+import { siteConfig } from "@/lib/site";
+
 // Dynamic, branded Open Graph card. Tool/category/blog metadata point their
 // `openGraph.images` at /og?title=…&subtitle=…&eyebrow=… so each page gets a
 // share image naming the actual page instead of one site-wide card.
@@ -44,7 +46,7 @@ export function GET(req: Request) {
               width: "72px",
               height: "72px",
               borderRadius: "18px",
-              background: "linear-gradient(135deg, #6D28D9 0%, #A855F7 100%)",
+              background: `linear-gradient(135deg, ${siteConfig.brand.gradientFrom} 0%, ${siteConfig.brand.gradientTo} 100%)`,
             }}
           >
             <div

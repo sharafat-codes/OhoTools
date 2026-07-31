@@ -30,8 +30,9 @@ import {
   getTool,
   toolCategories,
   categorySlugForName,
+  TOOL_COUNT_LABEL,
 } from "@/modules/tools/registry";
-import { SITE_URL as siteUrl } from "@/lib/site";
+import { SITE_URL as siteUrl, siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -86,7 +87,7 @@ const POPULAR = [
 const faqs = [
   {
     q: "Are OhoTool's tools really free?",
-    a: "Most of our 150+ tools are free and unlimited — no ads, no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.",
+    a: `Most of our ${TOOL_COUNT_LABEL} tools are free and unlimited — no ads, no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.`,
   },
   {
     q: "Do I need an account to use the tools?",
@@ -115,8 +116,8 @@ export default async function Home() {
 
   const brandedQr = qrToSvgString({
     data: siteUrl,
-    fgColor: "#6d28d9",
-    fgColor2: "#a855f7",
+    fgColor: siteConfig.brand.gradientFrom,
+    fgColor2: siteConfig.brand.gradientTo,
     gradient: true,
     bgColor: "#ffffff",
     moduleStyle: "rounded",
@@ -133,13 +134,9 @@ export default async function Home() {
         name: "OhoTool",
         url: siteUrl,
         logo: `${siteUrl}/logo-icon.png`,
-        description:
-          "OhoTool is a free platform of 150+ browser-based tools for PDF, images, audio, video, text, developers, AI writing, and QR codes — private, with no sign-up.",
-        founder: { "@type": "Person", name: "Sharafat Ali" },
-        sameAs: [
-          "https://www.linkedin.com/in/sharafat-ali-04586028a/",
-          "https://www.facebook.com/codes.ali",
-        ],
+        description: `OhoTool is a free platform of ${TOOL_COUNT_LABEL} browser-based tools for PDF, images, audio, video, text, developers, AI writing, and QR codes — private, with no sign-up.`,
+        founder: { "@type": "Person", name: siteConfig.founder },
+        sameAs: [siteConfig.social.linkedin, siteConfig.social.facebook],
       },
       {
         "@type": "WebSite",
@@ -160,8 +157,7 @@ export default async function Home() {
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Web",
         url: siteUrl,
-        description:
-          "150+ free online tools — PDF & document converters, AI writing tools, image, audio & video tools, text utilities, calculators, developer tools, and QR codes.",
+        description: `${TOOL_COUNT_LABEL} free online tools — PDF & document converters, AI writing tools, image, audio & video tools, text utilities, calculators, developer tools, and QR codes.`,
         offers: PLANS.map((p) => ({
           "@type": "Offer",
           name: p.name,

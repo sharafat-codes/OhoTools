@@ -4,19 +4,19 @@ import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon } from "lu
 
 import { getCurrentUser } from "@/lib/dal";
 import { PLANS } from "@/lib/plans";
+import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description:
-    "OhoTool pricing — 150+ tools free. Upgrade to Pro for unlimited AI, advanced document conversions, dynamic QR analytics, bulk tools, and API access.",
+  description: `OhoTool pricing — ${TOOL_COUNT_LABEL} tools free. Upgrade to Pro for unlimited AI, advanced document conversions, dynamic QR analytics, bulk tools, and API access.`,
   alternates: { canonical: "/pricing" },
 };
 
 const REASSURANCE = [
-  { icon: InfinityIcon, label: "150+ free tools" },
+  { icon: InfinityIcon, label: `${TOOL_COUNT_LABEL} free tools` },
   { icon: ShieldOffIcon, label: "No ads, ever" },
   { icon: ZapIcon, label: "No sign-up to use tools" },
   { icon: XCircleIcon, label: "Cancel anytime" },
