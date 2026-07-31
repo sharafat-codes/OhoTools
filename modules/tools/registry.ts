@@ -2973,6 +2973,23 @@ export const devTools: DevTool[] = [
     ],
     related: ["qr-code", "wifi-qr", "bulk-qr-generator"],
   },
+  {
+    slug: "markdown-to-pdf",
+    name: "Markdown to PDF",
+    tagline: "Convert Markdown to a clean PDF document.",
+    description:
+      "Free online Markdown to PDF converter. Paste Markdown, preview it, and download a clean PDF with selectable text — in your browser, nothing uploaded.",
+    keywords: ["markdown to pdf", "md to pdf", "convert markdown to pdf", "markdown pdf", "export markdown as pdf"],
+    icon: FileTextIcon,
+    intro:
+      "Turn Markdown into a clean, shareable PDF — headings, lists, quotes, and code blocks are laid out with real, selectable text. Preview as you type, then download. It all runs in your browser.",
+    steps: ["Paste or write your Markdown.", "Check the live preview.", "Download the PDF."],
+    faqs: [
+      { q: "Is my content uploaded?", a: "No — both the preview and the PDF are generated entirely in your browser." },
+      { q: "Is the PDF text selectable?", a: "Yes — the text is rendered as real, selectable text, not a flat image." },
+    ],
+    related: ["markdown-to-html", "html-to-pdf", "text-to-pdf"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -3122,6 +3139,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "csv-to-xlsx",
       "xlsx-to-csv",
       "markdown-to-html",
+      "markdown-to-pdf",
       "html-to-markdown",
       "image-converter",
       "image-resizer",
