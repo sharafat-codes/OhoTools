@@ -3042,6 +3042,42 @@ export const devTools: DevTool[] = [
     ],
     related: ["crop-image", "circle-crop", "image-converter"],
   },
+  {
+    slug: "protect-pdf",
+    name: "Protect PDF (Add Password)",
+    tagline: "Password-protect a PDF with encryption.",
+    description:
+      "Free online tool to password-protect a PDF. Add a password and encryption so only people who have the password can open it.",
+    keywords: ["protect pdf", "password protect pdf", "encrypt pdf", "add password to pdf", "lock pdf", "pdf password"],
+    icon: ShieldCheckIcon,
+    intro:
+      "Add a password to a PDF so only people who know it can open the document. Your file is processed on our secure server and deleted immediately after — it's never stored.",
+    steps: ["Upload a PDF.", "Choose a password.", "Download the protected PDF."],
+    faqs: [
+      { q: "Is my PDF stored?", a: "No — it's processed on our secure server and deleted right after processing; it's never stored." },
+      { q: "What does the password do?", a: "The PDF is encrypted so it can't be opened without the password you set." },
+      { q: "Does this run in my browser?", a: "Unlike most OhoTool tools, PDF encryption runs on our server (it can't be done reliably in the browser), then the file is deleted." },
+    ],
+    related: ["unlock-pdf", "merge-pdf", "compress-pdf"],
+  },
+  {
+    slug: "unlock-pdf",
+    name: "Unlock PDF (Remove Password)",
+    tagline: "Remove the password from a PDF you can open.",
+    description:
+      "Free online tool to unlock a PDF. Enter the current password to remove it and download an unprotected copy.",
+    keywords: ["unlock pdf", "remove pdf password", "decrypt pdf", "pdf password remover", "remove password from pdf"],
+    icon: FileKey2Icon,
+    intro:
+      "Remove the password from a PDF you're allowed to open by entering its current password. Your file is processed on our secure server and deleted immediately after — it's never stored.",
+    steps: ["Upload the protected PDF.", "Enter its current password.", "Download the unlocked PDF."],
+    faqs: [
+      { q: "Do I need the password?", a: "Yes — you must know the PDF's current password. This tool removes a known password; it can't crack an unknown one." },
+      { q: "Is my PDF stored?", a: "No — it's processed on our secure server and deleted right after; it's never stored." },
+      { q: "Is this allowed?", a: "Only unlock PDFs you own or have permission to modify." },
+    ],
+    related: ["protect-pdf", "merge-pdf", "compress-pdf"],
+  },
 ];
 
 export function getTool(slug: string) {
@@ -3242,6 +3278,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "delete-pdf-pages",
       "pdf-page-numbers",
       "watermark-pdf",
+      "protect-pdf",
+      "unlock-pdf",
     ],
   },
   {
