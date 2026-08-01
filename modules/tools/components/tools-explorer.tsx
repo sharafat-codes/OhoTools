@@ -249,7 +249,7 @@ export function ToolsExplorer({
                   <Link
                     key={t.slug}
                     href={`/tools/${t.slug}`}
-                    className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:bg-muted/40"
+                    className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium transition-[transform,border-color,background-color] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-muted/40"
                   >
                     <span className="text-primary">{t.icon}</span>
                     {t.name}
@@ -345,7 +345,7 @@ function ToolCard({
     <Link ref={cardRef} href={`/tools/${tool.slug}`} className="group">
       <Card
         className={cn(
-          "h-full transition-colors hover:border-primary/40",
+          "h-full transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm",
           active && "border-primary ring-2 ring-primary/40",
         )}
       >

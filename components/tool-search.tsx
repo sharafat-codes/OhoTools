@@ -111,6 +111,7 @@ export function ToolSearch({
           <div
             className={cn(
               "fixed inset-x-0 bottom-0 z-40 flex items-start justify-center bg-black/40 p-4 pt-[6vh]",
+              "animate-in fade-in-0 duration-150",
               topClass,
             )}
             onClick={() => setOpen(false)}
@@ -119,7 +120,7 @@ export function ToolSearch({
               role="dialog"
               aria-modal="true"
               aria-label="Search tools"
-              className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-xl"
+              className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-xl animate-in fade-in-0 zoom-in-95 slide-in-from-top-2 duration-200 ease-out"
               onClick={(e) => e.stopPropagation()}
             >
             <div className="flex items-center gap-2 border-b border-border px-3">

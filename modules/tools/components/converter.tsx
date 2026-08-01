@@ -126,7 +126,7 @@ export function Converter({ view }: { view: ConversionView }) {
               onClick={copyResult}
               title="Copy result"
               aria-label="Copy result"
-              className="absolute inset-y-0 right-1.5 my-1 flex items-center rounded-md px-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="absolute inset-y-0 right-1.5 my-1 flex items-center rounded-md px-2 text-muted-foreground transition hover:bg-muted hover:text-foreground active:scale-90"
             >
               {copied ? <CheckIcon className="size-4 text-emerald-500" /> : <CopyIcon className="size-4" />}
             </button>
