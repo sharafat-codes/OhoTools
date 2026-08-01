@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { toast } from "sonner";
 import { ArrowLeftRightIcon, CheckIcon, CopyIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -61,7 +60,6 @@ export function Converter({ view }: { view: ConversionView }) {
     try {
       await navigator.clipboard.writeText(to);
       setCopied(true);
-      toast.success(`Copied ${to} ${view.to.symbol}`);
       window.setTimeout(() => setCopied(false), 1500);
     } catch {
       // clipboard unavailable — ignore
