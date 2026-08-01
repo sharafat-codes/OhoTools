@@ -116,7 +116,7 @@ export function BmiCalculator() {
       )}
 
       {bmi && cat ? (
-        <Card>
+        <Card className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300">
           <CardContent className="flex flex-col gap-5 py-6">
             <div className="flex flex-col items-center gap-1 text-center">
               <div className="text-sm text-muted-foreground">Your BMI</div>
@@ -128,7 +128,7 @@ export function BmiCalculator() {
             <div className="px-1">
               <div className="relative pt-2.5">
                 <div
-                  className="absolute top-0 z-10 -translate-x-1/2 text-foreground"
+                  className="absolute top-0 z-10 -translate-x-1/2 text-foreground transition-[left] duration-300 ease-out"
                   style={{ left: `${scalePos(bmi)}%` }}
                   aria-hidden
                 >

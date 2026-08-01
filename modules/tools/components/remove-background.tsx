@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
+import { toast } from "sonner";
 import { DownloadIcon, LoaderCircleIcon, WandSparklesIcon } from "lucide-react";
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const checker = {
   backgroundImage: "repeating-conic-gradient(#d4d4d4 0% 25%, transparent 0% 50%)",
@@ -56,6 +58,7 @@ export function RemoveBackground() {
 
     function fail() {
       setError("Could not remove the background. Try a different image.");
+      toast.error("Couldn't remove the background. Try a different image.");
       setBusy(false);
       setProgress("");
       workerRef.current?.terminate();
@@ -85,6 +88,7 @@ export function RemoveBackground() {
         });
         setBusy(false);
         setProgress("");
+        toast.success("Background removed");
         worker.terminate();
         workerRef.current = null;
       } else {
@@ -102,6 +106,7 @@ export function RemoveBackground() {
     a.href = resultUrl;
     a.download = `${srcName}-no-bg.png`;
     a.click();
+    toast.success("Image downloaded");
   }
 
   return (
@@ -121,8 +126,8 @@ export function RemoveBackground() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={srcUrl} alt="Original" className="max-h-64 w-fit max-w-full rounded-lg border border-border" />
             </div>
-            {resultUrl && (
-              <div className="flex flex-col gap-1.5">
+            {resultUrl ? (
+              <div className="flex flex-col gap-1.5 animate-in fade-in-0 duration-300">
                 <span className="text-xs text-muted-foreground">Background removed</span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -132,7 +137,12 @@ export function RemoveBackground() {
                   className="max-h-64 w-fit max-w-full rounded-lg border border-border"
                 />
               </div>
-            )}
+            ) : busy ? (
+              <div className="flex flex-col gap-1.5">
+                <span className="text-xs text-muted-foreground">{progress || "Working…"}</span>
+                <Skeleton className="h-48 w-full rounded-lg" />
+              </div>
+            ) : null}
           </div>
 
           {!resultUrl ? (
