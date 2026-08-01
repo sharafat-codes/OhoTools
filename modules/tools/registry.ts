@@ -2,6 +2,7 @@ import {
   BracesIcon,
   BinaryIcon,
   FingerprintIcon,
+  GitCommitVerticalIcon,
   KeyRoundIcon,
   TypeIcon,
   CaseSensitiveIcon,
@@ -3079,6 +3080,103 @@ const baseDevTools: DevTool[] = [
     ],
     related: ["protect-pdf", "merge-pdf", "compress-pdf"],
   },
+
+  // --- AI developer tools (single-prompt, Pro-gated with free daily quota) ---
+  {
+    slug: "regex-generator",
+    name: "AI Regex Generator",
+    tagline: "Turn plain English into a regular expression.",
+    description:
+      "Free AI regex generator. Describe what you want to match in plain English and get a working regular expression with an explanation and example. JavaScript, Python, or PCRE. Free daily runs; unlimited on Pro.",
+    keywords: ["regex generator", "regex from english", "ai regex", "regular expression generator", "generate regex"],
+    icon: RegexIcon,
+    intro:
+      "Describe what you want to match — an email, a phone number, a date — and get a working regular expression with a plain-English breakdown and a matching example. Choose JavaScript, Python, or PCRE flavor. Test the result in the Regex Tester.",
+    steps: ["Describe what you want to match.", "Pick the regex flavor.", "Generate, then copy or test the pattern."],
+    faqs: [
+      { q: "Which regex flavors are supported?", a: "JavaScript, Python, and PCRE — pick the one that matches your language or tool so the syntax is correct." },
+      { q: "Can I test the generated pattern?", a: "Yes — paste it into the Regex Tester to check it against sample text and see matches highlighted." },
+    ],
+    related: ["regex-tester", "code-explainer", "sql-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "sql-generator",
+    name: "AI SQL Generator",
+    tagline: "Write SQL queries from plain English.",
+    description:
+      "Free AI SQL generator. Describe the query you need in plain English — optionally with your table schema — and get a clean, formatted SQL query. PostgreSQL, MySQL, SQLite, or SQL Server. Free daily runs; unlimited on Pro.",
+    keywords: ["sql generator", "text to sql", "ai sql", "sql from english", "generate sql query"],
+    icon: DatabaseIcon,
+    intro:
+      "Describe the data you want — 'top 5 customers by revenue in 2024' — and get a correct, readable SQL query for your dialect. Paste your table schema for more accurate joins and column names. Format the result with the SQL Formatter.",
+    steps: ["Describe the query (and paste your schema if you have it).", "Choose your SQL dialect.", "Generate and copy the query."],
+    faqs: [
+      { q: "Which databases are supported?", a: "PostgreSQL, MySQL, SQLite, and SQL Server — pick your dialect so the syntax and functions are correct." },
+      { q: "Should I include my schema?", a: "It helps — pasting your table and column names lets the AI use the right names and joins instead of guessing." },
+    ],
+    related: ["sql-formatter", "regex-generator", "code-explainer"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "commit-message-generator",
+    name: "AI Commit Message Generator",
+    tagline: "Generate clear commit messages from a diff.",
+    description:
+      "Free AI commit message generator. Paste your git diff or describe your changes and get a clean commit message — Conventional Commits or plain style. Free daily runs; unlimited on Pro.",
+    keywords: ["commit message generator", "conventional commits generator", "git commit message ai", "generate commit message"],
+    icon: GitCommitVerticalIcon,
+    intro:
+      "Paste the output of `git diff` (or just describe what you changed) and get a clear, well-formed commit message. Choose Conventional Commits (feat/fix/…) or a plain imperative style, with a concise subject and an optional body.",
+    steps: ["Paste your git diff or describe the changes.", "Pick Conventional or plain style.", "Generate and copy the message."],
+    faqs: [
+      { q: "What should I paste?", a: "The output of `git diff` (staged or unstaged) works best, but a short description of what you changed also works." },
+      { q: "What is Conventional Commits?", a: "A convention where the subject starts with a type like feat, fix, docs, or refactor — useful for changelogs and semantic versioning." },
+    ],
+    related: ["code-explainer", "regex-generator", "json-formatter"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "code-explainer",
+    name: "AI Code Explainer",
+    tagline: "Understand what any code does, in plain English.",
+    description:
+      "Free AI code explainer. Paste code in any language and get a clear, plain-English explanation of what it does, step by step — beginner-friendly or detailed. Free daily runs; unlimited on Pro.",
+    keywords: ["code explainer", "explain code ai", "what does this code do", "code explanation", "understand code"],
+    icon: FileCodeIcon,
+    intro:
+      "Paste a snippet or a whole function and get a clear explanation of its purpose, the key steps, and any edge cases or bugs — in any language. Choose a simple, beginner-friendly explanation or a thorough one.",
+    steps: ["Paste the code you want explained.", "Choose the explanation depth.", "Read the explanation and copy it."],
+    faqs: [
+      { q: "Which languages are supported?", a: "Any common language — JavaScript, Python, Go, Rust, SQL, shell, and more. Paste the snippet and it detects the language." },
+      { q: "Is my code stored?", a: "No — your code is sent to the AI model to generate the explanation and isn't stored on our servers afterward." },
+    ],
+    related: ["regex-generator", "commit-message-generator", "sql-generator"],
+    pro: true,
+    serverSide: true,
+  },
+  {
+    slug: "cron-generator",
+    name: "AI Cron Expression Generator",
+    tagline: "Turn a schedule in plain English into cron.",
+    description:
+      "Free AI cron expression generator. Describe a schedule in plain English — 'every weekday at 9am' — and get the correct cron expression with a plain-English confirmation. Free daily runs; unlimited on Pro.",
+    keywords: ["cron generator", "cron expression generator", "english to cron", "crontab generator", "cron from text"],
+    icon: CalendarClockIcon,
+    intro:
+      "Describe when you want something to run — 'every 15 minutes', 'the first of every month at midnight', 'weekdays at 9am' — and get the matching 5-field cron expression, with a plain-English confirmation so you can double-check it. Verify it with the Cron Explainer.",
+    steps: ["Describe the schedule in plain English.", "Generate the cron expression.", "Copy it, or confirm it in the Cron Explainer."],
+    faqs: [
+      { q: "What cron format is used?", a: "Standard 5-field cron (minute, hour, day-of-month, month, day-of-week) used by crontab, most schedulers, and CI systems." },
+      { q: "How do I check it's right?", a: "The tool includes a plain-English confirmation of when it runs, and you can paste the result into the Cron Explainer for a full breakdown." },
+    ],
+    related: ["cron-explainer", "code-explainer", "regex-generator"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
@@ -3224,8 +3322,13 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   },
   {
     name: "Developer",
-    blurb: "Format, inspect, and test.",
+    blurb: "Format, inspect, test, and generate with AI.",
     slugs: [
+      "regex-generator",
+      "sql-generator",
+      "code-explainer",
+      "commit-message-generator",
+      "cron-generator",
       "json-formatter",
       "sql-formatter",
       "xml-formatter",

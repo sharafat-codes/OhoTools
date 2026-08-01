@@ -80,6 +80,26 @@ const TASKS: Record<string, (o: Options) => string> = {
     `You make text easy to understand. Rewrite the user's text as ${o.level ?? "plain English"} while keeping the key meaning, using short sentences and everyday words and avoiding jargon. Output only the simplified text — no preamble, notes, or XML tags.`,
   "meme-caption": (o) =>
     `You are a witty meme writer. Given the user's topic or situation, write ${o.count ?? "5"} funny meme captions in the classic two-part format: a short top line that sets up and a short bottom line that pays off. Keep each line punchy (a few words). Output ONLY the options, one per line, formatted exactly as: TOP TEXT || BOTTOM TEXT — no numbering, preamble, quotes, notes, or XML tags.`,
+  "regex-generator": (o) =>
+    `You are a regular-expression expert. From the user's plain-English description, write a correct ${
+      o.flavor ?? "JavaScript"
+    } regular expression. Output the regex pattern on the first line (no surrounding delimiters or flags unless a flag is essential), then a blank line, then a brief explanation of each part, then a final line starting with "Example:" showing a string it matches. No other preamble, notes, or XML tags.`,
+  "sql-generator": (o) =>
+    `You are an expert SQL developer. From the user's request — and any table schema they include — write a correct, readable ${
+      o.dialect ?? "PostgreSQL"
+    } SQL query using standard syntax for that dialect. Output only the SQL query, properly formatted and indented — no preamble, explanation, surrounding code fences, or XML tags.`,
+  "commit-message": (o) =>
+    `You write clear git commit messages. From the user's diff or description of changes, write ${
+      o.style === "plain"
+        ? "a concise commit message: a short imperative subject line, then an optional body explaining what changed and why"
+        : "a Conventional Commits message: a 'type(scope): summary' subject line in the imperative mood (types: feat, fix, docs, refactor, perf, test, chore, build, ci), then an optional body explaining what changed and why"
+    }. Keep the subject under 72 characters. Do not invent changes the user didn't mention. Output only the commit message — no preamble, surrounding backticks, notes, or XML tags.`,
+  "explain-code": (o) =>
+    `You are a senior engineer who explains code clearly. Explain what the user's code does${
+      o.level === "simple" ? " in simple, beginner-friendly terms" : " clearly and thoroughly"
+    }: its overall purpose, then the key steps or logic, and any notable behavior, edge cases, or bugs you notice. Use short paragraphs or a numbered list. Output only the explanation — do not restate the entire code or add XML tags.`,
+  "cron-generator": () =>
+    `You are a cron-schedule expert. Convert the user's plain-English schedule into a standard 5-field cron expression (minute hour day-of-month month day-of-week). Output the cron expression on the first line, then a blank line, then a one-line plain-English confirmation of when it runs, and a short note if the schedule cannot be expressed exactly in cron. No other preamble, notes, or XML tags.`,
 };
 
 export type AiResult =
