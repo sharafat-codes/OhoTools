@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 
@@ -11,7 +12,15 @@ type Item = { slug: string; name: string; tagline: string; category: string; key
 // Module-level cache so the index is fetched at most once per session.
 let cache: Item[] | null = null;
 
-export function ToolSearch({ className }: { className?: string }) {
+export function ToolSearch({
+  className,
+  // Where the dim starts, so it clears the sticky top bar (marketing = h-16,
+  // dashboard topbar = h-14) and the navbar stays crisp instead of dimmed.
+  topClass = "top-16",
+}: {
+  className?: string;
+  topClass?: string;
+}) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [items, setItems] = React.useState<Item[]>(cache ?? []);
@@ -97,18 +106,22 @@ export function ToolSearch({ className }: { className?: string }) {
         <kbd className="hidden rounded border border-border px-1 font-sans text-[10px] leading-4 lg:inline">⌘K</kbd>
       </button>
 
-      {open && (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-[12vh]"
-          onClick={() => setOpen(false)}
-        >
+      {open &&
+        createPortal(
           <div
-            role="dialog"
-            aria-modal="true"
-            aria-label="Search tools"
-            className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-xl"
-            onClick={(e) => e.stopPropagation()}
+            className={cn(
+              "fixed inset-x-0 bottom-0 z-40 flex items-start justify-center bg-black/40 p-4 pt-[6vh]",
+              topClass,
+            )}
+            onClick={() => setOpen(false)}
           >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Search tools"
+              className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
             <div className="flex items-center gap-2 border-b border-border px-3">
               <SearchIcon className="size-4 shrink-0 text-muted-foreground" />
               <input
@@ -158,9 +171,10 @@ export function ToolSearch({ className }: { className?: string }) {
                 ))
               )}
             </div>
-          </div>
-        </div>
-      )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }

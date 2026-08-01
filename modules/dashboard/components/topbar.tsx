@@ -51,7 +51,7 @@ export function Topbar({ user, isAdmin }: { user: MenuUser; isAdmin?: boolean })
         </SheetContent>
       </Sheet>
 
-      <ToolSearch className="ml-1" />
+      <ToolSearch className="ml-1" topClass="top-14" />
       <div className="flex-1" />
 
       <ThemeToggle />
