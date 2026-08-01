@@ -136,6 +136,7 @@ function defaultInput(cat: Category, from: UnitKey): number {
 
 export type ConversionView = {
   slug: string;
+  reverseSlug?: string; // opposite direction page, if it exists (for the swap button)
   from: { name: string; symbol: string; plural: string };
   to: { name: string; symbol: string; plural: string };
   kind: "linear" | "temp";
@@ -165,8 +166,10 @@ export function getConversionView(slug: string): ConversionView | undefined {
     from: v,
     to: convertValue(v, p.from, p.to, p.cat),
   }));
+  const reverseSlug = `${to.slug}-to-${from.slug}`;
   return {
     slug,
+    reverseSlug: findPair(reverseSlug) ? reverseSlug : undefined,
     from: { name: from.name, symbol: from.symbol, plural: from.plural },
     to: { name: to.name, symbol: to.symbol, plural: to.plural },
     kind: isTemp ? "temp" : "linear",

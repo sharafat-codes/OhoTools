@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeftRightIcon } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeftRightIcon, CheckIcon, CopyIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { ConversionView } from "@/modules/tools/conversions";
 
@@ -40,6 +42,7 @@ export function Converter({ view }: { view: ConversionView }) {
 
   const [from, setFrom] = React.useState(String(view.defaultValue));
   const [to, setTo] = React.useState(fmt(fwd(view.defaultValue)));
+  const [copied, setCopied] = React.useState(false);
 
   function onFrom(raw: string) {
     setFrom(raw);
@@ -50,6 +53,17 @@ export function Converter({ view }: { view: ConversionView }) {
     setTo(raw);
     const n = parseFloat(raw);
     setFrom(raw.trim() === "" || !Number.isFinite(n) ? "" : fmt(bwd(n)));
+  }
+
+  async function copyResult() {
+    if (!to) return;
+    try {
+      await navigator.clipboard.writeText(to);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // clipboard unavailable — ignore
+    }
   }
 
   return (
@@ -64,6 +78,7 @@ export function Converter({ view }: { view: ConversionView }) {
               inputMode="decimal"
               value={from}
               onChange={(e) => onFrom(e.target.value)}
+              onFocus={(e) => e.currentTarget.select()}
               className="pr-14"
             />
             <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted-foreground">
@@ -72,8 +87,23 @@ export function Converter({ view }: { view: ConversionView }) {
           </div>
         </div>
 
-        <div className="hidden justify-center pb-2.5 text-muted-foreground sm:flex" aria-hidden>
-          <ArrowLeftRightIcon className="size-5" />
+        {/* Swap → jump to the reverse-direction page */}
+        <div className="flex justify-center pb-1">
+          {view.reverseSlug ? (
+            <Button
+              variant="outline"
+              size="icon"
+              title={`Swap — convert ${view.to.name} to ${view.from.name}`}
+              aria-label={`Swap to convert ${view.to.name} to ${view.from.name}`}
+              render={<Link href={`/tools/${view.reverseSlug}`} />}
+            >
+              <ArrowLeftRightIcon />
+            </Button>
+          ) : (
+            <span className="pb-1.5 text-muted-foreground" aria-hidden>
+              <ArrowLeftRightIcon className="size-5" />
+            </span>
+          )}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -85,11 +115,21 @@ export function Converter({ view }: { view: ConversionView }) {
               inputMode="decimal"
               value={to}
               onChange={(e) => onTo(e.target.value)}
-              className="pr-14"
+              onFocus={(e) => e.currentTarget.select()}
+              className="pr-20"
             />
-            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted-foreground">
+            <span className="pointer-events-none absolute inset-y-0 right-10 flex items-center text-sm text-muted-foreground">
               {view.to.symbol}
             </span>
+            <button
+              type="button"
+              onClick={copyResult}
+              title="Copy result"
+              aria-label="Copy result"
+              className="absolute inset-y-0 right-1.5 my-1 flex items-center rounded-md px-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              {copied ? <CheckIcon className="size-4 text-emerald-500" /> : <CopyIcon className="size-4" />}
+            </button>
           </div>
         </div>
       </div>
@@ -110,21 +150,34 @@ export function Converter({ view }: { view: ConversionView }) {
             </tr>
           </thead>
           <tbody>
-            {view.table.map((row) => (
-              <tr key={row.from} className="border-b border-border last:border-0">
-                <td className="px-4 py-2">
-                  {fmt(row.from)} {view.from.symbol}
-                </td>
-                <td className="px-4 py-2">
-                  {fmt(row.to)} {view.to.symbol}
-                </td>
-              </tr>
-            ))}
+            {view.table.map((row) => {
+              const active = parseFloat(from) === row.from;
+              return (
+                <tr
+                  key={row.from}
+                  onClick={() => onFrom(String(row.from))}
+                  className={
+                    "cursor-pointer border-b border-border transition-colors last:border-0 hover:bg-muted/50 " +
+                    (active ? "bg-primary/5" : "")
+                  }
+                >
+                  <td className="px-4 py-2">
+                    {fmt(row.from)} {view.from.symbol}
+                  </td>
+                  <td className="px-4 py-2">
+                    {fmt(row.to)} {view.to.symbol}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
-      <p className="text-xs text-muted-foreground">Runs entirely in your browser — nothing is uploaded.</p>
+      <p className="text-xs text-muted-foreground">
+        Tip: type in either box to convert both ways, tap a row to reuse it, or use the copy button. Runs entirely in your
+        browser — nothing is uploaded.
+      </p>
     </div>
   );
 }
