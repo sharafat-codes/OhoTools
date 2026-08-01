@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SearchIcon, ArrowRightIcon, XIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -27,17 +28,26 @@ export type ToolGroup = {
 
 // How many tools to show per category before "Show all" in the browse view.
 const PREVIEW = 8;
+const LS_Q = "ohotool:tools:q";
+const LS_CAT = "ohotool:tools:cat";
 
 export function ToolsExplorer({
   groups,
+  popular = [],
   initialQuery = "",
 }: {
   groups: ToolGroup[];
+  popular?: ToolItem[];
   initialQuery?: string;
 }) {
+  const router = useRouter();
   const [query, setQuery] = React.useState(initialQuery);
   const [cat, setCat] = React.useState("all");
+  const [activeIndex, setActiveIndex] = React.useState(0);
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const activeRef = React.useRef<HTMLAnchorElement | null>(null);
+  const restored = React.useRef(false);
 
   const q = query.trim().toLowerCase();
   const tokens = React.useMemo(() => q.split(/\s+/).filter(Boolean), [q]);
@@ -67,10 +77,86 @@ export function ToolsExplorer({
     return scored.map((s) => s.item);
   }, [all, q, tokens, cat, filtering]);
 
-  function expand(name: string) {
+  const activeIdx = Math.min(Math.max(activeIndex, 0), Math.max(results.length - 1, 0));
+
+  // Restore the last search/category (unless the URL provided ?q=). Deferred so
+  // it never runs during render/hydration.
+  React.useEffect(() => {
+    if (restored.current || initialQuery) return;
+    restored.current = true;
+    let sq: string | null = null;
+    let sc: string | null = null;
+    try {
+      sq = localStorage.getItem(LS_Q);
+      sc = localStorage.getItem(LS_CAT);
+    } catch {
+      /* storage unavailable */
+    }
+    const raf = requestAnimationFrame(() => {
+      if (sq) setQuery(sq);
+      if (sc && (sc === "all" || groups.some((g) => g.name === sc))) setCat(sc);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [initialQuery, groups]);
+
+  // Persist search/category across visits.
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(LS_Q, query);
+      localStorage.setItem(LS_CAT, cat);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [query, cat]);
+
+  // "/" focuses search from anywhere on the page.
+  React.useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+      const el = document.activeElement as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
+      e.preventDefault();
+      inputRef.current?.focus();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Keep the keyboard-highlighted result in view.
+  React.useEffect(() => {
+    activeRef.current?.scrollIntoView({ block: "nearest" });
+  }, [activeIdx, results]);
+
+  function changeQuery(v: string) {
+    setQuery(v);
+    setActiveIndex(0);
+  }
+  function changeCat(name: string) {
     setCat(name);
-    // Results replace the browse view above the fold — bring them into view.
+    setActiveIndex(0);
+  }
+  function expand(name: string) {
+    changeCat(name);
     requestAnimationFrame(() => rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
+  function onSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Escape") {
+      changeQuery("");
+      return;
+    }
+    if (!filtering || results.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, results.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const t = results[activeIdx];
+      if (t) router.push(`/tools/${t.slug}`);
+    }
   }
 
   return (
@@ -81,30 +167,36 @@ export function ToolsExplorer({
           <div className="relative">
             <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
+              ref={inputRef}
               type="search"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => changeQuery(e.target.value)}
+              onKeyDown={onSearchKeyDown}
               placeholder={`Search ${all.length} tools…`}
               aria-label="Search tools"
-              className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-9 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40"
+              className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-9 text-sm outline-none [&::-webkit-search-cancel-button]:hidden focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/40"
             />
-            {query && (
+            {query ? (
               <button
                 type="button"
-                onClick={() => setQuery("")}
+                onClick={() => changeQuery("")}
                 aria-label="Clear search"
                 className="absolute right-2.5 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
                 <XIcon className="size-4" />
               </button>
+            ) : (
+              <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                /
+              </kbd>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
-            <Chip active={cat === "all"} onClick={() => setCat("all")}>
+            <Chip active={cat === "all"} onClick={() => changeCat("all")}>
               All <Count>{all.length}</Count>
             </Chip>
             {groups.map((g) => (
-              <Chip key={g.name} active={cat === g.name} onClick={() => setCat(g.name)}>
+              <Chip key={g.name} active={cat === g.name} onClick={() => changeCat(g.name)}>
                 {g.name} <Count>{g.tools.length}</Count>
               </Chip>
             ))}
@@ -120,8 +212,13 @@ export function ToolsExplorer({
               {cat !== "all" && <> in {cat}</>}
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
-              {results.map((t) => (
-                <ToolCard key={t.slug} tool={t} />
+              {results.map((t, idx) => (
+                <ToolCard
+                  key={t.slug}
+                  tool={t}
+                  active={idx === activeIdx}
+                  cardRef={idx === activeIdx ? activeRef : undefined}
+                />
               ))}
             </div>
           </div>
@@ -131,7 +228,7 @@ export function ToolsExplorer({
             <button
               type="button"
               onClick={() => {
-                setQuery("");
+                changeQuery("");
                 setCat("all");
               }}
               className="mt-2 text-sm font-medium text-primary hover:underline"
@@ -142,6 +239,26 @@ export function ToolsExplorer({
         )
       ) : (
         <div className="flex flex-col gap-10">
+          {popular.length > 0 && (
+            <section aria-label="Popular tools">
+              <h2 className="mb-3 font-heading text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Popular
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {popular.map((t) => (
+                  <Link
+                    key={t.slug}
+                    href={`/tools/${t.slug}`}
+                    className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  >
+                    <span className="text-primary">{t.icon}</span>
+                    {t.name}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
           {groups.map((g) => {
             const shown = g.tools.slice(0, PREVIEW);
             const hidden = g.tools.length - shown.length;
@@ -215,10 +332,23 @@ function Chip({
   );
 }
 
-function ToolCard({ tool }: { tool: ToolItem }) {
+function ToolCard({
+  tool,
+  active,
+  cardRef,
+}: {
+  tool: ToolItem;
+  active?: boolean;
+  cardRef?: React.Ref<HTMLAnchorElement>;
+}) {
   return (
-    <Link href={`/tools/${tool.slug}`} className="group">
-      <Card className="h-full transition-colors hover:border-primary/40">
+    <Link ref={cardRef} href={`/tools/${tool.slug}`} className="group">
+      <Card
+        className={cn(
+          "h-full transition-colors hover:border-primary/40",
+          active && "border-primary ring-2 ring-primary/40",
+        )}
+      >
         <CardContent className="flex items-start gap-3">
           <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
             {tool.icon}

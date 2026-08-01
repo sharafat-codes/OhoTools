@@ -3099,6 +3099,23 @@ export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
 }
 
+/**
+ * Curated "most-used" tools for the fast-path strip at the top of /tools.
+ * Hand-picked (no analytics yet) to cover the highest-traffic intents.
+ */
+export const POPULAR_SLUGS: string[] = [
+  "merge-pdf",
+  "compress-pdf",
+  "pdf-to-word",
+  "word-to-pdf",
+  "remove-background",
+  "compress-image",
+  "image-converter",
+  "word-counter",
+  "password-generator",
+  "json-formatter",
+];
+
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
 export function ogImageUrl(p: { eyebrow?: string; title: string; subtitle?: string }): string {
   const q = new URLSearchParams();

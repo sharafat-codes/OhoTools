@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRightIcon, SendIcon } from "lucide-react";
 
-import { getTool, toolCategories, devTools, categorySlugForName, TOOL_COUNT_LABEL } from "@/modules/tools/registry";
-import { ToolsExplorer, type ToolGroup } from "@/modules/tools/components/tools-explorer";
+import {
+  getTool,
+  toolCategories,
+  devTools,
+  categorySlugForName,
+  TOOL_COUNT_LABEL,
+  POPULAR_SLUGS,
+} from "@/modules/tools/registry";
+import { ToolsExplorer, type ToolGroup, type ToolItem } from "@/modules/tools/components/tools-explorer";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -28,25 +35,28 @@ export default async function ToolsHub({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q } = await searchParams;
+
+  const toItem = (slug: string): ToolItem | null => {
+    const tool = getTool(slug);
+    if (!tool) return null;
+    const Icon = tool.icon;
+    return {
+      slug,
+      name: tool.name,
+      tagline: tool.tagline,
+      pro: !!tool.pro,
+      search: `${tool.name} ${tool.tagline} ${tool.keywords.join(" ")}`.toLowerCase(),
+      icon: <Icon className="size-5" />,
+    };
+  };
+
+  const popular: ToolItem[] = POPULAR_SLUGS.map(toItem).filter((t): t is ToolItem => Boolean(t));
+
   const groups: ToolGroup[] = toolCategories.map((cat) => ({
     name: cat.name,
     blurb: cat.blurb,
     slug: categorySlugForName(cat.name) ?? null,
-    tools: cat.slugs
-      .map((slug) => {
-        const tool = getTool(slug);
-        if (!tool) return null;
-        const Icon = tool.icon;
-        return {
-          slug,
-          name: tool.name,
-          tagline: tool.tagline,
-          pro: !!tool.pro,
-          search: `${tool.name} ${tool.tagline} ${tool.keywords.join(" ")}`.toLowerCase(),
-          icon: <Icon className="size-5" />,
-        };
-      })
-      .filter((t): t is NonNullable<typeof t> => Boolean(t)),
+    tools: cat.slugs.map(toItem).filter((t): t is ToolItem => Boolean(t)),
   }));
 
   return (
@@ -62,7 +72,7 @@ export default async function ToolsHub({
       </div>
 
       <div className="mt-12">
-        <ToolsExplorer groups={groups} initialQuery={q ?? ""} />
+        <ToolsExplorer groups={groups} popular={popular} initialQuery={q ?? ""} />
       </div>
 
       <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
