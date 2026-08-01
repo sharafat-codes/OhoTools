@@ -118,6 +118,7 @@ import {
 import type { Metadata } from "next";
 
 import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { conversionTools, conversionSlugs } from "@/modules/tools/conversions";
 
 export type ToolFaq = { q: string; a: string };
 
@@ -136,7 +137,7 @@ export type DevTool = {
   serverSide?: boolean; // processed on the server (not in-browser) — e.g. Office conversion
 };
 
-export const devTools: DevTool[] = [
+const baseDevTools: DevTool[] = [
   {
     slug: "json-formatter",
     name: "JSON Formatter",
@@ -3080,6 +3081,11 @@ export const devTools: DevTool[] = [
   },
 ];
 
+// Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
+// °C↔°F, …). Conversions are appended so search, categories, the sitemap, and
+// metadata pick them up automatically.
+export const devTools: DevTool[] = [...baseDevTools, ...conversionTools];
+
 /** Exact number of tools. */
 export const TOOL_COUNT = devTools.length;
 /**
@@ -3264,6 +3270,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     ],
   },
   {
+    name: "Unit Conversions",
+    blurb: "Convert length, weight, and temperature — feet to cm, kg to lbs, °C to °F, and more.",
+    slugs: [...conversionSlugs],
+  },
+  {
     name: "PDF",
     blurb: "Merge, split, edit, and create PDFs.",
     slugs: [
@@ -3364,6 +3375,39 @@ export type CategoryPage = {
 };
 
 export const categoryPages: CategoryPage[] = [
+  {
+    slug: "unit-conversions",
+    name: "Unit Conversions",
+    seoTitle: "Unit Conversion Tools",
+    seoDescription:
+      "Free unit conversion tools — feet to cm, cm to inches, kg to lbs, °C to °F, km to miles, and more. Accurate, instant, with formulas and reference tables. Runs in your browser.",
+    keywords: [
+      "unit conversion",
+      "feet to cm",
+      "cm to inches",
+      "kg to lbs",
+      "celsius to fahrenheit",
+      "km to miles",
+      "convert units",
+    ],
+    h1: "Unit conversion tools",
+    intro:
+      "Convert length, weight, and temperature between metric and imperial units — feet to centimeters, kilograms to pounds, Celsius to Fahrenheit, and many more. Each converter is instant and two-way, and shows the exact formula plus a reference table for common values. Everything runs in your browser.",
+    faqs: [
+      {
+        q: "Are these converters accurate?",
+        a: "Yes — they use the exact internationally defined factors (for example, 1 inch = 2.54 cm and 1 pound = 0.45359237 kg), and temperatures use the proper offset formulas rather than simple ratios.",
+      },
+      {
+        q: "Do I need to press a button to convert?",
+        a: "No. Every converter updates as you type, and works in both directions — type in either box to convert back and forth.",
+      },
+      {
+        q: "Do you need a more general converter?",
+        a: "For categories beyond these — volume, area, speed, digital storage, and time — use the all-in-one Unit Converter, which converts across every unit in a category at once.",
+      },
+    ],
+  },
   {
     slug: "pdf",
     name: "PDF",
