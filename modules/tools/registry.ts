@@ -1,12 +1,16 @@
 import {
   BracesIcon,
   BinaryIcon,
+  ContrastIcon,
+  DivideIcon,
   Disc3Icon,
   FingerprintIcon,
   GitCommitVerticalIcon,
   KeyRoundIcon,
   ShuffleIcon,
+  TrendingUpIcon,
   TypeIcon,
+  WeightIcon,
   CaseSensitiveIcon,
   FileKey2Icon,
   ClockIcon,
@@ -3250,6 +3254,93 @@ const baseDevTools: DevTool[] = [
     ],
     related: ["spin-the-wheel", "coin-flip", "dice-roller"],
   },
+
+  // --- Calculators & designer tools (client-side) ---
+  {
+    slug: "calorie-calculator",
+    name: "Calorie Calculator",
+    tagline: "Estimate your daily calories (TDEE).",
+    description:
+      "Free calorie & TDEE calculator. Estimate the calories you burn daily and how many to eat to lose, maintain, or gain weight — based on age, sex, height, weight, and activity. Free and private.",
+    keywords: ["calorie calculator", "tdee calculator", "daily calorie needs", "maintenance calories", "calorie intake calculator"],
+    icon: FlameIcon,
+    intro:
+      "Estimate your Total Daily Energy Expenditure (TDEE) — the calories you burn in a day — using the Mifflin-St Jeor equation, then see targets to lose, maintain, or gain weight. Enter your details in metric or imperial; everything is calculated in your browser.",
+    steps: ["Enter your age, sex, height, and weight.", "Choose your activity level.", "Read your maintenance calories and goal targets."],
+    faqs: [
+      { q: "How are the calories calculated?", a: "It uses the Mifflin-St Jeor equation for BMR, then multiplies by an activity factor to estimate your TDEE (maintenance calories)." },
+      { q: "How much of a deficit should I use?", a: "A ~500 calorie/day deficit is a common target for about 0.5 kg (1 lb) of weight loss per week. These are general estimates, not medical advice." },
+    ],
+    related: ["bmr-calculator", "bmi-calculator", "ideal-weight-calculator"],
+  },
+  {
+    slug: "compound-interest-calculator",
+    name: "Compound Interest Calculator",
+    tagline: "See how savings grow over time.",
+    description:
+      "Free compound interest calculator. See how an initial amount plus monthly contributions grow with compound interest, and how much of the total is interest. Fast, private, no sign-up.",
+    keywords: ["compound interest calculator", "investment calculator", "savings growth calculator", "interest calculator", "compounding calculator"],
+    icon: TrendingUpIcon,
+    intro:
+      "See how your money grows with compound interest. Enter a starting amount, an interest rate, a time horizon, and an optional monthly contribution to see the future value — and how much of it is interest versus what you put in.",
+    steps: ["Enter your initial amount and monthly contribution.", "Set the interest rate and number of years.", "See the future value and total interest."],
+    faqs: [
+      { q: "How is it compounded?", a: "Interest is compounded monthly, and contributions are added at the end of each month — the most common setup for savings and investments." },
+      { q: "What currency does it use?", a: "It's currency-agnostic: the figures are shown in whatever currency you enter, with no symbol assumed." },
+    ],
+    related: ["loan-calculator", "percentage-calculator", "discount-calculator"],
+  },
+  {
+    slug: "fraction-calculator",
+    name: "Fraction Calculator",
+    tagline: "Add, subtract, multiply, and divide fractions.",
+    description:
+      "Free fraction calculator. Add, subtract, multiply, and divide two fractions and get the result simplified, as a decimal, and as a mixed number. Instant and free.",
+    keywords: ["fraction calculator", "add fractions", "multiply fractions", "divide fractions", "simplify fractions"],
+    icon: DivideIcon,
+    intro:
+      "Do arithmetic with fractions and get a clean result. Enter two fractions and an operation to see the answer simplified to lowest terms, plus its decimal value and mixed-number form.",
+    steps: ["Enter the first fraction.", "Pick an operation and enter the second fraction.", "Read the simplified result, decimal, and mixed number."],
+    faqs: [
+      { q: "Does it simplify the result?", a: "Yes — the answer is automatically reduced to lowest terms using the greatest common divisor, and shown as a decimal and mixed number too." },
+      { q: "Can it handle negative fractions?", a: "Yes — enter a negative numerator (e.g. -3) and the sign is handled correctly." },
+    ],
+    related: ["percentage-calculator", "unit-converter", "roman-numeral"],
+  },
+  {
+    slug: "ideal-weight-calculator",
+    name: "Ideal Weight Calculator",
+    tagline: "Find a healthy weight range for your height.",
+    description:
+      "Free ideal weight calculator. Find a healthy weight range for your height using the Devine, Robinson, Miller, and Hamwi formulas plus the healthy BMI range. Metric or imperial, free and private.",
+    keywords: ["ideal weight calculator", "ideal body weight", "healthy weight for height", "ideal weight for height", "target weight calculator"],
+    icon: WeightIcon,
+    intro:
+      "Estimate a healthy weight for your height using four classic formulas (Devine, Robinson, Miller, Hamwi) alongside the healthy weight range from a BMI of 18.5–25. Choose metric or imperial; it's calculated in your browser.",
+    steps: ["Choose metric or imperial and your sex.", "Enter your height.", "See the healthy range and each formula's estimate."],
+    faqs: [
+      { q: "Which is the right number?", a: "There's no single 'ideal' — the formulas give a range, and the healthy BMI range is a good practical guide. They don't account for muscle or build." },
+      { q: "Are these formulas accurate for everyone?", a: "No — they're rough estimates and less accurate for very short/tall people, athletes, or children. Treat them as a guideline." },
+    ],
+    related: ["bmi-calculator", "calorie-calculator", "bmr-calculator"],
+  },
+  {
+    slug: "color-contrast-checker",
+    name: "Color Contrast Checker",
+    tagline: "Check WCAG contrast between two colors.",
+    description:
+      "Free WCAG color contrast checker. Enter a text and background color to see the contrast ratio and whether it passes AA and AAA for normal and large text, with a live preview. Free and private.",
+    keywords: ["color contrast checker", "wcag contrast checker", "contrast ratio calculator", "accessibility contrast", "aa aaa contrast"],
+    icon: ContrastIcon,
+    intro:
+      "Check whether your text and background colors have enough contrast for accessibility. Enter two colors to see the WCAG contrast ratio, pass/fail badges for AA and AAA (normal and large text), and a live preview of the combination.",
+    steps: ["Pick or paste a text color.", "Pick or paste a background color.", "Read the contrast ratio and AA/AAA results."],
+    faqs: [
+      { q: "What contrast ratio do I need?", a: "WCAG AA requires 4.5:1 for normal text and 3:1 for large text; AAA requires 7:1 and 4.5:1. Aim for AA at minimum." },
+      { q: "What counts as large text?", a: "Roughly 18pt and up, or 14pt and up if bold. Large text is allowed a lower contrast ratio." },
+    ],
+    related: ["color-converter", "css-gradient-generator", "color-shades-generator"],
+  },
 ];
 
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
@@ -3410,6 +3501,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "jwt-decoder",
       "regex-tester",
       "cron-explainer",
+      "color-contrast-checker",
       "chmod-calculator",
       "cidr-calculator",
       "credit-card-validator",
@@ -3505,8 +3597,12 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "discount-calculator",
       "gst-vat-calculator",
       "loan-calculator",
+      "compound-interest-calculator",
       "bmi-calculator",
       "bmr-calculator",
+      "calorie-calculator",
+      "ideal-weight-calculator",
+      "fraction-calculator",
       "gpa-calculator",
       "aspect-ratio-calculator",
       "age-calculator",
