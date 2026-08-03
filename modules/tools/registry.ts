@@ -1010,22 +1010,30 @@ const baseDevTools: DevTool[] = [
   },
   {
     slug: "word-frequency",
-    name: "Word Frequency Counter",
-    tagline: "Count how often each word appears in text.",
+    name: "Word Frequency & Keyword Density Counter",
+    tagline: "Count word frequency and keyword density in any text.",
     description:
-      "Free online word frequency counter. Analyze text to see how often each word appears, sorted by count, with CSV export.",
-    keywords: ["word frequency counter", "word frequency", "keyword density", "count word occurrences"],
+      "Free word frequency and keyword density counter. See how often each word appears and its share of your content (density %), with a common-word filter for on-page SEO. Runs in your browser, with CSV export.",
+    keywords: [
+      "word frequency counter",
+      "keyword frequency counter",
+      "keyword density checker",
+      "keyword density tool",
+      "word frequency",
+      "count word occurrences",
+    ],
     icon: BarChart3Icon,
     intro:
-      "Analyze any text to see how often each word appears, ranked from most to least frequent with a visual bar for each. Great for checking keyword density, writing style, and content analysis. Export the full list as CSV.",
+      "Analyze any text to see how often each word appears and its keyword density — each word's percentage share of the total content — ranked with a visual bar. Filter out common stop words for on-page SEO analysis, or keep them for style and readability checks. Export the full list as CSV.",
     steps: [
       "Paste your text.",
-      "Optionally ignore case or set a minimum word length.",
-      "Review the ranked word counts or copy them as CSV.",
+      "Optionally ignore case, hide common words, or set a minimum word length.",
+      "Review each word's count and density %, or copy the list as CSV.",
     ],
     faqs: [
-      { q: "How are words counted?", a: "Words are split on spaces and punctuation, counting letters, numbers, and apostrophes. Turn on 'Ignore case' to treat 'The' and 'the' as the same word." },
-      { q: "Can I export the results?", a: "Yes — click Copy CSV to get the complete word-and-count list, ready for a spreadsheet." },
+      { q: "What is keyword density?", a: "Keyword density is how often a word appears as a percentage of the total words — count ÷ total words × 100. It's used in on-page SEO to check a page isn't over- or under-using a target keyword." },
+      { q: "How do I ignore filler words?", a: "Turn on 'Ignore common words' to exclude stop words like 'the', 'and', and 'of', so the ranking shows the meaningful keywords in your content." },
+      { q: "Can I export the results?", a: "Yes — click Copy CSV to get the complete word, count, and density list, ready for a spreadsheet." },
     ],
     related: ["word-counter", "case-converter", "text-diff"],
   },
@@ -1999,13 +2007,14 @@ const baseDevTools: DevTool[] = [
     name: "Image to Text (OCR)",
     tagline: "Extract text from images, photos, and scans.",
     description:
-      "Free online OCR — convert image to text right in your browser. Extract text from photos, screenshots, and scanned documents (JPG, PNG). Private: your image never leaves your device.",
-    keywords: ["image to text", "photo to text", "ocr online", "extract text from image", "picture to text"],
+      "Free online OCR — convert image to text right in your browser. Extract text from photos, screenshots, and scanned documents in JPG, PNG, WebP, GIF, or BMP. Private: your image never leaves your device.",
+    keywords: ["image to text", "photo to text", "ocr online", "extract text from image", "ocr extraction", "picture to text"],
     icon: ScanTextIcon,
     intro:
-      "Pull the text out of an image, screenshot, photo, or scanned document using optical character recognition (OCR). It runs entirely in your browser — your image is never uploaded, so it stays completely private. The recognition engine downloads once on first use, then works offline.",
-    steps: ["Upload an image or photo of text.", "Click Extract text (the engine loads on first use).", "Copy the recognized text."],
+      "Pull the text out of an image, screenshot, photo, or scanned document using optical character recognition (OCR). Works with JPG, PNG, WebP, GIF, and BMP images. It runs entirely in your browser — your image is never uploaded, so it stays completely private. The recognition engine downloads once on first use, then works offline.",
+    steps: ["Upload an image or photo of text (JPG, PNG, WebP, GIF, or BMP).", "Click Extract text (the engine loads on first use).", "Copy the recognized text."],
     faqs: [
+      { q: "Which image formats are supported?", a: "JPG, PNG, WebP, GIF, and BMP. For best results use a clear, high-contrast image of real text." },
       { q: "Is my image uploaded anywhere?", a: "No — recognition happens locally in your browser using an in-page OCR engine, so the image never leaves your device." },
       { q: "What images work best?", a: "Clear, well-lit photos and scans of real text with good contrast. Stylized graphics, decorative fonts, and low-resolution images are harder to read accurately." },
       { q: "Why does the first run take a moment?", a: "The OCR engine (a few MB) downloads once on your first extraction, then it's cached for instant use afterward." },
@@ -3360,6 +3369,57 @@ export const TOOL_COUNT_LABEL = `${Math.floor(devTools.length / 10) * 10}+`;
 export function getTool(slug: string) {
   return devTools.find((t) => t.slug === slug);
 }
+
+/**
+ * Tool → companion blog guide (blog slug). Consolidates topical authority by
+ * linking each tool page to its how-to guide (the guides already link back).
+ */
+export const TOOL_GUIDES: Record<string, string> = {
+  "jwt-decoder": "how-to-decode-a-jwt",
+  "image-to-text": "how-to-extract-text-from-an-image",
+  "pdf-to-word": "how-to-convert-pdf-to-word",
+  "csv-to-xlsx": "how-to-convert-csv-to-excel",
+  "merge-pdf": "how-to-merge-pdf-files-free",
+  "pdf-to-images": "how-to-convert-pdf-to-jpg",
+  "bulk-image-converter": "how-to-bulk-convert-and-resize-images",
+  "compress-pdf": "how-to-compress-a-pdf",
+  "url-to-pdf": "how-to-save-a-webpage-as-pdf",
+  "heic-to-jpg": "how-to-convert-heic-to-jpg",
+  "word-to-pdf": "how-to-convert-word-to-pdf",
+  "excel-to-pdf": "how-to-convert-excel-to-pdf",
+  "powerpoint-to-pdf": "how-to-convert-powerpoint-to-pdf",
+  "compress-image": "how-to-compress-an-image",
+  "crop-image": "how-to-crop-an-image-online",
+  "audio-converter": "how-to-convert-audio-to-mp3",
+  "enhance-audio": "how-to-remove-background-noise-from-audio",
+  "pdf-to-pptx": "how-to-convert-pdf-to-powerpoint",
+  "html-to-pdf": "how-to-convert-html-to-pdf",
+  "svg-to-png": "how-to-convert-svg-to-png",
+  "json-xml": "how-to-convert-json-to-xml",
+  "markdown-to-pdf": "how-to-convert-markdown-to-pdf",
+  "json-formatter": "how-to-format-and-validate-json",
+  "password-generator": "how-to-create-a-strong-password",
+  base64: "what-is-base64-encoding",
+  "ai-humanizer": "how-to-humanize-ai-text",
+  "qr-scanner": "how-to-scan-a-qr-code",
+  "meme-generator": "how-to-make-a-meme",
+  "invoice-generator": "how-to-make-a-free-invoice",
+  "time-calculator": "how-to-add-and-subtract-time",
+  "color-picker-from-image": "how-to-get-hex-color-from-image",
+  "image-to-svg": "how-to-convert-image-to-svg",
+  "unlock-pdf": "how-to-unlock-a-pdf",
+  "protect-pdf": "how-to-password-protect-a-pdf",
+  "online-notepad": "free-online-notepad",
+  "business-name-generator": "how-to-come-up-with-a-business-name",
+  "pomodoro-timer": "what-is-the-pomodoro-technique",
+  "cidr-calculator": "cidr-subnet-cheat-sheet",
+  "remove-background": "how-to-remove-image-background",
+  "qr-code": "how-to-add-a-logo-to-a-qr-code",
+  "css-minifier": "how-to-minify-css-javascript-html",
+  "js-minifier": "how-to-minify-css-javascript-html",
+  "html-minifier": "how-to-minify-css-javascript-html",
+  "jpg-to-webp": "how-to-convert-image-to-webp",
+};
 
 /**
  * Curated "most-used" tools for the fast-path strip at the top of /tools.

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
-import { getTool, getToolCategory, categoryPathForTool, type DevTool } from "@/modules/tools/registry";
+import { getTool, getToolCategory, categoryPathForTool, TOOL_GUIDES, type DevTool } from "@/modules/tools/registry";
+import { posts } from "@/modules/blog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
@@ -22,6 +23,10 @@ export function ToolShell({
 
   const category = getToolCategory(tool.slug);
   const categoryPath = categoryPathForTool(tool.slug);
+
+  // Companion how-to guide (consolidates topical authority; the guide links back).
+  const guideSlug = TOOL_GUIDES[tool.slug];
+  const guide = guideSlug ? posts.find((p) => p.slug === guideSlug) : undefined;
   const crumbs = [
     { name: "Home", item: `${siteUrl}/` },
     { name: "Tools", item: `${siteUrl}/tools` },
@@ -149,6 +154,22 @@ export function ToolShell({
           ))}
         </div>
       </section>
+
+      {/* Companion guide */}
+      {guide && (
+        <section className="mt-12">
+          <Link
+            href={`/blog/${guide.slug}`}
+            className="group flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
+          >
+            <div>
+              <div className="text-xs uppercase tracking-wide text-muted-foreground">Read the guide</div>
+              <div className="mt-0.5 font-heading font-medium">{guide.title}</div>
+            </div>
+            <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </section>
+      )}
 
       {/* Related tools */}
       {related.length > 0 && (
