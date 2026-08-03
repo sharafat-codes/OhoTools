@@ -2679,21 +2679,20 @@ const baseDevTools: DevTool[] = [
   {
     slug: "csv-to-xlsx",
     name: "CSV to Excel",
-    tagline: "Convert a CSV file to an Excel spreadsheet.",
+    tagline: "Convert a CSV file to an Excel spreadsheet — free.",
     description:
-      "Convert CSV to Excel (XLSX) online. Turn a comma-separated file into a proper .xlsx spreadsheet with columns ready to sort and filter. An OhoTool Pro tool.",
+      "Free CSV to Excel (XLSX) converter. Turn a comma-separated file into a proper .xlsx spreadsheet with columns ready to sort and filter. No sign-up, no upload — it runs entirely in your browser.",
     keywords: ["csv to excel", "csv to xlsx", "convert csv to excel", "csv to spreadsheet", "open csv in excel"],
     icon: FileSpreadsheetIcon,
     intro:
-      "Turn a raw CSV file into a real Excel spreadsheet (.xlsx) — with the data split into proper columns you can sort, filter, and format. The file is processed securely on our server and deleted right after.",
-    steps: ["Choose your CSV file.", "Click Convert to Excel.", "Download the .xlsx spreadsheet."],
+      "Turn a raw CSV file into a real Excel spreadsheet (.xlsx) — with the data split into proper columns you can sort, filter, and format, and numbers stored as real numbers. It's free with no sign-up, and it runs entirely in your browser, so your file is never uploaded.",
+    steps: ["Drop or choose your CSV file.", "It converts to Excel automatically.", "Download the .xlsx spreadsheet."],
     faqs: [
-      { q: "Why convert CSV to XLSX?", a: "CSV is just plain text; XLSX is a full Excel workbook with typed cells, formatting, and multiple sheets. Converting makes the data easier to work with in Excel." },
-      { q: "Is my file kept?", a: "No — it's processed on our server only to perform the conversion, then deleted." },
+      { q: "Is it really free with no sign-up?", a: "Yes — the conversion happens right in your browser, so it's completely free with no account and no watermark." },
+      { q: "Are my files uploaded?", a: "No — your CSV is read and converted locally in your browser and never leaves your device." },
+      { q: "Why convert CSV to XLSX?", a: "CSV is just plain text; XLSX is a full Excel workbook with typed cells. Converting stores numbers as numbers and makes the data easier to sort, filter, and format in Excel." },
     ],
     related: ["xlsx-to-csv", "excel-to-pdf", "json-to-csv"],
-    pro: true,
-    serverSide: true,
   },
   {
     slug: "xlsx-to-csv",

@@ -10,7 +10,7 @@ Site: https://ohotool.com
 
 ## Positioning (lead with these hooks)
 
-- **Breadth** — 130+ tools in one place (vs. sketchy single-tool sites).
+- **Breadth** — 200+ tools in one place (vs. sketchy single-tool sites).
 - **Privacy** — most tools run entirely in your browser; files never uploaded.
 - **Free & no sign-up.**
 - **20+ AI writing tools** (free daily, unlimited on Pro).
@@ -20,14 +20,14 @@ Site: https://ohotool.com
 ## Reusable blurbs (copy-paste)
 
 **Tagline (≤60 chars):**
-- `130+ free online tools, right in your browser`
+- `200+ free online tools, right in your browser`
 - `Every online tool you need — free & private`
 
 **One-liner:**
-> OhoTool is a free toolbox of 130+ browser-based tools — PDF, image, audio, video, text, AI writing, and QR — most running entirely on your device, no sign-up.
+> OhoTool is a free toolbox of 200+ browser-based tools — PDF, image, audio, video, text, AI writing, and QR — most running entirely on your device, no sign-up.
 
 **Medium (directory / Product Hunt description):**
-> OhoTool puts 130+ everyday tools in one clean place: convert and edit PDFs, images, audio and video; format code and text; crunch numbers; generate QR codes; and write with AI. Most tools run entirely in your browser — your files never leave your device, and there's no sign-up. Free, fast, and private.
+> OhoTool puts 200+ everyday tools in one clean place: convert and edit PDFs, images, audio and video; format code and text; crunch numbers; generate QR codes; and write with AI. Most tools run entirely in your browser — your files never leave your device, and there's no sign-up. Free, fast, and private.
 
 **AI-directory version:**
 > OhoTool's AI suite has 20+ writing tools — summarizer, paraphraser, humanizer, translator, grammar checker, email writer, cover-letter and resume-summary generators, product descriptions, captions, headlines, and more. Free daily use, unlimited on Pro.
@@ -37,7 +37,7 @@ Site: https://ohotool.com
 ## Product Hunt launch
 
 - **Name:** OhoTool
-- **Tagline:** `130+ free online tools, right in your browser`
+- **Tagline:** `200+ free online tools, right in your browser`
 - **Topics:** Productivity, Design Tools, Artificial Intelligence, SaaS, Tech
 - **Link:** https://ohotool.com
 - **Gallery (5–6 images):** homepage tools-wall · the ⌘K search · a PDF tool mid-use (merge/compress) · AI Humanizer before/after · Invoice Generator · a light + dark shot.
@@ -45,7 +45,7 @@ Site: https://ohotool.com
 
 > Hi Product Hunt! 👋 I built OhoTool because I was tired of hopping between a dozen ad-filled, sign-up-walled single-tool sites just to merge a PDF or convert an image.
 >
-> OhoTool is 130+ tools in one clean place — and the key part: **most run entirely in your browser, so your files never get uploaded anywhere.** No ads, no account needed.
+> OhoTool is 200+ tools in one clean place — and the key part: **most run entirely in your browser, so your files never get uploaded anywhere.** No ads, no account needed.
 >
 > Recent additions: a 20+ tool AI writing suite, audio/video tools, image editing, timers, and an invoice generator.
 >
@@ -64,7 +64,7 @@ Site: https://ohotool.com
 | AlternativeTo | alternativeto.net | Add OhoTool as an alternative to **Smallpdf, iLovePDF, TinyPNG, QuillBot** |
 | SaaSHub | saashub.com | Submit product |
 | There's An AI For That | theresanaiforthat.com | Submit the AI suite → `/tools/ai` |
-| Hacker News | news.ycombinator.com | `Show HN: OhoTool – 130+ free, private browser tools` |
+| Hacker News | news.ycombinator.com | `Show HN: OhoTool – 200+ free, private browser tools` |
 | Reddit | r/InternetIsBeautiful, r/SideProject | Genuine post; lead with privacy + breadth |
 
 ### Tier 2
@@ -102,10 +102,10 @@ Site: https://ohotool.com
 
 ## Show HN (news.ycombinator.com/submit)
 **URL field:** `https://ohotool.com`
-**Title:** `Show HN: OhoTool – 130+ free browser tools that don't upload your files`
+**Title:** `Show HN: OhoTool – 200+ free browser tools that don't upload your files`
 **First comment (post right after submitting):**
 
-> I got tired of bouncing between a dozen single-purpose tool sites — each with ads, an upload step, and a sign-up wall — just to merge a PDF or convert an image. So I built OhoTool: 130+ everyday tools in one place.
+> I got tired of bouncing between a dozen single-purpose tool sites — each with ads, an upload step, and a sign-up wall — just to merge a PDF or convert an image. So I built OhoTool: 200+ everyday tools in one place.
 >
 > The part I care about most: most of them run **entirely client-side** — PDF merge/split/compress (pdf-lib + pdf.js), image convert/resize/compress/crop (canvas), audio/video convert & trim (ffmpeg.wasm), plus the usual dev/text/calculator utilities. Files never leave the browser, and most tools need no account.
 >
@@ -114,7 +114,7 @@ Site: https://ohotool.com
 > Stack: Next.js (App Router) + client-side wasm where possible, on Vercel. Happy to get into the client-side tradeoffs. Feedback very welcome — especially which tools are missing or where the UX trips up.
 
 ## r/SideProject
-**Title:** `I built 130+ free online tools that run in your browser (no uploads, no sign-up)`
+**Title:** `I built 200+ free online tools that run in your browser (no uploads, no sign-up)`
 **Body:**
 
 > Hey r/SideProject 👋
@@ -129,7 +129,7 @@ Site: https://ohotool.com
 
 ## r/InternetIsBeautiful
 *(Rule: descriptive title, no "I made"; disclose you're the maker in a comment.)*
-**Title:** `A collection of 130+ free online tools that run in your browser without uploading your files`
+**Title:** `A collection of 200+ free online tools that run in your browser without uploading your files`
 **URL:** `https://ohotool.com`
 **First comment (required disclosure):**
 
@@ -138,7 +138,7 @@ Site: https://ohotool.com
 ## r/webdev — Showoff Saturday (only in the weekly thread)
 **Comment:**
 
-> **OhoTool** — 130+ browser tools, most running client-side: pdf-lib + pdf.js for PDFs, canvas for images, ffmpeg.wasm for audio/video, the rest are text/dev/calculator utilities. Next.js App Router on Vercel; files never leave the browser. Free. Feedback on the wasm-heavy approach welcome → https://ohotool.com
+> **OhoTool** — 200+ browser tools, most running client-side: pdf-lib + pdf.js for PDFs, canvas for images, ffmpeg.wasm for audio/video, the rest are text/dev/calculator utilities. Next.js App Router on Vercel; files never leave the browser. Free. Feedback on the wasm-heavy approach welcome → https://ohotool.com
 
 ## Directory blurb (AlternativeTo / SaaSHub / etc.)
 Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as an alternative to **Smallpdf, iLovePDF, TinyPNG, QuillBot**. Deep-link the homepage; add specific tools where the form allows.
@@ -154,7 +154,7 @@ Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as
 **Personal profile:**
 > For the last few months I've been quietly building something 👇
 >
-> **OhoTool** — 130+ free online tools in one place: convert PDFs, edit images, trim audio & video, write with AI, make QR codes, and more.
+> **OhoTool** — 200+ free online tools in one place: convert PDFs, edit images, trim audio & video, write with AI, make QR codes, and more.
 >
 > The best part: most run **right in your browser**, so your files are never uploaded anywhere. No ads, no sign-up.
 >
@@ -164,13 +164,13 @@ Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as
 **Shorter / shareable:**
 > Ever need to merge a PDF, shrink an image, or convert a video — and end up on some sketchy site full of ads? I built the fix.
 >
-> **OhoTool** = 130+ free tools in one place, most running right in your browser (nothing uploaded). Free, no sign-up 👇
+> **OhoTool** = 200+ free tools in one place, most running right in your browser (nothing uploaded). Free, no sign-up 👇
 > https://ohotool.com
 >
 > Would mean a lot if you shared it 🙌
 
 **For groups (value-first — check the group's rules/promo day):**
-> Sharing in case it's useful to anyone here: I built **OhoTool**, 130+ free online tools (PDF, image, audio/video, AI writing, QR). Most run in your browser so nothing gets uploaded — free, no sign-up: https://ohotool.com. Happy to add tools people actually want.
+> Sharing in case it's useful to anyone here: I built **OhoTool**, 200+ free online tools (PDF, image, audio/video, AI writing, QR). Most run in your browser so nothing gets uploaded — free, no sign-up: https://ohotool.com. Happy to add tools people actually want.
 
 **FB tips:** first line is the hook (shows before "See more") · add a screenshot/image · link in first comment ("link in comments 👇") · ask for shares/tags · post in relevant groups (web dev, indie makers, Shopify/ecommerce, students, digital marketing, PK tech/freelancer).
 
@@ -190,10 +190,29 @@ Use the **Medium** blurb from the top of this file. On AlternativeTo, list it as
 **4) Story / Reel (9:16):**
 > Vertical 9:16 (1080×1920) story background. Bold gradient from deep violet (#6D28D9) top to purple (#A855F7) bottom, subtle floating 3D tool icons (document, image, sound wave, QR, sparkle) with depth-of-field blur. Large clear center area for a headline + CTA. Energetic app-launch vibe. No text or letters.
 
-**Headlines to overlay:** `130+ free online tools` · `All in your browser. Nothing uploaded.` · `Convert · Edit · Create — free` · `Now with 20+ AI writing tools`
+**Headlines to overlay:** `200+ free online tools` · `All in your browser. Nothing uploaded.` · `Convert · Edit · Create — free` · `Now with 20+ AI writing tools`
 
 **Caption + hashtags:**
-> Stop bouncing between sketchy tool sites 🙅 OhoTool = 130+ free tools in one place — PDF, image, audio, video, AI writing & QR — most running right in your browser, so nothing gets uploaded. Free, no sign-up. Try it → ohotool.com
+> Stop bouncing between sketchy tool sites 🙅 OhoTool = 200+ free tools in one place — PDF, image, audio, video, AI writing & QR — most running right in your browser, so nothing gets uploaded. Free, no sign-up. Try it → ohotool.com
 > #freetools #onlinetools #pdftools #productivity #webtools #aitools #nocode #buildinpublic
 
 **Sizes:** IG feed 1080×1080 (1:1) or 1080×1350 (4:5) · IG story/reel 1080×1920 (9:16) · FB feed 1200×630 or square.
+
+---
+
+# Priority pages + targeted sources (from the SEO audit, 2026-08)
+
+GSC shows these pages already earn impressions but sit at ~position 72 — they're the ones worth pointing links at. Deep-link the **exact** page. The audit's verdict per cluster tells you *which lever* actually works:
+
+| Page | Query it's earning on | Verdict | Best link source |
+|---|---|---|---|
+| `/tools/jwt-decoder` | jwt decode / jwt decoder | Authority (vs jwt.io) | `awesome-jwt`, `awesome-devtools` GitHub lists; a dev.to "privacy-first JWT decoder" post; Stack Overflow answers on decoding JWTs — lead with **"runs in your browser, token never sent to a server."** |
+| `/tools/csv-to-xlsx` | csv to excel | ✅ now free/client-side | Reddit r/excel help threads; dev.to; "free csv to excel no signup" answers on Quora/SO — the wall is gone, so it now matches intent. |
+| `/tools/word-frequency` | keyword frequency counter | **Most winnable** (no big brands) | SEO subreddits (r/SEO, r/juststart), SEO tool roundups, "keyword density checker" listicles — now framed for SEO. |
+| `/tools/image-to-text` | extract text from image / ocr | Content-gap + moderate authority | r/productivity, "best free OCR" roundups, dev.to; call out the format list + privacy. |
+| `/tools/pdf-to-word` | convert pdf to editable word | Authority (vs Adobe) — **hardest** | Only pursue after a free-tier decision; then general "free PDF tools" roundups. |
+| `/tools/developer` | free online developer tools | Authority + breadth | `awesome-*` GitHub lists, dev.to, Hacker News — this SERP rewards being *cited* across the dev web. |
+
+**Tactic that needs zero outreach:** get OhoTool (and specific tools) added to **"awesome" GitHub lists** — open a PR to `awesome-devtools`, `awesome-selfhosted`-style tool lists, `public-apis`-adjacent tool collections, and niche ones (awesome-jwt, awesome-ocr). These are trusted, followed, and often syndicated — the single highest-ROI link type for a dev-tools site.
+
+**Now-unblocked:** `csv-to-xlsx` is free & client-side (no more signup wall), so it finally matches what every competitor promises — prioritize its links.
