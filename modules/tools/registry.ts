@@ -1,9 +1,11 @@
 import {
   BracesIcon,
   BinaryIcon,
+  Disc3Icon,
   FingerprintIcon,
   GitCommitVerticalIcon,
   KeyRoundIcon,
+  ShuffleIcon,
   TypeIcon,
   CaseSensitiveIcon,
   FileKey2Icon,
@@ -120,6 +122,7 @@ import type { Metadata } from "next";
 
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { conversionTools, conversionSlugs } from "@/modules/tools/conversions";
+import { imageFormatTools, imageFormatSlugs } from "@/modules/tools/image-formats";
 
 export type ToolFaq = { q: string; a: string };
 
@@ -3177,12 +3180,82 @@ const baseDevTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+
+  // --- Random & fun (client-side, no sign-up) ---
+  {
+    slug: "coin-flip",
+    name: "Coin Flip",
+    tagline: "Flip a virtual coin — heads or tails.",
+    description:
+      "Free online coin flip. Flip a virtual coin for a fair heads-or-tails result, with a running tally. Instant, private, and free — no sign-up.",
+    keywords: ["coin flip", "flip a coin", "heads or tails", "coin toss", "online coin flip"],
+    icon: CoinsIcon,
+    intro:
+      "Flip a virtual coin for a quick, fair heads-or-tails decision. Each flip is random, and the tool keeps a running tally of heads and tails. Runs entirely in your browser.",
+    steps: ["Click Flip the coin.", "See heads or tails.", "Keep flipping — the tally updates automatically."],
+    faqs: [
+      { q: "Is the coin flip fair?", a: "Yes — each flip has an equal 50/50 chance of heads or tails, generated randomly in your browser." },
+      { q: "Can I flip more than once?", a: "Yes — flip as many times as you like; the tool tracks how many heads and tails you've had." },
+    ],
+    related: ["dice-roller", "random-picker", "spin-the-wheel"],
+  },
+  {
+    slug: "dice-roller",
+    name: "Dice Roller",
+    tagline: "Roll virtual dice — d4 to d20.",
+    description:
+      "Free online dice roller. Roll one or more virtual dice (d4, d6, d8, d10, d12, d20) and see each result and the total. Great for board games and tabletop RPGs. Free, no sign-up.",
+    keywords: ["dice roller", "roll dice online", "virtual dice", "d20 roller", "dice simulator"],
+    icon: DicesIcon,
+    intro:
+      "Roll virtual dice for board games, D&D, or any decision. Choose how many dice and how many sides (d4 through d20) and see every result plus the total. Runs entirely in your browser.",
+    steps: ["Pick the number of dice and sides.", "Click Roll dice.", "Read each die and the total."],
+    faqs: [
+      { q: "Which dice can I roll?", a: "Standard polyhedral dice: d4, d6, d8, d10, d12, and d20 — roll up to 12 at once." },
+      { q: "Are the rolls random?", a: "Yes — every roll is generated randomly in your browser, so results are fair and unpredictable." },
+    ],
+    related: ["coin-flip", "random-number-generator", "spin-the-wheel"],
+  },
+  {
+    slug: "spin-the-wheel",
+    name: "Spin the Wheel",
+    tagline: "Add names and spin to pick a winner.",
+    description:
+      "Free spin the wheel — a random name picker wheel. Add names or options, spin, and land on a random winner. Perfect for giveaways, classrooms, and decisions. Free, no sign-up.",
+    keywords: ["spin the wheel", "wheel of names", "random name picker wheel", "spinner wheel", "picker wheel"],
+    icon: Disc3Icon,
+    intro:
+      "Add names or options, hit spin, and let the wheel land on a random winner. Great for giveaways, picking who goes first, classroom activities, or settling a decision. Everything runs in your browser.",
+    steps: ["Type your entries, one per line.", "Click Spin.", "The wheel lands on a random winner."],
+    faqs: [
+      { q: "How many entries can I add?", a: "As many as you like — each entry becomes a slice of the wheel. Add at least two to spin." },
+      { q: "Is the winner truly random?", a: "Yes — the winning slice is chosen randomly in your browser, and the wheel animates to it." },
+    ],
+    related: ["random-picker", "coin-flip", "dice-roller"],
+  },
+  {
+    slug: "random-picker",
+    name: "Random Picker",
+    tagline: "Pick a random name or item from a list.",
+    description:
+      "Free random picker / name picker. Paste a list and pick a random winner, with an option to remove picks so there are no repeats. Great for raffles and giveaways. Free, no sign-up.",
+    keywords: ["random picker", "random name picker", "name picker", "raffle picker", "random choice generator"],
+    icon: ShuffleIcon,
+    intro:
+      "Paste a list of names or items and pick a random winner instantly. Turn on 'remove after picking' to draw a raffle with no repeats. Runs entirely in your browser — nothing is uploaded.",
+    steps: ["Paste your list, one item per line.", "Click Pick random.", "See the winner — repeat for more draws."],
+    faqs: [
+      { q: "Can I avoid picking the same item twice?", a: "Yes — enable 'Remove after picking' and each winner is removed from the list, so there are no repeats." },
+      { q: "Is my list uploaded anywhere?", a: "No — picking happens entirely in your browser, so your list never leaves your device." },
+    ],
+    related: ["spin-the-wheel", "coin-flip", "dice-roller"],
+  },
 ];
 
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
 // °C↔°F, …). Conversions are appended so search, categories, the sitemap, and
 // metadata pick them up automatically.
-export const devTools: DevTool[] = [...baseDevTools, ...conversionTools];
+export const devTools: DevTool[] = [...baseDevTools, ...conversionTools, ...imageFormatTools];
 
 /** Exact number of tools. */
 export const TOOL_COUNT = devTools.length;
@@ -3356,6 +3429,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Converters",
     blurb: "Transform between formats.",
     slugs: [
+      ...imageFormatSlugs,
       "unit-converter",
       "timezone-converter",
       "currency-converter",
@@ -3473,6 +3547,10 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "random-number-generator",
       "uuid-generator",
       "hash-generator",
+      "spin-the-wheel",
+      "random-picker",
+      "coin-flip",
+      "dice-roller",
     ],
   },
 ];
