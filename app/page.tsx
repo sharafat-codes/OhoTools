@@ -353,11 +353,17 @@ export default async function Home() {
                 );
               })}
             </div>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-col items-center gap-2">
               <Button variant="outline" render={<Link href="/tools" />}>
                 See all {devTools.length} tools
                 <ArrowRightIcon />
               </Button>
+              <p className="text-sm text-muted-foreground">
+                Don&apos;t see what you need?{" "}
+                <Link href="/request-tool" className="font-medium text-primary hover:underline">
+                  Request a tool →
+                </Link>
+              </p>
             </div>
           </div>
         </section>
@@ -580,6 +586,7 @@ export default async function Home() {
             <Link href="/tools" className="hover:text-foreground">Tools</Link>
             <a href="#pricing" className="hover:text-foreground">Pricing</a>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
+            <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
             <Link href="/refunds" className="hover:text-foreground">Refunds</Link>

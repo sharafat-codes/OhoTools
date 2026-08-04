@@ -21,6 +21,7 @@ export default async function ToolsLayout({
           <div className="flex gap-4 text-xs">
             <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
+            <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
             <Link href="/refunds" className="hover:text-foreground">Refunds</Link>

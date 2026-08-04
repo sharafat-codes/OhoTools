@@ -21,6 +21,7 @@ export default async function FilesLayout({
           <div className="flex gap-4 text-xs">
             <Link href="/tools" className="hover:text-foreground">Tools</Link>
             <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
+            <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
           </div>
