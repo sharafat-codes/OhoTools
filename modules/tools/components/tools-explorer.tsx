@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SearchIcon, ArrowRightIcon, XIcon } from "lucide-react";
+import { SearchIcon, ArrowRightIcon, XIcon, WandSparklesIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -223,15 +223,22 @@ export function ToolsExplorer({
             </div>
           </div>
         ) : (
-          <div className="py-12 text-center">
+          <div className="flex flex-col items-center gap-3 py-12 text-center">
             <p className="text-sm text-muted-foreground">No tools match “{query}”.</p>
+            <Link
+              href={`/request-tool?q=${encodeURIComponent(query)}`}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <WandSparklesIcon className="size-4" />
+              Request “{query.length > 30 ? query.slice(0, 30) + "…" : query}”
+            </Link>
             <button
               type="button"
               onClick={() => {
                 changeQuery("");
                 setCat("all");
               }}
-              className="mt-2 text-sm font-medium text-primary hover:underline"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               Clear search
             </button>
@@ -299,6 +306,15 @@ export function ToolsExplorer({
           })}
         </div>
       )}
+
+      {/* Missing-a-tool prompt — turns unmet demand into roadmap signal */}
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5 rounded-xl border border-dashed border-border py-4 text-sm text-muted-foreground">
+        Missing a tool you need?
+        <Link href="/request-tool" className="inline-flex items-center gap-1 font-medium text-primary hover:underline">
+          Request it
+          <ArrowRightIcon className="size-3.5" />
+        </Link>
+      </div>
     </div>
   );
 }
