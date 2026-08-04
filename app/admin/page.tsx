@@ -10,13 +10,48 @@ import {
   BarChart3Icon,
   KeyIcon,
   CreditCardIcon,
+  type LucideIcon,
 } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
+import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { MiniBarChart } from "@/modules/admin/components/mini-bar-chart";
 
 export const metadata: Metadata = { title: "Admin — Overview" };
+
+function Stat({
+  label,
+  value,
+  hint,
+  icon: Icon,
+  big,
+}: {
+  label: string;
+  value: number;
+  hint?: string;
+  icon: LucideIcon;
+  big?: boolean;
+}) {
+  return (
+    <Card>
+      <CardContent className={big ? "py-5" : "py-3.5"}>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">{label}</span>
+          <Icon className="size-4 text-muted-foreground" />
+        </div>
+        <div className={cn("mt-2 font-heading font-semibold tabular-nums", big ? "text-4xl" : "text-2xl")}>
+          {value.toLocaleString()}
+        </div>
+        {hint && <div className="mt-0.5 text-xs text-muted-foreground">{hint}</div>}
+      </CardContent>
+    </Card>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <h2 className="mb-3 mt-8 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{children}</h2>;
+}
 
 export default async function AdminOverviewPage() {
   const nowMs = new Date().getTime();
@@ -113,21 +148,22 @@ export default async function AdminOverviewPage() {
   const signupsTotal = signupsSeries.reduce((a, b) => a + b.value, 0);
   const viewsTotal = viewsSeries.reduce((a, b) => a + b.value, 0);
 
-  const stats = [
-    { label: "Total users", value: totalUsers, icon: UsersIcon },
-    { label: "Pro users", value: proUsers, icon: SparklesIcon, hint: `${conversion}% of users` },
-    { label: "Active subscriptions", value: activeSubs, icon: CreditCardIcon, hint: `~$${mrr}/mo` },
+  const traffic = [
     { label: "New (7 days)", value: new7, icon: UserPlusIcon },
     { label: "New (30 days)", value: new30, icon: UserPlusIcon },
+    { label: "Tool views (7d)", value: views7, icon: BarChart3Icon },
+    { label: "Tool views (30d)", value: views30, icon: BarChart3Icon },
+  ];
+  const contentApi = [
+    { label: "AI runs (30d)", value: aiRuns30, icon: SparklesIcon },
+    { label: "API calls (total)", value: apiCalls, icon: ZapIcon },
+    { label: "API keys", value: apiKeys, icon: KeyIcon },
+  ];
+  const qr = [
     { label: "QR codes", value: qrCodes, icon: QrCodeIcon },
     { label: "Barcodes", value: barcodes, icon: ScanBarcodeIcon },
     { label: "Dynamic links", value: dynamicLinks, icon: ZapIcon },
     { label: "Total scans", value: totalScans, icon: BarChart3Icon },
-    { label: "API keys", value: apiKeys, icon: KeyIcon },
-    { label: "Tool views (7d)", value: views7, icon: BarChart3Icon },
-    { label: "Tool views (30d)", value: views30, icon: BarChart3Icon },
-    { label: "AI runs (30d)", value: aiRuns30, icon: SparklesIcon },
-    { label: "API calls (total)", value: apiCalls, icon: ZapIcon },
   ];
 
   return (
@@ -142,29 +178,38 @@ export default async function AdminOverviewPage() {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {stats.map((s) => {
-          const Icon = s.icon;
-          return (
-            <Card key={s.label}>
-              <CardContent className="py-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">{s.label}</span>
-                  <Icon className="size-4 text-muted-foreground" />
-                </div>
-                <div className="mt-2 font-heading text-3xl font-semibold tabular-nums">
-                  {s.value.toLocaleString()}
-                </div>
-                {s.hint && <div className="mt-0.5 text-xs text-muted-foreground">{s.hint}</div>}
-              </CardContent>
-            </Card>
-          );
-        })}
+      {/* Headline KPIs */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Stat big label="Total users" value={totalUsers} icon={UsersIcon} />
+        <Stat big label="Pro users" value={proUsers} icon={SparklesIcon} hint={`${conversion}% of users`} />
+        <Stat big label="Active subscriptions" value={activeSubs} icon={CreditCardIcon} hint={`~$${mrr}/mo`} />
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      {/* Trends */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <MiniBarChart title="New signups · 14 days" total={signupsTotal} data={signupsSeries} />
         <MiniBarChart title="Tool views · 14 days" total={viewsTotal} data={viewsSeries} />
+      </div>
+
+      <SectionLabel>Traffic</SectionLabel>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {traffic.map((s) => (
+          <Stat key={s.label} {...s} />
+        ))}
+      </div>
+
+      <SectionLabel>Content &amp; API</SectionLabel>
+      <div className="grid gap-3 sm:grid-cols-3">
+        {contentApi.map((s) => (
+          <Stat key={s.label} {...s} />
+        ))}
+      </div>
+
+      <SectionLabel>QR &amp; barcodes</SectionLabel>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {qr.map((s) => (
+          <Stat key={s.label} {...s} />
+        ))}
       </div>
 
       {recentUsers.length > 0 && (
