@@ -7,6 +7,7 @@ import {
   FingerprintIcon,
   GitCommitVerticalIcon,
   IdCardIcon,
+  ImageUpscaleIcon,
   KeyRoundIcon,
   ShuffleIcon,
   TerminalIcon,
@@ -3430,6 +3431,24 @@ const baseDevTools: DevTool[] = [
     pro: true,
     serverSide: true,
   },
+  {
+    slug: "image-upscaler",
+    name: "AI Image Upscaler",
+    tagline: "Upscale and sharpen images 2× with AI.",
+    description:
+      "Free AI image upscaler. Increase image resolution 2× and sharpen details with an on-device AI model — great for small or blurry photos. No upload, no sign-up; runs in your browser.",
+    keywords: ["image upscaler", "ai image upscaler", "upscale image", "enhance photo", "increase image resolution", "upscale image free"],
+    icon: ImageUpscaleIcon,
+    intro:
+      "Make small or low-resolution images bigger and sharper. This AI upscaler doubles the resolution and reconstructs detail using a super-resolution model that runs entirely on your device — your image is never uploaded. The model downloads once on first use; larger images take longer and use more memory.",
+    steps: ["Upload an image.", "Click Upscale 2× and wait as the model processes it.", "Compare before/after and download the result."],
+    faqs: [
+      { q: "Is it really free and private?", a: "Yes — the upscaling runs in your browser on your own device, so it's free with no sign-up and your image is never uploaded to a server." },
+      { q: "How much does it enlarge?", a: "It upscales by 2× (e.g., 500×500 → 1000×1000) while reconstructing detail, which looks far better than a plain resize." },
+      { q: "Why is the first run slow?", a: "The AI model (a few MB) downloads once and then is cached. Processing time also depends on the image size and your device — a GPU makes it much faster." },
+    ],
+    related: ["remove-background", "compress-image", "image-resizer"],
+  },
 ];
 
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
@@ -3618,7 +3637,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Image Editing",
     blurb: "Crop, rotate, add text, and more — in your browser.",
-    slugs: ["crop-image", "rotate-image", "circle-crop", "passport-photo-maker", "add-text-to-image", "meme-generator", "color-picker-from-image", "remove-background", "image-to-ico"],
+    slugs: ["remove-background", "image-upscaler", "crop-image", "rotate-image", "circle-crop", "passport-photo-maker", "add-text-to-image", "meme-generator", "color-picker-from-image", "image-to-ico"],
   },
   {
     name: "Productivity",
