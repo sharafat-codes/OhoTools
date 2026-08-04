@@ -33,6 +33,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/tools`, lastModified, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/send`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${siteUrl}/developers`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${siteUrl}/request-tool`, lastModified, changeFrequency: "monthly", priority: 0.5 },
     ...categoryHubs,
     ...toolPages,
     { url: `${siteUrl}/blog`, lastModified, changeFrequency: "weekly", priority: 0.7 },
