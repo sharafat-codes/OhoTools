@@ -2,6 +2,9 @@ import { requireUser, isAdmin } from "@/lib/dal";
 import { AppSidebar } from "@/modules/dashboard/components/app-sidebar";
 import { Topbar } from "@/modules/dashboard/components/topbar";
 
+// Private user area — never index (also robots-disallowed).
+export const metadata = { robots: { index: false, follow: false } };
+
 export default async function DashboardLayout({
   children,
 }: {

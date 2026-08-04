@@ -1,6 +1,9 @@
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 
+// Auth pages are thin and duplicative — keep them out of the index.
+export const metadata = { robots: { index: false, follow: false } };
+
 export default function AuthLayout({
   children,
 }: {

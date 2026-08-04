@@ -12,6 +12,9 @@ const links = [
   { label: "Users", href: "/admin/users", icon: UsersIcon },
 ];
 
+// Admin area — never index.
+export const metadata = { robots: { index: false, follow: false } };
+
 export default async function AdminLayout({
   children,
 }: {
