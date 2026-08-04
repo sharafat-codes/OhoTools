@@ -30,6 +30,13 @@ export function RecentToolTracker({ slug, name }: { slug: string; name: string }
     } catch {
       /* ignore */
     }
+    // Anonymous usage beacon for the admin analytics dashboard (fire-and-forget).
+    fetch("/api/track", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ slug }),
+      keepalive: true,
+    }).catch(() => {});
   }, [slug, name]);
   return null;
 }

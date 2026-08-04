@@ -242,6 +242,17 @@ model ApiUsage {
   @@map("api_usage")
 }
 
+// Per-tool daily view counter, powering the admin analytics dashboard.
+// `day` is the UTC "YYYY-MM-DD" bucket; rows stay bounded (tools × days).
+model ToolView {
+  slug  String
+  day   String
+  count Int    @default(0)
+
+  @@id([slug, day])
+  @@map("tool_view")
+}
+
 // ─── Phase 3: Billing ────────────────────────────────────────────────────────
 // One active subscription per user. Stripe is the source of truth; this table
 // mirrors it (kept in sync by the webhook). User.plan is the fast-read copy.

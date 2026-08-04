@@ -31,6 +31,7 @@ export default async function AdminOverviewPage() {
     dynamicLinks,
     scanAgg,
     apiKeys,
+    apiCallsAgg,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { plan: "PRO" } }),
@@ -41,10 +42,41 @@ export default async function AdminOverviewPage() {
     prisma.dynamicLink.count(),
     prisma.dynamicLink.aggregate({ _sum: { scanCount: true } }),
     prisma.apiKey.count(),
+    prisma.apiKey.aggregate({ _sum: { usageCount: true } }),
   ]);
 
   const totalScans = scanAgg._sum.scanCount ?? 0;
+  const apiCalls = apiCallsAgg._sum.usageCount ?? 0;
   const conversion = totalUsers > 0 ? ((proUsers / totalUsers) * 100).toFixed(1) : "0";
+
+  // Tool-usage analytics (fails open if the tool_view / ai_usage tables aren't
+  // migrated yet — the rest of the dashboard still renders).
+  const d7s = new Date(nowMs - 7 * 86400000).toISOString().slice(0, 10);
+  const d30s = new Date(nowMs - 30 * 86400000).toISOString().slice(0, 10);
+  let views7 = 0;
+  let views30 = 0;
+  let aiRuns30 = 0;
+  let topTools: { slug: string; count: number }[] = [];
+  try {
+    const [v7, v30, top, ai30] = await Promise.all([
+      prisma.toolView.aggregate({ _sum: { count: true }, where: { day: { gte: d7s } } }),
+      prisma.toolView.aggregate({ _sum: { count: true }, where: { day: { gte: d30s } } }),
+      prisma.toolView.groupBy({
+        by: ["slug"],
+        _sum: { count: true },
+        where: { day: { gte: d30s } },
+        orderBy: { _sum: { count: "desc" } },
+        take: 12,
+      }),
+      prisma.aiUsage.aggregate({ _sum: { count: true }, where: { day: { gte: d30s } } }),
+    ]);
+    views7 = v7._sum.count ?? 0;
+    views30 = v30._sum.count ?? 0;
+    topTools = top.map((t) => ({ slug: t.slug, count: t._sum.count ?? 0 }));
+    aiRuns30 = ai30._sum.count ?? 0;
+  } catch {
+    /* analytics tables not migrated yet */
+  }
 
   const stats = [
     { label: "Total users", value: totalUsers, icon: UsersIcon },
@@ -56,6 +88,10 @@ export default async function AdminOverviewPage() {
     { label: "Dynamic links", value: dynamicLinks, icon: ZapIcon },
     { label: "Total scans", value: totalScans, icon: BarChart3Icon },
     { label: "API keys", value: apiKeys, icon: KeyIcon },
+    { label: "Tool views (7d)", value: views7, icon: BarChart3Icon },
+    { label: "Tool views (30d)", value: views30, icon: BarChart3Icon },
+    { label: "AI runs (30d)", value: aiRuns30, icon: SparklesIcon },
+    { label: "API calls (total)", value: apiCalls, icon: ZapIcon },
   ];
 
   return (
@@ -90,8 +126,32 @@ export default async function AdminOverviewPage() {
         })}
       </div>
 
+      {topTools.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-3 font-heading text-lg font-semibold tracking-tight">Top tools (30 days)</h2>
+          <Card>
+            <CardContent className="py-1">
+              <ol className="divide-y divide-border">
+                {topTools.map((t, i) => (
+                  <li key={t.slug} className="flex items-center justify-between py-2 text-sm">
+                    <span className="flex items-center gap-2">
+                      <span className="w-5 text-right tabular-nums text-muted-foreground">{i + 1}</span>
+                      <Link href={`/tools/${t.slug}`} className="hover:underline">
+                        /tools/{t.slug}
+                      </Link>
+                    </span>
+                    <span className="font-medium tabular-nums">{t.count.toLocaleString()}</span>
+                  </li>
+                ))}
+              </ol>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       <p className="mt-6 text-xs text-muted-foreground">
-        Billing details, refunds, and revenue live in your Stripe dashboard; raw data is in Supabase.
+        Tool views are counted anonymously on this site (no personal data). Billing, refunds, and revenue live in your
+        Stripe dashboard; raw data is in Supabase.
       </p>
     </div>
   );
