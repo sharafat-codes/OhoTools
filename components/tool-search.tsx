@@ -151,9 +151,23 @@ export function ToolSearch({
             </div>
             <div className="max-h-80 overflow-y-auto p-2">
               {results.length === 0 ? (
-                <p className="px-3 py-6 text-center text-sm text-muted-foreground">
-                  {items.length === 0 ? "Loading…" : "No tools found."}
-                </p>
+                <div className="flex flex-col items-center gap-2 px-3 py-6 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    {items.length === 0 ? "Loading…" : "No tools found."}
+                  </p>
+                  {items.length > 0 && q.trim() && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpen(false);
+                        router.push(`/request-tool?q=${encodeURIComponent(q.trim())}`);
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    >
+                      Request “{q.trim().length > 30 ? q.trim().slice(0, 30) + "…" : q.trim()}”
+                    </button>
+                  )}
+                </div>
               ) : (
                 results.map((t, i) => (
                   <button
