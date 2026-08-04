@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "lucide-react";
 
 import { posts } from "@/modules/blog";
 import { Badge } from "@/components/ui/badge";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Blog — Guides & Tutorials",
@@ -20,8 +21,35 @@ function formatDate(iso: string) {
 }
 
 export default function BlogIndexPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        name: "OhoTool Blog",
+        description:
+          "Guides and tutorials on online tools, PDF, images, developer tools, and productivity from the OhoTool team.",
+        url: `${siteUrl}/blog`,
+        blogPost: posts.map((p) => ({
+          "@type": "BlogPosting",
+          headline: p.title,
+          url: `${siteUrl}/blog/${p.slug}`,
+          datePublished: p.date,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <header className="max-w-2xl">
         <p className="text-sm font-medium text-primary">Blog</p>
         <h1 className="mt-2 font-heading text-4xl font-semibold tracking-tight">Guides &amp; tutorials</h1>
