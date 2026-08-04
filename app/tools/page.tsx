@@ -12,6 +12,7 @@ import {
 } from "@/modules/tools/registry";
 import { ToolsExplorer, type ToolGroup, type ToolItem } from "@/modules/tools/components/tools-explorer";
 import { Button } from "@/components/ui/button";
+import { SITE_URL as siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Free Online Tools",
@@ -59,8 +60,37 @@ export default async function ToolsHub({
     tools: cat.slugs.map(toItem).filter((t): t is ToolItem => Boolean(t)),
   }));
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Free Online Tools — OhoTool",
+        description: `${devTools.length} free, browser-based tools for PDF, images, text, code, and more.`,
+        url: `${siteUrl}/tools`,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+          { "@type": "ListItem", position: 2, name: "Tools", item: `${siteUrl}/tools` },
+        ],
+      },
+      {
+        "@type": "ItemList",
+        itemListElement: devTools.map((t, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: t.name,
+          url: `${siteUrl}/tools/${t.slug}`,
+        })),
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
           Free online tools
