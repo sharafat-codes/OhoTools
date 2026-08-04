@@ -6,10 +6,13 @@ import {
   Disc3Icon,
   FingerprintIcon,
   GitCommitVerticalIcon,
+  IdCardIcon,
   KeyRoundIcon,
   ShuffleIcon,
+  TerminalIcon,
   TrendingUpIcon,
   TypeIcon,
+  TypeOutlineIcon,
   WeightIcon,
   CaseSensitiveIcon,
   FileKey2Icon,
@@ -3349,6 +3352,64 @@ const baseDevTools: DevTool[] = [
     ],
     related: ["color-converter", "css-gradient-generator", "color-shades-generator"],
   },
+
+  // --- Text-style & image generators (client-side) ---
+  {
+    slug: "fancy-text-generator",
+    name: "Fancy Text Generator",
+    tagline: "Turn text into 𝓯𝓪𝓷𝓬𝔂 fonts, bold, italic & more.",
+    description:
+      "Free fancy text generator. Turn plain text into 𝐛𝐨𝐥𝐝, 𝑖𝑡𝑎𝑙𝑖𝑐, 𝓼𝓬𝓻𝓲𝓹𝓽, strikethrough and dozens of cool Unicode font styles you can copy-paste into Instagram, TikTok, and bios. Free, instant, in your browser.",
+    keywords: ["fancy text generator", "font generator", "cool text generator", "instagram fonts", "stylish text", "bold text generator"],
+    icon: TypeOutlineIcon,
+    intro:
+      "Turn plain text into dozens of stylish Unicode fonts — 𝐛𝐨𝐥𝐝, 𝑖𝑡𝑎𝑙𝑖𝑐, 𝓈𝒸𝓇𝒾𝓅𝓉, 𝔤𝔬𝔱𝔥𝔦𝔠, 𝕕𝕠𝕦𝕓𝕝𝕖-𝕤𝕥𝕣𝕦𝕔𝕜, strikethrough, underline, and upside-down. They're real Unicode characters, so you can paste them straight into Instagram, TikTok, X, Discord, and most bios. Type once and copy any style.",
+    steps: ["Type or paste your text.", "Browse the generated font styles.", "Tap Copy on the one you like and paste it anywhere."],
+    faqs: [
+      { q: "Will these fonts work on Instagram and TikTok?", a: "Yes — they're standard Unicode characters, not images, so they paste into bios, captions, and posts on most apps. A few apps may not render every style." },
+      { q: "Is it really free?", a: "Completely free with no sign-up. Everything runs in your browser." },
+    ],
+    related: ["case-converter", "ascii-art-generator", "word-counter"],
+  },
+  {
+    slug: "ascii-art-generator",
+    name: "ASCII Art Generator",
+    tagline: "Turn any image into ASCII art.",
+    description:
+      "Free ASCII art generator. Turn a photo or image into text-based ASCII art, adjust the detail, and copy or download it. Runs entirely in your browser — no upload.",
+    keywords: ["ascii art generator", "image to ascii", "photo to ascii art", "ascii art", "text art generator"],
+    icon: TerminalIcon,
+    intro:
+      "Turn any image or photo into ASCII art — a picture made of text characters. Upload an image, adjust the width and contrast, then copy the result or download it as a .txt file. Everything runs in your browser, so your image is never uploaded.",
+    steps: ["Upload an image.", "Adjust the width and, if needed, invert for dark backgrounds.", "Copy the ASCII art or download it as text."],
+    faqs: [
+      { q: "What makes a good ASCII art source?", a: "High-contrast images with a clear subject work best. Increase the width for more detail, or lower it for a chunkier, more classic look." },
+      { q: "Where can I use the result?", a: "Anywhere monospaced text is supported — code comments, README files, terminals, Discord code blocks, and forum posts." },
+    ],
+    related: ["fancy-text-generator", "image-to-text", "meme-generator"],
+  },
+  {
+    slug: "passport-photo-maker",
+    name: "Passport Photo Maker",
+    tagline: "Make a passport-size photo (US, UK, EU, India…).",
+    description:
+      "Free passport photo maker. Crop and resize a photo to standard passport sizes (US 2×2 in, UK/EU 35×45 mm, India, Canada, China) at 300 DPI, and download a single photo or a printable 4×6 sheet. Runs in your browser.",
+    keywords: ["passport photo maker", "passport size photo", "passport photo online", "id photo maker", "2x2 photo", "35x45 photo"],
+    icon: IdCardIcon,
+    intro:
+      "Turn a photo into a passport-size picture. Pick your country's size (US 2×2 in, UK/EU/Schengen 35×45 mm, India, Canada, China), drag and zoom to position your face, and download a print-ready photo at 300 DPI — or a 4×6 inch sheet tiled with multiple copies for cheap printing. Everything runs in your browser.",
+    steps: [
+      "Upload your photo.",
+      "Choose the passport size and drag/zoom to position your face.",
+      "Download a single photo or a 4×6 print sheet.",
+    ],
+    faqs: [
+      { q: "Which sizes are supported?", a: "US (2×2 in), UK/EU/Schengen (35×45 mm), India (35×45 mm), Canada (50×70 mm), and China (33×48 mm) — all exported at 300 DPI for printing." },
+      { q: "Will it meet official requirements?", a: "It gives you the correct size and resolution, but you're responsible for the photo itself — a plain light background, correct head size, neutral expression, and good lighting. Always check your country's official guidelines." },
+      { q: "Are my photos uploaded?", a: "No — cropping and export happen entirely in your browser, so your photo never leaves your device." },
+    ],
+    related: ["crop-image", "circle-crop", "remove-background"],
+  },
 ];
 
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
@@ -3536,7 +3597,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Image Editing",
     blurb: "Crop, rotate, add text, and more — in your browser.",
-    slugs: ["crop-image", "rotate-image", "circle-crop", "add-text-to-image", "meme-generator", "color-picker-from-image", "remove-background", "image-to-ico"],
+    slugs: ["crop-image", "rotate-image", "circle-crop", "passport-photo-maker", "add-text-to-image", "meme-generator", "color-picker-from-image", "remove-background", "image-to-ico"],
   },
   {
     name: "Productivity",
@@ -3673,6 +3734,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Text",
     blurb: "Work with words and strings.",
     slugs: [
+      "fancy-text-generator",
       "word-counter",
       "case-converter",
       "find-replace",
@@ -3697,6 +3759,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "css-gradient-generator",
       "box-shadow-generator",
       "color-shades-generator",
+      "ascii-art-generator",
       "password-generator",
       "random-string",
       "random-number-generator",
