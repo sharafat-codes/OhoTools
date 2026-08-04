@@ -154,3 +154,56 @@ export async function runAiTask(task: string, text: string, options: Options): P
     return { ok: false, status: err.status ?? 500, error: err.message || "AI service error. Please try again." };
   }
 }
+
+// Chat-with-PDF: answer a question grounded in a document's extracted text.
+// The document text is extracted client-side and sent here as context. Capped
+// to keep cost/latency in check (MVP truncates long docs rather than doing RAG).
+const DOC_MAX_CHARS = 60_000;
+
+export async function answerFromDocument(opts: {
+  doc: string;
+  question: string;
+  history?: { role: "user" | "assistant"; content: string }[];
+}): Promise<AiResult & { truncated?: boolean }> {
+  if (!apiKey) return { ok: false, status: 503, error: "AI tools aren't configured yet." };
+
+  const full = opts.doc.trim();
+  const doc = full.slice(0, DOC_MAX_CHARS);
+  const question = opts.question.trim();
+  if (!doc) return { ok: false, status: 400, error: "No document text was provided." };
+  if (!question) return { ok: false, status: 400, error: "Enter a question first." };
+
+  const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+    {
+      role: "system",
+      content:
+        "You answer questions about a document the user provides. Use ONLY the document's content. If the answer isn't in the document, say you couldn't find it in the document. Be concise and reference the relevant part when useful. No preamble or XML tags.",
+    },
+    { role: "user", content: `Document:\n"""\n${doc}\n"""` },
+    { role: "assistant", content: "I've read the document. What would you like to know?" },
+    ...(opts.history ?? []).slice(-6),
+    { role: "user", content: question },
+  ];
+
+  try {
+    const params: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming = {
+      model: AI_MODEL,
+      max_completion_tokens: 2048,
+      messages,
+    };
+    if (isReasoningModel) (params as { reasoning_effort?: string }).reasoning_effort = "none";
+    else params.temperature = 0.2;
+
+    const completion = await client().chat.completions.create(params);
+    const choice = completion.choices[0];
+    if (choice?.message?.refusal) {
+      return { ok: false, status: 422, error: "That request was declined. Try a different question." };
+    }
+    const out = (choice?.message?.content ?? "").trim();
+    if (!out) return { ok: false, status: 502, error: "No answer was produced. Please try again." };
+    return { ok: true, result: out, truncated: full.length > DOC_MAX_CHARS };
+  } catch (e) {
+    const err = e as { status?: number; message?: string };
+    return { ok: false, status: err.status ?? 500, error: err.message || "AI service error. Please try again." };
+  }
+}

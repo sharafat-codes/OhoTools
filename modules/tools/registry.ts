@@ -3410,6 +3410,26 @@ const baseDevTools: DevTool[] = [
     ],
     related: ["crop-image", "circle-crop", "remove-background"],
   },
+  {
+    slug: "chat-with-pdf",
+    name: "Chat with PDF",
+    tagline: "Upload a PDF and ask it questions.",
+    description:
+      "Free AI Chat with PDF. Upload a document and ask questions in plain English — get answers, summaries, and key points drawn straight from the file. The PDF is read in your browser. Free daily use; unlimited on Pro.",
+    keywords: ["chat with pdf", "ask pdf questions", "ai pdf reader", "talk to your pdf", "pdf question answering"],
+    icon: MessagesSquareIcon,
+    intro:
+      "Turn any PDF into something you can talk to. Upload a document — a report, contract, paper, or manual — and ask questions in plain English to get answers, summaries, and the key points, drawn from the document itself. The text is extracted right in your browser; only that text (not the file) is sent to the AI to answer. Free users get a few questions a day; Pro is unlimited.",
+    steps: ["Upload a PDF (the text is read in your browser).", "Ask a question, or pick a starter prompt.", "Get an answer grounded in the document — keep the conversation going."],
+    faqs: [
+      { q: "What kind of PDFs work?", a: "PDFs with selectable text (exported from Word, Google Docs, most tools). Scanned image-only PDFs won't work unless they've been OCR'd first — try the Image to Text tool for those." },
+      { q: "Is my document uploaded?", a: "The file itself never leaves your browser — the text is extracted locally, and only that text is sent to the AI to answer your question." },
+      { q: "Is there a size limit?", a: "Very long documents are truncated (answers use roughly the first 60,000 characters) to keep responses fast." },
+    ],
+    related: ["pdf-to-text", "ai-summarizer", "merge-pdf"],
+    pro: true,
+    serverSide: true,
+  },
 ];
 
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
@@ -3560,8 +3580,9 @@ export function getToolCategory(slug: string) {
 export const toolCategories: { name: string; blurb: string; slugs: string[] }[] = [
   {
     name: "AI",
-    blurb: "Summarize, rewrite, translate, and fix text with AI.",
+    blurb: "Chat with PDFs, summarize, rewrite, translate, and fix text with AI.",
     slugs: [
+      "chat-with-pdf",
       "ai-summarizer",
       "ai-paraphraser",
       "ai-humanizer",
