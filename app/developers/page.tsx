@@ -178,6 +178,17 @@ export default function DevelopersPage() {
         </Endpoint>
       </section>
 
+      {/* Rate limits */}
+      <section className="mt-12">
+        <h2 className="font-heading text-xl font-semibold tracking-tight">Rate limits</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          The Pro plan includes <span className="font-medium text-foreground">1,000 API calls per month</span> (all
+          endpoints combined), resetting on the 1st. Exceeding the limit returns HTTP{" "}
+          <code className="rounded bg-muted px-1 text-xs">429</code>. Need more? Reach out and we&apos;ll sort out a
+          higher tier.
+        </p>
+      </section>
+
       {/* Errors */}
       <section className="mt-12">
         <h2 className="font-heading text-xl font-semibold tracking-tight">Errors</h2>

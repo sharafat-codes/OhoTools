@@ -231,6 +231,17 @@ model ApiKey {
   @@map("api_key")
 }
 
+// Monthly API call counter per user (all their keys combined). `period` is the
+// UTC "YYYY-MM" bucket, so usage resets automatically at the start of a month.
+model ApiUsage {
+  userId String
+  period String
+  count  Int    @default(0)
+
+  @@id([userId, period])
+  @@map("api_usage")
+}
+
 // ─── Phase 3: Billing ────────────────────────────────────────────────────────
 // One active subscription per user. Stripe is the source of truth; this table
 // mirrors it (kept in sync by the webhook). User.plan is the fast-read copy.
