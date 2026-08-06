@@ -20,3 +20,15 @@ export async function setUserRole(userId: string, role: "USER" | "ADMIN") {
   await prisma.user.update({ where: { id: userId }, data: { role } });
   revalidatePath("/admin/users");
 }
+
+export async function setToolRequestStatus(id: string, status: "new" | "done" | "dismissed") {
+  await requireAdmin();
+  await prisma.toolRequest.update({ where: { id }, data: { status } });
+  revalidatePath("/admin/requests");
+}
+
+export async function deleteToolRequest(id: string) {
+  await requireAdmin();
+  await prisma.toolRequest.delete({ where: { id } });
+  revalidatePath("/admin/requests");
+}

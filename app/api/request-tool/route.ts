@@ -1,4 +1,5 @@
 import { sendEmail } from "@/lib/email";
+import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
@@ -28,6 +29,14 @@ export async function POST(req: Request) {
   if (!tool) return Response.json({ error: "Please tell us which tool you'd like." }, { status: 400 });
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return Response.json({ error: "Please enter a valid email address (or leave it blank)." }, { status: 400 });
+  }
+
+  // Save to the admin requests inbox (fail-open — still email if the DB/table
+  // is unavailable).
+  try {
+    await prisma.toolRequest.create({ data: { tool, details: details || null, email: email || null } });
+  } catch {
+    /* tool_request table not migrated / db down — the email below still sends */
   }
 
   const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:14px;color:#111;line-height:1.6;">

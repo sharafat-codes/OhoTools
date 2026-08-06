@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboardIcon, UsersIcon, ArrowLeftIcon } from "lucide-react";
+import { LayoutDashboardIcon, UsersIcon, InboxIcon, ArrowLeftIcon } from "lucide-react";
 
 import { requireAdmin } from "@/lib/dal";
 import { Logo } from "@/components/logo";
@@ -11,6 +11,7 @@ import { NoTrack } from "@/modules/admin/components/no-track";
 const links = [
   { label: "Overview", href: "/admin", icon: LayoutDashboardIcon },
   { label: "Users", href: "/admin/users", icon: UsersIcon },
+  { label: "Requests", href: "/admin/requests", icon: InboxIcon },
 ];
 
 // Admin area — never index.

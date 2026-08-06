@@ -10,6 +10,7 @@ import {
   BarChart3Icon,
   KeyIcon,
   CreditCardIcon,
+  InboxIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -144,6 +145,13 @@ export default async function AdminOverviewPage() {
   }
   const maxCat = Math.max(1, ...categoryViews.map((c) => c.count));
 
+  let newRequests = 0;
+  try {
+    newRequests = await prisma.toolRequest.count({ where: { status: "new" } });
+  } catch {
+    /* tool_request table not migrated yet */
+  }
+
   // Build 14-day series for the charts.
   const shortLabel = (s: string) => {
     const p = s.split("-");
@@ -190,6 +198,22 @@ export default async function AdminOverviewPage() {
           Manage users →
         </Link>
       </div>
+
+      {newRequests > 0 && (
+        <Link
+          href="/admin/requests?status=new"
+          className="mb-6 flex items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm transition-colors hover:bg-primary/10"
+        >
+          <span className="flex items-center gap-2">
+            <InboxIcon className="size-4 text-primary" />
+            <span className="font-medium">
+              {newRequests} new tool request{newRequests === 1 ? "" : "s"}
+            </span>
+            to review
+          </span>
+          <span className="font-medium text-primary">Review →</span>
+        </Link>
+      )}
 
       {/* Headline KPIs */}
       <div className="grid gap-4 sm:grid-cols-3">

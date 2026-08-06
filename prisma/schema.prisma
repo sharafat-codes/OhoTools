@@ -253,6 +253,19 @@ model ToolView {
   @@map("tool_view")
 }
 
+// User-submitted "request a tool" suggestions — the admin roadmap inbox.
+model ToolRequest {
+  id        String   @id @default(cuid())
+  tool      String
+  details   String?
+  email     String?
+  status    String   @default("new") // new | done | dismissed
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@map("tool_request")
+}
+
 // ─── Phase 3: Billing ────────────────────────────────────────────────────────
 // One active subscription per user. Stripe is the source of truth; this table
 // mirrors it (kept in sync by the webhook). User.plan is the fast-read copy.
