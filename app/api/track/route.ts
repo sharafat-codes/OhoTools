@@ -8,6 +8,13 @@ export const dynamic = "force-dynamic";
 // Lightweight, anonymous tool-view counter for the admin analytics dashboard.
 // No personal data — just a per-tool daily tally. Fails silently.
 export async function POST(req: Request) {
+  // Don't count the owner's own visits — the admin area sets an `oho_no_track`
+  // cookie (see modules/admin/components/no-track.tsx), which rides along on
+  // this same-origin beacon.
+  if ((req.headers.get("cookie") || "").includes("oho_no_track=1")) {
+    return NextResponse.json({ ok: true, skipped: true });
+  }
+
   let slug = "";
   try {
     const body = (await req.json()) as { slug?: unknown };

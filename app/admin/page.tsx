@@ -15,6 +15,7 @@ import {
 
 import { prisma } from "@/lib/prisma";
 import { cn } from "@/lib/utils";
+import { getTool, getToolCategory } from "@/modules/tools/registry";
 import { Card, CardContent } from "@/components/ui/card";
 import { MiniBarChart } from "@/modules/admin/components/mini-bar-chart";
 
@@ -105,31 +106,43 @@ export default async function AdminOverviewPage() {
   const d30s = new Date(nowMs - 30 * 86400000).toISOString().slice(0, 10);
   let views7 = 0;
   let views30 = 0;
+  let allTimeViews = 0;
   let aiRuns30 = 0;
-  let topTools: { slug: string; count: number }[] = [];
+  let topTools: { slug: string; name: string; count: number }[] = [];
+  let categoryViews: { name: string; count: number }[] = [];
   const viewsByDay = new Map<string, number>();
   try {
-    const [v7, v30, top, ai30, byDay] = await Promise.all([
+    const [v7, v30, all, slugRows, ai30, byDay] = await Promise.all([
       prisma.toolView.aggregate({ _sum: { count: true }, where: { day: { gte: d7s } } }),
       prisma.toolView.aggregate({ _sum: { count: true }, where: { day: { gte: d30s } } }),
+      prisma.toolView.aggregate({ _sum: { count: true } }),
       prisma.toolView.groupBy({
         by: ["slug"],
         _sum: { count: true },
         where: { day: { gte: d30s } },
         orderBy: { _sum: { count: "desc" } },
-        take: 12,
       }),
       prisma.aiUsage.aggregate({ _sum: { count: true }, where: { day: { gte: d30s } } }),
       prisma.toolView.groupBy({ by: ["day"], _sum: { count: true }, where: { day: { gte: d14s } } }),
     ]);
     views7 = v7._sum.count ?? 0;
     views30 = v30._sum.count ?? 0;
-    topTools = top.map((t) => ({ slug: t.slug, count: t._sum.count ?? 0 }));
+    allTimeViews = all._sum.count ?? 0;
     aiRuns30 = ai30._sum.count ?? 0;
     for (const r of byDay) viewsByDay.set(r.day, r._sum.count ?? 0);
+
+    const rows = slugRows.map((t) => ({ slug: t.slug, count: t._sum.count ?? 0 }));
+    topTools = rows.slice(0, 15).map((r) => ({ slug: r.slug, name: getTool(r.slug)?.name ?? r.slug, count: r.count }));
+    const catMap = new Map<string, number>();
+    for (const r of rows) {
+      const cat = getToolCategory(r.slug)?.name ?? "Other";
+      catMap.set(cat, (catMap.get(cat) ?? 0) + r.count);
+    }
+    categoryViews = [...catMap.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
   } catch {
     /* analytics tables not migrated yet */
   }
+  const maxCat = Math.max(1, ...categoryViews.map((c) => c.count));
 
   // Build 14-day series for the charts.
   const shortLabel = (s: string) => {
@@ -237,25 +250,52 @@ export default async function AdminOverviewPage() {
       )}
 
       {topTools.length > 0 && (
-        <div className="mt-8">
-          <h2 className="mb-3 font-heading text-lg font-semibold tracking-tight">Top tools (30 days)</h2>
-          <Card>
-            <CardContent className="py-1">
-              <ol className="divide-y divide-border">
-                {topTools.map((t, i) => (
-                  <li key={t.slug} className="flex items-center justify-between py-2 text-sm">
-                    <span className="flex items-center gap-2">
-                      <span className="w-5 text-right tabular-nums text-muted-foreground">{i + 1}</span>
-                      <Link href={`/tools/${t.slug}`} className="hover:underline">
-                        /tools/{t.slug}
-                      </Link>
-                    </span>
-                    <span className="font-medium tabular-nums">{t.count.toLocaleString()}</span>
-                  </li>
+        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+          <div>
+            <h2 className="mb-3 flex items-baseline gap-2 font-heading text-lg font-semibold tracking-tight">
+              Top tools
+              <span className="text-xs font-normal text-muted-foreground">
+                30 days · {allTimeViews.toLocaleString()} all-time
+              </span>
+            </h2>
+            <Card>
+              <CardContent className="py-1">
+                <ol className="divide-y divide-border">
+                  {topTools.map((t, i) => (
+                    <li key={t.slug} className="flex items-center justify-between gap-3 py-2 text-sm">
+                      <span className="flex min-w-0 items-center gap-2.5">
+                        <span className="w-4 shrink-0 text-right tabular-nums text-muted-foreground">{i + 1}</span>
+                        <Link href={`/tools/${t.slug}`} className="min-w-0 truncate font-medium hover:underline">
+                          {t.name}
+                        </Link>
+                      </span>
+                      <span className="shrink-0 font-medium tabular-nums">{t.count.toLocaleString()}</span>
+                    </li>
+                  ))}
+                </ol>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div>
+            <h2 className="mb-3 flex items-baseline gap-2 font-heading text-lg font-semibold tracking-tight">
+              Views by category
+              <span className="text-xs font-normal text-muted-foreground">30 days</span>
+            </h2>
+            <Card>
+              <CardContent className="flex flex-col gap-2.5 py-4">
+                {categoryViews.map((c) => (
+                  <div key={c.name} className="flex items-center gap-3 text-sm">
+                    <span className="w-28 shrink-0 truncate text-muted-foreground">{c.name}</span>
+                    <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                      <div className="h-full rounded-full bg-primary/80" style={{ width: `${(c.count / maxCat) * 100}%` }} />
+                    </div>
+                    <span className="w-8 shrink-0 text-right tabular-nums text-muted-foreground">{c.count}</span>
+                  </div>
                 ))}
-              </ol>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       )}
 

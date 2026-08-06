@@ -6,6 +6,7 @@ import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/modules/dashboard/components/user-menu";
+import { NoTrack } from "@/modules/admin/components/no-track";
 
 const links = [
   { label: "Overview", href: "/admin", icon: LayoutDashboardIcon },
@@ -24,6 +25,7 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-full flex-1">
+      <NoTrack />
       <aside className="hidden md:sticky md:top-0 md:flex md:h-svh md:w-56 md:shrink-0 md:flex-col md:border-r md:border-border/60">
         <div className="flex h-14 items-center gap-2 px-4">
           <Logo href="/admin" size="sm" wordmark={false} />
