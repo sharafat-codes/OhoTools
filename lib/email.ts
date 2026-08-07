@@ -11,12 +11,15 @@ export async function sendEmail({
   subject,
   html,
   replyTo,
+  headers,
 }: {
   to: string;
   subject: string;
   html: string;
   /** Set so replies go straight to the sender (e.g. a contact-form submitter). */
   replyTo?: string;
+  /** Extra SMTP headers (e.g. List-Unsubscribe for engagement email). */
+  headers?: Record<string, string>;
 }): Promise<{ ok: boolean }> {
   if (!resend) {
     // No key configured — log a readable version so flows stay testable in dev.
@@ -31,7 +34,14 @@ export async function sendEmail({
   }
 
   try {
-    const { error } = await resend.emails.send({ from, to, subject, html, ...(replyTo ? { replyTo } : {}) });
+    const { error } = await resend.emails.send({
+      from,
+      to,
+      subject,
+      html,
+      ...(replyTo ? { replyTo } : {}),
+      ...(headers ? { headers } : {}),
+    });
     if (error) {
       console.error("[OhoTool] Resend error:", error);
       return { ok: false };
@@ -75,6 +85,66 @@ export function renderActionEmail({
           <tr><td style="padding:24px 32px 28px;">
             <hr style="border:none;border-top:1px solid #e4e4e7;margin:0 0 16px;"/>
             <p style="margin:0;font-size:12px;line-height:1.6;color:#a1a1aa;">${footnote ?? "You received this email because someone used it to sign in to OhoTool. If it wasn't you, you can safely ignore it."}</p>
+          </td></tr>
+        </table>
+        <p style="margin:16px 0 0;font-size:11px;color:#a1a1aa;">© OhoTool</p>
+      </td></tr>
+    </table>
+  </body>
+</html>`;
+}
+
+/**
+ * Branded template for engagement (non-transactional) email. Always includes an
+ * unsubscribe link — never use this for password resets / verification.
+ */
+export function renderMarketingEmail({
+  heading,
+  intro,
+  bullets,
+  buttonLabel,
+  buttonUrl,
+  outro,
+  unsubscribeUrl,
+}: {
+  heading: string;
+  intro: string;
+  bullets?: string[];
+  buttonLabel?: string;
+  buttonUrl?: string;
+  outro?: string;
+  unsubscribeUrl: string;
+}) {
+  const bulletsHtml = bullets?.length
+    ? `<ul style="margin:0 0 24px;padding-left:18px;font-size:14px;line-height:1.7;color:#52525b;">${bullets
+        .map((b) => `<li style="margin:0 0 8px;">${b}</li>`)
+        .join("")}</ul>`
+    : "";
+  const buttonHtml =
+    buttonLabel && buttonUrl
+      ? `<a href="${buttonUrl}" style="display:inline-block;background:#0a0a0a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 22px;border-radius:10px;">${buttonLabel}</a>`
+      : "";
+  const outroHtml = outro ? `<p style="margin:24px 0 0;font-size:14px;line-height:1.6;color:#52525b;">${outro}</p>` : "";
+
+  return `<!doctype html>
+<html>
+  <body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:32px 0;">
+      <tr><td align="center">
+        <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="width:480px;max-width:100%;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e4e4e7;">
+          <tr><td style="padding:28px 32px 8px;">
+            <div style="font-size:18px;font-weight:700;color:#0a0a0a;">OhoTool</div>
+          </td></tr>
+          <tr><td style="padding:8px 32px 0;">
+            <h1 style="margin:0 0 12px;font-size:20px;line-height:1.3;color:#0a0a0a;">${heading}</h1>
+            <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#52525b;">${intro}</p>
+            ${bulletsHtml}
+            ${buttonHtml}
+            ${outroHtml}
+          </td></tr>
+          <tr><td style="padding:24px 32px 28px;">
+            <hr style="border:none;border-top:1px solid #e4e4e7;margin:0 0 16px;"/>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:#a1a1aa;">You're receiving OhoTool updates because you have an account. <a href="${unsubscribeUrl}" style="color:#71717a;">Unsubscribe</a> anytime.</p>
           </td></tr>
         </table>
         <p style="margin:16px 0 0;font-size:11px;color:#a1a1aa;">© OhoTool</p>

@@ -41,6 +41,10 @@ model User {
   // Denormalized current tier for fast gating; kept in sync by the Stripe webhook.
   plan PlanTier @default(FREE)
 
+  // Opt-in (default) for engagement/marketing email. Transactional email
+  // (password reset, verification) ignores this. Toggled via /unsubscribe.
+  marketingEmails Boolean @default(true)
+
   stripeCustomerId String? @unique
   // Lemon Squeezy subscription id, captured from webhooks so the customer
   // portal can be opened without depending on the checkout email matching.

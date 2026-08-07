@@ -3,6 +3,10 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { prisma } from "@/lib/prisma";
 import { sendEmail, renderActionEmail } from "@/lib/email";
+import { sendMarketingEmail } from "@/lib/email-prefs";
+import { SITE_URL } from "@/lib/site";
+
+const origin = SITE_URL.replace(/\/$/, "");
 
 // BETTER_AUTH_SECRET and BETTER_AUTH_URL are read from the environment
 // automatically by Better Auth.
@@ -91,6 +95,40 @@ export const auth = betterAuth({
     additionalFields: {
       role: { type: "string", required: false, input: false },
       plan: { type: "string", required: false, input: false },
+    },
+  },
+
+  // Send a welcome/onboarding email right after any account is created (email
+  // or Google). Best-effort — a send failure must never block sign-up.
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          try {
+            const firstName = (user.name || "").trim().split(/\s+/)[0] || "there";
+            await sendMarketingEmail({
+              userId: user.id,
+              to: user.email,
+              subject: "Welcome to OhoTool 👋",
+              heading: `Welcome, ${firstName}!`,
+              intro:
+                "You've got 200+ free tools that run right in your browser — nothing is uploaded. A few worth trying first:",
+              bullets: [
+                "<strong>Convert &amp; compress</strong> PDFs, images, audio and video",
+                "<strong>AI writing &amp; Chat with PDF</strong> — summarize, rewrite, translate, and ask documents questions",
+                "<strong>AI Mock Interview</strong> — practice technical &amp; behavioral interviews and get a scored report",
+                "<strong>Encrypted file sharing</strong> and a QR code generator",
+              ],
+              buttonLabel: "Explore the tools",
+              buttonUrl: `${origin}/tools`,
+              outro:
+                "Need more? Pro unlocks unlimited AI, Office ↔ PDF conversions, and longer mock interviews.",
+            });
+          } catch {
+            /* welcome email is best-effort */
+          }
+        },
+      },
     },
   },
 
