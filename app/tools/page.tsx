@@ -16,7 +16,7 @@ import { SITE_URL as siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Free Online Tools",
-  description: `${TOOL_COUNT_LABEL} free online tools — PDF & document converters (Word, Excel, PowerPoint), AI writing tools, image, audio & video tools, calculators, developer tools, and QR codes. Fast, private, browser-based. No sign-up.`,
+  description: `${TOOL_COUNT_LABEL} free online tools — PDF & document converters, AI writing, image, audio & video tools, calculators, and developer tools. Fast, private, no sign-up.`,
   keywords: [
     "free online tools",
     "online tools",
