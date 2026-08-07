@@ -89,6 +89,7 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
   const [report, setReport] = React.useState<InterviewReport | null>(null);
   const [error, setError] = React.useState("");
   const [limitReached, setLimitReached] = React.useState(false);
+  const [retryPayload, setRetryPayload] = React.useState<{ history: Msg[]; wasFinal: boolean } | null>(null);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
@@ -108,6 +109,8 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
   async function start() {
     setError("");
     setLimitReached(false);
+    setRetryPayload(null);
+    setLastFinal(false);
     setReport(null);
     setMessages([]);
     setBusy(true);
@@ -126,36 +129,45 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
     }
   }
 
-  async function send() {
-    const answer = input.trim();
-    if (!answer || busy) return;
-    const next: Msg[] = [...messages, { role: "user", content: answer }];
-    setMessages(next);
-    setInput("");
+  // Sends `history` (which already includes the latest answer) and handles the
+  // turn/report branch. On failure it stashes the payload so the user can Retry
+  // the exact same step instead of being stranded mid-interview.
+  async function resend(history: Msg[], wasFinal: boolean) {
     setBusy(true);
     setError("");
+    setRetryPayload(null);
     try {
-      if (lastFinal) {
-        const data = await post({ action: "report", config: config(), history: next });
+      if (wasFinal) {
+        const data = await post({ action: "report", config: config(), history });
         setReport(data.report);
         setPhase("report");
       } else {
-        const data = await post({ action: "turn", config: config(), history: next });
+        const data = await post({ action: "turn", config: config(), history });
         if (data.done) {
-          const r = await post({ action: "report", config: config(), history: next });
+          const r = await post({ action: "report", config: config(), history });
           setReport(r.report);
           setPhase("report");
         } else {
-          setMessages([...next, { role: "assistant", content: data.message }]);
+          setMessages([...history, { role: "assistant", content: data.message }]);
           setQNum(data.questionNumber);
           setLastFinal(Boolean(data.isLast));
         }
       }
     } catch (e) {
       handleErr(e);
+      setRetryPayload({ history, wasFinal });
     } finally {
       setBusy(false);
     }
+  }
+
+  function send() {
+    const answer = input.trim();
+    if (!answer || busy || retryPayload) return;
+    const next: Msg[] = [...messages, { role: "user", content: answer }];
+    setMessages(next);
+    setInput("");
+    void resend(next, lastFinal);
   }
 
   function reset() {
@@ -165,6 +177,8 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
     setInput("");
     setError("");
     setLimitReached(false);
+    setRetryPayload(null);
+    setLastFinal(false);
     setQNum(0);
   }
 
@@ -229,7 +243,19 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
           )}
         </div>
 
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        {error && (
+          <div className="flex items-center justify-between gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+            <span>{error}</span>
+            {retryPayload && !busy && (
+              <button
+                onClick={() => resend(retryPayload.history, retryPayload.wasFinal)}
+                className="shrink-0 font-medium underline underline-offset-2"
+              >
+                Retry
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="flex items-end gap-2">
           <Textarea
@@ -241,12 +267,20 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
                 send();
               }
             }}
-            placeholder={busy ? "Please wait…" : "Type your answer…  (⌘/Ctrl + Enter to send)"}
+            placeholder={
+              retryPayload ? "Tap Retry to continue…" : busy ? "Please wait…" : "Type your answer…  (⌘/Ctrl + Enter to send)"
+            }
             rows={3}
-            disabled={busy}
+            disabled={busy || !!retryPayload}
             className="resize-none"
           />
-          <Button onClick={send} disabled={busy || !input.trim()} size="icon" className="size-11 shrink-0" aria-label="Send answer">
+          <Button
+            onClick={send}
+            disabled={busy || !!retryPayload || !input.trim()}
+            size="icon"
+            className="size-11 shrink-0"
+            aria-label="Send answer"
+          >
             <SendIcon />
           </Button>
         </div>

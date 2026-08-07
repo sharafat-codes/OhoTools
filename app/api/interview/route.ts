@@ -87,6 +87,8 @@ export async function POST(req: Request) {
   // ── Turn ──────────────────────────────────────────────────────────────────
   const starting = history.length === 0;
 
+  // Check the daily cap up front, but only *consume* it after the first
+  // question succeeds — an AI hiccup shouldn't burn someone's free interview.
   if (starting) {
     let used: number;
     try {
@@ -108,7 +110,6 @@ export async function POST(req: Request) {
         { status: 429 },
       );
     }
-    await incrementInterviewSessions(userId).catch(() => {});
   }
 
   const askedSoFar = history.filter((h) => h.role === "assistant").length;
@@ -121,6 +122,9 @@ export async function POST(req: Request) {
 
   const result = await interviewTurn({ config, history, questionNumber, totalQuestions: caps.questions });
   if (!result.ok) return NextResponse.json({ error: result.error }, { status: result.status });
+
+  // First question landed — now it counts against the daily allowance.
+  if (starting) await incrementInterviewSessions(userId).catch(() => {});
 
   const isLast = questionNumber >= caps.questions;
   return NextResponse.json({

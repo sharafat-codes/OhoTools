@@ -6,11 +6,18 @@ import { isPro } from "@/lib/plans";
 import { Card, CardContent } from "@/components/ui/card";
 import { InterviewApp } from "@/modules/interview/components/interview-app";
 import { ROLES } from "@/modules/interview/config";
+import { ogImageUrl } from "@/modules/tools/registry";
 import { SITE_URL as siteUrl, SITE_NAME } from "@/lib/site";
 
 const title = "AI Mock Interview — Practice Tech & Behavioral Interviews";
 const description =
-  "Free AI mock interview that asks real questions one at a time, adapts to your answers, and gives you a scored feedback report. Practice frontend, backend, data, DevOps and more — technical and behavioral.";
+  "Free AI mock interview for developers: adaptive technical & behavioral questions, then a scored feedback report with strengths, gaps, and what to study.";
+
+const ogImage = ogImageUrl({
+  eyebrow: "AI Interview Coach",
+  title: "AI Mock Interview",
+  subtitle: "Adaptive questions + a scored feedback report — free",
+});
 
 export const metadata: Metadata = {
   title: "AI Mock Interview",
@@ -25,7 +32,14 @@ export const metadata: Metadata = {
     "interview simulator",
   ],
   alternates: { canonical: "/interview" },
-  openGraph: { type: "website", title, description, url: `${siteUrl}/interview` },
+  openGraph: {
+    type: "website",
+    title,
+    description,
+    url: `${siteUrl}/interview`,
+    images: [{ url: ogImage, width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title, description, images: [ogImage] },
 };
 
 const steps = [
