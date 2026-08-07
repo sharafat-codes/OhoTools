@@ -21,6 +21,7 @@ export default async function PricingLayout({
           <div className="flex gap-4 text-xs">
             <Link href="/tools" className="hover:text-foreground">Tools</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
+            <Link href="/widgets" className="hover:text-foreground">Widgets</Link>
             <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
             <Link href="/developers" className="hover:text-foreground">API</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
