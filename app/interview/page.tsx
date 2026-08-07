@@ -71,6 +71,8 @@ export default async function InterviewPage() {
   const user = await getCurrentUser();
   const loggedIn = !!user;
   const pro = isPro((user as { plan?: string } | null)?.plan ?? "FREE");
+  const verified = Boolean((user as { emailVerified?: boolean } | null)?.emailVerified);
+  const email = (user as { email?: string } | null)?.email ?? "";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -123,7 +125,7 @@ export default async function InterviewPage() {
       {/* The app */}
       <Card className="mt-8">
         <CardContent className="p-5 sm:p-6">
-          <InterviewApp loggedIn={loggedIn} pro={pro} />
+          <InterviewApp loggedIn={loggedIn} pro={pro} verified={verified} email={email} />
         </CardContent>
       </Card>
 

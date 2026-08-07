@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { SendIcon, Loader2Icon, SparklesIcon, LockIcon, RotateCcwIcon } from "lucide-react";
+import { SendIcon, Loader2Icon, SparklesIcon, LockIcon, RotateCcwIcon, MailWarningIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { sendVerificationEmail } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -70,8 +71,22 @@ function Segmented<T extends string>({
   );
 }
 
-export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolean }) {
+export function InterviewApp({
+  loggedIn,
+  pro,
+  verified,
+  email,
+}: {
+  loggedIn: boolean;
+  pro: boolean;
+  verified: boolean;
+  email: string;
+}) {
   const caps = pro ? PLAN_CAPS.pro : PLAN_CAPS.free;
+
+  const [needsVerify, setNeedsVerify] = React.useState(loggedIn && !verified);
+  const [verifyBusy, setVerifyBusy] = React.useState(false);
+  const [verifySent, setVerifySent] = React.useState(false);
 
   const [phase, setPhase] = React.useState<Phase>("setup");
   const [role, setRole] = React.useState<RoleId>("frontend");
@@ -101,9 +116,23 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
   }
 
   function handleErr(e: unknown) {
-    const err = e as { status?: number; error?: string; message?: string; limitReached?: boolean };
+    const err = e as { status?: number; error?: string; message?: string; limitReached?: boolean; needsVerification?: boolean };
     setError(err.error || err.message || "Something went wrong. Please try again.");
     if (err.limitReached) setLimitReached(true);
+    if (err.needsVerification) setNeedsVerify(true);
+  }
+
+  async function resendVerification() {
+    if (!email || verifyBusy) return;
+    setVerifyBusy(true);
+    try {
+      await sendVerificationEmail({ email, callbackURL: "/interview" });
+      setVerifySent(true);
+    } catch {
+      setError("Couldn't send the email just now. Please try again in a moment.");
+    } finally {
+      setVerifyBusy(false);
+    }
   }
 
   async function start() {
@@ -353,14 +382,29 @@ export function InterviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boolea
         </div>
       )}
 
-      {loggedIn ? (
+      {!loggedIn ? (
+        <Button render={<Link href="/login?next=/interview" />} size="lg">
+          Sign in to start
+        </Button>
+      ) : needsVerify ? (
+        <div className="rounded-xl border border-amber-500/40 bg-amber-500/5 p-4 text-sm">
+          <div className="flex items-center gap-2 font-medium">
+            <MailWarningIcon className="size-4 text-amber-600 dark:text-amber-500" />
+            Verify your email to start
+          </div>
+          <p className="mt-1 text-muted-foreground">
+            We sent a verification link{email ? ` to ${email}` : ""}. Click it, then reload this page and start your
+            interview.
+          </p>
+          <Button onClick={resendVerification} disabled={verifyBusy || verifySent} size="sm" variant="outline" className="mt-3">
+            {verifyBusy && <Loader2Icon className="animate-spin" />}
+            {verifySent ? "Sent — check your inbox" : "Resend verification email"}
+          </Button>
+        </div>
+      ) : (
         <Button onClick={start} disabled={busy} size="lg">
           {busy ? <Loader2Icon className="animate-spin" /> : <SparklesIcon />}
           Start the interview
-        </Button>
-      ) : (
-        <Button render={<Link href="/login?next=/interview" />} size="lg">
-          Sign in to start
         </Button>
       )}
       <p className="text-center text-xs text-muted-foreground">

@@ -31,3 +31,26 @@ export async function incrementInterviewSessions(userId: string): Promise<void> 
     /* best-effort */
   }
 }
+
+/** Feedback reports the user has generated today. Throws if table unavailable. */
+export async function getInterviewReportsToday(userId: string): Promise<number> {
+  const row = await prisma.interviewUsage.findUnique({
+    where: { userId_day: { userId, day: today() } },
+    select: { reports: true },
+  });
+  return row?.reports ?? 0;
+}
+
+/** Count one generated report. Best-effort — never throws to the caller. */
+export async function incrementInterviewReports(userId: string): Promise<void> {
+  const day = today();
+  try {
+    await prisma.interviewUsage.upsert({
+      where: { userId_day: { userId, day } },
+      create: { userId, day, reports: 1 },
+      update: { reports: { increment: 1 } },
+    });
+  } catch {
+    /* best-effort */
+  }
+}

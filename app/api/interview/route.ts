@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/dal";
 import { isPro } from "@/lib/plans";
 import { interviewTurn, interviewReport, isInterviewConfigured, type Turn } from "@/lib/interview";
-import { getInterviewSessionsToday, incrementInterviewSessions } from "@/lib/interview-usage";
+import {
+  getInterviewSessionsToday,
+  incrementInterviewSessions,
+  getInterviewReportsToday,
+  incrementInterviewReports,
+} from "@/lib/interview-usage";
 import {
   ROLES,
   LEVELS,
@@ -59,6 +64,17 @@ export async function POST(req: Request) {
   if (!isInterviewConfigured()) {
     return NextResponse.json({ error: "Interview practice isn't configured yet." }, { status: 503 });
   }
+  // A verified email is required — stops one person spinning up throwaway
+  // accounts for unlimited free interviews. (Google sign-ins are pre-verified.)
+  if (!(user as { emailVerified?: boolean }).emailVerified) {
+    return NextResponse.json(
+      {
+        error: "Please verify your email to start practicing. Check your inbox for the verification link.",
+        needsVerification: true,
+      },
+      { status: 403 },
+    );
+  }
 
   const pro = isPro((user as { plan?: string }).plan ?? "FREE");
   const userId = (user as { id: string }).id;
@@ -79,8 +95,30 @@ export async function POST(req: Request) {
   // ── Report ────────────────────────────────────────────────────────────────
   if (action === "report") {
     if (history.length < 2) return NextResponse.json({ error: "Not enough of an interview to grade yet." }, { status: 400 });
+
+    // Metered like sessions (one report per interview) so the report endpoint
+    // can't be called repeatedly to rack up AI cost. Fail-open on a read error.
+    let usedReports = 0;
+    try {
+      usedReports = await getInterviewReportsToday(userId);
+    } catch {
+      /* fail-open — don't block a legit report on a transient DB error */
+    }
+    if (usedReports >= caps.sessionsPerDay) {
+      return NextResponse.json(
+        {
+          error: pro
+            ? `You've hit today's limit of ${caps.sessionsPerDay} reports. Try again tomorrow.`
+            : "You've used today's free interview. Upgrade to Pro for more interviews and reports.",
+          limitReached: true,
+        },
+        { status: 429 },
+      );
+    }
+
     const result = await interviewReport({ config, history });
     if (!result.ok) return NextResponse.json({ error: result.error }, { status: result.status });
+    await incrementInterviewReports(userId).catch(() => {});
     return NextResponse.json({ report: result.report, pro });
   }
 

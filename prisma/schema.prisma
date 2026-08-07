@@ -349,10 +349,11 @@ model AiUsage {
 // day). Separate from AiUsage because one interview = many AI calls, so it's
 // metered per session, not per call.
 model InterviewUsage {
-  id     String @id @default(cuid())
-  userId String
-  day    String // UTC "YYYY-MM-DD"
-  count  Int    @default(0)
+  id      String @id @default(cuid())
+  userId  String
+  day     String // UTC "YYYY-MM-DD"
+  count   Int    @default(0) // interview sessions started today
+  reports Int    @default(0) // feedback reports generated today
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
