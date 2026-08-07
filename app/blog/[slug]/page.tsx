@@ -4,7 +4,11 @@ import { notFound } from "next/navigation";
 import { ArrowLeftIcon } from "lucide-react";
 
 import { getPost, posts } from "@/modules/blog";
-import { getTool, ogImageUrl } from "@/modules/tools/registry";
+import { getTool, ogImageUrl, TOOL_GUIDES } from "@/modules/tools/registry";
+import { isEmbeddable, isEmbedConversion } from "@/modules/tools/embed";
+import { getConversionView } from "@/modules/tools/conversions";
+import { EmbedTool } from "@/modules/tools/components/embed-tool";
+import { Converter } from "@/modules/tools/components/converter";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -71,6 +75,21 @@ export default async function BlogPostPage({
     .map((s) => getTool(s))
     .filter((t): t is NonNullable<typeof t> => Boolean(t));
 
+  // If this post is the companion guide for an embeddable tool, render that
+  // tool inline so the guide is interactive ("Try it") — no per-post edits.
+  const companionEntry = Object.entries(TOOL_GUIDES).find(([, guide]) => guide === slug);
+  const companionSlug = companionEntry && isEmbeddable(companionEntry[0]) ? companionEntry[0] : undefined;
+  const companion = companionSlug ? getTool(companionSlug) : undefined;
+  let tryContent: React.ReactNode = null;
+  if (companionSlug) {
+    if (isEmbedConversion(companionSlug)) {
+      const view = getConversionView(companionSlug);
+      if (view) tryContent = <Converter view={view} />;
+    } else {
+      tryContent = <EmbedTool slug={companionSlug} />;
+    }
+  }
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -122,6 +141,19 @@ export default async function BlogPostPage({
       <div className={prose}>
         <Body />
       </div>
+
+      {companion && tryContent && (
+        <section className="mt-12 border-t border-border/60 pt-8">
+          <h2 className="font-heading text-xl font-semibold tracking-tight">Try the {companion.name}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{companion.tagline}</p>
+          <div className="mt-5 rounded-2xl border border-border bg-card p-4 sm:p-6">{tryContent}</div>
+          <div className="mt-3">
+            <Link href={`/tools/${companion.slug}`} className="text-sm text-primary underline underline-offset-2">
+              Open the full {companion.name} →
+            </Link>
+          </div>
+        </section>
+      )}
 
       {related.length > 0 && (
         <div className="mt-12 border-t border-border/60 pt-8">
