@@ -21,6 +21,7 @@ export default async function BlogLayout({
           <div className="flex gap-4 text-xs">
             <Link href="/tools" className="hover:text-foreground">Tools</Link>
             <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
+            <Link href="/interview" className="hover:text-foreground">Interview</Link>
             <Link href="/widgets" className="hover:text-foreground">Widgets</Link>
             <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
             <Link href="/developers" className="hover:text-foreground">API</Link>

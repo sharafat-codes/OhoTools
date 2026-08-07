@@ -4,7 +4,7 @@ import { Logo } from "@/components/logo";
 import { getCurrentUser } from "@/lib/dal";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 
-export default async function WidgetsLayout({
+export default async function InterviewLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -21,9 +21,7 @@ export default async function WidgetsLayout({
           <div className="flex gap-4 text-xs">
             <Link href="/tools" className="hover:text-foreground">Tools</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
-            <Link href="/interview" className="hover:text-foreground">Interview</Link>
             <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
-            <Link href="/developers" className="hover:text-foreground">API</Link>
             <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
             <Link href="/terms" className="hover:text-foreground">Terms</Link>
           </div>
