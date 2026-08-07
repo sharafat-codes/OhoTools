@@ -11,9 +11,25 @@ import { embedHeight } from "@/modules/tools/embed";
 export function EmbedDialog({ slug, name }: { slug: string; name: string }) {
   const [open, setOpen] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
+  const previewRef = React.useRef<HTMLIFrameElement>(null);
 
   const origin = siteUrl.replace(/\/$/, "");
   const height = embedHeight(slug);
+
+  // Make the preview auto-fit its content, exactly like a real embed does, so
+  // there's no inner scrollbar — it's true WYSIWYG.
+  React.useEffect(() => {
+    if (!open) return;
+    function onMessage(e: MessageEvent) {
+      if (e.origin !== origin) return;
+      const data = e.data as { slug?: string; ohotoolHeight?: number };
+      if (data?.slug === slug && data.ohotoolHeight && previewRef.current) {
+        previewRef.current.style.height = `${data.ohotoolHeight}px`;
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [open, origin, slug]);
 
   // The <p> attribution lives on the embedder's page (outside the iframe), so
   // its link to /tools/<slug> is a real inbound link — that's the point. The
@@ -40,7 +56,7 @@ export function EmbedDialog({ slug, name }: { slug: string; name: string }) {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg max-h-[88dvh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Embed {name}</DialogTitle>
             <DialogDescription>
@@ -52,10 +68,12 @@ export function EmbedDialog({ slug, name }: { slug: string; name: string }) {
             {/* Live preview — exactly what visitors will see */}
             <div className="rounded-xl border border-border bg-muted/30 p-2">
               <iframe
+                ref={previewRef}
                 src={`${origin}/embed/${slug}`}
                 title={`${name} preview`}
                 loading="lazy"
-                style={{ width: "100%", height: Math.min(height, 420), border: 0, borderRadius: 8 }}
+                scrolling="no"
+                style={{ width: "100%", height, border: 0, borderRadius: 8 }}
               />
             </div>
 
