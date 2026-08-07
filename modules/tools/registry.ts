@@ -9,6 +9,7 @@ import {
   IdCardIcon,
   ImageUpscaleIcon,
   KeyRoundIcon,
+  LockKeyholeIcon,
   ShuffleIcon,
   TerminalIcon,
   TrendingUpIcon,
@@ -358,8 +359,51 @@ const baseDevTools: DevTool[] = [
     faqs: [
       { q: "Is MD5 supported?", a: "No — the Web Crypto API doesn't include MD5 because it's insecure. Use SHA-256 or stronger instead." },
       { q: "Can I reverse a hash back to the text?", a: "No. Hashes are one-way functions — you can't recover the original input from a hash." },
+      { q: "Should I use SHA-256 to hash passwords?", a: "No. SHA hashes are fast and unsalted, which makes them easy to brute-force — and frameworks like Laravel won't accept them. For passwords use a slow, salted algorithm like bcrypt (see our Bcrypt Generator)." },
     ],
-    related: ["password-generator", "base64", "uuid-generator"],
+    related: ["bcrypt-generator", "password-generator", "base64"],
+  },
+  {
+    slug: "bcrypt-generator",
+    name: "Bcrypt Generator",
+    tagline: "Generate and verify bcrypt password hashes — Laravel & PHP compatible.",
+    description:
+      "Free online bcrypt generator and verifier. Create Laravel- and PHP-compatible $2y$ password hashes with a custom cost factor, and check a password against a hash — all in your browser.",
+    keywords: [
+      "bcrypt generator",
+      "bcrypt hash",
+      "laravel password hash",
+      "bcrypt online",
+      "password_hash",
+      "bcrypt verify",
+    ],
+    icon: LockKeyholeIcon,
+    intro:
+      "Hash a password with bcrypt the same way Laravel's Hash::make() and PHP's password_hash() do, then paste the $2y$ result straight into your database. Pick a cost factor, or switch to Verify to check whether a plain password matches an existing hash. Everything runs locally in your browser — nothing is uploaded.",
+    steps: [
+      "Enter the password and choose a cost factor (12 matches Laravel's default).",
+      "Keep the $2y$ prefix for Laravel/PHP, then click Generate.",
+      "Copy the hash into your users.password column — or use Verify to test a password against a hash.",
+    ],
+    faqs: [
+      {
+        q: "Why didn't my hash work in Laravel?",
+        a: "A plain SHA-256 or MD5 digest won't authenticate — Laravel stores bcrypt hashes that start with $2y$. This tool produces exactly that format, so it drops straight into the password column and passes Hash::check().",
+      },
+      {
+        q: "What's the difference between $2y$, $2b$, and $2a$?",
+        a: "They're all the same bcrypt algorithm — only the version marker differs. PHP and Laravel write $2y$, Node libraries use $2b$, and $2a$ is legacy. A $2y$ hash verifies everywhere, which is why it's the default here.",
+      },
+      {
+        q: "Why does the hash change every time?",
+        a: "bcrypt mixes in a random salt on each run, so the same password produces a different hash each time. That's by design — the salt and cost are stored inside the hash string, so verification still works.",
+      },
+      {
+        q: "Which cost factor should I use?",
+        a: "12 is Laravel's current default and a good balance. Higher values are more resistant to brute force but slower to compute and verify.",
+      },
+    ],
+    related: ["hash-generator", "password-generator", "password-strength-checker"],
   },
   {
     slug: "lorem-ipsum",
@@ -3666,6 +3710,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "cidr-calculator",
       "credit-card-validator",
       "password-strength-checker",
+      "bcrypt-generator",
       "svg-optimizer",
       "html-minifier",
       "css-minifier",
