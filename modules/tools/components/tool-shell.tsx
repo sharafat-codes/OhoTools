@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
 import { RecentToolTracker } from "@/modules/tools/components/recent-tools";
+import { EmbedDialog } from "@/modules/tools/components/embed-dialog";
+import { isEmbeddable } from "@/modules/tools/embed";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 export function ToolShell({
@@ -116,6 +118,12 @@ export function ToolShell({
           ? "Your file is processed securely on our server for conversion, then deleted."
           : "Runs entirely in your browser — nothing is uploaded."}
       </p>
+
+      {isEmbeddable(tool.slug) && (
+        <div className="mt-6 flex justify-center">
+          <EmbedDialog slug={tool.slug} name={tool.name} />
+        </div>
+      )}
 
       {/* How to use */}
       <section className="mt-14">

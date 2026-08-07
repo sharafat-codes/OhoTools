@@ -10,9 +10,24 @@ const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
 ];
 
+// Embeddable tool pages (/embed/*) are meant to be framed by other sites, so
+// they must NOT carry X-Frame-Options: SAMEORIGIN. We drop XFO for them and use
+// CSP frame-ancestors * (the modern, per-route way to allow cross-site framing).
+const embedHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Content-Security-Policy", value: "frame-ancestors *" },
+  { key: "X-DNS-Prefetch-Control", value: "on" },
+];
+
 const nextConfig: NextConfig = {
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      // Everything except /embed/* gets the full hardening (incl. XFO).
+      { source: "/((?!embed/).*)", headers: securityHeaders },
+      // /embed/* is intentionally framable anywhere.
+      { source: "/embed/:path*", headers: embedHeaders },
+    ];
   },
 };
 
