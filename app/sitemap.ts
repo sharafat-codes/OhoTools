@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { devTools, categoryPages } from "@/modules/tools/registry";
 import { posts } from "@/modules/blog";
+import { questionBankSlugs } from "@/modules/interview/questions";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -33,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/tools`, lastModified, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/widgets`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/interview`, lastModified, changeFrequency: "weekly", priority: 0.8 },
+    ...questionBankSlugs.map((slug) => ({
+      url: `${siteUrl}/interview/${slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     { url: `${siteUrl}/send`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/developers`, lastModified, changeFrequency: "monthly", priority: 0.6 },

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { MessagesSquareIcon, ClipboardCheckIcon, SlidersHorizontalIcon } from "lucide-react";
+import Link from "next/link";
+import { MessagesSquareIcon, ClipboardCheckIcon, SlidersHorizontalIcon, ArrowRightIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { isPro } from "@/lib/plans";
 import { Card, CardContent } from "@/components/ui/card";
 import { InterviewApp } from "@/modules/interview/components/interview-app";
 import { ROLES } from "@/modules/interview/config";
+import { QUESTION_BANKS } from "@/modules/interview/questions";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { SITE_URL as siteUrl, SITE_NAME } from "@/lib/site";
 
@@ -160,6 +162,26 @@ export default async function InterviewPage() {
             <span key={r.id} className="rounded-full border border-border bg-muted/40 px-3 py-1 text-sm">
               {r.label}
             </span>
+          ))}
+        </div>
+      </section>
+
+      {/* Prepare by topic — links to the indexable question banks */}
+      <section className="mt-12">
+        <h2 className="font-heading text-xl font-semibold tracking-tight">Prepare by topic</h2>
+        <p className="mt-1 mb-4 text-sm text-muted-foreground">
+          Browse common questions with answers, then practice them live.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {QUESTION_BANKS.map((b) => (
+            <Link
+              key={b.slug}
+              href={`/interview/${b.slug}`}
+              className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
+            >
+              <span className="font-medium">{b.topic} interview questions</span>
+              <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground" />
+            </Link>
           ))}
         </div>
       </section>
