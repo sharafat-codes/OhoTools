@@ -192,7 +192,7 @@ const baseDevTools: DevTool[] = [
       { q: "Does it support emoji and non-English text?", a: "Yes — encoding uses UTF-8, so emoji and any Unicode characters convert correctly." },
       { q: "Is Base64 encryption?", a: "No. Base64 is an encoding, not encryption — anyone can decode it, so never use it to protect secrets." },
     ],
-    related: ["url-encoder", "json-formatter", "hash-generator"],
+    related: ["url-encoder", "jwt-decoder", "hash-generator"],
   },
   {
     slug: "uuid-generator",
@@ -255,7 +255,7 @@ const baseDevTools: DevTool[] = [
       { q: "How is reading time calculated?", a: "It's based on an average adult reading speed of about 200 words per minute." },
       { q: "Does it count characters with and without spaces?", a: "Yes — both totals are shown, which is handy for character-limited fields like meta descriptions and tweets." },
     ],
-    related: ["case-converter", "json-formatter", "url-encoder"],
+    related: ["word-frequency", "case-converter", "text-diff"],
   },
   {
     slug: "case-converter",
@@ -276,7 +276,7 @@ const baseDevTools: DevTool[] = [
       { q: "What's the difference between camelCase and PascalCase?", a: "camelCase lowercases the first word (myVariable); PascalCase capitalizes it (MyVariable). This tool outputs camelCase." },
       { q: "Does it handle programming identifiers?", a: "Yes — snake_case and kebab-case intelligently split on spaces and camelCase boundaries." },
     ],
-    related: ["word-counter", "json-formatter", "url-encoder"],
+    related: ["word-counter", "word-frequency", "slugify"],
   },
   {
     slug: "jwt-decoder",
@@ -529,7 +529,7 @@ const baseDevTools: DevTool[] = [
       { q: "Does it compare line by line or word by word?", a: "Line by line — each line is marked as unchanged, added, or removed." },
       { q: "Is my text private?", a: "Yes — the comparison runs entirely in your browser and nothing is uploaded." },
     ],
-    related: ["json-formatter", "word-counter", "case-converter"],
+    related: ["word-frequency", "word-counter", "case-converter"],
   },
   {
     slug: "qr-code",
@@ -3568,15 +3568,22 @@ export const TOOL_GUIDES: Record<string, string> = {
  * Curated "most-used" tools for the fast-path strip at the top of /tools.
  * Hand-picked (no analytics yet) to cover the highest-traffic intents.
  */
+// Curated "Popular tools" strip on /tools (also feeds llms.txt). Kept aligned
+// with what actually earns search impressions so the hub funnels internal link
+// equity into the pages closest to breaking onto page 1.
 export const POPULAR_SLUGS: string[] = [
   "merge-pdf",
   "compress-pdf",
   "pdf-to-word",
   "word-to-pdf",
+  "jwt-decoder",
+  "image-to-text",
   "remove-background",
   "compress-image",
   "image-converter",
+  "bulk-image-converter",
   "word-counter",
+  "word-frequency",
   "password-generator",
   "json-formatter",
 ];
