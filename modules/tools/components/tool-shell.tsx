@@ -109,6 +109,7 @@ export function ToolShell({
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
         </div>
         <ShareButton
+          align="end"
           className="ml-auto shrink-0"
           title={`${tool.name} — free online tool by OhoTool`}
           url={`${siteUrl}/tools/${tool.slug}`}

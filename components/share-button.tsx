@@ -55,12 +55,15 @@ export function ShareButton({
   url,
   title,
   image,
+  align = "start",
   className,
 }: {
   url?: string;
   title?: string;
   /** Image URL for platforms that pin one (Pinterest). Usually the page's OG image. */
   image?: string;
+  /** Which edge the menu aligns to. Use "end" when the button sits on the right. */
+  align?: "start" | "end";
   className?: string;
 }) {
   // Only prefer the native share sheet on touch/mobile devices — on desktop it's
@@ -122,14 +125,19 @@ export function ShareButton({
   }
 
   return (
-    <div ref={ref} className={cn("relative", className)}>
+    <div ref={ref} className={cn("relative inline-block", className)}>
       <Button variant="outline" size="sm" onClick={onClick} aria-haspopup={!preferNative} aria-expanded={open}>
         <Share2Icon />
         Share
       </Button>
 
       {open && (
-        <div className="absolute right-0 z-30 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-lg">
+        <div
+          className={cn(
+            "absolute z-30 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-lg",
+            align === "end" ? "right-0" : "left-0",
+          )}
+        >
           {NETWORKS.map((n) => (
             <a
               key={n.key}
