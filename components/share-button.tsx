@@ -63,13 +63,21 @@ export function ShareButton({
   image?: string;
   className?: string;
 }) {
-  const [hasNative, setHasNative] = React.useState(false);
+  // Only prefer the native share sheet on touch/mobile devices — on desktop it's
+  // an inconsistent OS sheet that often lacks targets like Pinterest, so we show
+  // our own curated menu there instead.
+  const [preferNative, setPreferNative] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    setHasNative(typeof navigator !== "undefined" && typeof navigator.share === "function");
+    const native = typeof navigator !== "undefined" && typeof navigator.share === "function";
+    const coarse =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(pointer: coarse)").matches;
+    setPreferNative(native && coarse);
   }, []);
 
   React.useEffect(() => {
@@ -92,7 +100,7 @@ export function ShareButton({
   const resolveTitle = () => title ?? (typeof document !== "undefined" ? document.title : "");
 
   async function onClick() {
-    if (hasNative) {
+    if (preferNative) {
       try {
         await navigator.share({ title: resolveTitle(), text: resolveTitle(), url: resolveUrl() });
       } catch {
@@ -115,12 +123,12 @@ export function ShareButton({
 
   return (
     <div ref={ref} className={cn("relative", className)}>
-      <Button variant="outline" size="sm" onClick={onClick} aria-haspopup={!hasNative} aria-expanded={open}>
+      <Button variant="outline" size="sm" onClick={onClick} aria-haspopup={!preferNative} aria-expanded={open}>
         <Share2Icon />
         Share
       </Button>
 
-      {!hasNative && open && (
+      {open && (
         <div className="absolute right-0 z-30 mt-2 w-48 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-lg">
           {NETWORKS.map((n) => (
             <a
