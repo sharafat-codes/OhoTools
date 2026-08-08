@@ -82,7 +82,11 @@ export default async function TopicPage({ params }: { params: Promise<{ topic: s
         </h1>
         <p className="mt-3 text-pretty text-muted-foreground">{bank.intro}</p>
         <div className="mt-4">
-          <ShareButton title={`${bank.topic} Interview Questions`} url={`${siteUrl}/interview/${bank.slug}`} />
+          <ShareButton
+            title={`${bank.topic} Interview Questions`}
+            url={`${siteUrl}/interview/${bank.slug}`}
+            image={ogImageUrl({ eyebrow: "Interview Prep", title: bank.title, subtitle: `${bank.questions.length} questions with answers` })}
+          />
         </div>
       </header>
 

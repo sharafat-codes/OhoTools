@@ -124,7 +124,7 @@ export default async function InterviewPage() {
           with a scored report — strengths, gaps, and what to study next.
         </p>
         <div className="mt-5 flex justify-center">
-          <ShareButton title="AI Mock Interview — practice tech & behavioral interviews free" url={`${siteUrl}/interview`} />
+          <ShareButton title="AI Mock Interview — practice tech & behavioral interviews free" url={`${siteUrl}/interview`} image={ogImage} />
         </div>
       </header>
 

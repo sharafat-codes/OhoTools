@@ -138,7 +138,11 @@ export default async function BlogPostPage({
           {meta.title}
         </h1>
         <div className="mt-4">
-          <ShareButton title={meta.title} url={`${siteUrl}/blog/${meta.slug}`} />
+          <ShareButton
+            title={meta.title}
+            url={`${siteUrl}/blog/${meta.slug}`}
+            image={ogImageUrl({ eyebrow: meta.tags[0] ? `${meta.tags[0]} · Guide` : "Guide", title: meta.title, subtitle: meta.description })}
+          />
         </div>
       </header>
 

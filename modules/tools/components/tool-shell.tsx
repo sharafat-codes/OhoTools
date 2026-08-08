@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 
-import { getTool, getToolCategory, categoryPathForTool, TOOL_GUIDES, type DevTool } from "@/modules/tools/registry";
+import { getTool, getToolCategory, categoryPathForTool, ogImageUrl, TOOL_GUIDES, type DevTool } from "@/modules/tools/registry";
 import { posts } from "@/modules/blog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -112,6 +112,11 @@ export function ToolShell({
           className="ml-auto shrink-0"
           title={`${tool.name} — free online tool by OhoTool`}
           url={`${siteUrl}/tools/${tool.slug}`}
+          image={ogImageUrl({
+            eyebrow: category ? `${category.name} tool` : "Online tool",
+            title: tool.name,
+            subtitle: tool.tagline,
+          })}
         />
       </div>
       <p className="mb-8 text-pretty text-muted-foreground">{tool.intro}</p>
