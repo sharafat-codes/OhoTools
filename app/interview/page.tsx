@@ -9,6 +9,7 @@ import { InterviewApp } from "@/modules/interview/components/interview-app";
 import { ROLES } from "@/modules/interview/config";
 import { QUESTION_BANKS } from "@/modules/interview/questions";
 import { ogImageUrl } from "@/modules/tools/registry";
+import { ShareButton } from "@/components/share-button";
 import { SITE_URL as siteUrl, SITE_NAME } from "@/lib/site";
 
 const title = "AI Mock Interview — Practice Tech & Behavioral Interviews";
@@ -122,6 +123,9 @@ export default async function InterviewPage() {
           Practice a realistic interview with an AI that asks one question at a time, follows up on your answers, and ends
           with a scored report — strengths, gaps, and what to study next.
         </p>
+        <div className="mt-5 flex justify-center">
+          <ShareButton title="AI Mock Interview — practice tech & behavioral interviews free" url={`${siteUrl}/interview`} />
+        </div>
       </header>
 
       {/* The app */}

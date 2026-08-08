@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
 import { RecentToolTracker } from "@/modules/tools/components/recent-tools";
+import { ShareButton } from "@/components/share-button";
 import { EmbedDialog } from "@/modules/tools/components/embed-dialog";
 import { isEmbeddable } from "@/modules/tools/embed";
 import { SITE_URL as siteUrl } from "@/lib/site";
@@ -107,6 +108,11 @@ export function ToolShell({
           </div>
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
         </div>
+        <ShareButton
+          className="ml-auto shrink-0"
+          title={`${tool.name} — free online tool by OhoTool`}
+          url={`${siteUrl}/tools/${tool.slug}`}
+        />
       </div>
       <p className="mb-8 text-pretty text-muted-foreground">{tool.intro}</p>
 

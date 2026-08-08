@@ -9,6 +9,7 @@ import { isEmbeddable, isEmbedConversion } from "@/modules/tools/embed";
 import { getConversionView } from "@/modules/tools/conversions";
 import { EmbedTool } from "@/modules/tools/components/embed-tool";
 import { Converter } from "@/modules/tools/components/converter";
+import { ShareButton } from "@/components/share-button";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -136,6 +137,9 @@ export default async function BlogPostPage({
         <h1 className="mt-4 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
           {meta.title}
         </h1>
+        <div className="mt-4">
+          <ShareButton title={meta.title} url={`${siteUrl}/blog/${meta.slug}`} />
+        </div>
       </header>
 
       <div className={prose}>

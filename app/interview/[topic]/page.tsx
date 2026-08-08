@@ -5,6 +5,7 @@ import { ArrowRightIcon, MessagesSquareIcon, SparklesIcon } from "lucide-react";
 
 import { getQuestionBank, questionBankSlugs, QUESTION_BANKS } from "@/modules/interview/questions";
 import { ogImageUrl } from "@/modules/tools/registry";
+import { ShareButton } from "@/components/share-button";
 import { SITE_URL as siteUrl, SITE_NAME } from "@/lib/site";
 
 export const dynamicParams = false;
@@ -80,6 +81,9 @@ export default async function TopicPage({ params }: { params: Promise<{ topic: s
           {bank.topic} Interview Questions
         </h1>
         <p className="mt-3 text-pretty text-muted-foreground">{bank.intro}</p>
+        <div className="mt-4">
+          <ShareButton title={`${bank.topic} Interview Questions`} url={`${siteUrl}/interview/${bank.slug}`} />
+        </div>
       </header>
 
       {/* Live-mock CTA */}
