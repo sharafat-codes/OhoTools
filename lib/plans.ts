@@ -21,7 +21,7 @@ export const PLANS: Plan[] = [
     features: [
       "200+ online tools — free, no ads",
       "AI writing & Chat with PDF — free daily use",
-      "AI mock interview — 1 a day, free",
+      "AI mock interview + resume reviewer — free daily",
       "AI image upscaler & background remover",
       "PDF, image, audio & video tools",
       "Encrypted file sharing (Send)",
@@ -37,7 +37,7 @@ export const PLANS: Plan[] = [
     features: [
       "Everything in Free",
       "Unlimited AI — writing, Chat with PDF & more",
-      "AI mock interviews — longer, tailored, model answers",
+      "AI mock interviews & resume rewrites — unlimited",
       "Office ↔ PDF, CSV ↔ Excel & more converters",
       "Developer API — convert & QR (1,000 calls/mo)",
       "Send links that last up to 7 days",

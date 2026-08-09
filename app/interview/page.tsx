@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MessagesSquareIcon, ClipboardCheckIcon, SlidersHorizontalIcon, ArrowRightIcon } from "lucide-react";
+import { MessagesSquareIcon, ClipboardCheckIcon, SlidersHorizontalIcon, ArrowRightIcon, FileTextIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { isPro } from "@/lib/plans";
@@ -134,6 +134,23 @@ export default async function InterviewPage() {
           <InterviewApp loggedIn={loggedIn} pro={pro} verified={verified} email={email} />
         </CardContent>
       </Card>
+
+      {/* Career-prep cross-link */}
+      <Link
+        href="/resume-review"
+        className="group mt-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40"
+      >
+        <div className="flex items-center gap-3">
+          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+            <FileTextIcon className="size-4.5" />
+          </span>
+          <div>
+            <div className="font-heading text-sm font-semibold">First, check your resume</div>
+            <div className="text-xs text-muted-foreground">Free AI resume reviewer &amp; ATS checker — scored, with rewrites.</div>
+          </div>
+        </div>
+        <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+      </Link>
 
       {/* How it works */}
       <section className="mt-14">

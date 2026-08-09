@@ -34,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/tools`, lastModified, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/widgets`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/interview`, lastModified, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteUrl}/resume-review`, lastModified, changeFrequency: "weekly", priority: 0.8 },
     ...questionBankSlugs.map((slug) => ({
       url: `${siteUrl}/interview/${slug}`,
       lastModified,

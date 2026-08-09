@@ -22,6 +22,7 @@ export default async function ToolsLayout({
             <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/interview" className="hover:text-foreground">Interview</Link>
+            <Link href="/resume-review" className="hover:text-foreground">Resume</Link>
             <Link href="/widgets" className="hover:text-foreground">Widgets</Link>
             <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
             <Link href="/developers" className="hover:text-foreground">API</Link>
