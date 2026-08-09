@@ -2,12 +2,14 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { SparklesIcon, Loader2Icon, RotateCcwIcon } from "lucide-react";
+import { SparklesIcon, Loader2Icon, RotateCcwIcon, UploadIcon, FileCheck2Icon } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RESUME_MAX, JOB_MAX, type ResumeReport } from "@/modules/resume/config";
+import { extractResumeText } from "@/modules/resume/extract";
 import { ResumeReviewReport } from "@/modules/resume/components/resume-report";
 
 async function post(payload: unknown) {
@@ -35,6 +37,30 @@ export function ResumeReviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boo
   const [reportPro, setReportPro] = React.useState(pro);
   const [error, setError] = React.useState("");
   const [limitReached, setLimitReached] = React.useState(false);
+  const [extracting, setExtracting] = React.useState(false);
+  const [fileName, setFileName] = React.useState("");
+  const [dragging, setDragging] = React.useState(false);
+  const fileRef = React.useRef<HTMLInputElement>(null);
+
+  async function onFile(file: File | undefined) {
+    if (!file) return;
+    setExtracting(true);
+    setError("");
+    setFileName("");
+    try {
+      const text = await extractResumeText(file);
+      if (!text || text.trim().length < 30) {
+        setError("Couldn't read text from that file (it may be a scanned image). Paste your resume text instead.");
+        return;
+      }
+      setResume(text.slice(0, RESUME_MAX));
+      setFileName(file.name);
+    } catch {
+      setError("Couldn't read that file. Try a PDF, DOCX, or TXT — or paste the text.");
+    } finally {
+      setExtracting(false);
+    }
+  }
 
   async function run() {
     if (resume.trim().length < 60 || busy) return;
@@ -83,8 +109,51 @@ export function ResumeReviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boo
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="resume">Your resume</Label>
+        <Label>Your resume</Label>
+
+        {/* Upload dropzone */}
+        <input
+          ref={fileRef}
+          type="file"
+          accept=".pdf,.docx,.txt,.md,application/pdf,text/plain"
+          className="hidden"
+          onChange={(e) => onFile(e.target.files?.[0])}
+        />
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragging(false);
+            onFile(e.dataTransfer.files?.[0]);
+          }}
+          className={cn(
+            "flex w-full flex-col items-center gap-1.5 rounded-xl border border-dashed px-4 py-6 text-center transition-colors",
+            dragging ? "border-primary bg-primary/5" : "border-border hover:bg-muted/40",
+          )}
+        >
+          {extracting ? (
+            <Loader2Icon className="size-5 animate-spin text-primary" />
+          ) : fileName ? (
+            <FileCheck2Icon className="size-5 text-emerald-600 dark:text-emerald-500" />
+          ) : (
+            <UploadIcon className="size-5 text-muted-foreground" />
+          )}
+          <span className="text-sm font-medium">
+            {extracting ? "Reading your resume…" : fileName ? `Loaded ${fileName}` : "Upload resume — PDF, DOCX or TXT"}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            {fileName ? "Edit the text below if anything looks off, or upload another." : "Drag & drop or click — read in your browser, never uploaded to us."}
+          </span>
+        </button>
+
+        <div className="mt-1 flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">…or paste the text below</span>
           <span className="text-xs text-muted-foreground tabular-nums">
             {resume.length.toLocaleString()}/{RESUME_MAX.toLocaleString()}
           </span>
@@ -93,8 +162,8 @@ export function ResumeReviewApp({ loggedIn, pro }: { loggedIn: boolean; pro: boo
           id="resume"
           value={resume}
           onChange={(e) => setResume(e.target.value.slice(0, RESUME_MAX))}
-          rows={10}
-          placeholder="Paste your resume text here.  Tip: open your resume (PDF/Word), select all (Ctrl/⌘+A), copy, and paste."
+          rows={9}
+          placeholder="Paste your resume text here."
           className="resize-y"
         />
       </div>
