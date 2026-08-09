@@ -10,6 +10,7 @@ import {
   ImageUpscaleIcon,
   KeyRoundIcon,
   LockKeyholeIcon,
+  MonitorIcon,
   ShuffleIcon,
   TerminalIcon,
   TrendingUpIcon,
@@ -2469,6 +2470,29 @@ const baseDevTools: DevTool[] = [
     serverSide: true,
   },
   {
+    slug: "screen-recorder",
+    name: "Screen Recorder",
+    tagline: "Record your screen in the browser — no watermark, no time limit, nothing uploaded.",
+    description:
+      "Free online screen recorder. Record your screen, a window, or a tab with audio and your mic — right in your browser. No sign-up, no watermark, no time limit, and nothing is uploaded.",
+    keywords: ["screen recorder", "free screen recorder", "online screen recorder", "record screen online", "screen recorder no watermark"],
+    icon: MonitorIcon,
+    intro:
+      "Record your screen, a window, or a browser tab — with system audio and your microphone if you want — entirely in your browser. No sign-up, no watermark, and no time limit. The recording is created on your device and never uploaded, then you download it as a video file.",
+    steps: [
+      "Choose whether to include your microphone, then click Start recording.",
+      "Pick a screen, window, or tab to share (tick 'Share audio' to capture system sound).",
+      "Pause or stop when done — preview and download your recording (.webm).",
+    ],
+    faqs: [
+      { q: "Is it really free and without a watermark?", a: "Yes — no sign-up, no watermark, and no time limit. Unlike many recorders, it records locally in your browser, so there's nothing to pay for and nothing uploaded." },
+      { q: "Does it record audio and my microphone?", a: "Yes. Tick 'Share audio' in the browser prompt to capture system/tab sound, and turn on the microphone toggle to add narration. Both are mixed into the recording." },
+      { q: "Why is the file a .webm?", a: "Browsers record to WebM. It plays in most players and browsers — and if you need MP4, you can convert it for free with our Video to MP4 tool." },
+      { q: "Does it work on my phone?", a: "Screen recording uses a browser feature that's only available on desktop browsers (Chrome, Edge, Firefox). On a phone, use your device's built-in screen recorder." },
+    ],
+    related: ["video-to-mp4", "compress-video", "trim-video"],
+  },
+  {
     slug: "video-to-gif",
     name: "Video to GIF",
     tagline: "Turn a video clip into an animated GIF.",
@@ -3678,7 +3702,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Video & GIF",
     blurb: "Convert, compress, trim, and extract — in your browser.",
-    slugs: ["video-to-gif", "video-to-mp4", "compress-video", "trim-video", "video-to-mp3"],
+    slugs: ["screen-recorder", "video-to-gif", "video-to-mp4", "compress-video", "trim-video", "video-to-mp3"],
   },
   {
     name: "Audio",
