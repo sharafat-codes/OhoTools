@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon } from "lucide-react";
+import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon, SparklesIcon, ArrowLeftRightIcon, QrCodeIcon, TerminalIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { PLANS } from "@/lib/plans";
@@ -22,6 +22,29 @@ const REASSURANCE = [
   { icon: XCircleIcon, label: "Cancel anytime" },
 ];
 
+const PRO_HIGHLIGHTS = [
+  {
+    icon: SparklesIcon,
+    title: "Unlimited AI + agents",
+    body: "No daily limit on Chat with PDF, the AI Mock Interview, and Resume Reviewer — including model answers, bullet rewrites, and JD tailoring.",
+  },
+  {
+    icon: ArrowLeftRightIcon,
+    title: "Advanced converters",
+    body: "Office ↔ PDF, CSV ↔ Excel, PDF → PowerPoint, and other premium document conversions.",
+  },
+  {
+    icon: QrCodeIcon,
+    title: "Dynamic QR + analytics",
+    body: "Editable QR codes, scan tracking, logo branding, and bulk QR / image / PDF processing.",
+  },
+  {
+    icon: TerminalIcon,
+    title: "Developer API",
+    body: "Convert files and generate QR codes programmatically — 1,000 calls a month.",
+  },
+];
+
 const FAQS = [
   {
     q: "Are the tools really free?",
@@ -29,7 +52,11 @@ const FAQS = [
   },
   {
     q: "What do I actually get with Pro?",
-    a: "Unlimited AI tools, advanced document conversions (Office↔PDF, CSV↔Excel, PDF→PowerPoint, and more), dynamic QR codes with scan analytics and branding, bulk generation, API access, and priority support.",
+    a: "Unlimited AI — including the AI Mock Interview and Resume Reviewer, Chat with PDF, and the writing tools — plus advanced document conversions (Office↔PDF, CSV↔Excel, PDF→PowerPoint), dynamic QR codes with scan analytics and branding, bulk generation, API access, and priority support.",
+  },
+  {
+    q: "Is Pro worth it if I'm just job hunting?",
+    a: "Yes — Pro unlocks unlimited mock interviews and resume reviews with model answers and AI-written bullet rewrites, which is exactly what you want during an active job search. And you can cancel the moment you land the role.",
   },
   {
     q: "Do I need an account to use the tools?",
@@ -52,8 +79,8 @@ export default async function PricingPage() {
           Simple, honest pricing
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Most tools are free forever. Upgrade for unlimited AI, advanced document conversions,
-          dynamic QR analytics, bulk tools, and the API.
+          Most tools are free forever. Upgrade for unlimited AI — mock interviews, resume reviews,
+          Chat with PDF — plus advanced converters, dynamic QR analytics, bulk tools, and the API.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
           {REASSURANCE.map((r) => (
@@ -94,10 +121,31 @@ export default async function PricingPage() {
               variant={plan.popular ? "default" : "outline"}
               render={<Link href={plan.price === 0 ? "/tools" : proHref} />}
             >
-              {plan.price === 0 ? "Use the tools" : "Choose Pro"}
+              {plan.price === 0 ? "Use the free tools" : "Upgrade to Pro"}
             </Button>
           </div>
         ))}
+      </div>
+
+      {/* What Pro unlocks */}
+      <div className="mx-auto mt-16 max-w-4xl">
+        <h2 className="text-center font-heading text-2xl font-semibold tracking-tight">What Pro unlocks</h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {PRO_HIGHLIGHTS.map((h) => {
+            const Icon = h.icon;
+            return (
+              <div key={h.title} className="flex gap-3 rounded-xl border border-border bg-card p-5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+                  <Icon className="size-5" />
+                </span>
+                <div>
+                  <div className="font-heading font-semibold">{h.title}</div>
+                  <p className="mt-1 text-sm text-muted-foreground">{h.body}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mx-auto mt-16 max-w-3xl">
