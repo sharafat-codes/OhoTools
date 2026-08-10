@@ -39,7 +39,8 @@ export function ProNudge() {
       <p className="flex-1 text-sm">
         <span className="font-medium">Every tool here is free.</span>{" "}
         <span className="text-muted-foreground">
-          Go Pro to brand dynamic QR codes, track scans, generate in bulk, and use the API.
+          Go Pro for unlimited AI — Chat with PDF, mock interviews &amp; resume reviews — plus advanced
+          Office&nbsp;↔&nbsp;PDF converters, bulk tools, dynamic QR analytics, and the API.
         </span>
       </p>
       <Link

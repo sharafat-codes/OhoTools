@@ -3,9 +3,11 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, SparklesIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useSession } from "@/lib/auth-client";
+import { isPro } from "@/lib/plans";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +31,10 @@ const LINKS = [
 export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
+  // Only surface "Go Pro" once the session has resolved to a confirmed free
+  // user — avoids flashing an upgrade CTA at someone who's already Pro.
+  const showGoPro = !!session && !isPro((session.user as { plan?: string } | undefined)?.plan ?? "FREE");
 
   // Hash links (e.g. /#faq) are in-page anchors — never "active".
   // Section links match their exact path and any nested route below it.
@@ -64,9 +70,22 @@ export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
           <ToolSearch />
           <ThemeToggle />
           {isAuthed ? (
-            <Button size="sm" render={<Link href="/dashboard" />}>
-              Dashboard
-            </Button>
+            <>
+              {showGoPro && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden border-primary/40 text-primary hover:bg-primary/10 hover:text-primary sm:inline-flex"
+                  render={<Link href="/dashboard/billing" />}
+                >
+                  <SparklesIcon />
+                  Go Pro
+                </Button>
+              )}
+              <Button size="sm" render={<Link href="/dashboard" />}>
+                Dashboard
+              </Button>
+            </>
           ) : (
             <>
               <Button variant="ghost" size="sm" className="hidden sm:inline-flex" render={<Link href="/login" />}>
@@ -112,9 +131,21 @@ export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
               </nav>
               <div className="mt-auto flex flex-col gap-2 p-4">
                 {isAuthed ? (
-                  <Button render={<Link href="/dashboard" onClick={() => setOpen(false)} />}>
-                    Go to dashboard
-                  </Button>
+                  <>
+                    {showGoPro && (
+                      <Button
+                        variant="outline"
+                        className="border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+                        render={<Link href="/dashboard/billing" onClick={() => setOpen(false)} />}
+                      >
+                        <SparklesIcon />
+                        Go Pro
+                      </Button>
+                    )}
+                    <Button render={<Link href="/dashboard" onClick={() => setOpen(false)} />}>
+                      Go to dashboard
+                    </Button>
+                  </>
                 ) : (
                   <>
                     <Button variant="outline" render={<Link href="/login" onClick={() => setOpen(false)} />}>
