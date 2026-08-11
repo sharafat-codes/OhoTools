@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { AdSense } from "@/components/adsense";
 
 // Body / UI text — highly legible SaaS standard.
 const inter = Inter({
@@ -121,14 +122,8 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_ID}');`}
             </Script>
-            {/* Google AdSense — loader for verification + ad serving. */}
-            <Script
-              id="adsense"
-              async
-              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9457374000076613"
-              crossOrigin="anonymous"
-              strategy="afterInteractive"
-            />
+            {/* Google AdSense — loaded for everyone except Pro users (ad-free perk). */}
+            <AdSense />
           </>
         )}
       </body>

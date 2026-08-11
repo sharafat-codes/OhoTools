@@ -10,7 +10,7 @@ export default function PrivacyPage() {
   return (
     <article>
       <h1 className="font-heading text-3xl font-semibold tracking-tight">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Last updated: July 22, 2026</p>
+      <p className="mt-2 text-sm text-muted-foreground">Last updated: August 11, 2026</p>
 
       <p className="mt-6">
         This Privacy Policy explains how OhoTool (&quot;OhoTool&quot;, &quot;we&quot;, &quot;us&quot;) collects,
@@ -49,13 +49,35 @@ export default function PrivacyPage() {
         We use Vercel Web Analytics and Speed Insights to understand aggregate traffic and page
         performance. These are privacy-friendly and <strong>cookieless</strong> — they do not use
         cross-site tracking cookies and do not collect personally identifiable information. We do
-        not use advertising networks or sell your data.
+        not sell your personal data.
       </p>
+
+      <h2>Advertising</h2>
+      <p>
+        On our free tier we display ads served by <strong>Google AdSense</strong>. Google and its
+        partners use cookies and similar technologies to serve and measure ads, including
+        personalized ads based on your prior visits to this and other websites. Third-party vendors,
+        including Google, use cookies to serve ads based on your interests.
+      </p>
+      <ul>
+        <li>
+          Google&apos;s use of advertising cookies is governed by the{" "}
+          <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google Ads policies</a>.
+        </li>
+        <li>
+          You can opt out of personalized advertising in your{" "}
+          <a href="https://myadcenter.google.com/" target="_blank" rel="noopener">Google Ad Settings</a>, or opt out of
+          third-party vendor cookies at{" "}
+          <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info/choices</a>.
+        </li>
+        <li><strong>Pro subscribers see no ads</strong> — upgrading removes advertising entirely.</li>
+      </ul>
 
       <h2>Cookies</h2>
       <p>
-        We use a strictly necessary session cookie to keep you signed in. We do not use advertising
-        or third-party cross-site tracking cookies.
+        We use a strictly necessary session cookie to keep you signed in. On the free tier, our
+        advertising partner Google and its vendors may set cookies to serve and measure ads, as
+        described under &quot;Advertising&quot; above. We do not set our own cross-site tracking cookies.
       </p>
 
       <h2>Service providers</h2>
@@ -65,6 +87,8 @@ export default function PrivacyPage() {
         <li><strong>Vercel</strong> — application hosting and privacy-friendly analytics.</li>
         <li><strong>Stripe</strong> — payment processing and subscription management.</li>
         <li><strong>Resend</strong> — delivery of transactional emails.</li>
+        <li><strong>Google AdSense</strong> — advertising on the free tier (see &quot;Advertising&quot;).</li>
+        <li><strong>OpenAI</strong> — powers our AI tools; text you submit to an AI tool is sent to process that request and is not used to train models.</li>
       </ul>
       <p>
         Each provider processes data only as needed to deliver its service and under its own terms

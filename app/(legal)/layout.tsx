@@ -25,6 +25,7 @@ export default async function LegalLayout({
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-6 text-sm text-muted-foreground sm:px-6">
           <Logo size="sm" />
           <div className="flex gap-4">
+            <Link href="/about" className="hover:text-foreground">About</Link>
             <Link href="/pricing" className="hover:text-foreground">Pricing</Link>
             <Link href="/blog" className="hover:text-foreground">Blog</Link>
             <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>

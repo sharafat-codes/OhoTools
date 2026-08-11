@@ -19,7 +19,7 @@ export const PLANS: Plan[] = [
     price: 0,
     tagline: "Everything you need, no account required.",
     features: [
-      "200+ online tools — free, no ads",
+      "200+ online tools — always free",
       "AI writing & Chat with PDF — free daily use",
       "AI mock interview + resume reviewer — free daily",
       "AI image upscaler & background remover",
@@ -36,6 +36,7 @@ export const PLANS: Plan[] = [
     popular: true,
     features: [
       "Everything in Free",
+      "No ads — a clean, ad-free experience",
       "Unlimited AI — writing, Chat with PDF & more",
       "AI mock interviews & resume rewrites — unlimited",
       "Office ↔ PDF, CSV ↔ Excel & more converters",

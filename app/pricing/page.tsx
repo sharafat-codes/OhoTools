@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 const REASSURANCE = [
   { icon: InfinityIcon, label: `${TOOL_COUNT_LABEL} free tools` },
-  { icon: ShieldOffIcon, label: "No ads, ever" },
+  { icon: ShieldOffIcon, label: "We never sell your data" },
   { icon: ZapIcon, label: "No sign-up to use tools" },
   { icon: XCircleIcon, label: "Cancel anytime" },
 ];
