@@ -65,6 +65,8 @@ export const metadata: Metadata = {
   creator: "OhoTool",
   category: "technology",
   alternates: { canonical: "/" },
+  // Google AdSense site verification/association (renders a <meta> in <head>).
+  other: { "google-adsense-account": "ca-pub-9457374000076613" },
   openGraph: {
     type: "website",
     url: siteUrl,
