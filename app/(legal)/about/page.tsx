@@ -57,7 +57,7 @@ export default function AboutPage() {
       <h2>Contact</h2>
       <p>
         We&apos;d love to hear your feedback, questions, or ideas. Reach us at{" "}
-        <a href="mailto:support@ohotool.com">support@ohotool.com</a> or through our{" "}
+        <a href="mailto:sharafat.codes@gmail.com">sharafat.codes@gmail.com</a> or through our{" "}
         <a href="/contact">contact page</a>.
       </p>
     </article>

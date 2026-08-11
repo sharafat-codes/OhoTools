@@ -46,7 +46,7 @@ export default function RefundsPage() {
 
       <h2>How to request a refund</h2>
       <p>
-        Email <a href="mailto:support@ohotool.com">support@ohotool.com</a> from the address on your
+        Email <a href="mailto:sharafat.codes@gmail.com">sharafat.codes@gmail.com</a> from the address on your
         account, and we&apos;ll process eligible refunds to your original payment method (this is handled
         through Paddle). You can also request help via Paddle&apos;s buyer support.
       </p>
@@ -54,7 +54,7 @@ export default function RefundsPage() {
       <h2>Contact</h2>
       <p>
         Questions about billing or refunds? Reach us at{" "}
-        <a href="mailto:support@ohotool.com">support@ohotool.com</a>.
+        <a href="mailto:sharafat.codes@gmail.com">sharafat.codes@gmail.com</a>.
       </p>
     </article>
   );

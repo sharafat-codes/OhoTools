@@ -141,7 +141,7 @@ export default function PrivacyPage() {
       <h2>Contact</h2>
       <p>
         Questions or requests about your privacy? Email us at{" "}
-        <a href="mailto:support@ohotool.com">support@ohotool.com</a>.
+        <a href="mailto:sharafat.codes@gmail.com">sharafat.codes@gmail.com</a>.
       </p>
     </article>
   );
