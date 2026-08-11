@@ -62,6 +62,7 @@ model User {
   transfers    Transfer[]
   aiUsage        AiUsage[]
   interviewUsage InterviewUsage[]
+  favoriteTools  FavoriteTool[]
   subscription   Subscription?
 
   @@map("user")
@@ -364,4 +365,19 @@ model InterviewUsage {
   @@unique([userId, day])
   @@index([userId])
   @@map("interview_usage")
+}
+
+// A tool a user has saved as a favorite. Anonymous users keep favorites in
+// localStorage; on sign-in those merge into these rows for cross-device sync.
+model FavoriteTool {
+  id        String   @id @default(cuid())
+  userId    String
+  slug      String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, slug])
+  @@index([userId])
+  @@map("favorite_tool")
 }

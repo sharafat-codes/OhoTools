@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProNudge } from "@/components/pro-nudge";
 import { RecentToolTracker } from "@/modules/tools/components/recent-tools";
 import { ShareButton } from "@/components/share-button";
+import { FavoriteButton } from "@/components/favorites";
 import { EmbedDialog } from "@/modules/tools/components/embed-dialog";
 import { isEmbeddable } from "@/modules/tools/embed";
 import { SITE_URL as siteUrl } from "@/lib/site";
@@ -108,17 +109,19 @@ export function ToolShell({
           </div>
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
         </div>
-        <ShareButton
-          align="end"
-          className="ml-auto shrink-0"
-          title={`${tool.name} — free online tool by OhoTool`}
-          url={`${siteUrl}/tools/${tool.slug}`}
-          image={ogImageUrl({
-            eyebrow: category ? `${category.name} tool` : "Online tool",
-            title: tool.name,
-            subtitle: tool.tagline,
-          })}
-        />
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          <FavoriteButton slug={tool.slug} />
+          <ShareButton
+            align="end"
+            title={`${tool.name} — free online tool by OhoTool`}
+            url={`${siteUrl}/tools/${tool.slug}`}
+            image={ogImageUrl({
+              eyebrow: category ? `${category.name} tool` : "Online tool",
+              title: tool.name,
+              subtitle: tool.tagline,
+            })}
+          />
+        </div>
       </div>
       <p className="mb-8 text-pretty text-muted-foreground">{tool.intro}</p>
 

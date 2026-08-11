@@ -3,11 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SearchIcon, ArrowRightIcon, XIcon, WandSparklesIcon } from "lucide-react";
+import { SearchIcon, ArrowRightIcon, XIcon, WandSparklesIcon, StarIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useFavorites } from "@/components/favorites";
 
 export type ToolItem = {
   slug: string;
@@ -49,12 +50,19 @@ export function ToolsExplorer({
   const activeRef = React.useRef<HTMLAnchorElement | null>(null);
   const restored = React.useRef(false);
 
+  const { favorites, toggle, isFavorite } = useFavorites();
+
   const q = query.trim().toLowerCase();
   const tokens = React.useMemo(() => q.split(/\s+/).filter(Boolean), [q]);
   const all = React.useMemo(
     () => groups.flatMap((g) => g.tools.map((t) => ({ item: t, category: g.name }))),
     [groups],
   );
+
+  const favItems = React.useMemo(() => {
+    const bySlug = new Map(all.map((r) => [r.item.slug, r.item]));
+    return favorites.map((s) => bySlug.get(s)).filter((x): x is ToolItem => Boolean(x));
+  }, [favorites, all]);
 
   const filtering = q !== "" || cat !== "all";
 
@@ -218,6 +226,8 @@ export function ToolsExplorer({
                   tool={t}
                   active={idx === activeIdx}
                   cardRef={idx === activeIdx ? activeRef : undefined}
+                  fav={isFavorite(t.slug)}
+                  onToggleFav={() => toggle(t.slug)}
                 />
               ))}
             </div>
@@ -246,6 +256,21 @@ export function ToolsExplorer({
         )
       ) : (
         <div className="flex flex-col gap-10">
+          {favItems.length > 0 && (
+            <section aria-label="Your favorites">
+              <h2 className="mb-4 flex items-center gap-1.5 font-heading text-xl font-semibold tracking-tight">
+                <StarIcon className="size-4 fill-amber-400 text-amber-400" />
+                Your favorites
+                <span className="ml-1 text-base font-normal text-muted-foreground">{favItems.length}</span>
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {favItems.map((t) => (
+                  <ToolCard key={t.slug} tool={t} fav onToggleFav={() => toggle(t.slug)} />
+                ))}
+              </div>
+            </section>
+          )}
+
           {popular.length > 0 && (
             <section aria-label="Popular tools">
               <h2 className="mb-3 font-heading text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -288,7 +313,7 @@ export function ToolsExplorer({
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {shown.map((t) => (
-                    <ToolCard key={t.slug} tool={t} />
+                    <ToolCard key={t.slug} tool={t} fav={isFavorite(t.slug)} onToggleFav={() => toggle(t.slug)} />
                   ))}
                 </div>
                 {hidden > 0 && (
@@ -352,37 +377,61 @@ function ToolCard({
   tool,
   active,
   cardRef,
+  fav = false,
+  onToggleFav,
 }: {
   tool: ToolItem;
   active?: boolean;
   cardRef?: React.Ref<HTMLAnchorElement>;
+  fav?: boolean;
+  onToggleFav?: () => void;
 }) {
   return (
-    <Link ref={cardRef} href={`/tools/${tool.slug}`} className="group">
-      <Card
-        className={cn(
-          "h-full transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm",
-          active && "border-primary ring-2 ring-primary/40",
-        )}
-      >
-        <CardContent className="flex items-start gap-3">
-          <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
-            {tool.icon}
+    <Card
+      className={cn(
+        "group relative h-full transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm",
+        active && "border-primary ring-2 ring-primary/40",
+      )}
+    >
+      {/* Stretched link makes the whole card clickable; the star sits above it. */}
+      <Link
+        ref={cardRef}
+        href={`/tools/${tool.slug}`}
+        aria-label={`Open ${tool.name}`}
+        className="absolute inset-0 rounded-[inherit]"
+      />
+      <CardContent className="flex items-start gap-3">
+        <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+          {tool.icon}
+        </div>
+        <div className="min-w-0 pr-7">
+          <div className="flex items-center gap-1.5 font-heading font-medium">
+            {tool.name}
+            {tool.pro && (
+              <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">
+                Pro
+              </Badge>
+            )}
+            <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
           </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5 font-heading font-medium">
-              {tool.name}
-              {tool.pro && (
-                <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">
-                  Pro
-                </Badge>
-              )}
-              <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-            </div>
-            <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
+          <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
+        </div>
+      </CardContent>
+      {onToggleFav && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onToggleFav();
+          }}
+          aria-label={fav ? "Remove from favorites" : "Save to favorites"}
+          aria-pressed={fav}
+          className="absolute right-2 top-2 z-10 grid size-7 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <StarIcon className={cn("size-4", fav && "fill-amber-400 text-amber-400")} />
+        </button>
+      )}
+    </Card>
   );
 }
