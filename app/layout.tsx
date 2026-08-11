@@ -121,6 +121,14 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_ID}');`}
             </Script>
+            {/* Google AdSense — loader for verification + ad serving. */}
+            <Script
+              id="adsense"
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9457374000076613"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
           </>
         )}
       </body>
