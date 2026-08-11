@@ -80,17 +80,19 @@ export function useFavorites() {
 
   const toggle = React.useCallback(
     (slug: string) => {
-      setFavorites((cur) => {
-        const next = cur.includes(slug) ? cur.filter((s) => s !== slug) : [slug, ...cur];
-        if (loggedIn) {
-          toggleFavorite(slug).catch(() => {}); // optimistic; DB is best-effort
-        } else {
-          write(next);
-        }
-        return next;
-      });
+      // Compute from current state and run side effects ONCE, outside the state
+      // updater (updaters must be pure — Strict Mode calls them twice, which
+      // would double-fire the DB toggle and cancel itself out).
+      const has = favorites.includes(slug);
+      const next = has ? favorites.filter((s) => s !== slug) : [slug, ...favorites];
+      setFavorites(next);
+      if (loggedIn) {
+        toggleFavorite(slug).catch(() => {}); // optimistic; DB write is best-effort
+      } else {
+        write(next);
+      }
     },
-    [loggedIn],
+    [favorites, loggedIn],
   );
 
   const isFavorite = React.useCallback((slug: string) => favorites.includes(slug), [favorites]);
