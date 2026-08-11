@@ -9,11 +9,12 @@ import { ProNudge } from "@/components/pro-nudge";
 import { RecentToolTracker } from "@/modules/tools/components/recent-tools";
 import { ShareButton } from "@/components/share-button";
 import { FavoriteButton } from "@/components/favorites";
+import { getUserFavorites } from "@/lib/favorites";
 import { EmbedDialog } from "@/modules/tools/components/embed-dialog";
 import { isEmbeddable } from "@/modules/tools/embed";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
-export function ToolShell({
+export async function ToolShell({
   tool,
   children,
 }: {
@@ -21,6 +22,7 @@ export function ToolShell({
   children: React.ReactNode;
 }) {
   const Icon = tool.icon;
+  const favorited = (await getUserFavorites()).includes(tool.slug);
   const related = tool.related
     .map(getTool)
     .filter((t): t is DevTool => Boolean(t));
@@ -110,7 +112,7 @@ export function ToolShell({
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-2">
-          <FavoriteButton slug={tool.slug} />
+          <FavoriteButton slug={tool.slug} initialFavorited={favorited} />
           <ShareButton
             align="end"
             title={`${tool.name} — free online tool by OhoTool`}

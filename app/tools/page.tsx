@@ -11,6 +11,7 @@ import {
   POPULAR_SLUGS,
 } from "@/modules/tools/registry";
 import { ToolsExplorer, type ToolGroup, type ToolItem } from "@/modules/tools/components/tools-explorer";
+import { getUserFavorites } from "@/lib/favorites";
 import { Button } from "@/components/ui/button";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
@@ -36,6 +37,7 @@ export default async function ToolsHub({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q } = await searchParams;
+  const initialFavorites = await getUserFavorites();
 
   const toItem = (slug: string): ToolItem | null => {
     const tool = getTool(slug);
@@ -102,7 +104,7 @@ export default async function ToolsHub({
       </div>
 
       <div className="mt-12">
-        <ToolsExplorer groups={groups} popular={popular} initialQuery={q ?? ""} />
+        <ToolsExplorer groups={groups} popular={popular} initialQuery={q ?? ""} initialFavorites={initialFavorites} />
       </div>
 
       <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">

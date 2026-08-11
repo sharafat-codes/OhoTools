@@ -2,21 +2,11 @@
 
 import { getCurrentUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { getUserFavorites } from "@/lib/favorites";
 
 /** Slugs the current user has favorited (newest first). Empty if signed out. */
 export async function getFavorites(): Promise<string[]> {
-  const user = await getCurrentUser();
-  if (!user) return [];
-  try {
-    const rows = await prisma.favoriteTool.findMany({
-      where: { userId: (user as { id: string }).id },
-      select: { slug: true },
-      orderBy: { createdAt: "desc" },
-    });
-    return rows.map((r) => r.slug);
-  } catch {
-    return [];
-  }
+  return getUserFavorites();
 }
 
 /** Toggle a favorite for the current user. Returns the new state. */

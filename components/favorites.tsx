@@ -33,10 +33,25 @@ function write(list: string[]) {
   window.dispatchEvent(new Event(EVT));
 }
 
-export function useFavorites() {
+// useLayoutEffect on the client (runs before paint → no flash), useEffect on
+// the server (avoids the SSR warning).
+const useIsoLayoutEffect = typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+
+export function useFavorites(initial: string[] = []) {
   const { data: session, isPending } = useSession();
   const loggedIn = !!session?.user;
-  const [favorites, setFavorites] = React.useState<string[]>([]);
+  // Seeded from the server for signed-in users, so the first paint is correct.
+  const [favorites, setFavorites] = React.useState<string[]>(initial);
+
+  // For anonymous users, load localStorage BEFORE paint so the star doesn't
+  // flash unchecked. Skip when the server already seeded (signed-in).
+  useIsoLayoutEffect(() => {
+    if (initial.length === 0) {
+      const local = read();
+      if (local.length) setFavorites(local);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     if (isPending) return; // wait for the session to resolve
@@ -100,9 +115,18 @@ export function useFavorites() {
   return { favorites, toggle, isFavorite };
 }
 
-/** Save/unsave button for a tool page. */
-export function FavoriteButton({ slug, className }: { slug: string; className?: string }) {
-  const { isFavorite, toggle } = useFavorites();
+/** Save/unsave button for a tool page. `initialFavorited` is the server-known
+ * state for signed-in users, so the star renders correctly on first paint. */
+export function FavoriteButton({
+  slug,
+  initialFavorited = false,
+  className,
+}: {
+  slug: string;
+  initialFavorited?: boolean;
+  className?: string;
+}) {
+  const { isFavorite, toggle } = useFavorites(initialFavorited ? [slug] : []);
   const fav = isFavorite(slug);
   return (
     <Button

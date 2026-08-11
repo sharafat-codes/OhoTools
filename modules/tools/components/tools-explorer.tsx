@@ -36,10 +36,12 @@ export function ToolsExplorer({
   groups,
   popular = [],
   initialQuery = "",
+  initialFavorites = [],
 }: {
   groups: ToolGroup[];
   popular?: ToolItem[];
   initialQuery?: string;
+  initialFavorites?: string[];
 }) {
   const router = useRouter();
   const [query, setQuery] = React.useState(initialQuery);
@@ -50,7 +52,7 @@ export function ToolsExplorer({
   const activeRef = React.useRef<HTMLAnchorElement | null>(null);
   const restored = React.useRef(false);
 
-  const { favorites, toggle, isFavorite } = useFavorites();
+  const { favorites, toggle, isFavorite } = useFavorites(initialFavorites);
 
   const q = query.trim().toLowerCase();
   const tokens = React.useMemo(() => q.split(/\s+/).filter(Boolean), [q]);
