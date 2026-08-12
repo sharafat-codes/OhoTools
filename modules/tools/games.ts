@@ -192,11 +192,11 @@ export const gameTools: DevTool[] = [
     ],
     icon: GaugeIcon,
     intro:
-      "Find out how fast you type. Start typing the words shown and the timer begins — you'll get your speed in words per minute (WPM), your accuracy, and your raw speed. Choose a 15, 30, or 60-second test and try to beat your best. Everything runs in your browser, and nothing you type is saved or sent anywhere.",
+      "Find out how fast you type. Start typing and the timer begins — your live WPM updates as you go, and at the end you get your speed in words per minute (WPM), accuracy, raw speed, consistency, a character breakdown, and a WPM-over-time graph. Choose a timed test (15–120s), a fixed word count, or a real quote, and add punctuation and numbers for a harder run. Press Tab anytime to restart. Everything runs in your browser and nothing you type is saved or sent anywhere.",
     steps: [
-      "Pick a test length (30 seconds is the classic).",
-      "Click the box and start typing the words shown — the timer starts on your first keystroke.",
-      "When time's up, read your WPM and accuracy, then try again to beat your best.",
+      "Pick a mode — timed, a set number of words, or a quote — and optionally turn on punctuation and numbers.",
+      "Click the box and start typing; the timer starts on your first keystroke and your live WPM ticks up.",
+      "When you finish, review your WPM, accuracy, consistency, and graph — then press Tab to try again.",
     ],
     faqs: [
       {
@@ -218,6 +218,14 @@ export const gameTools: DevTool[] = [
       {
         q: "How can I type faster?",
         a: "Use all ten fingers, keep your eyes on the words instead of the keys, and focus on accuracy first — speed follows once your fingers learn the key positions.",
+      },
+      {
+        q: "What are the different test modes?",
+        a: "Time mode gives you a fixed number of seconds (15 to 120); words mode has you race to finish a set number of words; and quote mode has you type a real sentence with punctuation and capitals. You can also switch on punctuation and numbers to make any test harder and more realistic.",
+      },
+      {
+        q: "What do consistency and raw WPM mean?",
+        a: "Raw WPM counts every keystroke, including mistakes, while WPM counts only correct characters. Consistency shows how steady your speed was from second to second — a higher percentage means a more even pace rather than bursts and pauses.",
       },
     ],
     related: ["cps-test", "spacebar-counter", "keyboard-tester"],
