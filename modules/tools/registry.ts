@@ -133,6 +133,7 @@ import type { Metadata } from "next";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { conversionTools, conversionSlugs } from "@/modules/tools/conversions";
 import { imageFormatTools, imageFormatSlugs } from "@/modules/tools/image-formats";
+import { gameTools, gameSlugs } from "@/modules/tools/games";
 
 export type ToolFaq = { q: string; a: string };
 
@@ -3522,7 +3523,7 @@ const baseDevTools: DevTool[] = [
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
 // °C↔°F, …). Conversions are appended so search, categories, the sitemap, and
 // metadata pick them up automatically.
-export const devTools: DevTool[] = [...baseDevTools, ...conversionTools, ...imageFormatTools];
+export const devTools: DevTool[] = [...baseDevTools, ...conversionTools, ...imageFormatTools, ...gameTools];
 
 /** Exact number of tools. */
 export const TOOL_COUNT = devTools.length;
@@ -3610,6 +3611,7 @@ export const POPULAR_SLUGS: string[] = [
   "word-frequency",
   "password-generator",
   "json-formatter",
+  "cps-test",
 ];
 
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
@@ -3887,6 +3889,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "dice-roller",
     ],
   },
+  {
+    name: "Games & Tests",
+    blurb: "Fun browser challenges — click speed, reaction time, and keyboard tests.",
+    slugs: [...gameSlugs],
+  },
 ];
 
 // ── Category landing pages ───────────────────────────────────────────────────
@@ -4155,6 +4162,31 @@ export const categoryPages: CategoryPage[] = [
     faqs: [
       { q: "Do these tools upload my data?", a: "No — they run entirely in your browser. Your notes, invoices, and text never leave your device." },
       { q: "Do I need an account?", a: "No — every productivity tool here is free and works instantly with no sign-up." },
+    ],
+  },
+  {
+    slug: "games",
+    name: "Games & Tests",
+    seoTitle: "Games & Tests",
+    seoDescription:
+      "Free browser games and tests — CPS click speed test, reaction time test, keyboard tester, spin the wheel, dice roller, and coin flip. No sign-up, play instantly.",
+    keywords: ["cps test", "click speed test", "reaction time test", "keyboard tester", "online tests", "browser games"],
+    h1: "Games & tests",
+    intro:
+      "Quick browser challenges you can play in seconds — measure your click speed (CPS), test your reaction time, and check every key on your keyboard, plus classic randomizers like spin the wheel, dice, and coin flip. Everything runs in your browser, with no sign-up and nothing to install.",
+    faqs: [
+      { q: "Are these games and tests free?", a: "Yes — every game and test here is completely free, with no account and no limits. Just open one and start." },
+      { q: "Do they work on mobile?", a: "The click speed and reaction tests work great on touchscreens. The keyboard tester needs a physical keyboard, so it's best on a laptop or desktop." },
+      { q: "Are my scores saved?", a: "Your best scores are stored privately on your own device (in your browser), never uploaded — so they're there when you come back to beat them." },
+    ],
+    toolSlugs: [
+      "cps-test",
+      "reaction-time-test",
+      "keyboard-tester",
+      "spin-the-wheel",
+      "random-picker",
+      "coin-flip",
+      "dice-roller",
     ],
   },
 ];
