@@ -8,7 +8,7 @@ import { Dropzone } from "@/modules/tools/components/dropzone";
 import { FileResult, formatBytes } from "@/modules/tools/components/tool-result";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 import { CloudImport } from "@/modules/cloud/cloud-import";
 

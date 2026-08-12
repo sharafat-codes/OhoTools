@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { getCurrentUser } from "@/lib/dal";
+import { PlanProvider } from "@/components/plan-provider";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 
 export default async function ToolsLayout({
@@ -14,7 +15,9 @@ export default async function ToolsLayout({
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <SiteHeader isAuthed={!!user} />
-      <main className="flex-1">{children}</main>
+      <PlanProvider authed={!!user} plan={(user as { plan?: string } | null)?.plan ?? "FREE"}>
+        <main className="flex-1">{children}</main>
+      </PlanProvider>
       <footer className="border-t border-border/60">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-6 text-sm text-muted-foreground sm:px-6">
           <Logo size="sm" />

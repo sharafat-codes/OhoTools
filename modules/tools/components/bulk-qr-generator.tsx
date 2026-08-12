@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 
 const FREE_LIMIT = 3;

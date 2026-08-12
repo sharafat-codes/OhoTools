@@ -6,7 +6,7 @@ import { FileTextIcon, Loader2Icon, SendIcon, SparklesIcon } from "lucide-react"
 
 import { Dropzone } from "@/modules/tools/components/dropzone";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 
 const FREE_LIMIT = 5; // matches FREE_DAILY_AI_LIMIT

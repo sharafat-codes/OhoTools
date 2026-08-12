@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 import { CloudImport } from "@/modules/cloud/cloud-import";
 
