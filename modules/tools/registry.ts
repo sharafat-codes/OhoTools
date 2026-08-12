@@ -3612,6 +3612,7 @@ export const POPULAR_SLUGS: string[] = [
   "password-generator",
   "json-formatter",
   "cps-test",
+  "typing-speed-test",
 ];
 
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
@@ -4182,6 +4183,8 @@ export const categoryPages: CategoryPage[] = [
     toolSlugs: [
       "cps-test",
       "reaction-time-test",
+      "typing-speed-test",
+      "spacebar-counter",
       "keyboard-tester",
       "spin-the-wheel",
       "random-picker",

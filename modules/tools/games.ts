@@ -2,7 +2,7 @@
 // keyboard tester). Kept in their own registry module — like conversions.ts and
 // image-formats.ts — so registry.ts stays lean and this viral, low-competition
 // cluster can grow (spacebar counter, aim trainer, typing test) in one place.
-import { MousePointerClickIcon, ZapIcon, KeyboardIcon } from "lucide-react";
+import { MousePointerClickIcon, ZapIcon, KeyboardIcon, SpaceIcon, GaugeIcon } from "lucide-react";
 
 import type { DevTool } from "./registry";
 
@@ -133,6 +133,94 @@ export const gameTools: DevTool[] = [
       },
     ],
     related: ["cps-test", "reaction-time-test", "online-notepad"],
+  },
+  {
+    slug: "spacebar-counter",
+    name: "Spacebar Counter",
+    tagline: "Count your spacebar presses — how many can you hit?",
+    description:
+      "Free spacebar counter — count how many times you press the spacebar, or take the timed spacebar speed test. Beat your high score, right in your browser.",
+    keywords: [
+      "spacebar counter",
+      "spacebar clicker",
+      "spacebar speed test",
+      "space bar counter",
+      "how many times can you press spacebar",
+      "spacebar test",
+    ],
+    icon: SpaceIcon,
+    intro:
+      "Count how many times you can press the spacebar. Just start tapping space and the counter climbs — or pick a timed challenge to measure your spacebar speed in presses per second and beat your high score. Use your spacebar on a keyboard, or tap the pad on mobile. Everything runs in your browser.",
+    steps: [
+      "Choose 'Just count', or a timed challenge from 5 to 60 seconds.",
+      "Click the pad to activate it, then press your spacebar as fast as you can (or tap the pad on mobile).",
+      "Watch the counter climb — in timed mode you'll get your presses per second when time's up.",
+    ],
+    faqs: [
+      {
+        q: "How does the spacebar counter work?",
+        a: "Every press of the spacebar adds one to the count. In a timed test the clock starts on your first press and stops automatically, then shows your total presses and your presses per second.",
+      },
+      {
+        q: "What is a good spacebar speed?",
+        a: "Most people manage around 5–8 spacebar presses per second in a short burst. You can go faster with techniques like alternating thumbs or drumming your fingers on the bar.",
+      },
+      {
+        q: "Why would I count spacebar presses?",
+        a: "It's a fun speed challenge and a quick way to warm up before gaming — and it's a simple way to confirm your spacebar registers every press without sticking or double-firing.",
+      },
+      {
+        q: "Does it work on a phone?",
+        a: "Yes. Phones don't have a spacebar, so just tap the pad instead — each tap counts the same as a spacebar press.",
+      },
+    ],
+    related: ["cps-test", "typing-speed-test", "keyboard-tester"],
+  },
+  {
+    slug: "typing-speed-test",
+    name: "Typing Speed Test (WPM)",
+    tagline: "Measure your typing speed in words per minute.",
+    description:
+      "Free typing speed test — measure your typing speed in words per minute (WPM) and accuracy. Take a 15, 30, or 60-second test and beat your best score.",
+    keywords: [
+      "typing test",
+      "typing speed test",
+      "wpm test",
+      "words per minute test",
+      "typing speed",
+      "how fast can i type",
+    ],
+    icon: GaugeIcon,
+    intro:
+      "Find out how fast you type. Start typing the words shown and the timer begins — you'll get your speed in words per minute (WPM), your accuracy, and your raw speed. Choose a 15, 30, or 60-second test and try to beat your best. Everything runs in your browser, and nothing you type is saved or sent anywhere.",
+    steps: [
+      "Pick a test length (30 seconds is the classic).",
+      "Click the box and start typing the words shown — the timer starts on your first keystroke.",
+      "When time's up, read your WPM and accuracy, then try again to beat your best.",
+    ],
+    faqs: [
+      {
+        q: "What is a good typing speed?",
+        a: "The average typing speed is around 40 WPM. 60–80 WPM is fast, and professional typists often exceed 100 WPM. Accuracy matters just as much as raw speed.",
+      },
+      {
+        q: "How is WPM calculated?",
+        a: "One 'word' is standardized as five characters. Your WPM is the number of correctly typed characters divided by five, divided by the time in minutes — so mistakes lower your score.",
+      },
+      {
+        q: "What's the difference between WPM and raw WPM?",
+        a: "Raw WPM counts everything you type; WPM (net) counts only the characters you typed correctly. The gap between the two is your accuracy.",
+      },
+      {
+        q: "Is what I type recorded?",
+        a: "No — the test runs entirely in your browser. The words are generated locally and nothing you type is stored or uploaded.",
+      },
+      {
+        q: "How can I type faster?",
+        a: "Use all ten fingers, keep your eyes on the words instead of the keys, and focus on accuracy first — speed follows once your fingers learn the key positions.",
+      },
+    ],
+    related: ["cps-test", "spacebar-counter", "keyboard-tester"],
   },
 ];
 
