@@ -34,10 +34,10 @@ import {
 } from "@/modules/tools/registry";
 import { SITE_URL as siteUrl, siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
+import { SiteFooter } from "@/modules/marketing/components/site-footer";
 
 // Icon per category for the showcase (keyed by registry category name).
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -596,25 +596,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-border/60">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <Logo size="sm" />
-          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
-            <Link href="/tools" className="hover:text-foreground">Tools</Link>
-            <a href="#pricing" className="hover:text-foreground">Pricing</a>
-            <Link href="/blog" className="hover:text-foreground">Blog</Link>
-            <Link href="/request-tool" className="hover:text-foreground">Request a tool</Link>
-            <Link href="/developers" className="hover:text-foreground">API</Link>
-            <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
-            <Link href="/terms" className="hover:text-foreground">Terms</Link>
-            <Link href="/refunds" className="hover:text-foreground">Refunds</Link>
-            <Link href="/contact" className="hover:text-foreground">Contact</Link>
-          </div>
-          <span className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} OhoTool
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
