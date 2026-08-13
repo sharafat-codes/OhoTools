@@ -19,8 +19,10 @@ const EFFECTS: { id: CardEffect; label: string }[] = [
   { id: "stars", label: "Stars" },
 ];
 
-// Downscale + center-crop to a small square JPEG so the photo fits inside the
-// shareable link (no upload / storage needed).
+const inputCls =
+  "w-full rounded-lg border border-border bg-card px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
+
+// Downscale + center-crop to a small square JPEG so the photo fits in the link.
 function fileToAvatar(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -89,139 +91,116 @@ export function CardEditor() {
     }
   }
 
-  const inputCls = "w-full rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary/40";
-
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      {/* Editor */}
-      <div className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Whose birthday is it?</span>
-          <input value={data.to} maxLength={60} onChange={(e) => set("to", e.target.value)} placeholder="Name" className={inputCls} />
-        </label>
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+      {/* Controls */}
+      <div className="order-2 flex flex-col gap-7 lg:order-1">
+        {/* Content */}
+        <Section label="Content">
+          <Field label="Whose birthday is it?">
+            <input value={data.to} maxLength={60} onChange={(e) => set("to", e.target.value)} placeholder="Name" className={inputCls} />
+          </Field>
+          <Field label="Your message" hint={`${data.message.length}/400`}>
+            <textarea value={data.message} maxLength={400} rows={4} onChange={(e) => set("message", e.target.value)} className={inputCls + " resize-y"} />
+          </Field>
+          <Field label="From (optional)">
+            <input value={data.from} maxLength={60} onChange={(e) => set("from", e.target.value)} placeholder="Your name" className={inputCls} />
+          </Field>
+        </Section>
 
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Your message</span>
-          <textarea value={data.message} maxLength={400} rows={4} onChange={(e) => set("message", e.target.value)} className={inputCls + " resize-y"} />
-          <span className="self-end text-xs text-muted-foreground">{data.message.length}/400</span>
-        </label>
-
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">From (optional)</span>
-          <input value={data.from} maxLength={60} onChange={(e) => set("from", e.target.value)} placeholder="Your name" className={inputCls} />
-        </label>
-
-        {/* Template */}
-        <div className="flex flex-col gap-1.5 text-sm">
-          <span className="font-medium">Style</span>
-          <div className="flex flex-wrap gap-2">
-            {CARD_TEMPLATES.map((tpl) => {
-              const active = data.template === tpl.id;
-              const locked = tpl.pro && !pro;
-              const base = "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ";
-              const look = active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40";
-              if (locked) {
+        {/* Design */}
+        <Section label="Design">
+          <Field label="Style">
+            <div className="flex flex-wrap gap-2">
+              {CARD_TEMPLATES.map((tpl) => {
+                const active = data.template === tpl.id;
+                const locked = tpl.pro && !pro;
+                const base = "inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors ";
+                const look = active ? "border-primary bg-primary text-primary-foreground shadow-sm" : "border-border bg-card hover:border-primary/40 hover:bg-muted/40";
+                if (locked) {
+                  return (
+                    <a key={tpl.id} href="/pricing" className={base + "border-border bg-card text-muted-foreground hover:border-primary/40"} title="Pro template">
+                      {tpl.name} <LockIcon className="size-3.5" />
+                    </a>
+                  );
+                }
                 return (
-                  <a key={tpl.id} href="/pricing" className={base + "border-border bg-card text-muted-foreground hover:border-primary/40"} title="Pro template">
-                    {tpl.name} <LockIcon className="size-3" />
-                  </a>
+                  <button key={tpl.id} type="button" onClick={() => set("template", tpl.id as TemplateId)} className={base + look}>
+                    {tpl.name}
+                    {tpl.pro && <SparklesIcon className="size-3.5 opacity-80" />}
+                  </button>
                 );
-              }
-              return (
-                <button key={tpl.id} type="button" onClick={() => set("template", tpl.id as TemplateId)} className={base + look}>
-                  {tpl.name}
-                  {tpl.pro && <SparklesIcon className="size-3 opacity-80" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+              })}
+            </div>
+          </Field>
 
-        {/* Theme */}
-        <div className="flex flex-col gap-1.5 text-sm">
-          <span className="font-medium">Theme</span>
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(CARD_THEMES) as CardTheme[]).map((key) => {
-              const th = CARD_THEMES[key];
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => set("theme", key)}
-                  aria-label={th.name}
-                  title={th.name}
-                  className={"size-9 rounded-full ring-2 ring-offset-2 ring-offset-background transition " + (data.theme === key ? "ring-primary" : "ring-transparent hover:ring-border")}
-                  style={{ background: `linear-gradient(135deg, ${th.bg1}, ${th.bg2})` }}
-                />
-              );
-            })}
-          </div>
-        </div>
+          <Field label="Theme">
+            <div className="flex flex-wrap gap-2.5">
+              {(Object.keys(CARD_THEMES) as CardTheme[]).map((key) => {
+                const th = CARD_THEMES[key];
+                const active = data.theme === key && !data.custom;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => { set("theme", key); if (data.custom) set("custom", undefined); }}
+                    aria-label={th.name}
+                    title={th.name}
+                    className={"size-9 rounded-full ring-2 ring-offset-2 ring-offset-background transition " + (active ? "ring-primary" : "ring-transparent hover:ring-border")}
+                    style={{ background: `linear-gradient(135deg, ${th.bg1}, ${th.bg2})` }}
+                  />
+                );
+              })}
+            </div>
+          </Field>
 
-        {/* Effect */}
-        <div className="flex flex-col gap-1.5 text-sm">
-          <span className="font-medium">Falling effect</span>
-          <div className="flex flex-wrap gap-2">
-            {EFFECTS.map((ef) => (
-              <button
-                key={ef.id}
-                type="button"
-                onClick={() => set("effect", ef.id)}
-                className={"rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors " + ((data.effect ?? "confetti") === ef.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40")}
-              >
-                {ef.label}
-              </button>
-            ))}
-          </div>
-        </div>
+          <Field label="Falling effect">
+            <Segmented
+              options={EFFECTS.map((e) => ({ id: e.id, label: e.label }))}
+              value={data.effect ?? "confetti"}
+              onChange={(v) => set("effect", v as CardEffect)}
+            />
+          </Field>
+        </Section>
 
-        {/* Photo + music */}
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-2 text-sm">
+        {/* Extras */}
+        <Section label="Extras">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             {data.photo ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={data.photo} alt="" className="size-10 rounded-full object-cover ring-2 ring-border" />
-                <button type="button" onClick={() => set("photo", undefined)} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                <img src={data.photo} alt="" className="size-11 rounded-full object-cover ring-2 ring-border" />
+                <button type="button" onClick={() => set("photo", undefined)} className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground">
                   <XIcon className="size-3.5" /> Remove photo
                 </button>
               </div>
             ) : (
-              <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40">
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:bg-muted/40">
                 <ImagePlusIcon className="size-4" /> Add photo
                 <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
               </label>
             )}
+            <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+              <input type="checkbox" checked={!!data.music} onChange={(e) => set("music", e.target.checked)} className="size-4 accent-primary" />
+              Play music 🎵
+            </label>
           </div>
-          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
-            <input type="checkbox" checked={!!data.music} onChange={(e) => set("music", e.target.checked)} className="accent-primary" />
-            Play music 🎵
-          </label>
-        </div>
-        {photoError && <p className="text-xs text-red-500">{photoError}</p>}
+          {photoError && <p className="text-xs text-red-500">{photoError}</p>}
+        </Section>
 
-        {/* Pro features */}
-        <div className="rounded-xl border border-border bg-muted/20 p-3.5">
-          <div className="mb-2.5 flex items-center justify-between">
+        {/* Pro */}
+        <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.06] to-transparent p-4">
+          <div className="mb-3 flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-sm font-semibold">
               <SparklesIcon className="size-4 text-primary" /> Pro features
             </span>
-            {!pro && (
-              <a href="/pricing" className="text-xs font-medium text-primary hover:underline">Upgrade to unlock →</a>
-            )}
+            {!pro && <a href="/pricing" className="text-xs font-semibold text-primary hover:underline">Upgrade →</a>}
           </div>
 
-          <div className={"flex flex-col gap-3 " + (pro ? "" : "opacity-60")}>
-            {/* Custom colors */}
+          <div className={"flex flex-col gap-4 " + (pro ? "" : "opacity-70")}>
             <div className="flex flex-col gap-2 text-sm">
               <label className="flex items-center gap-2 font-medium">
-                <input
-                  type="checkbox"
-                  disabled={!pro}
-                  checked={!!data.custom}
-                  onChange={(e) => set("custom", e.target.checked ? { bg1: cur.bg1, bg2: cur.bg2, accent: cur.accent } : undefined)}
-                  className="accent-primary"
-                />
+                <input type="checkbox" disabled={!pro} checked={!!data.custom} onChange={(e) => set("custom", e.target.checked ? { bg1: cur.bg1, bg2: cur.bg2, accent: cur.accent } : undefined)} className="size-4 accent-primary" />
                 Custom colors
               </label>
               {data.custom && (
@@ -233,13 +212,11 @@ export function CardEditor() {
               )}
             </div>
 
-            {/* Remove watermark */}
             <label className="flex items-center gap-2 text-sm font-medium">
-              <input type="checkbox" disabled={!pro} checked={!!data.noWatermark} onChange={(e) => set("noWatermark", e.target.checked)} className="accent-primary" />
+              <input type="checkbox" disabled={!pro} checked={!!data.noWatermark} onChange={(e) => set("noWatermark", e.target.checked)} className="size-4 accent-primary" />
               Remove &quot;Made with OhoTool&quot; watermark
             </label>
 
-            {/* Download */}
             {pro ? (
               <Button variant="outline" disabled={!origin} render={<a href={imageUrl} download />} className="self-start">
                 <DownloadIcon className="size-4" /> Download as image
@@ -251,29 +228,70 @@ export function CardEditor() {
             )}
           </div>
         </div>
-
-        {/* Actions */}
-        <div className="mt-1 flex flex-wrap items-center gap-2">
-          <Button onClick={copy} disabled={!url} className="min-w-36">
-            {copied ? <CheckIcon className="size-4 text-emerald-400" /> : <CopyIcon className="size-4" />}
-            {copied ? "Link copied!" : "Copy share link"}
-          </Button>
-          <Button variant="outline" disabled={!url} render={<a href={url || "#"} target="_blank" rel="noopener noreferrer" />}>
-            <ExternalLinkIcon className="size-4" /> Open card
-          </Button>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          Share the link on WhatsApp, SMS, or anywhere — it opens as a full-screen animated card. No sign-up, nothing stored on our servers.
-        </p>
       </div>
 
-      {/* Live preview */}
-      <div className="flex flex-col gap-2">
-        <div className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-border shadow-lg">
-          <CardStage data={normalizeCard(data)} cta={false} sound={false} />
+      {/* Sticky preview */}
+      <div className="order-1 lg:order-2">
+        <div className="lg:sticky lg:top-6">
+          <div className="mx-auto w-full max-w-[280px]">
+            <div className="relative aspect-[9/16] overflow-hidden rounded-[2.2rem] border-[6px] border-foreground/10 bg-neutral-900 shadow-2xl">
+              <CardStage data={normalizeCard(data)} cta={false} sound={false} />
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="mx-auto mt-5 flex w-full max-w-[280px] flex-col gap-2">
+            <Button onClick={copy} disabled={!url} className="w-full">
+              {copied ? <CheckIcon className="size-4 text-emerald-400" /> : <CopyIcon className="size-4" />}
+              {copied ? "Link copied!" : "Copy share link"}
+            </Button>
+            <Button variant="outline" disabled={!url} render={<a href={url || "#"} target="_blank" rel="noopener noreferrer" />} className="w-full">
+              <ExternalLinkIcon className="size-4" /> Open card
+            </Button>
+            <p className="mt-1 text-center text-xs text-muted-foreground">
+              Share on WhatsApp or anywhere — opens as a full-screen animated card. Nothing is stored.
+            </p>
+          </div>
         </div>
-        <p className="text-center text-xs text-muted-foreground">Live preview — tap Replay to watch it again.</p>
       </div>
+    </div>
+  );
+}
+
+function Section({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <section className="flex flex-col gap-4">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</h3>
+      {children}
+    </section>
+  );
+}
+
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">{label}</span>
+        {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function Segmented({ options, value, onChange }: { options: { id: string; label: string }[]; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="inline-flex rounded-lg bg-muted p-1">
+      {options.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          onClick={() => onChange(o.id)}
+          className={"rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors " + (value === o.id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+        >
+          {o.label}
+        </button>
+      ))}
     </div>
   );
 }
