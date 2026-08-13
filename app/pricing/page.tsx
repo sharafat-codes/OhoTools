@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon, SparklesIcon, ArrowLeftRightIcon, QrCodeIcon, TerminalIcon } from "lucide-react";
+import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon, SparklesIcon, ArrowLeftRightIcon, QrCodeIcon, TerminalIcon, CakeIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { PLANS } from "@/lib/plans";
@@ -42,6 +42,11 @@ const PRO_HIGHLIGHTS = [
     icon: TerminalIcon,
     title: "Developer API",
     body: "Convert files and generate QR codes programmatically — 1,000 calls a month.",
+  },
+  {
+    icon: CakeIcon,
+    title: "Animated cards & invitations",
+    body: "Premium templates, custom colors, no watermark, and high-quality image downloads for birthday cards & invitations.",
   },
 ];
 

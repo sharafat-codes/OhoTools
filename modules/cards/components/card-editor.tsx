@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon } from "lucide-react";
+import { CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
@@ -115,16 +115,25 @@ export function CardEditor() {
         <div className="flex flex-col gap-1.5 text-sm">
           <span className="font-medium">Style</span>
           <div className="flex flex-wrap gap-2">
-            {CARD_TEMPLATES.map((tpl) => (
-              <button
-                key={tpl.id}
-                type="button"
-                onClick={() => set("template", tpl.id as TemplateId)}
-                className={"rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors " + (data.template === tpl.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40")}
-              >
-                {tpl.name}
-              </button>
-            ))}
+            {CARD_TEMPLATES.map((tpl) => {
+              const active = data.template === tpl.id;
+              const locked = tpl.pro && !pro;
+              const base = "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ";
+              const look = active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40";
+              if (locked) {
+                return (
+                  <a key={tpl.id} href="/pricing" className={base + "border-border bg-card text-muted-foreground hover:border-primary/40"} title="Pro template">
+                    {tpl.name} <LockIcon className="size-3" />
+                  </a>
+                );
+              }
+              return (
+                <button key={tpl.id} type="button" onClick={() => set("template", tpl.id as TemplateId)} className={base + look}>
+                  {tpl.name}
+                  {tpl.pro && <SparklesIcon className="size-3 opacity-80" />}
+                </button>
+              );
+            })}
           </div>
         </div>
 

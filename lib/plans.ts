@@ -43,6 +43,7 @@ export const PLANS: Plan[] = [
       "Developer API — convert & QR (1,000 calls/mo)",
       "Send links that last up to 7 days",
       "Dynamic QR codes + scan analytics",
+      "Animated cards — custom colors, no watermark & image downloads",
       "Bulk image, PDF & QR processing",
       "Priority support",
     ],

@@ -12,13 +12,15 @@ export const CARD_THEMES = {
 
 export type CardTheme = keyof typeof CARD_THEMES;
 
-export const CARD_TEMPLATES = [
+export type TemplateId = "classic" | "elegant" | "playful" | "luxe" | "neon";
+
+export const CARD_TEMPLATES: { id: TemplateId; name: string; pro?: boolean }[] = [
   { id: "classic", name: "Classic" },
   { id: "elegant", name: "Elegant" },
   { id: "playful", name: "Playful" },
-] as const;
-
-export type TemplateId = (typeof CARD_TEMPLATES)[number]["id"];
+  { id: "luxe", name: "Golden Luxe", pro: true },
+  { id: "neon", name: "Neon Glow", pro: true },
+];
 export type CardEffect = "confetti" | "hearts" | "stars";
 
 export type CardData = {

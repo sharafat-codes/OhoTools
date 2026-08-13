@@ -7,12 +7,16 @@ import type { CardData, TemplateId } from "@/modules/cards/types";
 import { BirthdayClassic } from "@/modules/cards/templates/birthday-classic";
 import { BirthdayElegant } from "@/modules/cards/templates/birthday-elegant";
 import { BirthdayPlayful } from "@/modules/cards/templates/birthday-playful";
+import { BirthdayLuxe } from "@/modules/cards/templates/birthday-luxe";
+import { BirthdayNeon } from "@/modules/cards/templates/birthday-neon";
 import { playHappyBirthday } from "@/modules/cards/music";
 
 const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
   classic: BirthdayClassic,
   elegant: BirthdayElegant,
   playful: BirthdayPlayful,
+  luxe: BirthdayLuxe,
+  neon: BirthdayNeon,
 };
 
 /**
