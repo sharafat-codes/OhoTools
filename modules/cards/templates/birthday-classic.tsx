@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { CARD_THEMES, type CardData } from "@/modules/cards/types";
+import { resolveTheme, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 // Fixed positions (not random) so server and client render identically.
@@ -16,7 +16,7 @@ const BALLOONS = [
 ];
 
 export function BirthdayClassic({ data, fireKey = 0 }: { data: CardData; fireKey?: number }) {
-  const t = CARD_THEMES[data.theme];
+  const t = resolveTheme(data);
   const balloonColors = [t.accent, "#ffffff", t.bg2, t.accent, t.bg1, "#ffffff"];
 
   return (

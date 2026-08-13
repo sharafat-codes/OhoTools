@@ -1,15 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon } from "lucide-react";
+import { CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/components/plan-provider";
+import { isPro } from "@/lib/plans";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
-  CARD_THEMES, CARD_TEMPLATES, DEFAULT_CARD, normalizeCard,
+  CARD_THEMES, CARD_TEMPLATES, DEFAULT_CARD, normalizeCard, resolveTheme,
   type CardData, type CardTheme, type CardEffect, type TemplateId,
 } from "@/modules/cards/types";
-import { cardShareUrl } from "@/modules/cards/share";
+import { cardShareUrl, encodeCard } from "@/modules/cards/share";
 
 const EFFECTS: { id: CardEffect; label: string }[] = [
   { id: "confetti", label: "Confetti" },
@@ -55,6 +57,11 @@ export function CardEditor() {
 
   const url = origin ? cardShareUrl(origin, normalizeCard(data)) : "";
   const set = <K extends keyof CardData>(k: K, v: CardData[K]) => setData((d) => ({ ...d, [k]: v }));
+
+  const { data: sess } = useSession();
+  const pro = isPro(((sess?.user as { plan?: string } | null)?.plan) ?? "FREE");
+  const imageUrl = origin ? `${origin}/api/card/image?d=${encodeCard(normalizeCard(data))}` : "#";
+  const cur = resolveTheme(normalizeCard(data));
 
   function copy() {
     if (!url) return;
@@ -184,6 +191,58 @@ export function CardEditor() {
         </div>
         {photoError && <p className="text-xs text-red-500">{photoError}</p>}
 
+        {/* Pro features */}
+        <div className="rounded-xl border border-border bg-muted/20 p-3.5">
+          <div className="mb-2.5 flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-sm font-semibold">
+              <SparklesIcon className="size-4 text-primary" /> Pro features
+            </span>
+            {!pro && (
+              <a href="/pricing" className="text-xs font-medium text-primary hover:underline">Upgrade to unlock →</a>
+            )}
+          </div>
+
+          <div className={"flex flex-col gap-3 " + (pro ? "" : "opacity-60")}>
+            {/* Custom colors */}
+            <div className="flex flex-col gap-2 text-sm">
+              <label className="flex items-center gap-2 font-medium">
+                <input
+                  type="checkbox"
+                  disabled={!pro}
+                  checked={!!data.custom}
+                  onChange={(e) => set("custom", e.target.checked ? { bg1: cur.bg1, bg2: cur.bg2, accent: cur.accent } : undefined)}
+                  className="accent-primary"
+                />
+                Custom colors
+              </label>
+              {data.custom && (
+                <div className="flex flex-wrap gap-3 pl-6">
+                  <ColorField label="Color 1" value={data.custom.bg1} disabled={!pro} onChange={(v) => set("custom", { ...data.custom!, bg1: v })} />
+                  <ColorField label="Color 2" value={data.custom.bg2} disabled={!pro} onChange={(v) => set("custom", { ...data.custom!, bg2: v })} />
+                  <ColorField label="Accent" value={data.custom.accent} disabled={!pro} onChange={(v) => set("custom", { ...data.custom!, accent: v })} />
+                </div>
+              )}
+            </div>
+
+            {/* Remove watermark */}
+            <label className="flex items-center gap-2 text-sm font-medium">
+              <input type="checkbox" disabled={!pro} checked={!!data.noWatermark} onChange={(e) => set("noWatermark", e.target.checked)} className="accent-primary" />
+              Remove &quot;Made with OhoTool&quot; watermark
+            </label>
+
+            {/* Download */}
+            {pro ? (
+              <Button variant="outline" disabled={!origin} render={<a href={imageUrl} download />} className="self-start">
+                <DownloadIcon className="size-4" /> Download as image
+              </Button>
+            ) : (
+              <Button variant="outline" render={<a href="/pricing" />} className="self-start">
+                <DownloadIcon className="size-4" /> Download as image (Pro)
+              </Button>
+            )}
+          </div>
+        </div>
+
         {/* Actions */}
         <div className="mt-1 flex flex-wrap items-center gap-2">
           <Button onClick={copy} disabled={!url} className="min-w-36">
@@ -207,5 +266,20 @@ export function CardEditor() {
         <p className="text-center text-xs text-muted-foreground">Live preview — tap Replay to watch it again.</p>
       </div>
     </div>
+  );
+}
+
+function ColorField({ label, value, onChange, disabled }: { label: string; value: string; onChange: (v: string) => void; disabled?: boolean }) {
+  return (
+    <label className="flex flex-col items-center gap-1 text-xs text-muted-foreground">
+      <input
+        type="color"
+        value={value}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        className="h-9 w-12 cursor-pointer rounded border border-border bg-card"
+      />
+      {label}
+    </label>
   );
 }

@@ -89,7 +89,7 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
         </button>
       )}
 
-      {cta && (
+      {cta && !data.noWatermark && (
         <a
           href="/tools/birthday-card-maker"
           className="absolute bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-black/25 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/40"

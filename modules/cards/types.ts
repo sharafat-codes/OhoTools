@@ -32,7 +32,23 @@ export type CardData = {
   photo?: string;
   music?: boolean;
   effect?: CardEffect;
+  /** Pro: custom colors that override the theme. */
+  custom?: { bg1: string; bg2: string; accent: string };
+  /** Pro: hide the "Made with OhoTool" watermark on the shared card. */
+  noWatermark?: boolean;
 };
+
+type ResolvedTheme = { bg1: string; bg2: string; accent: string; text: string };
+
+/** The effective colors for a card — custom (Pro) overrides the preset theme. */
+export function resolveTheme(d: CardData): ResolvedTheme {
+  if (d.custom) {
+    return { bg1: d.custom.bg1, bg2: d.custom.bg2, accent: d.custom.accent, text: "#ffffff" };
+  }
+  return CARD_THEMES[d.theme];
+}
+
+const HEX = /^#[0-9a-fA-F]{6}$/;
 
 export const DEFAULT_CARD: CardData = {
   occasion: "birthday",
@@ -58,6 +74,10 @@ export function normalizeCard(input: Partial<CardData> | null | undefined): Card
     typeof d.photo === "string" && d.photo.startsWith("data:image/") && d.photo.length < 200_000
       ? d.photo
       : undefined;
+  const custom =
+    d.custom && HEX.test(d.custom.bg1 ?? "") && HEX.test(d.custom.bg2 ?? "") && HEX.test(d.custom.accent ?? "")
+      ? { bg1: d.custom.bg1, bg2: d.custom.bg2, accent: d.custom.accent }
+      : undefined;
   return {
     occasion: "birthday",
     template,
@@ -68,5 +88,7 @@ export function normalizeCard(input: Partial<CardData> | null | undefined): Card
     photo,
     music: Boolean(d.music),
     effect,
+    custom,
+    noWatermark: Boolean(d.noWatermark),
   };
 }
