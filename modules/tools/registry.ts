@@ -3596,6 +3596,11 @@ export const TOOL_GUIDES: Record<string, string> = {
   "word-frequency": "how-to-count-word-frequency",
   "barcode-generator": "how-to-generate-a-barcode",
   "salary-calculator": "how-to-convert-hourly-wage-to-salary",
+  "reaction-time-test": "average-human-reaction-time",
+  "markdown-editor": "markdown-cheat-sheet",
+  "text-to-speech": "how-to-convert-text-to-speech",
+  "countdown-to-date": "how-to-make-a-countdown-to-a-date",
+  "scientific-calculator": "order-of-operations-pemdas",
 };
 
 /**

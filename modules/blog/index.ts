@@ -54,6 +54,11 @@ import * as ipGuide from "./posts/what-is-my-ip-address";
 import * as wordFreqGuide from "./posts/how-to-count-word-frequency";
 import * as barcodeGuide from "./posts/how-to-generate-a-barcode";
 import * as salaryGuide from "./posts/how-to-convert-hourly-wage-to-salary";
+import * as reactionGuide from "./posts/average-human-reaction-time";
+import * as markdownCheatGuide from "./posts/markdown-cheat-sheet";
+import * as ttsGuide from "./posts/how-to-convert-text-to-speech";
+import * as countdownGuide from "./posts/how-to-make-a-countdown-to-a-date";
+import * as pemdasGuide from "./posts/order-of-operations-pemdas";
 
 export type PostMeta = {
   slug: string;
@@ -126,6 +131,11 @@ const modules: BlogPost[] = [
   wordFreqGuide,
   barcodeGuide,
   salaryGuide,
+  reactionGuide,
+  markdownCheatGuide,
+  ttsGuide,
+  countdownGuide,
+  pemdasGuide,
 ];
 
 /** All posts, newest first. */
