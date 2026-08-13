@@ -3,7 +3,7 @@
 import * as React from "react";
 import {
   CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon,
-  TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon,
+  TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon, FilmIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -65,6 +65,8 @@ export function CardEditor() {
   const [origin, setOrigin] = React.useState("");
   const [copied, setCopied] = React.useState(false);
   const [photoError, setPhotoError] = React.useState("");
+  const [videoBusy, setVideoBusy] = React.useState(false);
+  const [videoPct, setVideoPct] = React.useState(0);
 
   React.useEffect(() => setOrigin(window.location.origin), []);
 
@@ -82,6 +84,28 @@ export function CardEditor() {
       () => { setCopied(true); window.setTimeout(() => setCopied(false), 1600); },
       () => {},
     );
+  }
+
+  async function downloadVideo() {
+    if (videoBusy) return;
+    setVideoBusy(true);
+    setVideoPct(0);
+    setPhotoError("");
+    try {
+      const { exportCardVideo } = await import("@/modules/cards/video");
+      const blob = await exportCardVideo(normalizeCard(data), setVideoPct);
+      const dl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safe = (data.to || "card").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+      a.href = dl;
+      a.download = `birthday-${safe}.mp4`;
+      a.click();
+      URL.revokeObjectURL(dl);
+    } catch {
+      setPhotoError("Sorry — couldn't render the video. Please try again.");
+    } finally {
+      setVideoBusy(false);
+    }
   }
 
   async function onPhoto(e: React.ChangeEvent<HTMLInputElement>) {
@@ -255,12 +279,20 @@ export function CardEditor() {
             <ToggleRow label="Remove watermark" disabled={!pro} checked={!!data.noWatermark} onChange={(v) => set("noWatermark", v)} />
 
             {pro ? (
-              <Button variant="outline" disabled={!origin} render={<a href={imageUrl} download />} className="self-start">
-                <DownloadIcon className="size-4" /> Download as image
-              </Button>
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" disabled={!origin || videoBusy} render={<a href={imageUrl} download />}>
+                    <DownloadIcon className="size-4" /> Image
+                  </Button>
+                  <Button variant="outline" disabled={videoBusy} onClick={downloadVideo}>
+                    <FilmIcon className="size-4" /> {videoBusy ? `Rendering… ${videoPct}%` : "Video (MP4)"}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">The first video render loads a small engine (~30 MB), so it can take a moment.</p>
+              </div>
             ) : (
               <Button variant="outline" render={<a href="/pricing" />} className="self-start">
-                <DownloadIcon className="size-4" /> Download as image
+                <DownloadIcon className="size-4" /> Download image &amp; video
               </Button>
             )}
           </div>
