@@ -50,6 +50,10 @@ import * as typingSpeedGuide from "./posts/what-is-a-good-typing-speed";
 import * as cpsGuide from "./posts/what-is-a-good-cps";
 import * as dueDateGuide from "./posts/how-to-calculate-your-due-date";
 import * as mortgageGuide from "./posts/how-to-calculate-a-mortgage-payment";
+import * as ipGuide from "./posts/what-is-my-ip-address";
+import * as wordFreqGuide from "./posts/how-to-count-word-frequency";
+import * as barcodeGuide from "./posts/how-to-generate-a-barcode";
+import * as salaryGuide from "./posts/how-to-convert-hourly-wage-to-salary";
 
 export type PostMeta = {
   slug: string;
@@ -118,6 +122,10 @@ const modules: BlogPost[] = [
   cpsGuide,
   dueDateGuide,
   mortgageGuide,
+  ipGuide,
+  wordFreqGuide,
+  barcodeGuide,
+  salaryGuide,
 ];
 
 /** All posts, newest first. */

@@ -3592,6 +3592,10 @@ export const TOOL_GUIDES: Record<string, string> = {
   "cps-test": "what-is-a-good-cps",
   "due-date-calculator": "how-to-calculate-your-due-date",
   "mortgage-calculator": "how-to-calculate-a-mortgage-payment",
+  "what-is-my-ip": "what-is-my-ip-address",
+  "word-frequency": "how-to-count-word-frequency",
+  "barcode-generator": "how-to-generate-a-barcode",
+  "salary-calculator": "how-to-convert-hourly-wage-to-salary",
 };
 
 /**
