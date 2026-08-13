@@ -3621,6 +3621,7 @@ export const POPULAR_SLUGS: string[] = [
   "scientific-calculator",
   "text-to-speech",
   "what-is-my-ip",
+  "barcode-generator",
 ];
 
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
@@ -3728,7 +3729,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Productivity",
     blurb: "Notepad, timers, invoices, and everyday utilities.",
-    slugs: ["online-notepad", "text-to-speech", "stopwatch", "countdown-timer", "pomodoro-timer", "invoice-generator"],
+    slugs: ["online-notepad", "text-to-speech", "stopwatch", "countdown-timer", "countdown-to-date", "pomodoro-timer", "invoice-generator"],
   },
   {
     name: "Developer",
@@ -3743,6 +3744,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "sql-formatter",
       "xml-formatter",
       "code-beautifier",
+      "markdown-editor",
       "json-to-typescript",
       "jwt-decoder",
       "regex-tester",
@@ -3847,6 +3849,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "gst-vat-calculator",
       "loan-calculator",
       "mortgage-calculator",
+      "salary-calculator",
       "compound-interest-calculator",
       "bmi-calculator",
       "bmr-calculator",
@@ -3854,6 +3857,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "ideal-weight-calculator",
       "fraction-calculator",
       "gpa-calculator",
+      "final-grade-calculator",
       "aspect-ratio-calculator",
       "age-calculator",
       "date-difference",
@@ -3887,6 +3891,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "bulk-qr-generator",
       "wifi-qr",
       "qr-scanner",
+      "barcode-generator",
       "css-gradient-generator",
       "box-shadow-generator",
       "color-shades-generator",

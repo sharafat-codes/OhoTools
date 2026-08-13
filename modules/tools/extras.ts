@@ -1,7 +1,10 @@
 // Standalone high-demand tools that slot into existing categories (scientific
 // calculator, text-to-speech, due-date & mortgage calculators). Kept in their
 // own module per the split-registry convention so registry.ts stays lean.
-import { CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon } from "lucide-react";
+import {
+  CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
+  CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
+} from "lucide-react";
 
 import type { DevTool } from "./registry";
 
@@ -154,6 +157,150 @@ export const extraTools: DevTool[] = [
       { q: "Do you store or log my IP address?", a: "No — we simply display the IP that your browser's request already includes, and we don't log or save it." },
     ],
     related: ["cidr-calculator", "wifi-qr", "qr-code"],
+  },
+  {
+    slug: "countdown-to-date",
+    name: "Countdown to Date",
+    tagline: "Live countdown to any date — see the days, hours, and minutes left.",
+    description:
+      "Free countdown to any date — see the days, hours, minutes, and seconds until Christmas, New Year, a birthday, exam, or any event. Live and shareable.",
+    keywords: [
+      "countdown to date",
+      "days until",
+      "how many days until",
+      "new year countdown",
+      "countdown clock",
+      "countdown to a date",
+    ],
+    icon: CalendarClockIcon,
+    intro:
+      "Count down to any moment — a birthday, holiday, exam, launch, or the New Year. Pick a date and time and watch the days, hours, minutes, and seconds tick down live. Give it a title and it becomes your own countdown clock. It runs entirely in your browser.",
+    steps: [
+      "Pick your target date and time, or tap a preset like New Year.",
+      "Add a title for your event, if you like.",
+      "Watch the live countdown — it updates every second.",
+    ],
+    faqs: [
+      { q: "How is this different from a timer?", a: "A timer counts down a duration you set, like 10 minutes. This counts down to a specific date and time in the future, so it keeps counting across days and weeks." },
+      { q: "Does it keep counting if I close the tab?", a: "Yes — the countdown is based on the real calendar date and time, so whenever you reopen it, it shows the correct time remaining." },
+      { q: "Can I count down to New Year or Christmas?", a: "Yes — use the presets, or set any date such as a birthday, wedding, exam, or product launch." },
+    ],
+    related: ["countdown-timer", "date-difference", "age-calculator"],
+  },
+  {
+    slug: "final-grade-calculator",
+    name: "Final Grade Calculator",
+    tagline: "Find the score you need on the final to hit your target grade.",
+    description:
+      "Free final grade calculator — find the score you need on your final exam to reach your target overall grade, based on your current grade and the exam's weight.",
+    keywords: [
+      "final grade calculator",
+      "what do i need on my final",
+      "final exam calculator",
+      "grade calculator",
+      "exam grade needed",
+    ],
+    icon: GraduationCapIcon,
+    intro:
+      "Work out exactly what you need to score on your final exam to reach the overall grade you want. Enter your current grade, your target grade, and how much the final is worth — it tells you the mark you need, and whether your goal is still within reach. Calculated instantly in your browser.",
+    steps: [
+      "Enter your current grade in the class (as a percentage).",
+      "Enter the overall grade you're aiming for.",
+      "Enter how much the final exam is worth, and see the score you need.",
+    ],
+    faqs: [
+      { q: "How is the required final score calculated?", a: "It uses: needed = (target − current × (1 − weight)) ÷ weight, where weight is the final's share of your grade. That's the score on the final that makes your weighted average reach your target." },
+      { q: "What if it says I need more than 100%?", a: "Then your target isn't reachable from the final alone — you'd need extra credit or a higher-weighted assessment. Try a slightly lower target." },
+      { q: "What if the needed score is negative?", a: "That means you've already secured your target — even a zero on the final keeps you at or above your goal." },
+    ],
+    related: ["gpa-calculator", "percentage-calculator", "scientific-calculator"],
+  },
+  {
+    slug: "markdown-editor",
+    name: "Markdown Editor",
+    tagline: "Write Markdown with a live preview — copy the HTML instantly.",
+    description:
+      "Free online Markdown editor with live preview. Write Markdown and see it rendered instantly, then copy the HTML or download it. Private — runs in your browser.",
+    keywords: [
+      "markdown editor",
+      "online markdown editor",
+      "markdown live preview",
+      "markdown previewer",
+      "markdown editor online",
+    ],
+    icon: FileTextIcon,
+    intro:
+      "Write Markdown on the left and see it rendered live on the right — great for README files, notes, and documentation. Copy the generated HTML, or download your work as a .md or .html file. Everything runs in your browser, so your text stays private.",
+    steps: [
+      "Type or paste Markdown into the editor.",
+      "Watch the formatted preview update as you type.",
+      "Copy the HTML, or download your Markdown or HTML file.",
+    ],
+    faqs: [
+      { q: "Which Markdown features are supported?", a: "Standard and GitHub-flavored Markdown — headings, bold and italic, lists, links, images, code blocks, blockquotes, and tables." },
+      { q: "Is my text uploaded?", a: "No — the Markdown is rendered locally in your browser and never sent to a server." },
+      { q: "Can I get the HTML out?", a: "Yes — copy the rendered HTML with one click, or download it as an .html file (or save the raw Markdown as .md)." },
+    ],
+    related: ["markdown-to-html", "markdown-to-pdf", "html-to-markdown"],
+  },
+  {
+    slug: "barcode-generator",
+    name: "Barcode Generator",
+    tagline: "Create Code 128, EAN, UPC and more — download PNG or SVG.",
+    description:
+      "Free barcode generator — create Code 128, EAN-13, UPC, Code 39, ITF-14, and 2D barcodes. Customize the size and download as PNG or SVG, right in your browser.",
+    keywords: [
+      "barcode generator",
+      "create barcode",
+      "code 128 generator",
+      "ean-13 barcode",
+      "upc barcode generator",
+      "free barcode",
+    ],
+    icon: BarcodeIcon,
+    intro:
+      "Generate barcodes for products, inventory, and labels — Code 128, EAN-13, EAN-8, UPC-A/E, Code 39/93, ITF-14, Codabar, and 2D formats like Data Matrix and PDF417. Type your value, pick a format, adjust the size, and download a crisp PNG or a scalable SVG. It's all generated in your browser.",
+    steps: [
+      "Choose a barcode format — Code 128 works for most text and numbers.",
+      "Enter the value to encode.",
+      "Adjust the size, then download as PNG or SVG.",
+    ],
+    faqs: [
+      { q: "Which barcode format should I use?", a: "Code 128 is the most versatile for general text and numbers. Use EAN-13 or UPC-A for retail products, ITF-14 for shipping cartons, and Data Matrix or PDF417 for 2D codes." },
+      { q: "Why won't my value generate?", a: "Some formats require a specific length or character set — EAN-13 needs 12–13 digits and UPC-A needs 11–12 digits, for example. Check the format's requirements and try again." },
+      { q: "Are the barcodes free to use?", a: "Yes — free for personal and commercial use. Note that selling retail products may require an officially registered number, such as a GS1 UPC." },
+      { q: "Is my data uploaded?", a: "No — barcodes are generated entirely in your browser; nothing is sent anywhere." },
+    ],
+    related: ["qr-code", "wifi-qr", "bulk-qr-generator"],
+  },
+  {
+    slug: "salary-calculator",
+    name: "Salary to Hourly Calculator",
+    tagline: "Convert pay between hourly, weekly, monthly, and yearly.",
+    description:
+      "Free salary calculator — convert pay between hourly, daily, weekly, monthly, and yearly. Set your hours per week to see every equivalent (gross, before tax).",
+    keywords: [
+      "salary calculator",
+      "hourly to salary",
+      "salary to hourly",
+      "annual salary calculator",
+      "hourly wage calculator",
+      "pay calculator",
+    ],
+    icon: BanknoteIcon,
+    intro:
+      "Convert pay between hourly, daily, weekly, bi-weekly, monthly, and yearly in one place. Enter an amount in any period, set your hours per week and working weeks per year, and see every equivalent instantly. Note: these are gross figures, before tax — take-home pay depends on your country and deductions.",
+    steps: [
+      "Enter an amount and choose its period, such as hourly or yearly.",
+      "Set your hours per week and weeks worked per year.",
+      "See your pay converted to every other period.",
+    ],
+    faqs: [
+      { q: "Does this show my take-home (after-tax) pay?", a: "No — it shows gross pay before tax. Income tax, social security, and other deductions vary widely by country and situation, so we don't estimate net pay." },
+      { q: "How is annual salary from an hourly wage calculated?", a: "Annual = hourly × hours per week × weeks worked per year. With the common 40 hours and 52 weeks, that's your hourly rate × 2,080." },
+      { q: "Can I change the hours per week?", a: "Yes — set any hours per week and weeks per year (for example, to account for unpaid leave) and every figure updates." },
+    ],
+    related: ["loan-calculator", "percentage-calculator", "gst-vat-calculator"],
   },
 ];
 
