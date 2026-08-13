@@ -4,6 +4,7 @@
 import {
   CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
+  CakeIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -301,6 +302,36 @@ export const extraTools: DevTool[] = [
       { q: "Can I change the hours per week?", a: "Yes — set any hours per week and weeks per year (for example, to account for unpaid leave) and every figure updates." },
     ],
     related: ["loan-calculator", "percentage-calculator", "gst-vat-calculator"],
+  },
+  {
+    slug: "birthday-card-maker",
+    name: "Birthday Card Maker",
+    tagline: "Create an animated birthday card and share the link — free.",
+    description:
+      "Free animated birthday card maker — personalize a name, message, and theme, then share a link that opens as a full-screen animated card. No sign-up.",
+    keywords: [
+      "birthday card maker",
+      "birthday card",
+      "animated birthday card",
+      "online birthday card",
+      "free birthday card",
+      "birthday ecard",
+    ],
+    icon: CakeIcon,
+    intro:
+      "Create a beautiful animated birthday card in seconds. Add a name, a personal message, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with confetti and floating balloons. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Type the birthday person's name and your message.",
+      "Pick a color theme and watch the live preview.",
+      "Copy the share link and send it — it plays a full-screen animated card.",
+    ],
+    faqs: [
+      { q: "Is the birthday card free?", a: "Yes — completely free, with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I share the card?", a: "Copy the link and send it on WhatsApp, SMS, email, or social media. Anyone who opens it sees the full animated card — no app or account needed." },
+      { q: "Is my card stored on your servers?", a: "No — the card is encoded entirely in the link itself, so nothing is saved or tracked on our side." },
+      { q: "Can I add a photo?", a: "Photos are coming soon. For now cards are text-based with animated themes, which keeps the shareable link lightweight and instant." },
+    ],
+    related: ["countdown-to-date", "qr-code", "meme-generator"],
   },
 ];
 

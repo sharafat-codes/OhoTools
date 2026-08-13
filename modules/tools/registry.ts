@@ -3631,6 +3631,7 @@ export const POPULAR_SLUGS: string[] = [
   "text-to-speech",
   "what-is-my-ip",
   "barcode-generator",
+  "birthday-card-maker",
 ];
 
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
@@ -3920,6 +3921,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Games & Tests",
     blurb: "Fun browser challenges — click speed, reaction time, and keyboard tests.",
     slugs: [...gameSlugs],
+  },
+  {
+    name: "Cards & Invitations",
+    blurb: "Create animated cards and invitations, then share the link.",
+    slugs: ["birthday-card-maker"],
   },
 ];
 
