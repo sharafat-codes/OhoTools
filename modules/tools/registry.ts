@@ -134,6 +134,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { conversionTools, conversionSlugs } from "@/modules/tools/conversions";
 import { imageFormatTools, imageFormatSlugs } from "@/modules/tools/image-formats";
 import { gameTools, gameSlugs } from "@/modules/tools/games";
+import { extraTools } from "@/modules/tools/extras";
 
 export type ToolFaq = { q: string; a: string };
 
@@ -3523,7 +3524,7 @@ const baseDevTools: DevTool[] = [
 // Hand-written tools plus the generated unit-conversion pages (feet↔cm, kg↔lbs,
 // °C↔°F, …). Conversions are appended so search, categories, the sitemap, and
 // metadata pick them up automatically.
-export const devTools: DevTool[] = [...baseDevTools, ...conversionTools, ...imageFormatTools, ...gameTools];
+export const devTools: DevTool[] = [...baseDevTools, ...conversionTools, ...imageFormatTools, ...gameTools, ...extraTools];
 
 /** Exact number of tools. */
 export const TOOL_COUNT = devTools.length;
@@ -3613,6 +3614,8 @@ export const POPULAR_SLUGS: string[] = [
   "json-formatter",
   "cps-test",
   "typing-speed-test",
+  "scientific-calculator",
+  "text-to-speech",
 ];
 
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
@@ -3720,7 +3723,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Productivity",
     blurb: "Notepad, timers, invoices, and everyday utilities.",
-    slugs: ["online-notepad", "stopwatch", "countdown-timer", "pomodoro-timer", "invoice-generator"],
+    slugs: ["online-notepad", "text-to-speech", "stopwatch", "countdown-timer", "pomodoro-timer", "invoice-generator"],
   },
   {
     name: "Developer",
@@ -3831,11 +3834,13 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Calculators",
     blurb: "Everyday math, money, and dates.",
     slugs: [
+      "scientific-calculator",
       "percentage-calculator",
       "tip-calculator",
       "discount-calculator",
       "gst-vat-calculator",
       "loan-calculator",
+      "mortgage-calculator",
       "compound-interest-calculator",
       "bmi-calculator",
       "bmr-calculator",
@@ -3846,6 +3851,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "aspect-ratio-calculator",
       "age-calculator",
       "date-difference",
+      "due-date-calculator",
       "time-calculator",
     ],
   },
