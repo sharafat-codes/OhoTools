@@ -46,6 +46,10 @@ import * as timeCalcGuide from "./posts/how-to-add-and-subtract-time";
 import * as jsonXmlGuide from "./posts/how-to-convert-json-to-xml";
 import * as mdToPdfGuide from "./posts/how-to-convert-markdown-to-pdf";
 import * as colorPickerGuide from "./posts/how-to-get-hex-color-from-image";
+import * as typingSpeedGuide from "./posts/what-is-a-good-typing-speed";
+import * as cpsGuide from "./posts/what-is-a-good-cps";
+import * as dueDateGuide from "./posts/how-to-calculate-your-due-date";
+import * as mortgageGuide from "./posts/how-to-calculate-a-mortgage-payment";
 
 export type PostMeta = {
   slug: string;
@@ -110,6 +114,10 @@ const modules: BlogPost[] = [
   jsonXmlGuide,
   mdToPdfGuide,
   colorPickerGuide,
+  typingSpeedGuide,
+  cpsGuide,
+  dueDateGuide,
+  mortgageGuide,
 ];
 
 /** All posts, newest first. */

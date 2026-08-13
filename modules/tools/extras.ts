@@ -1,7 +1,7 @@
 // Standalone high-demand tools that slot into existing categories (scientific
 // calculator, text-to-speech, due-date & mortgage calculators). Kept in their
 // own module per the split-registry convention so registry.ts stays lean.
-import { CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon } from "lucide-react";
+import { CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon } from "lucide-react";
 
 import type { DevTool } from "./registry";
 
@@ -124,6 +124,36 @@ export const extraTools: DevTool[] = [
       { q: "Does it store my numbers?", a: "No — the calculation runs entirely in your browser and nothing is uploaded." },
     ],
     related: ["loan-calculator", "compound-interest-calculator", "percentage-calculator"],
+  },
+  {
+    slug: "what-is-my-ip",
+    name: "What Is My IP Address",
+    tagline: "See your public IP address and browser details instantly.",
+    description:
+      "See your public IP address instantly, plus your browser, operating system, screen size, and timezone. Private — we only show what your browser already sends.",
+    keywords: [
+      "what is my ip",
+      "my ip address",
+      "what's my ip",
+      "ip address",
+      "find my ip",
+      "whats my ip",
+    ],
+    icon: NetworkIcon,
+    intro:
+      "See your public IP address at a glance, along with the details your browser reveals to every site you visit — your browser and version, operating system, screen and window size, timezone, and language. We only display what your device already sends with each request; nothing is logged or stored.",
+    steps: [
+      "Your public IP address is shown at the top — click to copy it.",
+      "Below it you'll find your browser, OS, screen, timezone, and language.",
+      "Use it to check your connection, troubleshoot, or set up remote access and port forwarding.",
+    ],
+    faqs: [
+      { q: "What is an IP address?", a: "An IP address is a unique number that identifies your device on the internet, so websites and services know where to send data back to you." },
+      { q: "Is this my public or private IP?", a: "It's your public IP — the address the internet sees, assigned by your ISP. Your private (local) IP inside your home network isn't visible to websites, so it isn't shown here." },
+      { q: "Why does my IP differ from another site or check?", a: "If you use a VPN, proxy, or mobile data, your IP can change or differ between checks. This shows the address your current connection is using right now." },
+      { q: "Do you store or log my IP address?", a: "No — we simply display the IP that your browser's request already includes, and we don't log or save it." },
+    ],
+    related: ["cidr-calculator", "wifi-qr", "qr-code"],
   },
 ];
 

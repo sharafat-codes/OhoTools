@@ -3588,6 +3588,10 @@ export const TOOL_GUIDES: Record<string, string> = {
   "js-minifier": "how-to-minify-css-javascript-html",
   "html-minifier": "how-to-minify-css-javascript-html",
   "jpg-to-webp": "how-to-convert-image-to-webp",
+  "typing-speed-test": "what-is-a-good-typing-speed",
+  "cps-test": "what-is-a-good-cps",
+  "due-date-calculator": "how-to-calculate-your-due-date",
+  "mortgage-calculator": "how-to-calculate-a-mortgage-payment",
 };
 
 /**
@@ -3616,6 +3620,7 @@ export const POPULAR_SLUGS: string[] = [
   "typing-speed-test",
   "scientific-calculator",
   "text-to-speech",
+  "what-is-my-ip",
 ];
 
 /** URL of the dynamic branded OG image for a page (see app/og/route.tsx). */
@@ -3745,6 +3750,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "color-contrast-checker",
       "chmod-calculator",
       "cidr-calculator",
+      "what-is-my-ip",
       "credit-card-validator",
       "password-strength-checker",
       "bcrypt-generator",
