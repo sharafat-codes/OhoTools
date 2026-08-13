@@ -48,15 +48,15 @@ const CSS = `
 @keyframes be-breathe{0%,100%{opacity:.4; transform:translate(-50%,-50%) scale(1)}50%{opacity:.65; transform:translate(-50%,-50%) scale(1.08)}}
 .be-sparkle{position:absolute; width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent); animation:be-twinkle 3s ease-in-out infinite;}
 @keyframes be-twinkle{0%,100%{opacity:0; transform:scale(.4)}50%{opacity:1; transform:scale(1.2)}}
-.be-content{position:relative; z-index:10; padding:24px; max-width:90%;}
-.be-photo{display:block; margin:0 auto 1em; width:clamp(90px,24vw,130px); height:clamp(90px,24vw,130px); border-radius:50%; object-fit:cover;
+.be-content{position:relative; z-index:10; padding:24px; max-width:90%; overflow-wrap:break-word;}
+.be-photo{display:block; margin:0 auto 1em; width:clamp(90px,24cqw,130px); height:clamp(90px,24cqw,130px); border-radius:50%; object-fit:cover;
   border:2px solid var(--accent); box-shadow:0 0 0 6px color-mix(in srgb, var(--accent) 20%, transparent), 0 10px 40px rgba(0,0,0,.5); animation:be-in 1s .1s both;}
-.be-eyebrow{font-size:clamp(.8rem,2.6vw,1rem); letter-spacing:.35em; text-transform:uppercase; color:var(--accent); font-weight:600; animation:be-in .9s .2s both;}
-.be-name{margin:.25em 0; font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:clamp(2.8rem,11vw,5.5rem); line-height:1.05;
+.be-eyebrow{font-size:clamp(.8rem,2.6cqw,1rem); letter-spacing:.35em; text-transform:uppercase; color:var(--accent); font-weight:600; animation:be-in .9s .2s both;}
+.be-name{margin:.25em 0; font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:clamp(2.8rem,11cqw,5.5rem); line-height:1.05;
   text-shadow:0 4px 30px rgba(0,0,0,.4); animation:be-rise .9s .35s both;}
 .be-rule{width:70px; height:2px; margin:.4em auto 1em; background:linear-gradient(90deg, transparent, var(--accent), transparent); animation:be-in 1s .55s both;}
-.be-msg{font-size:clamp(1rem,3.2vw,1.3rem); line-height:1.7; opacity:.9; max-width:34ch; margin:0 auto; font-style:italic; animation:be-in 1s .7s both; text-wrap:balance;}
-.be-from{margin-top:1.4em; font-size:clamp(.9rem,2.8vw,1.1rem); letter-spacing:.1em; color:var(--accent); animation:be-in 1s .85s both;}
+.be-msg{font-size:clamp(1rem,3.2cqw,1.3rem); line-height:1.7; opacity:.9; max-width:34ch; margin:0 auto; font-style:italic; animation:be-in 1s .7s both; text-wrap:balance;}
+.be-from{margin-top:1.4em; font-size:clamp(.9rem,2.8cqw,1.1rem); letter-spacing:.1em; color:var(--accent); animation:be-in 1s .85s both;}
 @keyframes be-in{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
 @keyframes be-rise{from{opacity:0; transform:translateY(26px) scale(.96)}to{opacity:1; transform:none}}
 @media (prefers-reduced-motion: reduce){.be-glow,.be-sparkle,.be-photo,.be-eyebrow,.be-name,.be-rule,.be-msg,.be-from{animation:none !important}}

@@ -84,20 +84,20 @@ const CSS = `
 .bc-balloon::after{content:""; position:absolute; bottom:-26px; left:50%; width:1px; height:26px; background:rgba(255,255,255,.5); transform:translateX(-50%);}
 @keyframes bc-sway{0%,100%{rotate:-6deg}50%{rotate:6deg}}
 
-.bc-content{position:relative; z-index:10; padding:24px; max-width:90%;}
-.bc-photo{display:block; margin:0 auto .7em; width:clamp(84px,22vw,120px); height:clamp(84px,22vw,120px); border-radius:50%; object-fit:cover; border:3px solid var(--accent); box-shadow:0 8px 30px rgba(0,0,0,.3); animation:bc-pop .8s both;}
-.bc-eyebrow{font-size:clamp(.9rem,3vw,1.2rem); font-weight:600; letter-spacing:.08em; text-transform:uppercase; opacity:.95; animation:bc-in .7s .1s both;}
+.bc-content{position:relative; z-index:10; padding:24px; max-width:90%; overflow-wrap:break-word;}
+.bc-photo{display:block; margin:0 auto .7em; width:clamp(84px,22cqw,120px); height:clamp(84px,22cqw,120px); border-radius:50%; object-fit:cover; border:3px solid var(--accent); box-shadow:0 8px 30px rgba(0,0,0,.3); animation:bc-pop .8s both;}
+.bc-eyebrow{font-size:clamp(.9rem,3cqw,1.2rem); font-weight:600; letter-spacing:.08em; text-transform:uppercase; opacity:.95; animation:bc-in .7s .1s both;}
 .bc-name{
   margin:.15em 0 .3em; font-weight:800; line-height:1.05;
-  font-size:clamp(2.6rem,11vw,5.5rem);
+  font-size:clamp(2.6rem,11cqw,5.5rem);
   background:linear-gradient(90deg,#fff,var(--accent),#fff);
   background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent;
   animation:bc-pop .8s .25s both, bc-shine 4s linear .9s infinite;
   filter:drop-shadow(0 4px 20px rgba(0,0,0,.25));
 }
 @keyframes bc-shine{to{background-position:200% center}}
-.bc-msg{font-size:clamp(1rem,3.4vw,1.35rem); line-height:1.6; opacity:.96; margin:0 auto; max-width:32ch; animation:bc-in .8s .5s both; text-wrap:balance;}
-.bc-from{margin-top:1.2em; font-size:clamp(.95rem,3vw,1.15rem); font-weight:600; opacity:.9; animation:bc-in .8s .7s both;}
+.bc-msg{font-size:clamp(1rem,3.4cqw,1.35rem); line-height:1.6; opacity:.96; margin:0 auto; max-width:32ch; animation:bc-in .8s .5s both; text-wrap:balance;}
+.bc-from{margin-top:1.2em; font-size:clamp(.95rem,3cqw,1.15rem); font-weight:600; opacity:.9; animation:bc-in .8s .7s both;}
 @keyframes bc-in{from{opacity:0; transform:translateY(18px)}to{opacity:1; transform:none}}
 @keyframes bc-pop{0%{opacity:0; transform:scale(.7)}60%{opacity:1; transform:scale(1.06)}100%{transform:scale(1)}}
 @media (prefers-reduced-motion: reduce){

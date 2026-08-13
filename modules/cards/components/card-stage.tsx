@@ -67,7 +67,7 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
   }
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0" style={{ containerType: "inline-size" }}>
       <Template data={data} fireKey={fireKey} />
 
       {opened && musicGate && (

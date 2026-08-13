@@ -36,17 +36,17 @@ const CSS = `
 .bn-frame{position:absolute; inset:20px; border:2px solid var(--neon); border-radius:16px; pointer-events:none;
   box-shadow:0 0 14px var(--neon), inset 0 0 14px color-mix(in srgb, var(--neon) 60%, transparent); animation:bn-pulse 2.6s ease-in-out infinite;}
 @keyframes bn-pulse{0%,100%{opacity:.55}50%{opacity:1}}
-.bn-content{position:relative; z-index:10; padding:44px; max-width:88%;}
-.bn-photo{display:block; margin:0 auto 1em; width:clamp(92px,24vw,128px); height:clamp(92px,24vw,128px); border-radius:50%; object-fit:cover;
+.bn-content{position:relative; z-index:10; padding:44px; max-width:88%; overflow-wrap:break-word;}
+.bn-photo{display:block; margin:0 auto 1em; width:clamp(92px,24cqw,128px); height:clamp(92px,24cqw,128px); border-radius:50%; object-fit:cover;
   border:2px solid var(--neon); box-shadow:0 0 20px var(--neon); animation:bn-in 1s .1s both;}
-.bn-eyebrow{font-size:clamp(.75rem,2.4vw,1rem); letter-spacing:.4em; color:var(--neon); font-weight:600; text-shadow:0 0 8px var(--neon); animation:bn-in .9s .2s both;}
-.bn-name{margin:.15em 0 .3em; font-weight:800; font-size:clamp(3rem,12vw,6rem); line-height:1; color:#fff;
+.bn-eyebrow{font-size:clamp(.75rem,2.4cqw,1rem); letter-spacing:.4em; color:var(--neon); font-weight:600; text-shadow:0 0 8px var(--neon); animation:bn-in .9s .2s both;}
+.bn-name{margin:.15em 0 .3em; font-weight:800; font-size:clamp(3rem,12cqw,6rem); line-height:1; color:#fff;
   text-shadow:0 0 6px #fff, 0 0 16px var(--neon), 0 0 34px var(--neon), 0 0 60px var(--neon2);
   animation:bn-flicker 4s linear .8s infinite, bn-pop .8s .3s both;}
 @keyframes bn-flicker{0%,18%,22%,25%,53%,57%,100%{opacity:1}20%,24%,55%{opacity:.72}}
 @keyframes bn-pop{from{opacity:0; transform:scale(.85)}to{opacity:1; transform:none}}
-.bn-msg{font-size:clamp(1rem,3.3vw,1.32rem); line-height:1.6; opacity:.92; max-width:32ch; margin:0 auto; animation:bn-in 1s .55s both; text-wrap:balance;}
-.bn-from{margin-top:1.3em; font-size:clamp(.95rem,3vw,1.15rem); font-weight:600; color:var(--neon); text-shadow:0 0 8px var(--neon); animation:bn-in 1s .75s both;}
+.bn-msg{font-size:clamp(1rem,3.3cqw,1.32rem); line-height:1.6; opacity:.92; max-width:32ch; margin:0 auto; animation:bn-in 1s .55s both; text-wrap:balance;}
+.bn-from{margin-top:1.3em; font-size:clamp(.95rem,3cqw,1.15rem); font-weight:600; color:var(--neon); text-shadow:0 0 8px var(--neon); animation:bn-in 1s .75s both;}
 @keyframes bn-in{from{opacity:0; transform:translateY(16px)}to{opacity:1; transform:none}}
 @media (prefers-reduced-motion: reduce){.bn-frame,.bn-photo,.bn-eyebrow,.bn-name,.bn-msg,.bn-from{animation:none !important}}
 `;
