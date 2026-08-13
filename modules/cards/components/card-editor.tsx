@@ -1,7 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon } from "lucide-react";
+import {
+  CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon,
+  TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
@@ -13,16 +16,24 @@ import {
 } from "@/modules/cards/types";
 import { cardShareUrl, encodeCard } from "@/modules/cards/share";
 
-const EFFECTS: { id: CardEffect; label: string }[] = [
-  { id: "confetti", label: "Confetti" },
-  { id: "hearts", label: "Hearts" },
-  { id: "stars", label: "Stars" },
+const EFFECTS: { id: CardEffect; label: string; Icon: typeof StarIcon }[] = [
+  { id: "confetti", label: "Confetti", Icon: PartyPopperIcon },
+  { id: "hearts", label: "Hearts", Icon: HeartIcon },
+  { id: "stars", label: "Stars", Icon: StarIcon },
 ];
 
-const inputCls =
-  "w-full rounded-lg border border-border bg-card px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
+// Mini visual for each template's picker chip.
+const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; glow?: boolean }> = {
+  classic: { bg: "linear-gradient(135deg,#7c3aed,#db2777)", accent: "#ffffff" },
+  elegant: { bg: "radial-gradient(circle at 50% 30%,#2a2440,#0a0a0c)", accent: "#e7c873", serif: true },
+  playful: { bg: "linear-gradient(135deg,#f97316,#db2777)", accent: "#ffffff" },
+  luxe: { bg: "radial-gradient(circle at 50% 30%,#2b2410,#0a0a0c)", accent: "#e7c873", serif: true },
+  neon: { bg: "radial-gradient(circle at 50% 40%,#10131f,#060711)", accent: "#38bdf8", glow: true },
+};
 
-// Downscale + center-crop to a small square JPEG so the photo fits in the link.
+const inputCls =
+  "w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-primary/50 focus:ring-2 focus:ring-primary/15";
+
 function fileToAvatar(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -94,9 +105,9 @@ export function CardEditor() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
       {/* Controls */}
-      <div className="order-2 flex flex-col gap-7 lg:order-1">
+      <div className="order-2 flex flex-col gap-8 lg:order-1">
         {/* Content */}
-        <Section label="Content">
+        <Section icon={TypeIcon} label="Content">
           <Field label="Whose birthday is it?">
             <input value={data.to} maxLength={60} onChange={(e) => set("to", e.target.value)} placeholder="Name" className={inputCls} />
           </Field>
@@ -109,26 +120,38 @@ export function CardEditor() {
         </Section>
 
         {/* Design */}
-        <Section label="Design">
+        <Section icon={PaletteIcon} label="Design">
           <Field label="Style">
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               {CARD_TEMPLATES.map((tpl) => {
                 const active = data.template === tpl.id;
                 const locked = tpl.pro && !pro;
-                const base = "inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors ";
-                const look = active ? "border-primary bg-primary text-primary-foreground shadow-sm" : "border-border bg-card hover:border-primary/40 hover:bg-muted/40";
-                if (locked) {
-                  return (
-                    <a key={tpl.id} href="/pricing" className={base + "border-border bg-card text-muted-foreground hover:border-primary/40"} title="Pro template">
-                      {tpl.name} <LockIcon className="size-3.5" />
-                    </a>
-                  );
-                }
-                return (
-                  <button key={tpl.id} type="button" onClick={() => set("template", tpl.id as TemplateId)} className={base + look}>
-                    {tpl.name}
-                    {tpl.pro && <SparklesIcon className="size-3.5 opacity-80" />}
-                  </button>
+                const sw = SWATCH[tpl.id];
+                const chipCls =
+                  "group relative flex flex-col overflow-hidden rounded-xl border-2 text-center transition-all " +
+                  (active ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/50");
+                const inner = (
+                  <>
+                    <div className="grid h-14 place-items-center" style={{ background: sw.bg }}>
+                      <span style={{ color: sw.accent, fontFamily: sw.serif ? "Georgia, serif" : "inherit", fontWeight: 800, fontSize: 17, textShadow: sw.glow ? `0 0 8px ${sw.accent}` : "none" }}>
+                        Aa
+                      </span>
+                    </div>
+                    <span className="flex items-center justify-center gap-1 bg-card px-1 py-1.5 text-xs font-medium">
+                      {tpl.name}
+                      {tpl.pro && !locked && <SparklesIcon className="size-3 text-primary" />}
+                    </span>
+                    {locked && (
+                      <span className="absolute right-1.5 top-1.5 grid size-5 place-items-center rounded-full bg-black/50 text-white">
+                        <LockIcon className="size-3" />
+                      </span>
+                    )}
+                  </>
+                );
+                return locked ? (
+                  <a key={tpl.id} href="/pricing" className={chipCls} title="Unlock with Pro">{inner}</a>
+                ) : (
+                  <button key={tpl.id} type="button" onClick={() => set("template", tpl.id as TemplateId)} className={chipCls}>{inner}</button>
                 );
               })}
             </div>
@@ -146,65 +169,82 @@ export function CardEditor() {
                     onClick={() => { set("theme", key); if (data.custom) set("custom", undefined); }}
                     aria-label={th.name}
                     title={th.name}
-                    className={"size-9 rounded-full ring-2 ring-offset-2 ring-offset-background transition " + (active ? "ring-primary" : "ring-transparent hover:ring-border")}
+                    className={"grid size-10 place-items-center rounded-full text-white shadow-sm ring-2 ring-offset-2 ring-offset-background transition " + (active ? "ring-primary" : "ring-transparent hover:ring-border")}
                     style={{ background: `linear-gradient(135deg, ${th.bg1}, ${th.bg2})` }}
-                  />
+                  >
+                    {active && <CheckIcon className="size-4 drop-shadow" />}
+                  </button>
                 );
               })}
             </div>
           </Field>
 
           <Field label="Falling effect">
-            <Segmented
-              options={EFFECTS.map((e) => ({ id: e.id, label: e.label }))}
-              value={data.effect ?? "confetti"}
-              onChange={(v) => set("effect", v as CardEffect)}
-            />
+            <div className="inline-flex rounded-xl bg-muted p-1">
+              {EFFECTS.map((ef) => {
+                const on = (data.effect ?? "confetti") === ef.id;
+                return (
+                  <button
+                    key={ef.id}
+                    type="button"
+                    onClick={() => set("effect", ef.id)}
+                    className={"inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors " + (on ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+                  >
+                    <ef.Icon className="size-3.5" /> {ef.label}
+                  </button>
+                );
+              })}
+            </div>
           </Field>
         </Section>
 
         {/* Extras */}
-        <Section label="Extras">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <Section icon={ImageIcon} label="Extras">
+          <div className="flex items-center gap-3">
             {data.photo ? (
-              <div className="flex items-center gap-2.5">
+              <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={data.photo} alt="" className="size-11 rounded-full object-cover ring-2 ring-border" />
-                <button type="button" onClick={() => set("photo", undefined)} className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground">
-                  <XIcon className="size-3.5" /> Remove photo
-                </button>
-              </div>
+                <img src={data.photo} alt="" className="size-12 rounded-full object-cover ring-2 ring-primary/30" />
+                <div className="text-sm">
+                  <div className="font-medium">Photo added</div>
+                  <button type="button" onClick={() => set("photo", undefined)} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                    <XIcon className="size-3" /> Remove
+                  </button>
+                </div>
+              </>
             ) : (
-              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:bg-muted/40">
-                <ImagePlusIcon className="size-4" /> Add photo
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-border bg-card px-4 py-2.5 text-sm font-medium transition-colors hover:border-primary/50 hover:bg-muted/40">
+                <ImagePlusIcon className="size-4" /> Add a photo
                 <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
               </label>
             )}
-            <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
-              <input type="checkbox" checked={!!data.music} onChange={(e) => set("music", e.target.checked)} className="size-4 accent-primary" />
-              Play music 🎵
-            </label>
           </div>
           {photoError && <p className="text-xs text-red-500">{photoError}</p>}
+
+          <ToggleRow label="Play music" hint="Plays a birthday tune on the shared card" checked={!!data.music} onChange={(v) => set("music", v)} />
         </Section>
 
         {/* Pro */}
-        <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.06] to-transparent p-4">
-          <div className="mb-3 flex items-center justify-between">
+        <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.07] via-primary/[0.02] to-transparent p-4">
+          <div className="mb-3.5 flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-sm font-semibold">
-              <SparklesIcon className="size-4 text-primary" /> Pro features
+              <CrownIcon className="size-4 text-primary" /> Pro features
             </span>
-            {!pro && <a href="/pricing" className="text-xs font-semibold text-primary hover:underline">Upgrade →</a>}
+            {!pro && (
+              <a href="/pricing" className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90">Upgrade</a>
+            )}
           </div>
 
-          <div className={"flex flex-col gap-4 " + (pro ? "" : "opacity-70")}>
-            <div className="flex flex-col gap-2 text-sm">
-              <label className="flex items-center gap-2 font-medium">
-                <input type="checkbox" disabled={!pro} checked={!!data.custom} onChange={(e) => set("custom", e.target.checked ? { bg1: cur.bg1, bg2: cur.bg2, accent: cur.accent } : undefined)} className="size-4 accent-primary" />
-                Custom colors
-              </label>
+          <div className={"flex flex-col gap-3.5 " + (pro ? "" : "opacity-70")}>
+            <div className="flex flex-col gap-2.5">
+              <ToggleRow
+                label="Custom colors"
+                disabled={!pro}
+                checked={!!data.custom}
+                onChange={(v) => set("custom", v ? { bg1: cur.bg1, bg2: cur.bg2, accent: cur.accent } : undefined)}
+              />
               {data.custom && (
-                <div className="flex flex-wrap gap-3 pl-6">
+                <div className="flex flex-wrap gap-3 pl-1">
                   <ColorField label="Color 1" value={data.custom.bg1} disabled={!pro} onChange={(v) => set("custom", { ...data.custom!, bg1: v })} />
                   <ColorField label="Color 2" value={data.custom.bg2} disabled={!pro} onChange={(v) => set("custom", { ...data.custom!, bg2: v })} />
                   <ColorField label="Accent" value={data.custom.accent} disabled={!pro} onChange={(v) => set("custom", { ...data.custom!, accent: v })} />
@@ -212,10 +252,7 @@ export function CardEditor() {
               )}
             </div>
 
-            <label className="flex items-center gap-2 text-sm font-medium">
-              <input type="checkbox" disabled={!pro} checked={!!data.noWatermark} onChange={(e) => set("noWatermark", e.target.checked)} className="size-4 accent-primary" />
-              Remove &quot;Made with OhoTool&quot; watermark
-            </label>
+            <ToggleRow label="Remove watermark" disabled={!pro} checked={!!data.noWatermark} onChange={(v) => set("noWatermark", v)} />
 
             {pro ? (
               <Button variant="outline" disabled={!origin} render={<a href={imageUrl} download />} className="self-start">
@@ -223,7 +260,7 @@ export function CardEditor() {
               </Button>
             ) : (
               <Button variant="outline" render={<a href="/pricing" />} className="self-start">
-                <DownloadIcon className="size-4" /> Download as image (Pro)
+                <DownloadIcon className="size-4" /> Download as image
               </Button>
             )}
           </div>
@@ -234,12 +271,12 @@ export function CardEditor() {
       <div className="order-1 lg:order-2">
         <div className="lg:sticky lg:top-6">
           <div className="mx-auto w-full max-w-[280px]">
-            <div className="relative aspect-[9/16] overflow-hidden rounded-[2.2rem] border-[6px] border-foreground/10 bg-neutral-900 shadow-2xl">
+            <div className="relative aspect-[9/16] overflow-hidden rounded-[2.4rem] border-[7px] border-neutral-800 bg-neutral-900 shadow-2xl ring-1 ring-black/5">
+              <div className="absolute left-1/2 top-2 z-30 h-1.5 w-16 -translate-x-1/2 rounded-full bg-white/25" />
               <CardStage data={normalizeCard(data)} cta={false} sound={false} />
             </div>
           </div>
 
-          {/* Actions */}
           <div className="mx-auto mt-5 flex w-full max-w-[280px] flex-col gap-2">
             <Button onClick={copy} disabled={!url} className="w-full">
               {copied ? <CheckIcon className="size-4 text-emerald-400" /> : <CopyIcon className="size-4" />}
@@ -258,10 +295,12 @@ export function CardEditor() {
   );
 }
 
-function Section({ label, children }: { label: string; children: React.ReactNode }) {
+function Section({ icon: Icon, label, children }: { icon: typeof TypeIcon; label: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-4">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</h3>
+      <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <Icon className="size-3.5" /> {label}
+      </h3>
       {children}
     </section>
   );
@@ -279,20 +318,30 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
   );
 }
 
-function Segmented({ options, value, onChange }: { options: { id: string; label: string }[]; value: string; onChange: (v: string) => void }) {
+function ToggleRow({ label, hint, checked, onChange, disabled }: { label: string; hint?: string; checked: boolean; onChange: (v: boolean) => void; disabled?: boolean }) {
   return (
-    <div className="inline-flex rounded-lg bg-muted p-1">
-      {options.map((o) => (
-        <button
-          key={o.id}
-          type="button"
-          onClick={() => onChange(o.id)}
-          className={"rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors " + (value === o.id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
-        >
-          {o.label}
-        </button>
-      ))}
+    <div className="flex items-center justify-between gap-3">
+      <div className="min-w-0">
+        <div className="text-sm font-medium">{label}</div>
+        {hint && <div className="text-xs text-muted-foreground">{hint}</div>}
+      </div>
+      <Switch checked={checked} onChange={onChange} disabled={disabled} />
     </div>
+  );
+}
+
+function Switch({ checked, onChange, disabled }: { checked: boolean; onChange: (v: boolean) => void; disabled?: boolean }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      disabled={disabled}
+      onClick={() => onChange(!checked)}
+      className={"relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors " + (checked ? "bg-primary" : "bg-muted") + (disabled ? " cursor-not-allowed opacity-50" : "")}
+    >
+      <span className={"inline-block size-5 transform rounded-full bg-white shadow transition-transform " + (checked ? "translate-x-[22px]" : "translate-x-0.5")} />
+    </button>
   );
 }
 
