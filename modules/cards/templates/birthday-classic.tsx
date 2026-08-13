@@ -48,10 +48,11 @@ export function BirthdayClassic({ data, fireKey = 0 }: { data: CardData; fireKey
         </div>
       ))}
 
-      <Confetti colors={[t.accent, "#ffffff", t.bg2, "#fde68a"]} fireKey={fireKey} />
+      <Confetti colors={[t.accent, "#ffffff", t.bg2, "#fde68a"]} fireKey={fireKey} effect={data.effect} />
 
       {/* content */}
       <div className="bc-content">
+        {data.photo && <img src={data.photo} alt="" className="bc-photo" />}
         <div className="bc-eyebrow">🎂 Happy Birthday</div>
         <h1 className="bc-name">{data.to}</h1>
         <p className="bc-msg">{data.message}</p>
@@ -84,6 +85,7 @@ const CSS = `
 @keyframes bc-sway{0%,100%{rotate:-6deg}50%{rotate:6deg}}
 
 .bc-content{position:relative; z-index:10; padding:24px; max-width:90%;}
+.bc-photo{display:block; margin:0 auto .7em; width:clamp(84px,22vw,120px); height:clamp(84px,22vw,120px); border-radius:50%; object-fit:cover; border:3px solid var(--accent); box-shadow:0 8px 30px rgba(0,0,0,.3); animation:bc-pop .8s both;}
 .bc-eyebrow{font-size:clamp(.9rem,3vw,1.2rem); font-weight:600; letter-spacing:.08em; text-transform:uppercase; opacity:.95; animation:bc-in .7s .1s both;}
 .bc-name{
   margin:.15em 0 .3em; font-weight:800; line-height:1.05;

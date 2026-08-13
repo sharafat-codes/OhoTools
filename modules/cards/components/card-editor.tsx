@@ -1,17 +1,55 @@
 "use client";
 
 import * as React from "react";
-import { CopyIcon, CheckIcon, ExternalLinkIcon } from "lucide-react";
+import { CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { CardStage } from "@/modules/cards/components/card-stage";
-import { CARD_THEMES, DEFAULT_CARD, normalizeCard, type CardData, type CardTheme } from "@/modules/cards/types";
+import {
+  CARD_THEMES, CARD_TEMPLATES, DEFAULT_CARD, normalizeCard,
+  type CardData, type CardTheme, type CardEffect, type TemplateId,
+} from "@/modules/cards/types";
 import { cardShareUrl } from "@/modules/cards/share";
+
+const EFFECTS: { id: CardEffect; label: string }[] = [
+  { id: "confetti", label: "Confetti" },
+  { id: "hearts", label: "Hearts" },
+  { id: "stars", label: "Stars" },
+];
+
+// Downscale + center-crop to a small square JPEG so the photo fits inside the
+// shareable link (no upload / storage needed).
+function fileToAvatar(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const S = 224;
+        const canvas = document.createElement("canvas");
+        canvas.width = S;
+        canvas.height = S;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("no canvas"));
+        const scale = Math.max(S / img.width, S / img.height);
+        const w = img.width * scale;
+        const h = img.height * scale;
+        ctx.drawImage(img, (S - w) / 2, (S - h) / 2, w, h);
+        resolve(canvas.toDataURL("image/jpeg", 0.6));
+      };
+      img.onerror = reject;
+      img.src = reader.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 export function CardEditor() {
   const [data, setData] = React.useState<CardData>(DEFAULT_CARD);
   const [origin, setOrigin] = React.useState("");
   const [copied, setCopied] = React.useState(false);
+  const [photoError, setPhotoError] = React.useState("");
 
   React.useEffect(() => setOrigin(window.location.origin), []);
 
@@ -24,6 +62,24 @@ export function CardEditor() {
       () => { setCopied(true); window.setTimeout(() => setCopied(false), 1600); },
       () => {},
     );
+  }
+
+  async function onPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoError("");
+    try {
+      const avatar = await fileToAvatar(file);
+      if (avatar.length > 180_000) {
+        setPhotoError("That image is too detailed to fit in a share link. Try a simpler photo.");
+        return;
+      }
+      set("photo", avatar);
+    } catch {
+      setPhotoError("Couldn't read that image. Try another file.");
+    } finally {
+      e.target.value = "";
+    }
   }
 
   const inputCls = "w-full rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary/40";
@@ -48,12 +104,29 @@ export function CardEditor() {
           <input value={data.from} maxLength={60} onChange={(e) => set("from", e.target.value)} placeholder="Your name" className={inputCls} />
         </label>
 
+        {/* Template */}
+        <div className="flex flex-col gap-1.5 text-sm">
+          <span className="font-medium">Style</span>
+          <div className="flex flex-wrap gap-2">
+            {CARD_TEMPLATES.map((tpl) => (
+              <button
+                key={tpl.id}
+                type="button"
+                onClick={() => set("template", tpl.id as TemplateId)}
+                className={"rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors " + (data.template === tpl.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40")}
+              >
+                {tpl.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Theme */}
         <div className="flex flex-col gap-1.5 text-sm">
           <span className="font-medium">Theme</span>
           <div className="flex flex-wrap gap-2">
             {(Object.keys(CARD_THEMES) as CardTheme[]).map((key) => {
               const th = CARD_THEMES[key];
-              const active = data.theme === key;
               return (
                 <button
                   key={key}
@@ -61,7 +134,7 @@ export function CardEditor() {
                   onClick={() => set("theme", key)}
                   aria-label={th.name}
                   title={th.name}
-                  className={"size-9 rounded-full ring-2 ring-offset-2 ring-offset-background transition " + (active ? "ring-primary" : "ring-transparent hover:ring-border")}
+                  className={"size-9 rounded-full ring-2 ring-offset-2 ring-offset-background transition " + (data.theme === key ? "ring-primary" : "ring-transparent hover:ring-border")}
                   style={{ background: `linear-gradient(135deg, ${th.bg1}, ${th.bg2})` }}
                 />
               );
@@ -69,6 +142,49 @@ export function CardEditor() {
           </div>
         </div>
 
+        {/* Effect */}
+        <div className="flex flex-col gap-1.5 text-sm">
+          <span className="font-medium">Falling effect</span>
+          <div className="flex flex-wrap gap-2">
+            {EFFECTS.map((ef) => (
+              <button
+                key={ef.id}
+                type="button"
+                onClick={() => set("effect", ef.id)}
+                className={"rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors " + ((data.effect ?? "confetti") === ef.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40")}
+              >
+                {ef.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Photo + music */}
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2 text-sm">
+            {data.photo ? (
+              <div className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={data.photo} alt="" className="size-10 rounded-full object-cover ring-2 ring-border" />
+                <button type="button" onClick={() => set("photo", undefined)} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+                  <XIcon className="size-3.5" /> Remove photo
+                </button>
+              </div>
+            ) : (
+              <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium hover:border-primary/40">
+                <ImagePlusIcon className="size-4" /> Add photo
+                <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
+              </label>
+            )}
+          </div>
+          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+            <input type="checkbox" checked={!!data.music} onChange={(e) => set("music", e.target.checked)} className="accent-primary" />
+            Play music 🎵
+          </label>
+        </div>
+        {photoError && <p className="text-xs text-red-500">{photoError}</p>}
+
+        {/* Actions */}
         <div className="mt-1 flex flex-wrap items-center gap-2">
           <Button onClick={copy} disabled={!url} className="min-w-36">
             {copied ? <CheckIcon className="size-4 text-emerald-400" /> : <CopyIcon className="size-4" />}
@@ -86,7 +202,7 @@ export function CardEditor() {
       {/* Live preview */}
       <div className="flex flex-col gap-2">
         <div className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-border shadow-lg">
-          <CardStage data={normalizeCard(data)} cta={false} />
+          <CardStage data={normalizeCard(data)} cta={false} sound={false} />
         </div>
         <p className="text-center text-xs text-muted-foreground">Live preview — tap Replay to watch it again.</p>
       </div>

@@ -3,20 +3,32 @@
 import * as React from "react";
 import { RotateCwIcon, SparklesIcon } from "lucide-react";
 
-import type { CardData } from "@/modules/cards/types";
+import type { CardData, TemplateId } from "@/modules/cards/types";
 import { BirthdayClassic } from "@/modules/cards/templates/birthday-classic";
+import { BirthdayElegant } from "@/modules/cards/templates/birthday-elegant";
+import { BirthdayPlayful } from "@/modules/cards/templates/birthday-playful";
+import { MusicController } from "@/modules/cards/components/music-controller";
+
+const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
+  classic: BirthdayClassic,
+  elegant: BirthdayElegant,
+  playful: BirthdayPlayful,
+};
 
 /**
- * Renders a card's animated template inside a positioned parent (the parent
- * must be `position: relative` with a defined size — a full-screen container on
- * the public page, an aspect-ratio box in the editor preview).
+ * Renders a card's animated template inside a positioned parent (which must be
+ * `position: relative` with a defined size — a full-screen container on the
+ * public page, an aspect-ratio box in the editor preview).
  */
-export function CardStage({ data, cta = true, interactive = true }: { data: CardData; cta?: boolean; interactive?: boolean }) {
+export function CardStage({ data, cta = true, interactive = true, sound = true }: { data: CardData; cta?: boolean; interactive?: boolean; sound?: boolean }) {
   const [fireKey, setFireKey] = React.useState(0);
+  const Template = TEMPLATES[data.template] ?? BirthdayClassic;
 
   return (
     <div className="absolute inset-0">
-      <BirthdayClassic data={data} fireKey={fireKey} />
+      <Template data={data} fireKey={fireKey} />
+
+      {data.music && sound && <MusicController />}
 
       {interactive && (
         <button
