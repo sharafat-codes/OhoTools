@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, elemStyle, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 const RAIN = [
@@ -34,10 +34,10 @@ export function BirthdayPlayful({ data, fireKey = 0 }: { data: CardData; fireKey
 
       <div className="bp-content">
         {data.photo && <img src={data.photo} alt="" className="bp-photo" />}
-        <div className="bp-eyebrow">🥳 {occ.eyebrow}</div>
-        <h1 className="bp-name">{data.to}</h1>
-        <p className="bp-msg">{data.message}</p>
-        {data.from.trim() && <div className="bp-from">🎈 {data.from}</div>}
+        <div className="bp-eyebrow">🥳 <span style={elemStyle(data, "eyebrow")}>{occ.eyebrow}</span></div>
+        <h1 className="bp-name"><span style={elemStyle(data, "name")}>{data.to}</span></h1>
+        <p className="bp-msg"><span style={elemStyle(data, "message")}>{data.message}</span></p>
+        {data.from.trim() && <div className="bp-from">🎈 <span style={elemStyle(data, "from")}>{data.from}</span></div>}
       </div>
     </div>
   );

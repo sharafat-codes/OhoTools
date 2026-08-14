@@ -2,6 +2,8 @@
 // whole card into the share link (no DB) — including a small downscaled photo —
 // so this type is the single source of truth for editor and public renderer.
 
+import type { CSSProperties } from "react";
+
 export const CARD_THEMES = {
   festive: { name: "Festive", bg1: "#7c3aed", bg2: "#db2777", accent: "#fbbf24", text: "#ffffff" },
   midnight: { name: "Midnight", bg1: "#0f172a", bg2: "#4338ca", accent: "#38bdf8", text: "#ffffff" },
@@ -24,6 +26,48 @@ export const CARD_TEMPLATES: { id: TemplateId; name: string; pro?: boolean }[] =
 ];
 
 export type CardEffect = "confetti" | "hearts" | "stars";
+
+// ── Pro: per-element text styling (dashboard editor) ─────────────────────────
+// Built-in font stacks only (no external fonts → fast, private, CSP-safe).
+export const CARD_FONTS = {
+  default: { name: "Default", stack: "" },
+  sans: { name: "Sans", stack: "system-ui, 'Segoe UI', Arial, sans-serif" },
+  serif: { name: "Serif", stack: "Georgia, 'Times New Roman', serif" },
+  rounded: { name: "Rounded", stack: "'Trebuchet MS', 'Segoe UI', system-ui, sans-serif" },
+  mono: { name: "Mono", stack: "ui-monospace, 'Courier New', monospace" },
+  script: { name: "Script", stack: "'Segoe Script', 'Brush Script MT', cursive" },
+} as const;
+export type FontKey = keyof typeof CARD_FONTS;
+
+export type ElemStyle = {
+  font?: FontKey;
+  size?: number; // em multiplier of the element's responsive size (0.6–1.8)
+  color?: string; // hex
+  bold?: boolean;
+  italic?: boolean;
+};
+
+export type StyleElement = "name" | "message" | "eyebrow" | "from";
+export type CardStyles = Partial<Record<"global" | StyleElement, ElemStyle>>;
+
+/** Inline style for a text element = global overrides merged with element ones. */
+export function elemStyle(data: CardData, el: StyleElement): CSSProperties | undefined {
+  const s = data.styles;
+  if (!s) return undefined;
+  const eff: ElemStyle = { ...(s.global ?? {}), ...(s[el] ?? {}) };
+  const st: CSSProperties = {};
+  if (eff.font && eff.font !== "default" && CARD_FONTS[eff.font]) st.fontFamily = CARD_FONTS[eff.font].stack;
+  if (eff.color) {
+    st.color = eff.color;
+    // Override gradient/clip headlines so the chosen color actually shows.
+    st.WebkitTextFillColor = eff.color;
+    st.background = "none";
+  }
+  if (eff.bold) st.fontWeight = 800;
+  if (eff.italic) st.fontStyle = "italic";
+  if (eff.size && eff.size !== 1) st.fontSize = `${eff.size}em`;
+  return Object.keys(st).length ? st : undefined;
+}
 
 export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary";
 
@@ -104,6 +148,8 @@ export type CardData = {
   custom?: { bg1: string; bg2: string; accent: string };
   /** Pro: hide the "Made with OhoTool" watermark on the shared card. */
   noWatermark?: boolean;
+  /** Pro: per-element text styling (font, size, color, bold, italic). */
+  styles?: CardStyles;
 };
 
 type ResolvedTheme = { bg1: string; bg2: string; accent: string; text: string };
@@ -117,6 +163,30 @@ export function resolveTheme(d: CardData): ResolvedTheme {
 }
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
+const FONT_KEYS = Object.keys(CARD_FONTS);
+
+function cleanElem(e: unknown): ElemStyle | undefined {
+  if (!e || typeof e !== "object") return undefined;
+  const r = e as Record<string, unknown>;
+  const out: ElemStyle = {};
+  if (typeof r.font === "string" && FONT_KEYS.includes(r.font)) out.font = r.font as FontKey;
+  if (typeof r.size === "number" && r.size >= 0.6 && r.size <= 1.8) out.size = r.size;
+  if (typeof r.color === "string" && HEX.test(r.color)) out.color = r.color;
+  if (r.bold === true) out.bold = true;
+  if (r.italic === true) out.italic = true;
+  return Object.keys(out).length ? out : undefined;
+}
+
+function cleanStyles(input: unknown): CardStyles | undefined {
+  if (!input || typeof input !== "object") return undefined;
+  const r = input as Record<string, unknown>;
+  const out: CardStyles = {};
+  (["global", "name", "message", "eyebrow", "from"] as const).forEach((k) => {
+    const c = cleanElem(r[k]);
+    if (c) out[k] = c;
+  });
+  return Object.keys(out).length ? out : undefined;
+}
 
 /** A fresh card pre-filled for an occasion. */
 export function defaultCard(occasion: Occasion = "birthday"): CardData {
@@ -167,5 +237,6 @@ export function normalizeCard(input: Partial<CardData> | null | undefined): Card
     effect,
     custom,
     noWatermark: Boolean(d.noWatermark),
+    styles: cleanStyles(d.styles),
   };
 }

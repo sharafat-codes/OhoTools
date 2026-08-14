@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, elemStyle, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 const SPARKLES = [
@@ -31,11 +31,11 @@ export function BirthdayElegant({ data, fireKey = 0 }: { data: CardData; fireKey
 
       <div className="be-content">
         {data.photo && <img src={data.photo} alt="" className="be-photo" />}
-        <div className="be-eyebrow">{occ.eyebrow}</div>
-        <h1 className="be-name">{data.to}</h1>
+        <div className="be-eyebrow"><span style={elemStyle(data, "eyebrow")}>{occ.eyebrow}</span></div>
+        <h1 className="be-name"><span style={elemStyle(data, "name")}>{data.to}</span></h1>
         <div className="be-rule" />
-        <p className="be-msg">{data.message}</p>
-        {data.from.trim() && <div className="be-from">with love, {data.from}</div>}
+        <p className="be-msg"><span style={elemStyle(data, "message")}>{data.message}</span></p>
+        {data.from.trim() && <div className="be-from"><span style={elemStyle(data, "from")}>with love, {data.from}</span></div>}
       </div>
     </div>
   );

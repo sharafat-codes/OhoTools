@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, elemStyle, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 const HEARTS = [
@@ -31,11 +31,11 @@ export function CardRomantic({ data, fireKey = 0 }: { data: CardData; fireKey?: 
       <div className="br-frame" />
       <div className="br-content">
         {data.photo && <img src={data.photo} alt="" className="br-photo" />}
-        <div className="br-eyebrow">{occ.eyebrow}</div>
-        <h1 className="br-name">{data.to}</h1>
+        <div className="br-eyebrow"><span style={elemStyle(data, "eyebrow")}>{occ.eyebrow}</span></div>
+        <h1 className="br-name"><span style={elemStyle(data, "name")}>{data.to}</span></h1>
         <div className="br-rule"><span className="br-diamond">♥</span></div>
-        <p className="br-msg">{data.message}</p>
-        {data.from.trim() && <div className="br-from">{data.from}</div>}
+        <p className="br-msg"><span style={elemStyle(data, "message")}>{data.message}</span></p>
+        {data.from.trim() && <div className="br-from"><span style={elemStyle(data, "from")}>{data.from}</span></div>}
       </div>
     </div>
   );

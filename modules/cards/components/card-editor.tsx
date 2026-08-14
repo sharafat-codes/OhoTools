@@ -12,8 +12,9 @@ import { isPro } from "@/lib/plans";
 import { saveCard, updateCard } from "@/modules/cards/actions";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
-  CARD_THEMES, CARD_TEMPLATES, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
+  CARD_THEMES, CARD_TEMPLATES, CARD_FONTS, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
   type CardData, type CardTheme, type CardEffect, type TemplateId, type Occasion,
+  type StyleElement, type ElemStyle, type FontKey,
 } from "@/modules/cards/types";
 import { cardShareUrl, encodeCard } from "@/modules/cards/share";
 
@@ -21,6 +22,21 @@ const EFFECTS: { id: CardEffect; label: string; Icon: typeof StarIcon }[] = [
   { id: "confetti", label: "Confetti", Icon: PartyPopperIcon },
   { id: "hearts", label: "Hearts", Icon: HeartIcon },
   { id: "stars", label: "Stars", Icon: StarIcon },
+];
+
+const STYLE_TARGETS: { id: "global" | StyleElement; label: string }[] = [
+  { id: "global", label: "All text" },
+  { id: "name", label: "Name" },
+  { id: "message", label: "Message" },
+  { id: "eyebrow", label: "Heading" },
+  { id: "from", label: "From" },
+];
+
+const SIZE_OPTIONS: { v: number; label: string }[] = [
+  { v: 0.8, label: "Small" },
+  { v: 1, label: "Normal" },
+  { v: 1.25, label: "Large" },
+  { v: 1.5, label: "Extra large" },
 ];
 
 // Mini visual for each template's picker chip.
@@ -62,7 +78,7 @@ function fileToAvatar(file: File): Promise<string> {
   });
 }
 
-export function CardEditor({ occasion = "birthday", initialCard, cardId, initialShortCode }: { occasion?: Occasion; initialCard?: CardData; cardId?: string; initialShortCode?: string }) {
+export function CardEditor({ occasion = "birthday", initialCard, cardId, initialShortCode, advanced = false }: { occasion?: Occasion; initialCard?: CardData; cardId?: string; initialShortCode?: string; advanced?: boolean }) {
   const [data, setData] = React.useState<CardData>(() => (initialCard ? normalizeCard(initialCard) : defaultCard(occasion)));
   const [origin, setOrigin] = React.useState("");
   const [copied, setCopied] = React.useState(false);
@@ -72,6 +88,24 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   const [savedId, setSavedId] = React.useState<string | undefined>(cardId);
   const [shortCode, setShortCode] = React.useState<string | undefined>(initialShortCode);
   const [saveState, setSaveState] = React.useState<"idle" | "saving" | "saved">("idle");
+  const [styleTarget, setStyleTarget] = React.useState<"global" | StyleElement>("global");
+
+  const curStyle: ElemStyle = data.styles?.[styleTarget] ?? {};
+  function setStyle(patch: Partial<ElemStyle>) {
+    setData((d) => {
+      const merged = { ...(d.styles?.[styleTarget] ?? {}), ...patch };
+      const clean: ElemStyle = {};
+      if (merged.font) clean.font = merged.font;
+      if (merged.size) clean.size = merged.size;
+      if (merged.color) clean.color = merged.color;
+      if (merged.bold) clean.bold = true;
+      if (merged.italic) clean.italic = true;
+      const styles = { ...(d.styles ?? {}) };
+      if (Object.keys(clean).length) styles[styleTarget] = clean;
+      else delete styles[styleTarget];
+      return { ...d, styles: Object.keys(styles).length ? styles : undefined };
+    });
+  }
 
   React.useEffect(() => setOrigin(window.location.origin), []);
 
@@ -329,6 +363,64 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
             )}
           </div>
         </div>
+
+        {/* Advanced text styling (dashboard, Pro) */}
+        {advanced && (
+          <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.06] to-transparent p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="flex items-center gap-1.5 text-sm font-semibold">
+                <TypeIcon className="size-4 text-primary" /> Fonts &amp; text
+                <span className="rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">PRO</span>
+              </span>
+              {!pro && <a href="/pricing" className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90">Upgrade</a>}
+            </div>
+
+            <div className={pro ? "" : "pointer-events-none opacity-60"}>
+              <div className="mb-3 flex flex-wrap gap-1.5">
+                {STYLE_TARGETS.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setStyleTarget(t.id)}
+                    className={"rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors " + (styleTarget === t.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-primary/40")}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Font">
+                  <select value={curStyle.font ?? "default"} onChange={(e) => setStyle({ font: e.target.value === "default" ? undefined : (e.target.value as FontKey) })} className={inputCls}>
+                    {Object.entries(CARD_FONTS).map(([k, v]) => <option key={k} value={k}>{v.name}</option>)}
+                  </select>
+                </Field>
+                <Field label="Size">
+                  <select value={String(curStyle.size ?? 1)} onChange={(e) => { const v = Number(e.target.value); setStyle({ size: v === 1 ? undefined : v }); }} className={inputCls}>
+                    {SIZE_OPTIONS.map((s) => <option key={s.v} value={s.v}>{s.label}</option>)}
+                  </select>
+                </Field>
+              </div>
+
+              <div className="mt-3 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="font-medium">Color</span>
+                  <input type="color" value={curStyle.color ?? "#ffffff"} onChange={(e) => setStyle({ color: e.target.value })} className="h-8 w-10 cursor-pointer rounded border border-border bg-card" />
+                  {curStyle.color && <button type="button" onClick={() => setStyle({ color: undefined })} className="text-xs text-muted-foreground hover:text-foreground">Reset</button>}
+                </div>
+                <label className="flex cursor-pointer items-center gap-1.5 text-sm font-medium">
+                  <input type="checkbox" checked={!!curStyle.bold} onChange={(e) => setStyle({ bold: e.target.checked || undefined })} className="size-4 accent-primary" /> Bold
+                </label>
+                <label className="flex cursor-pointer items-center gap-1.5 text-sm font-medium">
+                  <input type="checkbox" checked={!!curStyle.italic} onChange={(e) => setStyle({ italic: e.target.checked || undefined })} className="size-4 accent-primary" /> Italic
+                </label>
+              </div>
+              <p className="mt-2.5 text-xs text-muted-foreground">
+                Editing <b>{STYLE_TARGETS.find((t) => t.id === styleTarget)?.label}</b>. &quot;All text&quot; applies everywhere; per-element choices override it.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Sticky preview */}

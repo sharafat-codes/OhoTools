@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, elemStyle, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 // Fixed positions (not random) so server and client render identically.
@@ -54,10 +54,10 @@ export function BirthdayClassic({ data, fireKey = 0 }: { data: CardData; fireKey
       {/* content */}
       <div className="bc-content">
         {data.photo && <img src={data.photo} alt="" className="bc-photo" />}
-        <div className="bc-eyebrow">{occ.eyebrow}</div>
-        <h1 className="bc-name">{data.to}</h1>
-        <p className="bc-msg">{data.message}</p>
-        {data.from.trim() && <div className="bc-from">— {data.from}</div>}
+        <div className="bc-eyebrow"><span style={elemStyle(data, "eyebrow")}>{occ.eyebrow}</span></div>
+        <h1 className="bc-name"><span style={elemStyle(data, "name")}>{data.to}</span></h1>
+        <p className="bc-msg"><span style={elemStyle(data, "message")}>{data.message}</span></p>
+        {data.from.trim() && <div className="bc-from"><span style={elemStyle(data, "from")}>— {data.from}</span></div>}
       </div>
     </div>
   );
