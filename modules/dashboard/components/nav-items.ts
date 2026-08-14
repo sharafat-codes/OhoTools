@@ -1,5 +1,6 @@
 import {
   CreditCardIcon,
+  GiftIcon,
   HistoryIcon,
   KeyIcon,
   LayoutDashboardIcon,
@@ -25,6 +26,7 @@ export const navItems: NavItem[] = [
   { label: "QR Codes", href: "/dashboard/qr", icon: QrCodeIcon },
   { label: "Dynamic Links", href: "/dashboard/links", icon: ZapIcon },
   { label: "Barcodes", href: "/dashboard/barcodes", icon: ScanBarcodeIcon },
+  { label: "Cards", href: "/dashboard/cards", icon: GiftIcon },
   { label: "History", href: "/dashboard/history", icon: HistoryIcon },
   { label: "API Keys", href: "/dashboard/api-keys", icon: KeyIcon },
   { label: "Billing", href: "/dashboard/billing", icon: CreditCardIcon },

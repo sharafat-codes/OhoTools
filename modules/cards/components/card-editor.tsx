@@ -3,12 +3,13 @@
 import * as React from "react";
 import {
   CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon,
-  TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon, FilmIcon,
+  TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon, FilmIcon, SaveIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
+import { saveCard, updateCard } from "@/modules/cards/actions";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
   CARD_THEMES, CARD_TEMPLATES, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
@@ -61,13 +62,15 @@ function fileToAvatar(file: File): Promise<string> {
   });
 }
 
-export function CardEditor({ occasion = "birthday" }: { occasion?: Occasion }) {
-  const [data, setData] = React.useState<CardData>(() => defaultCard(occasion));
+export function CardEditor({ occasion = "birthday", initialCard, cardId }: { occasion?: Occasion; initialCard?: CardData; cardId?: string }) {
+  const [data, setData] = React.useState<CardData>(() => (initialCard ? normalizeCard(initialCard) : defaultCard(occasion)));
   const [origin, setOrigin] = React.useState("");
   const [copied, setCopied] = React.useState(false);
   const [photoError, setPhotoError] = React.useState("");
   const [videoBusy, setVideoBusy] = React.useState(false);
   const [videoPct, setVideoPct] = React.useState(0);
+  const [savedId, setSavedId] = React.useState<string | undefined>(cardId);
+  const [saveState, setSaveState] = React.useState<"idle" | "saving" | "saved">("idle");
 
   React.useEffect(() => setOrigin(window.location.origin), []);
 
@@ -76,6 +79,28 @@ export function CardEditor({ occasion = "birthday" }: { occasion?: Occasion }) {
 
   const { data: sess } = useSession();
   const pro = isPro(((sess?.user as { plan?: string } | null)?.plan) ?? "FREE");
+  const loggedIn = !!sess?.user;
+
+  async function saveToAccount() {
+    if (!loggedIn) {
+      const here = window.location.pathname + window.location.search;
+      window.location.href = `/login?redirect=${encodeURIComponent(here)}`;
+      return;
+    }
+    if (saveState === "saving") return;
+    setSaveState("saving");
+    setPhotoError("");
+    const payload = { data: normalizeCard(data) };
+    const res = savedId ? await updateCard(savedId, payload) : await saveCard(payload);
+    if (res.ok) {
+      setSavedId(res.id);
+      setSaveState("saved");
+      window.setTimeout(() => setSaveState("idle"), 2000);
+    } else {
+      setSaveState("idle");
+      setPhotoError(res.error);
+    }
+  }
   const imageUrl = origin ? `${origin}/api/card/image?d=${encodeCard(normalizeCard(data))}` : "#";
   const cur = resolveTheme(normalizeCard(data));
   const occ = OCCASIONS[data.occasion];
@@ -318,6 +343,18 @@ export function CardEditor({ occasion = "birthday" }: { occasion?: Occasion }) {
             </Button>
             <Button variant="outline" disabled={!url} render={<a href={url || "#"} target="_blank" rel="noopener noreferrer" />} className="w-full">
               <ExternalLinkIcon className="size-4" /> Open card
+            </Button>
+            <Button variant="outline" onClick={saveToAccount} disabled={saveState === "saving"} className="w-full">
+              {saveState === "saved" ? <CheckIcon className="size-4 text-emerald-500" /> : <SaveIcon className="size-4" />}
+              {saveState === "saved"
+                ? "Saved to your cards"
+                : saveState === "saving"
+                  ? "Saving…"
+                  : !loggedIn
+                    ? "Sign in to save"
+                    : savedId
+                      ? "Save changes"
+                      : "Save to my cards"}
             </Button>
             <p className="mt-1 text-center text-xs text-muted-foreground">
               Share on WhatsApp or anywhere — opens as a full-screen animated card. Nothing is stored.
