@@ -4224,6 +4224,22 @@ export const categoryPages: CategoryPage[] = [
       "dice-roller",
     ],
   },
+  {
+    slug: "cards",
+    name: "Cards & Invitations",
+    seoTitle: "Card & Invitation Makers",
+    seoDescription:
+      "Free animated card & invitation makers — birthday cards, wedding and engagement invitations, and anniversary cards. Personalize and share a link. No sign-up.",
+    keywords: ["card maker", "invitation maker", "birthday card maker", "wedding invitation maker", "engagement invitation", "anniversary card"],
+    h1: "Card & invitation makers",
+    intro:
+      "Create beautiful animated cards and invitations in minutes — birthdays, weddings, engagements, and anniversaries. Personalize the names, message, photo, theme, and music, then share a link that opens as a full-screen animated card. Everything runs in your browser, with no sign-up.",
+    faqs: [
+      { q: "Are these card makers free?", a: "Yes — every card and invitation maker is free to use with no sign-up. The card is encoded in the share link, so nothing is stored on our servers." },
+      { q: "How do people open the card?", a: "They just tap the link — it opens as a full-screen animated card on any phone or computer, no app needed. Great for WhatsApp." },
+      { q: "Can I add a photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened. Pro adds custom colors, no watermark, and image or video downloads." },
+    ],
+  },
 ];
 
 export function getCategoryPage(slug: string) {
