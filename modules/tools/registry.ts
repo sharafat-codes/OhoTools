@@ -3605,6 +3605,8 @@ export const TOOL_GUIDES: Record<string, string> = {
   "wedding-invitation-maker": "desi-wedding-invitation-wording",
   "engagement-invitation-maker": "engagement-invitation-wording",
   "anniversary-card-maker": "anniversary-wishes-messages",
+  "eid-card-maker": "eid-mubarak-wishes-messages",
+  "diwali-card-maker": "happy-diwali-wishes-messages",
 };
 
 /**
@@ -3929,7 +3931,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Cards & Invitations",
     blurb: "Create animated cards and invitations, then share the link.",
-    slugs: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker"],
+    slugs: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker", "eid-card-maker", "diwali-card-maker"],
   },
 ];
 
@@ -4233,11 +4235,11 @@ export const categoryPages: CategoryPage[] = [
     name: "Cards & Invitations",
     seoTitle: "Card & Invitation Makers",
     seoDescription:
-      "Free animated card & invitation makers — birthday cards, wedding and engagement invitations, and anniversary cards. Personalize and share a link. No sign-up.",
-    keywords: ["card maker", "invitation maker", "birthday card maker", "wedding invitation maker", "engagement invitation", "anniversary card"],
+      "Free animated card & invitation makers — birthday cards, wedding and engagement invitations, anniversary cards, and Eid & Diwali cards. Personalize and share a link. No sign-up.",
+    keywords: ["card maker", "invitation maker", "birthday card maker", "wedding invitation maker", "engagement invitation", "anniversary card", "eid card maker", "diwali card maker"],
     h1: "Card & invitation makers",
     intro:
-      "Create beautiful animated cards and invitations in minutes — birthdays, weddings, engagements, and anniversaries. Personalize the names, message, photo, theme, and music, then share a link that opens as a full-screen animated card. Everything runs in your browser, with no sign-up.",
+      "Create beautiful animated cards and invitations in minutes — birthdays, weddings, engagements, anniversaries, and festivals like Eid and Diwali. Personalize the names, message, photo, theme, and music, then share a link that opens as a full-screen animated card. Everything runs in your browser, with no sign-up.",
     faqs: [
       { q: "Are these card makers free?", a: "Yes — every card and invitation maker is free to use with no sign-up. The card is encoded in the share link, so nothing is stored on our servers." },
       { q: "How do people open the card?", a: "They just tap the link — it opens as a full-screen animated card on any phone or computer, no app needed. Great for WhatsApp." },

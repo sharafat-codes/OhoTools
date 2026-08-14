@@ -4,7 +4,7 @@
 import {
   CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
-  CakeIcon, GemIcon, HeartIcon, WineIcon,
+  CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -420,6 +420,66 @@ export const extraTools: DevTool[] = [
       { q: "Is anything stored?", a: "No — the card is encoded in the link, so nothing is saved on our servers." },
     ],
     related: ["wedding-invitation-maker", "engagement-invitation-maker", "birthday-card-maker"],
+  },
+  {
+    slug: "eid-card-maker",
+    name: "Eid Card Maker",
+    tagline: "Create an animated Eid Mubarak card and share the link — free.",
+    description:
+      "Free animated Eid card maker — personalize a name, message, photo and theme, then share a link that opens as a full-screen Eid Mubarak card with a crescent moon and lanterns. No sign-up.",
+    keywords: [
+      "eid card maker",
+      "eid mubarak card",
+      "eid card",
+      "happy eid card",
+      "eid mubarak greeting card",
+      "eid ecard",
+    ],
+    icon: MoonStarIcon,
+    intro:
+      "Send a beautiful animated Eid card in seconds. Add a name, an Eid Mubarak message, a photo, and pick a festive theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with a glowing crescent moon, twinkling stars, and hanging lanterns. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Type the recipient's name and your Eid Mubarak message.",
+      "Pick the Festival template and a theme — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated Eid card.",
+    ],
+    faqs: [
+      { q: "Is the Eid card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media. Anyone who opens it sees the full animated Eid card — no app or account needed." },
+      { q: "Does it work for both Eid al-Fitr and Eid al-Adha?", a: "Yes — the wording is a general 'Eid Mubarak' that suits both. Edit the message to mention the specific Eid if you like." },
+      { q: "Can I add a photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
+    ],
+    related: ["diwali-card-maker", "birthday-card-maker", "anniversary-card-maker"],
+  },
+  {
+    slug: "diwali-card-maker",
+    name: "Diwali Card Maker",
+    tagline: "Create an animated Happy Diwali card and share the link — free.",
+    description:
+      "Free animated Diwali card maker — personalize a name, message, photo and theme, then share a link that opens as a full-screen Happy Diwali card with glowing diyas. No sign-up.",
+    keywords: [
+      "diwali card maker",
+      "happy diwali card",
+      "diwali card",
+      "diwali greeting card",
+      "diwali wishes card",
+      "diwali ecard",
+    ],
+    icon: SparklesIcon,
+    intro:
+      "Send a bright animated Diwali card in seconds. Add a name, a Happy Diwali message, a photo, and pick a festive theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with glowing diyas, sparkles, and hanging lanterns. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Type the recipient's name and your Diwali message.",
+      "Pick the Festival template and a theme — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated Diwali card.",
+    ],
+    faqs: [
+      { q: "Is the Diwali card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media. Anyone who opens it sees the full animated Diwali card — no app or account needed." },
+      { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
+      { q: "Is my information stored?", a: "No — the card is encoded in the link itself, so nothing is saved on our servers." },
+    ],
+    related: ["eid-card-maker", "birthday-card-maker", "anniversary-card-maker"],
   },
 ];
 

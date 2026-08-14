@@ -65,6 +65,8 @@ import * as birthdayWordingGuide from "./posts/birthday-invitation-wording-ideas
 import * as desiWeddingWordingGuide from "./posts/desi-wedding-invitation-wording";
 import * as engagementWordingGuide from "./posts/engagement-invitation-wording";
 import * as anniversaryWishesGuide from "./posts/anniversary-wishes-messages";
+import * as eidWishesGuide from "./posts/eid-mubarak-wishes-messages";
+import * as diwaliWishesGuide from "./posts/happy-diwali-wishes-messages";
 
 export type PostMeta = {
   slug: string;
@@ -148,6 +150,8 @@ const modules: BlogPost[] = [
   desiWeddingWordingGuide,
   engagementWordingGuide,
   anniversaryWishesGuide,
+  eidWishesGuide,
+  diwaliWishesGuide,
 ];
 
 /** All posts, newest first. */

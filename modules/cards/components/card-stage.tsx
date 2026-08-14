@@ -10,6 +10,7 @@ import { BirthdayPlayful } from "@/modules/cards/templates/birthday-playful";
 import { BirthdayLuxe } from "@/modules/cards/templates/birthday-luxe";
 import { BirthdayNeon } from "@/modules/cards/templates/birthday-neon";
 import { CardRomantic } from "@/modules/cards/templates/card-romantic";
+import { CardFestival } from "@/modules/cards/templates/card-festival";
 import { playHappyBirthday } from "@/modules/cards/music";
 
 const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
@@ -19,6 +20,7 @@ const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKe
   luxe: BirthdayLuxe,
   neon: BirthdayNeon,
   romantic: CardRomantic,
+  festival: CardFestival,
 };
 
 /**

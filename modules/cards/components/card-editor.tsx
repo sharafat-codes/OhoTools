@@ -42,6 +42,7 @@ const SIZE_OPTIONS: { v: number; label: string }[] = [
 // Mini visual for each template's picker chip.
 const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; glow?: boolean }> = {
   classic: { bg: "linear-gradient(135deg,#7c3aed,#db2777)", accent: "#ffffff" },
+  festival: { bg: "linear-gradient(165deg,#047857,#022c22)", accent: "#facc15", serif: true, glow: true },
   romantic: { bg: "linear-gradient(160deg,#e11d48,#9333ea)", accent: "#ffffff", serif: true },
   elegant: { bg: "radial-gradient(circle at 50% 30%,#2a2440,#0a0a0c)", accent: "#e7c873", serif: true },
   playful: { bg: "linear-gradient(135deg,#f97316,#db2777)", accent: "#ffffff" },

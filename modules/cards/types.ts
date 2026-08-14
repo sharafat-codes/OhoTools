@@ -10,14 +10,17 @@ export const CARD_THEMES = {
   sunset: { name: "Sunset", bg1: "#f97316", bg2: "#db2777", accent: "#fde68a", text: "#ffffff" },
   ocean: { name: "Ocean", bg1: "#0ea5e9", bg2: "#6366f1", accent: "#a7f3d0", text: "#ffffff" },
   rose: { name: "Rose", bg1: "#e11d48", bg2: "#9333ea", accent: "#fecdd3", text: "#ffffff" },
+  emerald: { name: "Emerald", bg1: "#047857", bg2: "#022c22", accent: "#facc15", text: "#ffffff" },
+  marigold: { name: "Marigold", bg1: "#9a3412", bg2: "#581c87", accent: "#fde047", text: "#ffffff" },
 } as const;
 
 export type CardTheme = keyof typeof CARD_THEMES;
 
-export type TemplateId = "classic" | "elegant" | "playful" | "luxe" | "neon" | "romantic";
+export type TemplateId = "classic" | "elegant" | "playful" | "luxe" | "neon" | "romantic" | "festival";
 
 export const CARD_TEMPLATES: { id: TemplateId; name: string; pro?: boolean }[] = [
   { id: "classic", name: "Classic" },
+  { id: "festival", name: "Festival" },
   { id: "romantic", name: "Romantic" },
   { id: "elegant", name: "Elegant" },
   { id: "playful", name: "Playful" },
@@ -69,7 +72,7 @@ export function elemStyle(data: CardData, el: StyleElement): CSSProperties | und
   return Object.keys(st).length ? st : undefined;
 }
 
-export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary";
+export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary" | "eid" | "diwali";
 
 export const OCCASIONS: Record<Occasion, {
   label: string;
@@ -131,6 +134,32 @@ export const OCCASIONS: Record<Occasion, {
     toLabel: "Names",
     toPlaceholder: "Aisha & Bilal",
   },
+  eid: {
+    label: "Eid",
+    eyebrow: "Eid Mubarak",
+    title: (to) => `Eid Mubarak, ${to}!`,
+    message:
+      "May this blessed Eid fill your home with joy, your heart with peace, and your days with countless blessings. Eid Mubarak to you and your loved ones! 🌙",
+    effect: "stars",
+    theme: "emerald",
+    template: "festival",
+    templates: ["festival", "elegant", "luxe", "neon"],
+    toLabel: "Who is it for?",
+    toPlaceholder: "Name",
+  },
+  diwali: {
+    label: "Diwali",
+    eyebrow: "Happy Diwali",
+    title: (to) => `Happy Diwali, ${to}!`,
+    message:
+      "Wishing you a Diwali full of light, laughter, and love. May the festival of lights brighten your life with happiness, health, and prosperity! 🪔",
+    effect: "stars",
+    theme: "marigold",
+    template: "festival",
+    templates: ["festival", "elegant", "luxe", "neon"],
+    toLabel: "Who is it for?",
+    toPlaceholder: "Name",
+  },
 };
 
 export type CardData = {
@@ -189,12 +218,21 @@ function cleanStyles(input: unknown): CardStyles | undefined {
 }
 
 /** A fresh card pre-filled for an occasion. */
+const DEFAULT_TO: Record<Occasion, string> = {
+  birthday: "Sarah",
+  wedding: "Aisha & Bilal",
+  engagement: "Aisha & Bilal",
+  anniversary: "Aisha & Bilal",
+  eid: "Ahmed",
+  diwali: "Priya",
+};
+
 export function defaultCard(occasion: Occasion = "birthday"): CardData {
   const o = OCCASIONS[occasion];
   return {
     occasion,
     template: o.template,
-    to: occasion === "birthday" ? "Sarah" : "Aisha & Bilal",
+    to: DEFAULT_TO[occasion],
     from: occasion === "birthday" ? "Alex" : "",
     message: o.message,
     theme: o.theme,
@@ -207,7 +245,7 @@ export const DEFAULT_CARD: CardData = defaultCard("birthday");
 
 const TEMPLATE_IDS = CARD_TEMPLATES.map((t) => t.id) as readonly string[];
 const EFFECTS: readonly string[] = ["confetti", "hearts", "stars"];
-const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary"];
+const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary", "eid", "diwali"];
 
 export function normalizeCard(input: Partial<CardData> | null | undefined): CardData {
   const d = input ?? {};
