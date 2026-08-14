@@ -59,6 +59,12 @@ import * as markdownCheatGuide from "./posts/markdown-cheat-sheet";
 import * as ttsGuide from "./posts/how-to-convert-text-to-speech";
 import * as countdownGuide from "./posts/how-to-make-a-countdown-to-a-date";
 import * as pemdasGuide from "./posts/order-of-operations-pemdas";
+import * as whatsappInviteGuide from "./posts/how-to-send-a-digital-invitation-on-whatsapp";
+import * as noWatermarkGuide from "./posts/free-invitation-maker-no-watermark";
+import * as birthdayWordingGuide from "./posts/birthday-invitation-wording-ideas";
+import * as desiWeddingWordingGuide from "./posts/desi-wedding-invitation-wording";
+import * as engagementWordingGuide from "./posts/engagement-invitation-wording";
+import * as anniversaryWishesGuide from "./posts/anniversary-wishes-messages";
 
 export type PostMeta = {
   slug: string;
@@ -136,6 +142,12 @@ const modules: BlogPost[] = [
   ttsGuide,
   countdownGuide,
   pemdasGuide,
+  whatsappInviteGuide,
+  noWatermarkGuide,
+  birthdayWordingGuide,
+  desiWeddingWordingGuide,
+  engagementWordingGuide,
+  anniversaryWishesGuide,
 ];
 
 /** All posts, newest first. */

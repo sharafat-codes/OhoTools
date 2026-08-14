@@ -3601,6 +3601,10 @@ export const TOOL_GUIDES: Record<string, string> = {
   "text-to-speech": "how-to-convert-text-to-speech",
   "countdown-to-date": "how-to-make-a-countdown-to-a-date",
   "scientific-calculator": "order-of-operations-pemdas",
+  "birthday-card-maker": "birthday-invitation-wording-ideas",
+  "wedding-invitation-maker": "desi-wedding-invitation-wording",
+  "engagement-invitation-maker": "engagement-invitation-wording",
+  "anniversary-card-maker": "anniversary-wishes-messages",
 };
 
 /**
