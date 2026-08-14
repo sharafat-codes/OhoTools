@@ -12,19 +12,85 @@ export const CARD_THEMES = {
 
 export type CardTheme = keyof typeof CARD_THEMES;
 
-export type TemplateId = "classic" | "elegant" | "playful" | "luxe" | "neon";
+export type TemplateId = "classic" | "elegant" | "playful" | "luxe" | "neon" | "romantic";
 
 export const CARD_TEMPLATES: { id: TemplateId; name: string; pro?: boolean }[] = [
   { id: "classic", name: "Classic" },
+  { id: "romantic", name: "Romantic" },
   { id: "elegant", name: "Elegant" },
   { id: "playful", name: "Playful" },
   { id: "luxe", name: "Golden Luxe", pro: true },
   { id: "neon", name: "Neon Glow", pro: true },
 ];
+
 export type CardEffect = "confetti" | "hearts" | "stars";
 
+export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary";
+
+export const OCCASIONS: Record<Occasion, {
+  label: string;
+  eyebrow: string;
+  title: (to: string) => string;
+  message: string;
+  effect: CardEffect;
+  theme: CardTheme;
+  template: TemplateId;
+  templates: TemplateId[];
+  toLabel: string;
+  toPlaceholder: string;
+}> = {
+  birthday: {
+    label: "Birthday",
+    eyebrow: "Happy Birthday",
+    title: (to) => `Happy Birthday, ${to}!`,
+    message: "Wishing you the happiest of birthdays! May your year ahead be full of joy, laughter, and cake. 🎂",
+    effect: "confetti",
+    theme: "festive",
+    template: "classic",
+    templates: ["classic", "elegant", "playful", "luxe", "neon"],
+    toLabel: "Whose birthday is it?",
+    toPlaceholder: "Name",
+  },
+  wedding: {
+    label: "Wedding",
+    eyebrow: "You're Invited",
+    title: (to) => `Wedding Invitation — ${to}`,
+    message: "With joyful hearts, we invite you to share in our happiness as we celebrate our wedding. Your presence would mean the world to us. 💍",
+    effect: "hearts",
+    theme: "rose",
+    template: "romantic",
+    templates: ["romantic", "elegant", "luxe", "neon"],
+    toLabel: "Couple's names",
+    toPlaceholder: "Aisha & Bilal",
+  },
+  engagement: {
+    label: "Engagement",
+    eyebrow: "We're Engaged",
+    title: (to) => `Engagement — ${to}`,
+    message: "We're getting married! Please join us to celebrate our engagement and the beginning of our forever. 💕",
+    effect: "hearts",
+    theme: "rose",
+    template: "romantic",
+    templates: ["romantic", "elegant", "luxe", "neon"],
+    toLabel: "Couple's names",
+    toPlaceholder: "Aisha & Bilal",
+  },
+  anniversary: {
+    label: "Anniversary",
+    eyebrow: "Happy Anniversary",
+    title: (to) => `Happy Anniversary, ${to}!`,
+    message: "Cheers to another year of love, laughter, and beautiful memories together. Here's to many more. 🥂",
+    effect: "hearts",
+    theme: "midnight",
+    template: "elegant",
+    templates: ["romantic", "elegant", "luxe", "neon"],
+    toLabel: "Names",
+    toPlaceholder: "Aisha & Bilal",
+  },
+};
+
 export type CardData = {
-  occasion: "birthday";
+  occasion: Occasion;
   template: TemplateId;
   to: string;
   from: string;
@@ -52,26 +118,35 @@ export function resolveTheme(d: CardData): ResolvedTheme {
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
 
-export const DEFAULT_CARD: CardData = {
-  occasion: "birthday",
-  template: "classic",
-  to: "Sarah",
-  from: "Alex",
-  message: "Wishing you the happiest of birthdays! May your year ahead be full of joy, laughter, and cake. 🎂",
-  theme: "festive",
-  music: false,
-  effect: "confetti",
-};
+/** A fresh card pre-filled for an occasion. */
+export function defaultCard(occasion: Occasion = "birthday"): CardData {
+  const o = OCCASIONS[occasion];
+  return {
+    occasion,
+    template: o.template,
+    to: occasion === "birthday" ? "Sarah" : "Aisha & Bilal",
+    from: occasion === "birthday" ? "Alex" : "",
+    message: o.message,
+    theme: o.theme,
+    music: false,
+    effect: o.effect,
+  };
+}
+
+export const DEFAULT_CARD: CardData = defaultCard("birthday");
 
 const TEMPLATE_IDS = CARD_TEMPLATES.map((t) => t.id) as readonly string[];
 const EFFECTS: readonly string[] = ["confetti", "hearts", "stars"];
+const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary"];
 
 export function normalizeCard(input: Partial<CardData> | null | undefined): CardData {
   const d = input ?? {};
-  const theme = (d.theme && d.theme in CARD_THEMES ? d.theme : "festive") as CardTheme;
-  const template = (d.template && TEMPLATE_IDS.includes(d.template) ? d.template : "classic") as TemplateId;
-  const effect = (d.effect && EFFECTS.includes(d.effect) ? d.effect : "confetti") as CardEffect;
-  // Guard the embedded photo: must be a data image and small enough for a link.
+  const occasion = (d.occasion && OCCASION_IDS.includes(d.occasion) ? d.occasion : "birthday") as Occasion;
+  const occ = OCCASIONS[occasion];
+  const theme = (d.theme && d.theme in CARD_THEMES ? d.theme : occ.theme) as CardTheme;
+  let template = (d.template && TEMPLATE_IDS.includes(d.template) ? d.template : occ.template) as TemplateId;
+  if (!occ.templates.includes(template)) template = occ.template;
+  const effect = (d.effect && EFFECTS.includes(d.effect) ? d.effect : occ.effect) as CardEffect;
   const photo =
     typeof d.photo === "string" && d.photo.startsWith("data:image/") && d.photo.length < 200_000
       ? d.photo
@@ -81,11 +156,11 @@ export function normalizeCard(input: Partial<CardData> | null | undefined): Card
       ? { bg1: d.custom.bg1, bg2: d.custom.bg2, accent: d.custom.accent }
       : undefined;
   return {
-    occasion: "birthday",
+    occasion,
     template,
-    to: (d.to ?? "").toString().slice(0, 60) || DEFAULT_CARD.to,
+    to: (d.to ?? "").toString().slice(0, 60) || defaultCard(occasion).to,
     from: (d.from ?? "").toString().slice(0, 60),
-    message: (d.message ?? "").toString().slice(0, 400) || DEFAULT_CARD.message,
+    message: (d.message ?? "").toString().slice(0, 400) || occ.message,
     theme,
     photo,
     music: Boolean(d.music),

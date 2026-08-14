@@ -2,11 +2,12 @@
 
 import * as React from "react";
 
-import { resolveTheme, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 export function BirthdayNeon({ data, fireKey = 0 }: { data: CardData; fireKey?: number }) {
   const t = resolveTheme(data);
+  const occ = OCCASIONS[data.occasion];
   const neon = t.accent;
   const neon2 = t.bg2;
   return (
@@ -18,7 +19,7 @@ export function BirthdayNeon({ data, fireKey = 0 }: { data: CardData; fireKey?: 
 
       <div className="bn-content">
         {data.photo && <img src={data.photo} alt="" className="bn-photo" />}
-        <div className="bn-eyebrow">HAPPY BIRTHDAY</div>
+        <div className="bn-eyebrow">{occ.eyebrow}</div>
         <h1 className="bn-name">{data.to}</h1>
         <p className="bn-msg">{data.message}</p>
         {data.from.trim() && <div className="bn-from">— {data.from}</div>}
@@ -39,7 +40,7 @@ const CSS = `
 .bn-content{position:relative; z-index:10; padding:44px; max-width:88%; overflow-wrap:break-word;}
 .bn-photo{display:block; margin:0 auto 1em; width:clamp(92px,24cqw,128px); height:clamp(92px,24cqw,128px); border-radius:50%; object-fit:cover;
   border:2px solid var(--neon); box-shadow:0 0 20px var(--neon); animation:bn-in 1s .1s both;}
-.bn-eyebrow{font-size:clamp(.75rem,2.4cqw,1rem); letter-spacing:.4em; color:var(--neon); font-weight:600; text-shadow:0 0 8px var(--neon); animation:bn-in .9s .2s both;}
+.bn-eyebrow{font-size:clamp(.75rem,2.4cqw,1rem); letter-spacing:.4em; text-transform:uppercase; color:var(--neon); font-weight:600; text-shadow:0 0 8px var(--neon); animation:bn-in .9s .2s both;}
 .bn-name{margin:.15em 0 .3em; font-weight:800; font-size:clamp(3rem,12cqw,6rem); line-height:1; color:#fff;
   text-shadow:0 0 6px #fff, 0 0 16px var(--neon), 0 0 34px var(--neon), 0 0 60px var(--neon2);
   animation:bn-flicker 4s linear .8s infinite, bn-pop .8s .3s both;}

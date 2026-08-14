@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { resolveTheme, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 const RAIN = [
@@ -18,6 +18,7 @@ const RAIN = [
 
 export function BirthdayPlayful({ data, fireKey = 0 }: { data: CardData; fireKey?: number }) {
   const t = resolveTheme(data);
+  const occ = OCCASIONS[data.occasion];
   return (
     <div
       className="bp-stage"
@@ -33,7 +34,7 @@ export function BirthdayPlayful({ data, fireKey = 0 }: { data: CardData; fireKey
 
       <div className="bp-content">
         {data.photo && <img src={data.photo} alt="" className="bp-photo" />}
-        <div className="bp-eyebrow">🥳 It&apos;s your day!</div>
+        <div className="bp-eyebrow">🥳 {occ.eyebrow}</div>
         <h1 className="bp-name">{data.to}</h1>
         <p className="bp-msg">{data.message}</p>
         {data.from.trim() && <div className="bp-from">🎈 {data.from}</div>}

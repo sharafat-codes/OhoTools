@@ -3925,7 +3925,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Cards & Invitations",
     blurb: "Create animated cards and invitations, then share the link.",
-    slugs: ["birthday-card-maker"],
+    slugs: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker"],
   },
 ];
 

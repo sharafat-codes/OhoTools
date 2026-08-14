@@ -11,8 +11,8 @@ import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
-  CARD_THEMES, CARD_TEMPLATES, DEFAULT_CARD, normalizeCard, resolveTheme,
-  type CardData, type CardTheme, type CardEffect, type TemplateId,
+  CARD_THEMES, CARD_TEMPLATES, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
+  type CardData, type CardTheme, type CardEffect, type TemplateId, type Occasion,
 } from "@/modules/cards/types";
 import { cardShareUrl, encodeCard } from "@/modules/cards/share";
 
@@ -25,6 +25,7 @@ const EFFECTS: { id: CardEffect; label: string; Icon: typeof StarIcon }[] = [
 // Mini visual for each template's picker chip.
 const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; glow?: boolean }> = {
   classic: { bg: "linear-gradient(135deg,#7c3aed,#db2777)", accent: "#ffffff" },
+  romantic: { bg: "linear-gradient(160deg,#e11d48,#9333ea)", accent: "#ffffff", serif: true },
   elegant: { bg: "radial-gradient(circle at 50% 30%,#2a2440,#0a0a0c)", accent: "#e7c873", serif: true },
   playful: { bg: "linear-gradient(135deg,#f97316,#db2777)", accent: "#ffffff" },
   luxe: { bg: "radial-gradient(circle at 50% 30%,#2b2410,#0a0a0c)", accent: "#e7c873", serif: true },
@@ -60,8 +61,8 @@ function fileToAvatar(file: File): Promise<string> {
   });
 }
 
-export function CardEditor() {
-  const [data, setData] = React.useState<CardData>(DEFAULT_CARD);
+export function CardEditor({ occasion = "birthday" }: { occasion?: Occasion }) {
+  const [data, setData] = React.useState<CardData>(() => defaultCard(occasion));
   const [origin, setOrigin] = React.useState("");
   const [copied, setCopied] = React.useState(false);
   const [photoError, setPhotoError] = React.useState("");
@@ -77,6 +78,7 @@ export function CardEditor() {
   const pro = isPro(((sess?.user as { plan?: string } | null)?.plan) ?? "FREE");
   const imageUrl = origin ? `${origin}/api/card/image?d=${encodeCard(normalizeCard(data))}` : "#";
   const cur = resolveTheme(normalizeCard(data));
+  const occ = OCCASIONS[data.occasion];
 
   function copy() {
     if (!url) return;
@@ -132,8 +134,8 @@ export function CardEditor() {
       <div className="order-2 flex flex-col gap-8 lg:order-1">
         {/* Content */}
         <Section icon={TypeIcon} label="Content">
-          <Field label="Whose birthday is it?">
-            <input value={data.to} maxLength={60} onChange={(e) => set("to", e.target.value)} placeholder="Name" className={inputCls} />
+          <Field label={occ.toLabel}>
+            <input value={data.to} maxLength={60} onChange={(e) => set("to", e.target.value)} placeholder={occ.toPlaceholder} className={inputCls} />
           </Field>
           <Field label="Your message" hint={`${data.message.length}/400`}>
             <textarea value={data.message} maxLength={400} rows={4} onChange={(e) => set("message", e.target.value)} className={inputCls + " resize-y"} />
@@ -147,7 +149,7 @@ export function CardEditor() {
         <Section icon={PaletteIcon} label="Design">
           <Field label="Style">
             <div className="grid grid-cols-3 gap-2.5">
-              {CARD_TEMPLATES.map((tpl) => {
+              {CARD_TEMPLATES.filter((tpl) => occ.templates.includes(tpl.id)).map((tpl) => {
                 const active = data.template === tpl.id;
                 const locked = tpl.pro && !pro;
                 const sw = SWATCH[tpl.id];

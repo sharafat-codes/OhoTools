@@ -4,7 +4,7 @@
 import {
   CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
-  CakeIcon,
+  CakeIcon, GemIcon, HeartIcon, WineIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -332,6 +332,94 @@ export const extraTools: DevTool[] = [
       { q: "Can I add a photo?", a: "Photos are coming soon. For now cards are text-based with animated themes, which keeps the shareable link lightweight and instant." },
     ],
     related: ["countdown-to-date", "qr-code", "meme-generator"],
+  },
+  {
+    slug: "wedding-invitation-maker",
+    name: "Wedding Invitation Maker",
+    tagline: "Create an animated wedding invitation and share the link — free.",
+    description:
+      "Free animated wedding invitation maker — add the couple's names, message, photo and theme, then share a link that opens as a full-screen animated invitation. No sign-up.",
+    keywords: [
+      "wedding invitation maker",
+      "wedding invitation",
+      "digital wedding invitation",
+      "online wedding invitation",
+      "wedding e-invite",
+      "shaadi card",
+    ],
+    icon: GemIcon,
+    intro:
+      "Create a beautiful animated wedding invitation in minutes. Add the couple's names, your message, a photo, and choose an elegant theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated invitation with music and effects. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Enter the couple's names and your invitation message.",
+      "Pick an elegant template, theme, and effect — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated invitation.",
+    ],
+    faqs: [
+      { q: "Is the wedding invitation free?", a: "Yes — completely free, with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do guests open it?", a: "They just tap the link — it opens as a full-screen animated invitation on any phone or computer. No app or account needed." },
+      { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and the invitation plays them when a guest opens it." },
+      { q: "Is our information stored?", a: "No — the invitation is encoded in the link itself, so nothing is saved on our servers." },
+    ],
+    related: ["engagement-invitation-maker", "anniversary-card-maker", "birthday-card-maker"],
+  },
+  {
+    slug: "engagement-invitation-maker",
+    name: "Engagement Invitation Maker",
+    tagline: "Create an animated engagement invitation and share the link — free.",
+    description:
+      "Free animated engagement invitation maker — add names, message, photo and theme, then share a link that plays a full-screen animated invitation. No sign-up.",
+    keywords: [
+      "engagement invitation maker",
+      "engagement invitation",
+      "engagement announcement card",
+      "online engagement invite",
+      "engagement e-invite",
+    ],
+    icon: HeartIcon,
+    intro:
+      "Announce your engagement in style with an animated invitation. Add your names, your message, a photo, and pick a romantic theme — then share the link on WhatsApp or social media. It opens as a full-screen animated invitation with music and effects. Free and instant, no sign-up.",
+    steps: [
+      "Enter your names and your engagement message.",
+      "Choose a template, theme, and effect — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated invitation.",
+    ],
+    faqs: [
+      { q: "Is it free?", a: "Yes — completely free with no sign-up. Personalize it and share the link freely." },
+      { q: "How do people open it?", a: "They tap the link and it plays as a full-screen animated invitation on any device — no app needed." },
+      { q: "Can I add a photo and music?", a: "Yes — add a couple photo and turn on music; both play when the invitation is opened." },
+      { q: "Is my data stored?", a: "No — the invitation lives in the link itself; nothing is saved on our servers." },
+    ],
+    related: ["wedding-invitation-maker", "anniversary-card-maker", "birthday-card-maker"],
+  },
+  {
+    slug: "anniversary-card-maker",
+    name: "Anniversary Card Maker",
+    tagline: "Create an animated anniversary card and share the link — free.",
+    description:
+      "Free animated anniversary card maker — personalize names, message, photo and theme, then share a link that opens as a full-screen animated card. No sign-up.",
+    keywords: [
+      "anniversary card maker",
+      "anniversary card",
+      "happy anniversary card",
+      "wedding anniversary card",
+      "online anniversary card",
+    ],
+    icon: WineIcon,
+    intro:
+      "Celebrate an anniversary with a heartfelt animated card. Add the names, your message, a photo, and choose a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with music and effects. Free, works on any device, no sign-up.",
+    steps: [
+      "Enter the names and your anniversary message.",
+      "Pick a template, theme, and effect — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated card.",
+    ],
+    faqs: [
+      { q: "Is the anniversary card free?", a: "Yes — completely free with no sign-up. Personalize and share the link as often as you like." },
+      { q: "How is it opened?", a: "The recipient taps the link and it plays as a full-screen animated card on any phone or computer." },
+      { q: "Can I add a photo and music?", a: "Yes — add a photo and enable music; both play when the card is opened." },
+      { q: "Is anything stored?", a: "No — the card is encoded in the link, so nothing is saved on our servers." },
+    ],
+    related: ["wedding-invitation-maker", "engagement-invitation-maker", "birthday-card-maker"],
   },
 ];
 

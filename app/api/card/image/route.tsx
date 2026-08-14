@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 import { decodeCard } from "@/modules/cards/share";
-import { resolveTheme, DEFAULT_CARD, type CardData } from "@/modules/cards/types";
+import { resolveTheme, DEFAULT_CARD, OCCASIONS, type CardData } from "@/modules/cards/types";
 import { getCurrentUser } from "@/lib/dal";
 import { isPro } from "@/lib/plans";
 
@@ -76,7 +76,7 @@ export async function GET(req: Request) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={card.photo} width={280} height={280} style={{ borderRadius: 280, objectFit: "cover", border: `10px solid ${t.accent}`, marginBottom: 48 }} />
           ) : null}
-          <div style={{ display: "flex", fontSize: 42, fontWeight: 700, letterSpacing: 12, color: t.accent }}>HAPPY BIRTHDAY</div>
+          <div style={{ display: "flex", fontSize: 42, fontWeight: 700, letterSpacing: 12, color: t.accent }}>{OCCASIONS[card.occasion].eyebrow.toUpperCase()}</div>
           <div style={{ display: "flex", fontSize: 128, fontWeight: 800, lineHeight: 1.05, margin: "14px 0 34px", maxWidth: 1000 }}>{card.to}</div>
           <div style={{ display: "flex", fontSize: 46, lineHeight: 1.5, maxWidth: 900, opacity: 0.96 }}>{card.message}</div>
           {card.from ? <div style={{ display: "flex", fontSize: 40, marginTop: 44, fontWeight: 600 }}>— {card.from}</div> : null}

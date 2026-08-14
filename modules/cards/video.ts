@@ -3,7 +3,7 @@
 // smaller than a GIF, and plays natively on WhatsApp. Used by the Pro export.
 
 import { getFfmpeg } from "@/modules/tools/components/ffmpeg-client";
-import { resolveTheme, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
 
 const W = 480;
 const H = 600;
@@ -147,7 +147,7 @@ function drawFrame(ctx: CanvasRenderingContext2D, t: number, data: CardData, par
   // eyebrow
   ctx.fillStyle = th.accent;
   ctx.font = "600 18px Arial, sans-serif";
-  ctx.fillText("HAPPY BIRTHDAY", W / 2, y + 16);
+  ctx.fillText(OCCASIONS[data.occasion].eyebrow.toUpperCase(), W / 2, y + 16);
   y += eyebrowH + gap;
 
   // name (scale-in)

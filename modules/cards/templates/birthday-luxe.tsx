@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { resolveTheme, type CardData } from "@/modules/cards/types";
+import { resolveTheme, OCCASIONS, type CardData } from "@/modules/cards/types";
 import { Confetti } from "@/modules/cards/components/confetti";
 
 const SPARKLES = [
@@ -16,6 +16,7 @@ const SPARKLES = [
 
 export function BirthdayLuxe({ data, fireKey = 0 }: { data: CardData; fireKey?: number }) {
   const t = resolveTheme(data);
+  const occ = OCCASIONS[data.occasion];
   const gold = data.custom ? t.accent : "#e7c873";
   return (
     <div className="bl-stage" style={{ "--gold": gold } as React.CSSProperties}>
@@ -29,7 +30,7 @@ export function BirthdayLuxe({ data, fireKey = 0 }: { data: CardData; fireKey?: 
 
       <div className="bl-content">
         {data.photo && <img src={data.photo} alt="" className="bl-photo" />}
-        <div className="bl-eyebrow">✦ Happy Birthday ✦</div>
+        <div className="bl-eyebrow">✦ {occ.eyebrow} ✦</div>
         <h1 className="bl-name">{data.to}</h1>
         <div className="bl-rule" />
         <p className="bl-msg">{data.message}</p>
