@@ -62,7 +62,7 @@ function fileToAvatar(file: File): Promise<string> {
   });
 }
 
-export function CardEditor({ occasion = "birthday", initialCard, cardId }: { occasion?: Occasion; initialCard?: CardData; cardId?: string }) {
+export function CardEditor({ occasion = "birthday", initialCard, cardId, initialShortCode }: { occasion?: Occasion; initialCard?: CardData; cardId?: string; initialShortCode?: string }) {
   const [data, setData] = React.useState<CardData>(() => (initialCard ? normalizeCard(initialCard) : defaultCard(occasion)));
   const [origin, setOrigin] = React.useState("");
   const [copied, setCopied] = React.useState(false);
@@ -70,11 +70,15 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId }: { occ
   const [videoBusy, setVideoBusy] = React.useState(false);
   const [videoPct, setVideoPct] = React.useState(0);
   const [savedId, setSavedId] = React.useState<string | undefined>(cardId);
+  const [shortCode, setShortCode] = React.useState<string | undefined>(initialShortCode);
   const [saveState, setSaveState] = React.useState<"idle" | "saving" | "saved">("idle");
 
   React.useEffect(() => setOrigin(window.location.origin), []);
 
-  const url = origin ? cardShareUrl(origin, normalizeCard(data)) : "";
+  const encodedUrl = origin ? cardShareUrl(origin, normalizeCard(data)) : "";
+  // Saved cards get a short link (/c/<code>) with open tracking; otherwise the
+  // self-contained encoded link.
+  const url = shortCode && origin ? `${origin}/c/${shortCode}` : encodedUrl;
   const set = <K extends keyof CardData>(k: K, v: CardData[K]) => setData((d) => ({ ...d, [k]: v }));
 
   const { data: sess } = useSession();
@@ -94,6 +98,7 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId }: { occ
     const res = savedId ? await updateCard(savedId, payload) : await saveCard(payload);
     if (res.ok) {
       setSavedId(res.id);
+      setShortCode(res.shortCode);
       setSaveState("saved");
       window.setTimeout(() => setSaveState("idle"), 2000);
     } else {

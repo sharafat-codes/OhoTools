@@ -35,7 +35,8 @@ export default async function CardsPage() {
       occasion: data.occasion,
       updatedAt: r.updatedAt,
       theme: resolveTheme(data),
-      url: cardShareUrl(SITE_URL, data),
+      views: r.views,
+      url: r.shortCode ? `${SITE_URL}/c/${r.shortCode}` : cardShareUrl(SITE_URL, data),
     };
   });
 
@@ -75,7 +76,7 @@ export default async function CardsPage() {
               <div className="p-3">
                 <div className="truncate font-medium">{c.title}</div>
                 <div className="mt-0.5 text-xs text-muted-foreground">
-                  {OCCASIONS[c.occasion].label} · {c.updatedAt.toLocaleDateString()}
+                  {OCCASIONS[c.occasion].label} · {c.updatedAt.toLocaleDateString()} · {c.views} {c.views === 1 ? "open" : "opens"}
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <Link

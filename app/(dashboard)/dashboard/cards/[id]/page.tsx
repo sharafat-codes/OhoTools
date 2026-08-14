@@ -29,7 +29,7 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
         <ArrowLeftIcon className="size-4" /> My Cards
       </Link>
       <h1 className="mb-6 font-heading text-2xl font-semibold tracking-tight">Edit card</h1>
-      <CardEditor occasion={data.occasion} initialCard={data} cardId={row.id} />
+      <CardEditor occasion={data.occasion} initialCard={data} cardId={row.id} initialShortCode={row.shortCode ?? undefined} />
     </div>
   );
 }
