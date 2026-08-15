@@ -5,9 +5,11 @@ import { prisma } from "@/lib/prisma";
 import { normalizeCard, OCCASIONS } from "@/modules/cards/types";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { CardStage } from "@/modules/cards/components/card-stage";
+import { CardOpenPing } from "@/modules/cards/components/card-open-ping";
 import { SITE_URL } from "@/lib/site";
 
-// Per-visitor render + open counter — never cache.
+// Per-visitor render — never cache. The open is counted client-side (see
+// CardOpenPing) so link-preview crawlers don't inflate the count.
 export const dynamic = "force-dynamic";
 
 type Params = Promise<{ code: string }>;
@@ -71,12 +73,10 @@ export default async function Page({ params }: { params: Params }) {
     );
   }
 
-  // Count the open (best-effort — don't block rendering on it).
-  await prisma.card.update({ where: { shortCode: code }, data: { views: { increment: 1 } } }).catch(() => {});
-
   return (
     <main className="relative min-h-[100dvh] w-full overflow-hidden">
       <CardStage data={found.card} />
+      <CardOpenPing code={code} />
     </main>
   );
 }

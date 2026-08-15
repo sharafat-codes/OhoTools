@@ -20,6 +20,18 @@ function parse(json: string): CardData {
   }
 }
 
+function timeAgo(d: Date): string {
+  const s = Math.floor((Date.now() - d.getTime()) / 1000);
+  if (s < 60) return "just now";
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const days = Math.floor(h / 24);
+  if (days < 30) return `${days}d ago`;
+  return d.toLocaleDateString();
+}
+
 export default async function CardsPage() {
   const user = await requireUser();
   const rows = await prisma.card.findMany({
@@ -36,6 +48,7 @@ export default async function CardsPage() {
       updatedAt: r.updatedAt,
       theme: resolveTheme(data),
       views: r.views,
+      lastOpenedAt: r.lastOpenedAt,
       url: r.shortCode ? `${SITE_URL}/c/${r.shortCode}` : cardShareUrl(SITE_URL, data),
     };
   });
@@ -76,7 +89,19 @@ export default async function CardsPage() {
               <div className="p-3">
                 <div className="truncate font-medium">{c.title}</div>
                 <div className="mt-0.5 text-xs text-muted-foreground">
-                  {OCCASIONS[c.occasion].label} · {c.updatedAt.toLocaleDateString()} · {c.views} {c.views === 1 ? "open" : "opens"}
+                  {OCCASIONS[c.occasion].label} · {c.updatedAt.toLocaleDateString()}
+                </div>
+                <div className="mt-1.5">
+                  {c.views > 0 ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
+                      ✓ Opened{c.lastOpenedAt ? ` · ${timeAgo(c.lastOpenedAt)}` : ""}
+                      {c.views > 1 ? ` · ${c.views}×` : ""}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                      Not opened yet
+                    </span>
+                  )}
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <Link

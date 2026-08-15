@@ -40,6 +40,32 @@ export function unsubscribeUrl(userId: string): string {
   return `${origin}/unsubscribe?token=${encodeURIComponent(unsubscribeToken(userId))}`;
 }
 
+// Subscriber (non-account) unsubscribe tokens. Payload is prefixed "sub:" so a
+// token can be routed to the subscriber table, not the user table.
+export function subscriberUnsubscribeUrl(subscriberId: string): string {
+  const payload = `sub:${subscriberId}`;
+  const token = `${payload}.${sign(payload)}`;
+  return `${origin}/unsubscribe?token=${encodeURIComponent(token)}`;
+}
+
+/** Returns the subscriber id if the token is a valid subscriber unsubscribe token. */
+export function verifySubscriberUnsubToken(token: string): string | null {
+  const i = token.lastIndexOf(".");
+  if (i < 1) return null;
+  const payload = token.slice(0, i);
+  const sig = token.slice(i + 1);
+  if (!payload.startsWith("sub:")) return null;
+  const expected = sign(payload);
+  try {
+    const a = Buffer.from(sig);
+    const b = Buffer.from(expected);
+    if (a.length === b.length && crypto.timingSafeEqual(a, b)) return payload.slice(4);
+  } catch {
+    /* malformed */
+  }
+  return null;
+}
+
 /**
  * Sends an engagement email — but only if the user hasn't opted out. Always
  * attaches the unsubscribe footer + List-Unsubscribe header. Use this (never

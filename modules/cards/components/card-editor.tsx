@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
-import { saveCard, updateCard } from "@/modules/cards/actions";
+import { saveCard, updateCard, watchCardOpens } from "@/modules/cards/actions";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
   CARD_THEMES, CARD_TEMPLATES, CARD_FONTS, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
@@ -90,6 +90,11 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   const [shortCode, setShortCode] = React.useState<string | undefined>(initialShortCode);
   const [saveState, setSaveState] = React.useState<"idle" | "saving" | "saved">("idle");
   const [styleTarget, setStyleTarget] = React.useState<"global" | StyleElement>("global");
+  // "Notify me when opened" — optional email capture (also grows the list).
+  const [notifyEmail, setNotifyEmail] = React.useState("");
+  const [notifyMarketing, setNotifyMarketing] = React.useState(true);
+  const [notifyState, setNotifyState] = React.useState<"idle" | "saving" | "done" | "dismissed">("idle");
+  const [notifyError, setNotifyError] = React.useState("");
 
   const curStyle: ElemStyle = data.styles?.[styleTarget] ?? {};
   function setStyle(patch: Partial<ElemStyle>) {
@@ -139,6 +144,24 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
     } else {
       setSaveState("idle");
       setPhotoError(res.error);
+    }
+  }
+  async function notifySubmit() {
+    if (notifyState === "saving") return;
+    setNotifyError("");
+    setNotifyState("saving");
+    const res = await watchCardOpens({
+      cardId: savedId,
+      data: normalizeCard(data),
+      email: notifyEmail,
+      marketing: notifyMarketing,
+    });
+    if (res.ok) {
+      setShortCode(res.shortCode); // share link becomes the tracked /c/<code>
+      setNotifyState("done");
+    } else {
+      setNotifyState("idle");
+      setNotifyError(res.error);
     }
   }
   const imageUrl = origin ? `${origin}/api/card/image?d=${encodeCard(normalizeCard(data))}` : "#";
@@ -455,8 +478,45 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
                       : "Save to my cards"}
             </Button>
             <p className="mt-1 text-center text-xs text-muted-foreground">
-              Share on WhatsApp or anywhere — opens as a full-screen animated card. Nothing is stored.
+              Share on WhatsApp or anywhere — opens as a full-screen animated card.
             </p>
+
+            {/* Optional: get notified when the card is opened (grows the list). */}
+            {notifyState === "done" ? (
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-center text-xs font-medium text-emerald-700 dark:text-emerald-400">
+                <CheckIcon className="mr-1 inline size-3.5" />
+                Done — we&apos;ll email you the moment it&apos;s opened.
+              </div>
+            ) : notifyState !== "dismissed" ? (
+              <div className="rounded-xl border border-border bg-card p-3 text-left">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-xs font-semibold">💌 Know when it&apos;s opened</p>
+                  <button type="button" onClick={() => setNotifyState("dismissed")} aria-label="Dismiss" className="text-muted-foreground hover:text-foreground">
+                    <XIcon className="size-3.5" />
+                  </button>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">Optional — we&apos;ll email you the moment your card is opened.</p>
+                <div className="mt-2 flex gap-1.5">
+                  <input
+                    type="email"
+                    inputMode="email"
+                    value={notifyEmail}
+                    onChange={(e) => setNotifyEmail(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && notifySubmit()}
+                    placeholder="you@email.com"
+                    className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/15"
+                  />
+                  <Button onClick={notifySubmit} disabled={notifyState === "saving"} className="shrink-0">
+                    {notifyState === "saving" ? "…" : "Notify me"}
+                  </Button>
+                </div>
+                {notifyError && <p className="mt-1 text-xs text-red-500">{notifyError}</p>}
+                <label className="mt-2 flex cursor-pointer items-start gap-1.5 text-xs text-muted-foreground">
+                  <input type="checkbox" checked={notifyMarketing} onChange={(e) => setNotifyMarketing(e.target.checked)} className="mt-0.5 size-3.5 shrink-0 accent-primary" />
+                  Also send me new templates &amp; seasonal cards (unsubscribe anytime)
+                </label>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

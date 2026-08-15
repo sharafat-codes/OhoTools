@@ -103,6 +103,15 @@ export default function PrivacyPage() {
         not included in analytics.
       </p>
 
+      <h2>Email notifications &amp; updates</h2>
+      <p>
+        When you make a card, you can optionally enter your email to be{" "}
+        <strong>notified when the card is opened</strong>. We store that email only to send that
+        notification. If you also tick the optional box, we may send you occasional product updates
+        (new templates, seasonal cards). Every such email includes an{" "}
+        <strong>unsubscribe</strong> link, and you can opt out at any time. We never sell your email.
+      </p>
+
       <h2>Service providers</h2>
       <p>We share data only with the providers that help us operate OhoTool:</p>
       <ul>

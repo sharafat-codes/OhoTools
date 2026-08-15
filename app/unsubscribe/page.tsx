@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 
 import { prisma } from "@/lib/prisma";
-import { verifyUnsubscribeToken } from "@/lib/email-prefs";
+import { verifyUnsubscribeToken, verifySubscriberUnsubToken } from "@/lib/email-prefs";
 import { Logo } from "@/components/logo";
 
 export const metadata: Metadata = {
@@ -19,13 +19,23 @@ export default async function UnsubscribePage({
   const { token } = await searchParams;
 
   let ok = false;
-  const userId = token ? verifyUnsubscribeToken(token) : null;
-  if (userId) {
+  const subscriberId = token ? verifySubscriberUnsubToken(token) : null;
+  if (subscriberId) {
     try {
-      await prisma.user.update({ where: { id: userId }, data: { marketingEmails: false } });
+      await prisma.subscriber.update({ where: { id: subscriberId }, data: { consentMarketing: false } });
       ok = true;
     } catch {
       ok = false;
+    }
+  } else {
+    const userId = token ? verifyUnsubscribeToken(token) : null;
+    if (userId) {
+      try {
+        await prisma.user.update({ where: { id: userId }, data: { marketingEmails: false } });
+        ok = true;
+      } catch {
+        ok = false;
+      }
     }
   }
 
