@@ -4,7 +4,7 @@
 import {
   CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
-  CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon,
+  CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -480,6 +480,37 @@ export const extraTools: DevTool[] = [
       { q: "Is my information stored?", a: "No — the card is encoded in the link itself, so nothing is saved on our servers." },
     ],
     related: ["eid-card-maker", "birthday-card-maker", "anniversary-card-maker"],
+  },
+  {
+    slug: "ats-resume-checker",
+    name: "ATS Resume Checker",
+    tagline: "Check if your resume will pass ATS parsing — free.",
+    description:
+      "Free ATS resume checker. Upload your resume (PDF or Word) for an instant ATS-friendliness score with exact fixes — selectable text, columns, images, tables, sections, and contact info. Runs in your browser, nothing uploaded.",
+    keywords: [
+      "ats resume checker",
+      "ats checker",
+      "ats friendly resume checker",
+      "resume format checker",
+      "is my resume ats friendly",
+      "ats scanner",
+      "resume ats score",
+    ],
+    icon: FileCheck2Icon,
+    intro:
+      "Will an applicant tracking system (ATS) actually read your resume? Upload your PDF or Word file for an instant, deterministic check — is the text selectable, is the layout single-column, are there images or tables that break parsing, and are your contact details and sections detectable? You get a score plus the exact fixes to make. Everything runs in your browser; your resume is never uploaded.",
+    steps: [
+      "Upload your resume (PDF or Word .docx).",
+      "We analyze the file for ATS parsing issues in your browser.",
+      "Get an ATS score and the exact fixes to make.",
+    ],
+    faqs: [
+      { q: "What is an ATS?", a: "An Applicant Tracking System is software employers use to scan and filter resumes before a human sees them. If it can't parse your resume, you can be rejected automatically." },
+      { q: "Is my resume uploaded anywhere?", a: "No — the file is read and analyzed entirely in your browser. Nothing is sent to our servers." },
+      { q: "Does this match keywords for a specific job?", a: "This tool checks whether an ATS can parse your resume's format. For keyword matching against a job description, use our AI Resume Reviewer." },
+      { q: "Which files can I check?", a: "PDF and Word (.docx) resumes, plus plain text. Image files (JPG/PNG) always fail because an ATS can't read text from an image." },
+    ],
+    related: ["resume-summary-generator"],
   },
 ];
 
