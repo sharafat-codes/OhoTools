@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileTextIcon, TargetIcon, ListChecksIcon, MessagesSquareIcon } from "lucide-react";
+import { FileTextIcon, TargetIcon, ListChecksIcon, MessagesSquareIcon, ScanLineIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { isPro } from "@/lib/plans";
@@ -121,6 +121,24 @@ export default async function ResumeReviewPage() {
           })}
         </div>
       </section>
+
+      {/* Cross-link to the deterministic ATS format checker */}
+      <Link
+        href="/tools/ats-resume-checker"
+        className="group mt-8 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
+      >
+        <div className="flex items-center gap-3">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary">
+            <ScanLineIcon className="size-5" />
+          </span>
+          <div>
+            <div className="font-heading font-semibold">Free ATS format check</div>
+            <div className="text-sm text-muted-foreground">
+              Upload your file to see if an ATS can actually parse it — instant, in your browser.
+            </div>
+          </div>
+        </div>
+      </Link>
 
       {/* Cross-link to interview */}
       <Link

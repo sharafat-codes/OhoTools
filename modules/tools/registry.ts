@@ -3607,6 +3607,7 @@ export const TOOL_GUIDES: Record<string, string> = {
   "anniversary-card-maker": "anniversary-wishes-messages",
   "eid-card-maker": "eid-mubarak-wishes-messages",
   "diwali-card-maker": "happy-diwali-wishes-messages",
+  "ats-resume-checker": "is-your-resume-ats-friendly",
 };
 
 /**
