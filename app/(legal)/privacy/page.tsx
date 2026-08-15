@@ -10,7 +10,7 @@ export default function PrivacyPage() {
   return (
     <article>
       <h1 className="font-heading text-3xl font-semibold tracking-tight">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Last updated: August 11, 2026</p>
+      <p className="mt-2 text-sm text-muted-foreground">Last updated: August 15, 2026</p>
 
       <p className="mt-6">
         This Privacy Policy explains how OhoTool (&quot;OhoTool&quot;, &quot;we&quot;, &quot;us&quot;) collects,
@@ -48,8 +48,12 @@ export default function PrivacyPage() {
       <p>
         We use Vercel Web Analytics and Speed Insights to understand aggregate traffic and page
         performance. These are privacy-friendly and <strong>cookieless</strong> — they do not use
-        cross-site tracking cookies and do not collect personally identifiable information. We do
-        not sell your personal data.
+        cross-site tracking cookies and do not collect personally identifiable information.
+      </p>
+      <p>
+        We also use <strong>Google Analytics (GA4)</strong> to measure aggregate traffic. GA4 sets
+        cookies; where your consent is required (see &quot;Your cookie choices&quot; below), these
+        are disabled until you accept. We do not sell your personal data.
       </p>
 
       <h2>Advertising</h2>
@@ -77,7 +81,22 @@ export default function PrivacyPage() {
       <p>
         We use a strictly necessary session cookie to keep you signed in. On the free tier, our
         advertising partner Google and its vendors may set cookies to serve and measure ads, as
-        described under &quot;Advertising&quot; above. We do not set our own cross-site tracking cookies.
+        described under &quot;Advertising&quot; above, and Google Analytics sets cookies to measure
+        aggregate traffic. We do not set our own cross-site tracking cookies.
+      </p>
+
+      <h2>Your cookie choices</h2>
+      <p>
+        The first time you visit, a banner asks whether to allow non-essential (advertising and
+        analytics) cookies. Essential sign-in cookies are always used and cannot be turned off. You
+        can change your choice at any time using the <strong>&quot;Cookie settings&quot;</strong>
+        link in the footer.
+      </p>
+      <p>
+        We implement <strong>Google Consent Mode</strong>. For visitors in the EEA, the UK, and
+        Switzerland, advertising and analytics cookies are <strong>disabled by default</strong> until
+        you accept. Rejecting non-essential cookies means you may see non-personalized ads and are
+        not included in analytics.
       </p>
 
       <h2>Service providers</h2>

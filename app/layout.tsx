@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsent } from "@/components/cookie-consent";
 
 // Body / UI text — highly legible SaaS standard.
 const inter = Inter({
@@ -100,6 +101,22 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col"
       >
+        {/* Google Consent Mode v2 — runs before AdSense/GA so ad & analytics
+           cookies are gated by the user's choice. Default: denied in the
+           EEA/UK/CH until the visitor accepts (see the cookie banner), granted
+           elsewhere. A stored choice (oho_consent cookie) is honored on load. */}
+        <Script id="consent-mode" strategy="beforeInteractive">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+var EEA=["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"];
+var G={ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'};
+var D={ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'};
+var m=document.cookie.match(/(?:^|;\\s*)oho_consent=(granted|denied)/);
+if(m&&m[1]==='granted'){gtag('consent','default',G);}
+else if(m&&m[1]==='denied'){gtag('consent','default',D);}
+else{gtag('consent','default',Object.assign({},D,{region:EEA,wait_for_update:500}));gtag('consent','default',G);}
+gtag('set','ads_data_redaction',true);gtag('set','url_passthrough',true);`}
+        </Script>
+
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -108,6 +125,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          <CookieConsent />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
