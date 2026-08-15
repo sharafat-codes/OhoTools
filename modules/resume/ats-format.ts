@@ -26,6 +26,19 @@ export type AtsReport = {
 
 const EMAIL_RE = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i;
 
+// PDF text extraction frequently injects spaces inside an email address
+// (e.g. "name . dev @ gmail . com"), so a naive regex misses a real email.
+// Test the raw text first, then re-test a whitespace-stripped window around
+// each '@' (localized, to avoid stitching unrelated tokens into a false match).
+function hasEmail(text: string): boolean {
+  if (EMAIL_RE.test(text)) return true;
+  for (let i = text.indexOf("@"); i !== -1; i = text.indexOf("@", i + 1)) {
+    const win = text.slice(Math.max(0, i - 40), i + 40).replace(/\s+/g, "");
+    if (EMAIL_RE.test(win)) return true;
+  }
+  return false;
+}
+
 function hasPhone(text: string): boolean {
   const candidates = text.match(/\+?\d[\d\s().-]{7,}\d/g) || [];
   return candidates.some((c) => {
@@ -56,14 +69,15 @@ function commonChecks(text: string): AtsCheck[] {
   const words = text.split(/\s+/).filter(Boolean).length;
   const checks: AtsCheck[] = [];
 
+  const emailOk = hasEmail(text);
   checks.push({
     id: "email",
     label: "Email address",
-    status: EMAIL_RE.test(text) ? "pass" : "fail",
-    detail: EMAIL_RE.test(text)
+    status: emailOk ? "pass" : "fail",
+    detail: emailOk
       ? "An email address was detected."
       : "No email address found. ATS may not be able to contact you.",
-    fix: EMAIL_RE.test(text) ? undefined : "Add your email as plain text near the top (not inside an image or header).",
+    fix: emailOk ? undefined : "Add your email as plain text near the top (not inside an image or header).",
   });
 
   checks.push({
@@ -332,7 +346,7 @@ async function analyzeDocx(file: File): Promise<AtsReport> {
   let contactInHeader = false;
   for (const h of headerFiles) {
     const hx = await h.async("string");
-    if (EMAIL_RE.test(hx) || hasPhone(hx)) contactInHeader = true;
+    if (hasEmail(hx) || hasPhone(hx)) contactInHeader = true;
   }
   if (contactInHeader) {
     checks.push({
