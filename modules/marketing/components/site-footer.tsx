@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/logo";
-import { CookiePreferencesButton } from "@/components/cookie-consent";
 
 // Single site-wide footer. Responsive: on mobile the logo/copyright and the
 // link list stack and center; from `sm` up they sit on one row with the links
@@ -38,7 +37,6 @@ export function SiteFooter() {
               {l.label}
             </Link>
           ))}
-          <CookiePreferencesButton className="hover:text-foreground" />
         </nav>
       </div>
     </footer>

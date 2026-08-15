@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { CookiePreferencesButton } from "@/components/cookie-consent";
+
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How OhoTool collects, uses, and protects your data.",
@@ -89,8 +91,10 @@ export default function PrivacyPage() {
       <p>
         The first time you visit, a banner asks whether to allow non-essential (advertising and
         analytics) cookies. Essential sign-in cookies are always used and cannot be turned off. You
-        can change your choice at any time using the <strong>&quot;Cookie settings&quot;</strong>
-        link in the footer.
+        can change your choice at any time using the button below.
+      </p>
+      <p>
+        <CookiePreferencesButton className="inline-flex rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:bg-muted" />
       </p>
       <p>
         We implement <strong>Google Consent Mode</strong>. For visitors in the EEA, the UK, and
