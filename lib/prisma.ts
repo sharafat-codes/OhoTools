@@ -19,6 +19,15 @@ const runtimeUrl = process.env.DATABASE_POOL_URL || process.env.DATABASE_URL;
 // the pool config from discrete fields so our `ssl` setting (encrypt, don't
 // reject the chain) is authoritative at runtime.
 const dbUrl = new URL(runtimeUrl as string);
+
+// The transaction pooler (port 6543) multiplexes many clients onto few server
+// connections, so a few per instance is safe. The session pooler / direct
+// connection (5432) shares only ~15 server connections across the WHOLE project,
+// so on serverless we keep it minimal to avoid EMAXCONNSESSION under fan-out.
+// (2, not 1, so an interactive transaction + a concurrent query can't deadlock.)
+const onTransactionPooler = dbUrl.port === "6543";
+const maxConnections = onTransactionPooler ? 3 : 2;
+
 const adapter = new PrismaPg({
     host: dbUrl.hostname,
     port: dbUrl.port ? Number(dbUrl.port) : 5432,
@@ -26,10 +35,8 @@ const adapter = new PrismaPg({
     password: decodeURIComponent(dbUrl.password),
     database: dbUrl.pathname.replace(/^\//, ""),
     ssl: { rejectUnauthorized: false },
-    // Cap connections per instance so we never exhaust Supabase's pooler
-    // (free tier session pool is only 15). Idle connections are released.
-    max: 3,
-    idleTimeoutMillis: 15_000,
+    max: maxConnections,
+    idleTimeoutMillis: 10_000,
     connectionTimeoutMillis: 10_000,
 });
 
