@@ -69,6 +69,12 @@ const CAPTION_POS_ITEMS: { value: "below" | "above"; label: string }[] = [
   { value: "above", label: "Above" },
 ];
 
+const LOGO_BG_ITEMS: { value: "white" | "match" | "none"; label: string }[] = [
+  { value: "white", label: "White plate" },
+  { value: "match", label: "Match background" },
+  { value: "none", label: "None (transparent)" },
+];
+
 async function fileToLogoDataUrl(file: File): Promise<string> {
   const raw = await new Promise<string>((resolve, reject) => {
     const fr = new FileReader();
@@ -113,6 +119,7 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
   const [transparent, setTransparent] = React.useState(false);
   const [logo, setLogo] = React.useState<string | null>(null);
   const [logoScale, setLogoScale] = React.useState(22);
+  const [logoBackground, setLogoBackground] = React.useState<"white" | "match" | "none">("white");
   const [caption, setCaption] = React.useState("");
   const [captionPosition, setCaptionPosition] = React.useState<"below" | "above">("below");
   const [captionColor, setCaptionColor] = React.useState("#000000");
@@ -139,13 +146,14 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
       transparent,
       logo,
       logoScale: logoScale / 100,
+      logoBackground,
       caption: caption || null,
       captionPosition,
       captionColor,
       captionSize: captionSize / 100,
       captionBold,
     }),
-    [data, fgColor, bgColor, size, margin, ecLevel, moduleStyle, eyeStyle, customEye, eyeColor, gradient, fgColor2, gradientType, transparent, logo, logoScale, caption, captionPosition, captionColor, captionSize, captionBold],
+    [data, fgColor, bgColor, size, margin, ecLevel, moduleStyle, eyeStyle, customEye, eyeColor, gradient, fgColor2, gradientType, transparent, logo, logoScale, logoBackground, caption, captionPosition, captionColor, captionSize, captionBold],
   );
 
   React.useEffect(() => {
@@ -426,7 +434,32 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
               )}
               <p className="text-xs text-muted-foreground">PNG/SVG, centered. Error correction is raised to High automatically.</p>
               {logo && (
-                <SliderField label="Logo size" value={logoScale} min={10} max={30} step={1} suffix="%" onChange={setLogoScale} />
+                <>
+                  <SliderField label="Logo size" value={logoScale} min={10} max={30} step={1} suffix="%" onChange={setLogoScale} />
+                  <div className="flex flex-col gap-2">
+                    <Label>Logo background</Label>
+                    <Select
+                      items={LOGO_BG_ITEMS}
+                      value={logoBackground}
+                      onValueChange={(v) => setLogoBackground(v as "white" | "match" | "none")}
+                      disabled={!isPro}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {LOGO_BG_ITEMS.map((i) => (
+                          <SelectItem key={i.value} value={i.value}>
+                            {i.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      &quot;None&quot; drops the white plate so a transparent logo blends in — but the code pattern shows through, which can reduce scannability.
+                    </p>
+                  </div>
+                </>
               )}
             </div>
 

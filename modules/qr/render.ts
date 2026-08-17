@@ -21,6 +21,8 @@ export type QROptions = Pick<
   logo?: string | null;
   /** Logo width as a fraction of the QR size (0.1–0.3). Default 0.22. */
   logoScale?: number;
+  /** Backing plate behind the logo. "white" (default), "match" bg, or "none". */
+  logoBackground?: "white" | "match" | "none";
   /** Custom caption text drawn above/below the QR. */
   caption?: string | null;
   captionPosition?: "below" | "above";
@@ -182,9 +184,13 @@ export async function drawQrToCanvas(canvas: HTMLCanvasElement, opts: QROptions)
     const logoSize = px * Math.min(0.3, Math.max(0.1, opts.logoScale ?? 0.22));
     const lx = (px - logoSize) / 2;
     const pad = logoSize * 0.12;
-    ctx.fillStyle = opts.transparent ? "#ffffff" : opts.bgColor || "#ffffff";
-    roundRectPath(ctx, lx - pad, lx - pad, logoSize + pad * 2, logoSize + pad * 2, logoSize * 0.18);
-    ctx.fill();
+    const lb = opts.logoBackground ?? "white";
+    const plate = lb === "none" ? null : lb === "match" ? (opts.transparent ? null : opts.bgColor) : "#ffffff";
+    if (plate) {
+      ctx.fillStyle = plate;
+      roundRectPath(ctx, lx - pad, lx - pad, logoSize + pad * 2, logoSize + pad * 2, logoSize * 0.18);
+      ctx.fill();
+    }
     ctx.drawImage(img, lx, lx, logoSize, logoSize);
   }
 
@@ -306,9 +312,13 @@ export function qrToSvgString(opts: QROptions): string {
     const logoSize = total * Math.min(0.3, Math.max(0.1, opts.logoScale ?? 0.22));
     const lx = (total - logoSize) / 2;
     const pad = logoSize * 0.12;
-    parts.push(
-      `<rect x="${lx - pad}" y="${lx - pad}" width="${logoSize + pad * 2}" height="${logoSize + pad * 2}" rx="${logoSize * 0.18}" fill="${opts.transparent ? "#ffffff" : opts.bgColor}"/>`,
-    );
+    const lb = opts.logoBackground ?? "white";
+    const plate = lb === "none" ? null : lb === "match" ? (opts.transparent ? null : opts.bgColor) : "#ffffff";
+    if (plate) {
+      parts.push(
+        `<rect x="${lx - pad}" y="${lx - pad}" width="${logoSize + pad * 2}" height="${logoSize + pad * 2}" rx="${logoSize * 0.18}" fill="${plate}"/>`,
+      );
+    }
     parts.push(`<image href="${opts.logo}" x="${lx}" y="${lx}" width="${logoSize}" height="${logoSize}"/>`);
   }
   parts.push(`</g>`);
