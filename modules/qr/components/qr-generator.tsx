@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { qrToPngDataUrl, qrToSvgString } from "@/modules/qr/render";
+import { qrToPngDataUrl, qrToSvgString, type EyeStyle, type GradientType } from "@/modules/qr/render";
 import { downloadPdf, downloadSvg } from "@/modules/qr/export";
 import { saveQRCode } from "@/modules/qr/actions";
 import type {
@@ -49,6 +49,19 @@ const STYLE_ITEMS: { value: QRModuleStyle; label: string }[] = [
   { value: "square", label: "Square" },
   { value: "rounded", label: "Rounded" },
   { value: "dots", label: "Dots" },
+];
+
+const EYE_ITEMS: { value: EyeStyle; label: string }[] = [
+  { value: "square", label: "Square" },
+  { value: "rounded", label: "Rounded" },
+  { value: "circle", label: "Circle" },
+];
+
+const GRAD_ITEMS: { value: GradientType; label: string }[] = [
+  { value: "diagonal", label: "Diagonal" },
+  { value: "horizontal", label: "Horizontal" },
+  { value: "vertical", label: "Vertical" },
+  { value: "radial", label: "Radial" },
 ];
 
 async function fileToLogoDataUrl(file: File): Promise<string> {
@@ -86,9 +99,15 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
 
   // Pro
   const [moduleStyle, setModuleStyle] = React.useState<QRModuleStyle>("square");
+  const [eyeStyle, setEyeStyle] = React.useState<EyeStyle>("square");
+  const [customEye, setCustomEye] = React.useState(false);
+  const [eyeColor, setEyeColor] = React.useState("#000000");
   const [gradient, setGradient] = React.useState(false);
   const [fgColor2, setFgColor2] = React.useState("#4f46e5");
+  const [gradientType, setGradientType] = React.useState<GradientType>("diagonal");
+  const [transparent, setTransparent] = React.useState(false);
   const [logo, setLogo] = React.useState<string | null>(null);
+  const [logoScale, setLogoScale] = React.useState(22);
 
   const [preview, setPreview] = React.useState<string | null>(null);
   const [saving, setSaving] = React.useState(false);
@@ -102,11 +121,16 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
       margin,
       ecLevel,
       moduleStyle,
+      eyeStyle,
+      eyeColor: customEye ? eyeColor : null,
       gradient,
       fgColor2,
+      gradientType,
+      transparent,
       logo,
+      logoScale: logoScale / 100,
     }),
-    [data, fgColor, bgColor, size, margin, ecLevel, moduleStyle, gradient, fgColor2, logo],
+    [data, fgColor, bgColor, size, margin, ecLevel, moduleStyle, eyeStyle, customEye, eyeColor, gradient, fgColor2, gradientType, transparent, logo, logoScale],
   );
 
   React.useEffect(() => {
@@ -215,6 +239,16 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
               <ColorField label="Background" value={bgColor} onChange={setBgColor} />
             </div>
 
+            <label className="flex w-fit items-center gap-2 text-sm font-medium select-none">
+              <input
+                type="checkbox"
+                checked={transparent}
+                onChange={(e) => setTransparent(e.target.checked)}
+                className="size-4 accent-primary"
+              />
+              Transparent background
+            </label>
+
             <SliderField label="Size" value={size} min={128} max={1024} step={16} suffix="px" onChange={setSize} />
             <SliderField label="Quiet zone" value={margin} min={0} max={10} step={1} suffix=" modules" onChange={setMargin} />
 
@@ -278,6 +312,41 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
               </Select>
             </div>
 
+            <div className="flex flex-col gap-2">
+              <Label>Eye shape (corners)</Label>
+              <Select
+                items={EYE_ITEMS}
+                value={eyeStyle}
+                onValueChange={(v) => setEyeStyle(v as EyeStyle)}
+                disabled={!isPro}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {EYE_ITEMS.map((i) => (
+                    <SelectItem key={i.value} value={i.value}>
+                      {i.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <label className="flex items-center gap-2 text-sm font-medium select-none">
+                <input
+                  type="checkbox"
+                  checked={customEye}
+                  disabled={!isPro}
+                  onChange={(e) => setCustomEye(e.target.checked)}
+                  className="size-4 accent-primary"
+                />
+                Custom eye color
+              </label>
+              {customEye && <ColorField label="Eye color" value={eyeColor} onChange={setEyeColor} disabled={!isPro} />}
+            </div>
+
             <div className="flex flex-col gap-3">
               <label className="flex items-center gap-2 text-sm font-medium select-none">
                 <input
@@ -290,7 +359,29 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
                 Color gradient
               </label>
               {gradient && (
-                <ColorField label="Gradient end" value={fgColor2} onChange={setFgColor2} disabled={!isPro} />
+                <>
+                  <ColorField label="Gradient end" value={fgColor2} onChange={setFgColor2} disabled={!isPro} />
+                  <div className="flex flex-col gap-2">
+                    <Label>Gradient direction</Label>
+                    <Select
+                      items={GRAD_ITEMS}
+                      value={gradientType}
+                      onValueChange={(v) => setGradientType(v as GradientType)}
+                      disabled={!isPro}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {GRAD_ITEMS.map((i) => (
+                          <SelectItem key={i.value} value={i.value}>
+                            {i.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
               )}
             </div>
 
@@ -319,6 +410,9 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
                 </label>
               )}
               <p className="text-xs text-muted-foreground">PNG/SVG, centered. Error correction is raised to High automatically.</p>
+              {logo && (
+                <SliderField label="Logo size" value={logoScale} min={10} max={30} step={1} suffix="%" onChange={setLogoScale} />
+              )}
             </div>
 
             {!isPro && (
