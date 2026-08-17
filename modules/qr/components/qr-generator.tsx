@@ -64,6 +64,11 @@ const GRAD_ITEMS: { value: GradientType; label: string }[] = [
   { value: "radial", label: "Radial" },
 ];
 
+const CAPTION_POS_ITEMS: { value: "below" | "above"; label: string }[] = [
+  { value: "below", label: "Below" },
+  { value: "above", label: "Above" },
+];
+
 async function fileToLogoDataUrl(file: File): Promise<string> {
   const raw = await new Promise<string>((resolve, reject) => {
     const fr = new FileReader();
@@ -108,6 +113,11 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
   const [transparent, setTransparent] = React.useState(false);
   const [logo, setLogo] = React.useState<string | null>(null);
   const [logoScale, setLogoScale] = React.useState(22);
+  const [caption, setCaption] = React.useState("");
+  const [captionPosition, setCaptionPosition] = React.useState<"below" | "above">("below");
+  const [captionColor, setCaptionColor] = React.useState("#000000");
+  const [captionSize, setCaptionSize] = React.useState(7);
+  const [captionBold, setCaptionBold] = React.useState(true);
 
   const [preview, setPreview] = React.useState<string | null>(null);
   const [saving, setSaving] = React.useState(false);
@@ -129,8 +139,13 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
       transparent,
       logo,
       logoScale: logoScale / 100,
+      caption: caption || null,
+      captionPosition,
+      captionColor,
+      captionSize: captionSize / 100,
+      captionBold,
     }),
-    [data, fgColor, bgColor, size, margin, ecLevel, moduleStyle, eyeStyle, customEye, eyeColor, gradient, fgColor2, gradientType, transparent, logo, logoScale],
+    [data, fgColor, bgColor, size, margin, ecLevel, moduleStyle, eyeStyle, customEye, eyeColor, gradient, fgColor2, gradientType, transparent, logo, logoScale, caption, captionPosition, captionColor, captionSize, captionBold],
   );
 
   React.useEffect(() => {
@@ -412,6 +427,55 @@ export function QrGenerator({ isPro }: { isPro: boolean }) {
               <p className="text-xs text-muted-foreground">PNG/SVG, centered. Error correction is raised to High automatically.</p>
               {logo && (
                 <SliderField label="Logo size" value={logoScale} min={10} max={30} step={1} suffix="%" onChange={setLogoScale} />
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="qr-caption">Caption text</Label>
+              <Input
+                id="qr-caption"
+                value={caption}
+                onChange={(e) => setCaption(e.target.value)}
+                placeholder="e.g. SCAN ME"
+                disabled={!isPro}
+              />
+              {caption && (
+                <>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="flex flex-col gap-2">
+                      <Label>Position</Label>
+                      <Select
+                        items={CAPTION_POS_ITEMS}
+                        value={captionPosition}
+                        onValueChange={(v) => setCaptionPosition(v as "below" | "above")}
+                        disabled={!isPro}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {CAPTION_POS_ITEMS.map((i) => (
+                            <SelectItem key={i.value} value={i.value}>
+                              {i.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <ColorField label="Text color" value={captionColor} onChange={setCaptionColor} disabled={!isPro} />
+                  </div>
+                  <SliderField label="Text size" value={captionSize} min={4} max={12} step={1} suffix="%" onChange={setCaptionSize} />
+                  <label className="flex w-fit items-center gap-2 text-sm font-medium select-none">
+                    <input
+                      type="checkbox"
+                      checked={captionBold}
+                      disabled={!isPro}
+                      onChange={(e) => setCaptionBold(e.target.checked)}
+                      className="size-4 accent-primary"
+                    />
+                    Bold
+                  </label>
+                </>
               )}
             </div>
 

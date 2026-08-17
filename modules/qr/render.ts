@@ -21,7 +21,18 @@ export type QROptions = Pick<
   logo?: string | null;
   /** Logo width as a fraction of the QR size (0.1–0.3). Default 0.22. */
   logoScale?: number;
+  /** Custom caption text drawn above/below the QR. */
+  caption?: string | null;
+  captionPosition?: "below" | "above";
+  captionColor?: string | null;
+  /** Caption font size as a fraction of the QR size (0.04–0.12). Default 0.07. */
+  captionSize?: number;
+  captionBold?: boolean;
 };
+
+function escapeXml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
 type Matrix = { count: number; bits: Uint8Array };
 
@@ -118,17 +129,25 @@ export async function drawQrToCanvas(canvas: HTMLCanvasElement, opts: QROptions)
   const m = px / total;
   const style = opts.moduleStyle ?? "square";
 
+  const caption = (opts.caption ?? "").trim();
+  const capSize = caption ? Math.min(0.12, Math.max(0.04, opts.captionSize ?? 0.07)) : 0;
+  const fontPx = px * capSize;
+  const bandPx = caption ? fontPx * 1.7 : 0;
+  const yOff = caption && opts.captionPosition === "above" ? bandPx : 0;
+
   canvas.width = px;
-  canvas.height = px;
+  canvas.height = px + bandPx;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  ctx.clearRect(0, 0, px, px);
+  ctx.clearRect(0, 0, px, px + bandPx);
   if (!opts.transparent) {
     ctx.fillStyle = opts.bgColor;
-    ctx.fillRect(0, 0, px, px);
+    ctx.fillRect(0, 0, px, px + bandPx);
   }
 
+  ctx.save();
+  ctx.translate(0, yOff);
   setForeground(ctx, px, opts);
 
   // Modules (skip the finder patterns — drawn separately as eyes).
@@ -167,6 +186,24 @@ export async function drawQrToCanvas(canvas: HTMLCanvasElement, opts: QROptions)
     roundRectPath(ctx, lx - pad, lx - pad, logoSize + pad * 2, logoSize + pad * 2, logoSize * 0.18);
     ctx.fill();
     ctx.drawImage(img, lx, lx, logoSize, logoSize);
+  }
+
+  ctx.restore();
+
+  if (caption) {
+    const cy = opts.captionPosition === "above" ? bandPx / 2 : px + bandPx / 2;
+    ctx.fillStyle = opts.captionColor || opts.fgColor;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const weight = opts.captionBold ? "700" : "500";
+    let fp = fontPx;
+    const maxW = px * 0.92;
+    ctx.font = `${weight} ${fp}px system-ui, -apple-system, "Segoe UI", sans-serif`;
+    while (fp > 6 && ctx.measureText(caption).width > maxW) {
+      fp -= 1;
+      ctx.font = `${weight} ${fp}px system-ui, -apple-system, "Segoe UI", sans-serif`;
+    }
+    ctx.fillText(caption, px / 2, cy);
   }
 }
 
@@ -214,9 +251,17 @@ export function qrToSvgString(opts: QROptions): string {
   const total = count + margin * 2;
   const style = opts.moduleStyle ?? "square";
 
+  const caption = (opts.caption ?? "").trim();
+  const capSize = caption ? Math.min(0.12, Math.max(0.04, opts.captionSize ?? 0.07)) : 0;
+  const fontU = total * capSize;
+  const bandU = caption ? fontU * 1.7 : 0;
+  const yOff = caption && opts.captionPosition === "above" ? bandU : 0;
+  const vbH = total + bandU;
+  const svgH = Math.round(opts.size * (vbH / total));
+
   const parts: string[] = [];
   parts.push(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${opts.size}" height="${opts.size}" viewBox="0 0 ${total} ${total}" shape-rendering="geometricPrecision">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${opts.size}" height="${svgH}" viewBox="0 0 ${total} ${vbH}" shape-rendering="geometricPrecision">`,
   );
 
   let fill = opts.fgColor;
@@ -230,8 +275,9 @@ export function qrToSvgString(opts: QROptions): string {
     fill = "url(#g)";
   }
 
-  if (!opts.transparent) parts.push(`<rect width="${total}" height="${total}" fill="${opts.bgColor}"/>`);
+  if (!opts.transparent) parts.push(`<rect width="${total}" height="${vbH}" fill="${opts.bgColor}"/>`);
 
+  parts.push(`<g transform="translate(0 ${yOff})">`);
   parts.push(`<g fill="${fill}">`);
   for (let r = 0; r < count; r++) {
     for (let c = 0; c < count; c++) {
@@ -264,6 +310,15 @@ export function qrToSvgString(opts: QROptions): string {
       `<rect x="${lx - pad}" y="${lx - pad}" width="${logoSize + pad * 2}" height="${logoSize + pad * 2}" rx="${logoSize * 0.18}" fill="${opts.transparent ? "#ffffff" : opts.bgColor}"/>`,
     );
     parts.push(`<image href="${opts.logo}" x="${lx}" y="${lx}" width="${logoSize}" height="${logoSize}"/>`);
+  }
+  parts.push(`</g>`);
+
+  if (caption) {
+    const ty = opts.captionPosition === "above" ? bandU / 2 : total + bandU / 2;
+    const capColor = opts.captionColor || opts.fgColor;
+    parts.push(
+      `<text x="${total / 2}" y="${ty}" text-anchor="middle" dominant-baseline="central" font-family="system-ui, -apple-system, sans-serif" font-size="${fontU}" font-weight="${opts.captionBold ? 700 : 500}" fill="${escapeXml(capColor)}">${escapeXml(caption)}</text>`,
+    );
   }
 
   parts.push(`</svg>`);
