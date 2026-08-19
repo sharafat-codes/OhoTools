@@ -10,6 +10,7 @@ import { getConversionView } from "@/modules/tools/conversions";
 import { EmbedTool } from "@/modules/tools/components/embed-tool";
 import { Converter } from "@/modules/tools/components/converter";
 import { ShareButton } from "@/components/share-button";
+import { AdUnit } from "@/components/ad-unit";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -149,6 +150,8 @@ export default async function BlogPostPage({
       <div className={prose}>
         <Body />
       </div>
+
+      <AdUnit />
 
       {companion && tryContent && (
         <section className="mt-12 border-t border-border/60 pt-8">

@@ -12,6 +12,7 @@ import { FavoriteButton } from "@/components/favorites";
 import { getUserFavorites } from "@/lib/favorites";
 import { EmbedDialog } from "@/modules/tools/components/embed-dialog";
 import { isEmbeddable } from "@/modules/tools/embed";
+import { AdUnit } from "@/components/ad-unit";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 export async function ToolShell({
@@ -158,6 +159,9 @@ export async function ToolShell({
           ))}
         </ol>
       </section>
+
+      {/* Ad — content pages only; not on the card makers (app-like experience) */}
+      {category?.name !== "Cards & Invitations" && <AdUnit />}
 
       {/* FAQ */}
       <section className="mt-12">
