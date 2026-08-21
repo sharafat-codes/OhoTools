@@ -68,6 +68,7 @@ import * as anniversaryWishesGuide from "./posts/anniversary-wishes-messages";
 import * as eidWishesGuide from "./posts/eid-mubarak-wishes-messages";
 import * as diwaliWishesGuide from "./posts/happy-diwali-wishes-messages";
 import * as atsFriendlyGuide from "./posts/is-your-resume-ats-friendly";
+import * as mockDataGuide from "./posts/how-to-generate-mock-data-for-testing";
 
 export type PostMeta = {
   slug: string;
@@ -154,6 +155,7 @@ const modules: BlogPost[] = [
   eidWishesGuide,
   diwaliWishesGuide,
   atsFriendlyGuide,
+  mockDataGuide,
 ];
 
 /** All posts, newest first. */

@@ -3608,6 +3608,7 @@ export const TOOL_GUIDES: Record<string, string> = {
   "eid-card-maker": "eid-mubarak-wishes-messages",
   "diwali-card-maker": "happy-diwali-wishes-messages",
   "ats-resume-checker": "is-your-resume-ats-friendly",
+  "mock-data-generator": "how-to-generate-mock-data-for-testing",
 };
 
 /**
