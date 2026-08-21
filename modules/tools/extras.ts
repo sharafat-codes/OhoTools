@@ -5,7 +5,7 @@ import {
   CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
   CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
-  ServerIcon, DatabaseIcon, FingerprintIcon,
+  ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -581,6 +581,94 @@ export const extraTools: DevTool[] = [
       { q: "Is my data sent anywhere?", a: "No — parsing happens entirely in your browser; nothing is uploaded." },
     ],
     related: ["what-is-my-ip", "http-status-codes"],
+  },
+  {
+    slug: "ascii-table",
+    name: "ASCII Table",
+    tagline: "Full ASCII table — decimal, hex, binary, and characters.",
+    description:
+      "Free ASCII table — look up every character's decimal, hex, octal, and binary code, plus control-character names. Searchable, no sign-up.",
+    keywords: ["ascii table", "ascii code", "ascii chart", "character codes", "ascii value", "ascii to text"],
+    icon: TableIcon,
+    intro:
+      "A complete, searchable ASCII table. Look up any character's decimal, hexadecimal, octal, and binary value — including the names of control characters like tab, newline, and escape. Search by number, hex, character, or name.",
+    steps: [
+      "Search a decimal, hex, character, or name (e.g. 65, 41, A, tab).",
+      "Read the character's decimal, hex, octal, and binary codes.",
+      "Use it to debug encoding, escape sequences, or low-level data.",
+    ],
+    faqs: [
+      { q: "What is the ASCII value of 'A'?", a: "Uppercase A is decimal 65 (hex 0x41). Lowercase a is 97 (0x61)." },
+      { q: "What are control characters?", a: "Codes 0–31 and 127 are non-printing control characters — like tab (9), line feed (10), and carriage return (13) — used to control text flow, not display glyphs." },
+      { q: "What's the difference between ASCII and Unicode?", a: "ASCII covers 128 characters (0–127). Unicode is a superset that covers virtually every character in every language; the first 128 Unicode code points match ASCII." },
+    ],
+    related: ["number-base-converter", "text-to-binary", "html-entities"],
+  },
+  {
+    slug: "gitignore-generator",
+    name: ".gitignore Generator",
+    tagline: "Build a .gitignore for your languages and tools.",
+    description:
+      "Free .gitignore generator — pick your languages, frameworks, and editors (Node, Python, Next.js, macOS…) and get a ready-to-use .gitignore to copy or download.",
+    keywords: ["gitignore generator", ".gitignore", "gitignore template", "gitignore file", "create gitignore"],
+    icon: GitBranchIcon,
+    intro:
+      "Generate a clean .gitignore in seconds. Select the languages, frameworks, operating systems, and editors your project uses, and get a combined .gitignore ready to copy or download into your repo.",
+    steps: [
+      "Select your languages, frameworks, and tools.",
+      "The .gitignore builds automatically as you pick.",
+      "Copy it or download the file into your project root.",
+    ],
+    faqs: [
+      { q: "What is a .gitignore file?", a: "It tells Git which files and folders to ignore — like node_modules, build output, and secrets — so they're never committed to your repository." },
+      { q: "Where do I put the .gitignore?", a: "In the root of your Git repository. You can also add nested .gitignore files in subfolders." },
+      { q: "Can I combine multiple templates?", a: "Yes — pick several (e.g. Node + Next.js + macOS) and they're merged into one file." },
+    ],
+    related: ["code-beautifier", "commit-message-generator", "json-formatter"],
+  },
+  {
+    slug: "csv-to-json",
+    name: "CSV to JSON",
+    tagline: "Convert CSV to JSON in your browser.",
+    description:
+      "Free CSV to JSON converter — paste CSV and get clean JSON (array of objects, using the header row as keys). Handles quoted fields. Runs in your browser.",
+    keywords: ["csv to json", "convert csv to json", "csv to json converter", "csv parser", "csv to array"],
+    icon: BracesIcon,
+    intro:
+      "Convert CSV data into JSON instantly. Paste your CSV — with or without a header row — and get a clean JSON array of objects, ready to use in code or an API. Quoted fields and commas inside quotes are handled correctly. Everything runs in your browser.",
+    steps: [
+      "Paste your CSV data.",
+      "Choose whether the first row is headers.",
+      "Copy the JSON output.",
+    ],
+    faqs: [
+      { q: "Does it handle quoted fields and commas?", a: "Yes — fields wrapped in quotes, escaped quotes, and commas or newlines inside quotes are parsed correctly." },
+      { q: "Is my data uploaded?", a: "No — the conversion happens entirely in your browser; nothing is sent to a server." },
+      { q: "What if my CSV has no header row?", a: "Turn off 'First row is headers' and you'll get a JSON array of arrays instead of objects." },
+    ],
+    related: ["json-to-csv", "json-formatter", "csv-to-xlsx"],
+  },
+  {
+    slug: "url-parser",
+    name: "URL Parser",
+    tagline: "Break a URL into its parts and query params.",
+    description:
+      "Free URL parser — paste a URL to break it into protocol, host, port, path, query parameters, and hash. Runs entirely in your browser.",
+    keywords: ["url parser", "parse url", "url components", "query string parser", "url breakdown", "url query parameters"],
+    icon: LinkIcon,
+    intro:
+      "Paste any URL to see its parts laid out — protocol, host, port, path, query string, and hash — plus a table of every query parameter. Handy for debugging links, redirects, and API requests. Everything runs in your browser.",
+    steps: [
+      "Paste a URL.",
+      "See it broken into protocol, host, path, query, and hash.",
+      "Read each query parameter in the table below.",
+    ],
+    faqs: [
+      { q: "What are query parameters?", a: "They're the key=value pairs after the ? in a URL (e.g. ?q=hello&lang=en), used to pass data to a page or API." },
+      { q: "Does the URL need a protocol?", a: "Yes — include https:// (or another protocol) so the URL can be parsed. Bare domains like example.com won't parse on their own." },
+      { q: "Is anything sent to a server?", a: "No — parsing happens entirely in your browser." },
+    ],
+    related: ["url-encoder", "utm-builder", "what-is-my-ip"],
   },
 ];
 
