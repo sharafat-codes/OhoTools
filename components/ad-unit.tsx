@@ -8,6 +8,10 @@ import { isPro } from "@/lib/plans";
 const CLIENT = "ca-pub-9457374000076613";
 const DEFAULT_SLOT = "1372834528"; // "OhoTool Display" — responsive display unit
 
+// Master switch. AdSense is not approved yet ("Getting ready"), so ads are OFF.
+// Flip to true once the site shows "Ready" in AdSense → Sites, then redeploy.
+const ADS_ENABLED = false;
+
 /**
  * Google AdSense display slot. Renders only in production and only for non-Pro
  * users (Pro is ad-free). The AdSense loader script lives in app/layout.tsx and
@@ -16,7 +20,7 @@ const DEFAULT_SLOT = "1372834528"; // "OhoTool Display" — responsive display u
 export function AdUnit({ slot = DEFAULT_SLOT, className = "" }: { slot?: string; className?: string }) {
   const { data } = useSession();
   const pro = isPro(((data?.user as { plan?: string } | null)?.plan) ?? "FREE");
-  const enabled = process.env.NODE_ENV === "production" && !pro;
+  const enabled = ADS_ENABLED && process.env.NODE_ENV === "production" && !pro;
   const pushed = React.useRef(false);
 
   React.useEffect(() => {
