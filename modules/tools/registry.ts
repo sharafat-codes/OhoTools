@@ -3752,6 +3752,9 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     name: "Developer",
     blurb: "Format, inspect, test, and generate with AI.",
     slugs: [
+      "http-status-codes",
+      "user-agent-parser",
+      "mock-data-generator",
       "regex-generator",
       "sql-generator",
       "code-explainer",

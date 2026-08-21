@@ -5,6 +5,7 @@ import {
   CalculatorIcon, Volume2Icon, BabyIcon, HomeIcon, NetworkIcon,
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
   CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
+  ServerIcon, DatabaseIcon, FingerprintIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -511,6 +512,75 @@ export const extraTools: DevTool[] = [
       { q: "Which files can I check?", a: "PDF and Word (.docx) resumes, plus plain text. Image files (JPG/PNG) always fail because an ATS can't read text from an image." },
     ],
     related: ["resume-summary-generator"],
+  },
+  {
+    slug: "http-status-codes",
+    name: "HTTP Status Codes",
+    tagline: "Look up any HTTP status code and what it means.",
+    description:
+      "Free HTTP status code reference — search every code (200, 301, 404, 500…) by number, name, or meaning, grouped by class. Fast, no sign-up.",
+    keywords: ["http status codes", "404 meaning", "301 vs 302", "500 error", "http response codes", "status code list"],
+    icon: ServerIcon,
+    intro:
+      "A fast, searchable reference for HTTP status codes. Search by number, name, or meaning — or filter by class (1xx–5xx) — to quickly understand what a response code means, from 200 OK to 404 Not Found and 500 Internal Server Error.",
+    steps: [
+      "Search a code, name, or keyword (e.g. 404, redirect, timeout).",
+      "Filter by class — 1xx, 2xx, 3xx, 4xx, or 5xx.",
+      "Read the plain-English meaning of each code.",
+    ],
+    faqs: [
+      { q: "What's the difference between 301 and 302?", a: "301 is a permanent redirect (update your links; it passes SEO value), while 302 is temporary (keep using the original URL)." },
+      { q: "What does 404 mean?", a: "404 Not Found means the server couldn't find the requested resource — the URL may be wrong or the page removed." },
+      { q: "What is a 500 error?", a: "500 Internal Server Error is a generic server-side failure — something went wrong on the server with no more specific message." },
+      { q: "What are the HTTP status code classes?", a: "1xx informational, 2xx success, 3xx redirection, 4xx client errors, and 5xx server errors." },
+    ],
+    related: ["what-is-my-ip", "jwt-decoder", "json-formatter"],
+  },
+  {
+    slug: "mock-data-generator",
+    name: "Mock Data Generator",
+    tagline: "Generate fake test data as JSON or CSV.",
+    description:
+      "Free mock data generator — create realistic fake names, emails, addresses, and more as JSON or CSV for testing and prototyping. Runs in your browser.",
+    keywords: ["mock data generator", "fake data generator", "test data generator", "dummy data", "json test data", "csv test data"],
+    icon: DatabaseIcon,
+    intro:
+      "Generate realistic fake data for testing, prototyping, and demos. Pick the fields you need — names, emails, phone numbers, addresses, dates, and more — choose how many rows, and export as JSON or CSV. Everything is generated in your browser.",
+    steps: [
+      "Pick the fields you want in each record.",
+      "Set the number of rows and choose JSON or CSV.",
+      "Generate, then copy or download the data.",
+    ],
+    faqs: [
+      { q: "Is the data real?", a: "No — it's randomly generated fake data for testing. Any resemblance to real people is coincidental." },
+      { q: "Can I export to CSV?", a: "Yes — switch the format to CSV for a spreadsheet-ready file, or use JSON for APIs and code." },
+      { q: "Is anything uploaded?", a: "No — data is generated entirely in your browser and never sent to a server." },
+      { q: "How many rows can I generate?", a: "Up to 200 rows at a time — generate again for more." },
+    ],
+    related: ["json-formatter", "json-to-csv", "uuid-generator"],
+  },
+  {
+    slug: "user-agent-parser",
+    name: "User Agent Parser",
+    tagline: "See and decode any browser user-agent string.",
+    description:
+      "Free user-agent parser — see your own user agent and decode any UA string into browser, OS, device, and rendering engine. Runs in your browser.",
+    keywords: ["user agent parser", "what is my user agent", "parse user agent", "user agent string", "my browser user agent", "ua parser"],
+    icon: FingerprintIcon,
+    intro:
+      "See your own browser's user-agent string and decode any user agent into its parts — browser and version, operating system, rendering engine, and device type. Paste any UA string to parse it. Everything runs in your browser.",
+    steps: [
+      "Your user agent is shown and parsed automatically.",
+      "Or paste any user-agent string to decode it.",
+      "Read the browser, OS, engine, and device type.",
+    ],
+    faqs: [
+      { q: "What is a user agent?", a: "A user-agent string is text your browser sends with every request, identifying the browser, version, operating system, and device." },
+      { q: "What is my user agent?", a: "It's shown at the top of this tool — your browser's exact user-agent string, parsed into browser, OS, engine, and device." },
+      { q: "Can user agents be faked?", a: "Yes — user-agent strings can be spoofed or changed, so treat parsed results as a best-effort guess." },
+      { q: "Is my data sent anywhere?", a: "No — parsing happens entirely in your browser; nothing is uploaded." },
+    ],
+    related: ["what-is-my-ip", "http-status-codes"],
   },
 ];
 
