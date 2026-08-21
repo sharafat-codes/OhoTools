@@ -3738,13 +3738,13 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   },
   {
     name: "Audio",
-    blurb: "Convert, trim, merge, clean, and adjust audio — in your browser.",
-    slugs: ["audio-converter", "trim-audio", "merge-audio", "change-volume", "enhance-audio"],
+    blurb: "Record, transcribe, convert, trim, merge, and clean audio — in your browser.",
+    slugs: ["voice-recorder", "speech-to-text", "audio-converter", "trim-audio", "merge-audio", "change-volume", "enhance-audio"],
   },
   {
     name: "Image Editing",
     blurb: "Crop, rotate, add text, and more — in your browser.",
-    slugs: ["remove-background", "image-upscaler", "crop-image", "rotate-image", "circle-crop", "passport-photo-maker", "add-text-to-image", "meme-generator", "color-picker-from-image", "image-to-ico"],
+    slugs: ["remove-background", "image-upscaler", "crop-image", "rotate-image", "circle-crop", "passport-photo-maker", "add-text-to-image", "meme-generator", "color-picker-from-image", "image-to-ico", "signature-generator"],
   },
   {
     name: "Productivity",

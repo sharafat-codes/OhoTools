@@ -6,6 +6,7 @@ import {
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
   CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
   ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
+  MicIcon, CaptionsIcon, PenToolIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -669,6 +670,72 @@ export const extraTools: DevTool[] = [
       { q: "Is anything sent to a server?", a: "No — parsing happens entirely in your browser." },
     ],
     related: ["url-encoder", "utm-builder", "what-is-my-ip"],
+  },
+  {
+    slug: "voice-recorder",
+    name: "Voice Recorder",
+    tagline: "Record audio from your mic and download it — free.",
+    description:
+      "Free online voice recorder — record audio from your microphone right in your browser, play it back, and download it. No sign-up, nothing uploaded.",
+    keywords: ["voice recorder", "online voice recorder", "audio recorder", "record voice online", "mic recorder", "record audio"],
+    icon: MicIcon,
+    intro:
+      "Record your voice or any audio straight from your browser. Hit record, speak, and stop — then play it back and download the file. It all happens on your device; nothing is uploaded to a server.",
+    steps: [
+      "Click Start recording and allow microphone access.",
+      "Record your audio, then click Stop.",
+      "Play it back and download the file.",
+    ],
+    faqs: [
+      { q: "Is the recording uploaded anywhere?", a: "No — recording happens entirely in your browser and the audio never leaves your device." },
+      { q: "What format is the download?", a: "A WebM/Opus audio file, which plays in modern browsers and most players. You can convert it with our audio converter if needed." },
+      { q: "Why won't it record?", a: "You need to allow microphone permission in your browser, and the site must be on HTTPS (it is)." },
+    ],
+    related: ["speech-to-text", "audio-converter", "enhance-audio"],
+  },
+  {
+    slug: "speech-to-text",
+    name: "Speech to Text",
+    tagline: "Transcribe your voice to text as you speak — free.",
+    description:
+      "Free speech to text — transcribe your voice into text live using your browser's speech recognition, in multiple languages. No sign-up, nothing uploaded to us.",
+    keywords: ["speech to text", "voice to text", "voice typing", "dictation online", "transcribe voice", "speech recognition"],
+    icon: CaptionsIcon,
+    intro:
+      "Turn your speech into text instantly. Pick a language, start speaking, and watch your words appear — then copy or edit the transcript. It uses your browser's built-in speech recognition, so audio is handled on your device.",
+    steps: [
+      "Choose your language and click Start.",
+      "Allow microphone access and start speaking.",
+      "Copy or edit the transcribed text.",
+    ],
+    faqs: [
+      { q: "Which browsers are supported?", a: "Speech recognition works best in Chrome and Edge (desktop and Android). Firefox and Safari have limited or no support." },
+      { q: "Is my voice sent to your servers?", a: "No — transcription is handled by your browser/operating system, not by us." },
+      { q: "What languages are supported?", a: "Several, including English, Urdu, Hindi, Arabic, Spanish, and French — pick one before you start." },
+    ],
+    related: ["voice-recorder", "text-to-speech", "word-counter"],
+  },
+  {
+    slug: "signature-generator",
+    name: "Signature Generator",
+    tagline: "Draw your signature and download it as a PNG.",
+    description:
+      "Free online signature generator — draw your signature with a mouse or finger and download it as a transparent PNG for documents and emails. Nothing uploaded.",
+    keywords: ["signature generator", "online signature", "draw signature", "signature maker", "create signature", "digital signature image"],
+    icon: PenToolIcon,
+    intro:
+      "Create a handwritten signature in seconds. Draw with your mouse, trackpad, or finger, pick a pen color and size, and download a transparent PNG you can drop into documents, PDFs, or emails. It all happens in your browser.",
+    steps: [
+      "Draw your signature in the box.",
+      "Adjust the pen color and size if you like.",
+      "Download it as a transparent PNG.",
+    ],
+    faqs: [
+      { q: "Is the signature transparent?", a: "Yes — it downloads as a PNG with a transparent background, so it sits cleanly on documents." },
+      { q: "Is anything uploaded?", a: "No — your signature is drawn and exported entirely in your browser." },
+      { q: "Can I use it to sign a PDF?", a: "Yes — download the PNG, then add it with our sign-PDF tool or any PDF editor." },
+    ],
+    related: ["sign-pdf", "crop-image", "add-text-to-image"],
   },
 ];
 
