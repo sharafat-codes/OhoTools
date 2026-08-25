@@ -65,6 +65,11 @@ model User {
   favoriteTools  FavoriteTool[]
   cards          Card[]
   subscription   Subscription?
+  payments       Payment[]
+
+  // One-time Pro pass expiry (e.g. bought via Safepay). Null for Stripe
+  // subscriptions (which manage plan via their own webhooks) and lifetime grants.
+  proUntil DateTime?
 
   @@map("user")
 }
@@ -296,6 +301,28 @@ model Subscription {
   updatedAt DateTime @updatedAt
 
   @@map("subscription")
+}
+
+// One-time payments (e.g. Safepay Pro pass). Stripe/Paddle/Lemon recurring
+// billing uses the Subscription table; this records single charges. `reference`
+// is the provider tracker/order id and is unique for idempotent fulfilment.
+model Payment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  provider  String   @default("safepay")
+  reference String   @unique // provider tracker / order id
+  orderId   String?
+  amount    Int
+  currency  String
+  status    String   @default("paid")
+  plan      PlanTier @default(PRO)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("payment")
 }
 
 // ─── Send: end-to-end encrypted file transfer (share by link) ────────────────
