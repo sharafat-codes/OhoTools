@@ -80,17 +80,28 @@ export async function POST(req: Request) {
 
   console.log("[safepay] parsed", { verified, state, eventType, orderId, userId, reference, amount });
 
+  let grant: { ok: boolean; reason?: string } | null = null;
+  let grantError: string | null = null;
   if (isSuccess && userId && reference && amount > 0) {
     try {
-      const res = await grantProFromPayment({ userId, reference, orderId, amount, currency });
-      console.log("[safepay] grant result", res);
+      grant = await grantProFromPayment({ userId, reference, orderId, amount, currency });
+      console.log("[safepay] grant result", grant);
     } catch (e) {
+      grantError = e instanceof Error ? e.message : String(e);
       console.error("[safepay] grant failed", e);
     }
   } else {
     console.log("[safepay] not fulfilled", { isSuccess, userId, reference, amount });
   }
 
-  // Always 200 so Safepay stops retrying.
+  // Always 200 so Safepay stops retrying. In sandbox, echo diagnostics in the
+  // response body so a replay (or the Safepay dashboard) shows exactly what
+  // happened — no Vercel log-diving needed. Never leak this in production.
+  if (safepayIsSandbox()) {
+    return NextResponse.json({
+      ok: true,
+      debug: { verified, state, eventType, orderId, userId, reference, amount, isSuccess, grant, grantError },
+    });
+  }
   return NextResponse.json({ ok: true });
 }
