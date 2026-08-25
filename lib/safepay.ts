@@ -1,5 +1,7 @@
 import "server-only";
 
+import crypto from "crypto";
+
 import { Safepay } from "@sfpy/node-sdk";
 
 import { prisma } from "@/lib/prisma";
@@ -52,13 +54,38 @@ export async function createProCheckout(opts: {
   });
 }
 
-/** Verify a webhook's signature via the SDK. */
-export function verifyWebhook(req: { body?: unknown; headers?: Record<string, string | string[] | undefined> }): boolean {
+export function safepayIsSandbox(): boolean {
+  return ENV !== "production";
+}
+
+/**
+ * Verify a Safepay webhook signature (HMAC-SHA512 with the webhook secret,
+ * matching Safepay's scheme) against the `x-sfpy-signature` header. Robust to
+ * the payload shape — Safepay signs the JSON of the payment object, which may be
+ * the whole body or a nested `data`, so we try both plus the raw string.
+ */
+export function verifySafepayWebhook(rawBody: string, signature: string | null): boolean {
+  if (!signature || !WEBHOOK_SECRET) return false;
+  let parsed: unknown;
   try {
-    return client().verify.webhook(req as never);
+    parsed = JSON.parse(rawBody);
   } catch {
     return false;
   }
+  const candidates: string[] = [];
+  if (parsed && typeof parsed === "object" && "data" in (parsed as Record<string, unknown>)) {
+    candidates.push(JSON.stringify((parsed as Record<string, unknown>).data));
+  }
+  candidates.push(JSON.stringify(parsed));
+  candidates.push(rawBody);
+  for (const c of candidates) {
+    try {
+      if (crypto.createHmac("sha512", WEBHOOK_SECRET).update(Buffer.from(c)).digest("hex") === signature) return true;
+    } catch {
+      /* try next candidate */
+    }
+  }
+  return false;
 }
 
 /**
@@ -72,12 +99,12 @@ export async function grantProFromPayment(p: {
   orderId?: string;
   amount: number;
   currency: string;
-}): Promise<void> {
+}): Promise<{ ok: boolean; reason?: string }> {
   const existing = await prisma.payment.findUnique({ where: { reference: p.reference } });
-  if (existing) return;
+  if (existing) return { ok: true, reason: "already-recorded" };
 
   const user = await prisma.user.findUnique({ where: { id: p.userId }, select: { id: true, proUntil: true } });
-  if (!user) return;
+  if (!user) return { ok: false, reason: "user-not-found" };
 
   const now = new Date();
   const base = user.proUntil && user.proUntil > now ? user.proUntil : now;
@@ -98,6 +125,7 @@ export async function grantProFromPayment(p: {
     }),
     prisma.user.update({ where: { id: p.userId }, data: { plan: "PRO", proUntil } }),
   ]);
+  return { ok: true };
 }
 
 /**

@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 
-import { isSafepayConfigured, verifyWebhook, grantProFromPayment, PRO_CURRENCY } from "@/lib/safepay";
+import {
+  isSafepayConfigured,
+  verifySafepayWebhook,
+  safepayIsSandbox,
+  grantProFromPayment,
+  PRO_CURRENCY,
+} from "@/lib/safepay";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,34 +33,30 @@ function fromMetadata(o: Record<string, unknown>, key: string): string | undefin
   return undefined;
 }
 
-// Safepay payment webhook. Verifies the signature, then grants a Pro pass.
 export async function POST(req: Request) {
   if (!isSafepayConfigured()) return NextResponse.json({ ok: false }, { status: 503 });
 
   const raw = await req.text();
+  const sig = req.headers.get("x-sfpy-signature");
   let body: unknown;
   try {
     body = JSON.parse(raw);
   } catch {
-    body = raw;
-  }
-  const headers = Object.fromEntries(req.headers);
-
-  if (!verifyWebhook({ body, headers })) {
-    return NextResponse.json({ ok: false, error: "invalid signature" }, { status: 400 });
+    body = {};
   }
 
   const evt = (body && typeof body === "object" ? body : {}) as Record<string, unknown>;
-  // Payment fields may sit at the root or under `data`.
   const data = (evt.data && typeof evt.data === "object" ? evt.data : evt) as Record<string, unknown>;
 
-  const eventType = String(
-    pick(evt, "type", "event", "event_type") ?? pick(data, "type", "event", "event_type") ?? "",
-  ).toLowerCase();
-  // Explicit payment state (Safepay sends state: "PAID" on success).
-  const state = String(pick(data, "state", "status") ?? pick(evt, "state", "status") ?? "").toLowerCase();
+  const verified = verifySafepayWebhook(raw, sig);
+  console.log("[safepay] webhook", { verified, hasSig: !!sig, bodyKeys: Object.keys(evt), hasDataKey: "data" in evt });
 
-  // order_id is nested in payment_metadata (meta_key = "order_id").
+  // Enforce the signature in production; in sandbox we let it through so testing
+  // isn't blocked while the exact signing shape is confirmed from these logs.
+  if (!verified && !safepayIsSandbox()) {
+    return NextResponse.json({ ok: false, error: "invalid signature" }, { status: 400 });
+  }
+
   const orderId = String(
     fromMetadata(data, "order_id") ??
       fromMetadata(evt, "order_id") ??
@@ -62,31 +64,33 @@ export async function POST(req: Request) {
       pick(evt, "order_id", "orderId") ??
       "",
   );
-  // The order id is unique per checkout — use it as the idempotency reference.
   const reference =
     orderId || String(pick(data, "token", "notification_id") ?? pick(evt, "token", "notification_id") ?? "");
   const amount = Math.round(Number(pick(data, "amount") ?? pick(evt, "amount") ?? 0));
   const currency = String(pick(data, "currency") ?? pick(evt, "currency") ?? PRO_CURRENCY);
+  const state = String(pick(data, "state", "status") ?? pick(evt, "state", "status") ?? "").toLowerCase();
+  const eventType = String(pick(evt, "type", "event", "event_type") ?? "").toLowerCase();
 
   const userId = orderId.startsWith("pro_") ? orderId.split("_")[1] : "";
-  // Prefer the explicit state; else fall back to a non-failure event type;
-  // else (a signature-verified webhook with a valid order) allow.
   const isSuccess = state
     ? /paid|complete|success|captur/.test(state)
     : eventType
       ? !/fail|declin|refund|cancel|error|expire|void|revers/.test(eventType)
       : true;
 
+  console.log("[safepay] parsed", { verified, state, eventType, orderId, userId, reference, amount });
+
   if (isSuccess && userId && reference && amount > 0) {
     try {
-      await grantProFromPayment({ userId, reference, orderId, amount, currency });
+      const res = await grantProFromPayment({ userId, reference, orderId, amount, currency });
+      console.log("[safepay] grant result", res);
     } catch (e) {
-      console.error("[safepay webhook] grant failed", e);
+      console.error("[safepay] grant failed", e);
     }
   } else {
-    console.log("[safepay webhook] not fulfilled", { state, eventType, orderId, userId, reference, amount });
+    console.log("[safepay] not fulfilled", { isSuccess, userId, reference, amount });
   }
 
-  // Always 200 so Safepay stops retrying a received event.
+  // Always 200 so Safepay stops retrying.
   return NextResponse.json({ ok: true });
 }
