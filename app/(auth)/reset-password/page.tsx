@@ -27,7 +27,7 @@ export default async function ResetPasswordPage({
           <CardTitle className="text-lg">Invalid or expired link</CardTitle>
           <CardDescription>
             This password reset link is no longer valid. Request a new one to
-            continue.
+            continue
           </CardDescription>
         </CardHeader>
         <CardFooter>
