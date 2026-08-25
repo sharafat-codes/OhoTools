@@ -14,6 +14,7 @@ import { createLemonCheckout, createLemonPortalSession } from "@/modules/billing
 import { PLANS, PLAN_BY_ID, type PlanId } from "@/lib/plans";
 import { cn } from "@/lib/utils";
 import { PaddleUpgradeButton } from "@/components/paddle-upgrade-button";
+import { SafepayButton } from "@/components/safepay-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -42,7 +43,7 @@ export function BillingView({
   currentPlan: string;
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
-  provider?: "stripe" | "paddle" | "lemonsqueezy";
+  provider?: "stripe" | "paddle" | "lemonsqueezy" | "safepay";
   userId: string;
   email?: string;
 }) {
@@ -230,6 +231,8 @@ export function BillingView({
                     )}
                     Upgrade to {plan.name}
                   </Button>
+                ) : provider === "safepay" ? (
+                  <SafepayButton />
                 ) : provider === "paddle" ? (
                   <PaddleUpgradeButton
                     userId={userId}
@@ -257,7 +260,7 @@ export function BillingView({
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Payments are securely handled by {provider === "lemonsqueezy" ? "Lemon Squeezy" : provider === "paddle" ? "Paddle" : "Stripe"}. Cancel anytime.
+        Payments are securely handled by {provider === "safepay" ? "Safepay" : provider === "lemonsqueezy" ? "Lemon Squeezy" : provider === "paddle" ? "Paddle" : "Stripe"}.
       </p>
     </div>
   );

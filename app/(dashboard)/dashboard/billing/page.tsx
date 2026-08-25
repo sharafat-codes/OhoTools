@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { syncStripeForCustomer } from "@/lib/stripe-sync";
 import { isPaddleConfigured } from "@/lib/paddle";
 import { syncPaddleForUser } from "@/lib/paddle-sync";
+import { isSafepayConfigured } from "@/lib/safepay";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
 export const metadata: Metadata = { title: "Billing" };
@@ -62,7 +63,7 @@ export default async function BillingPage({
             : null
         }
         checkoutStatus={checkout ?? null}
-        provider={isPaddleConfigured ? "paddle" : "stripe"}
+        provider={isSafepayConfigured() ? "safepay" : isPaddleConfigured ? "paddle" : "stripe"}
         userId={user.id}
         email={user.email}
       />

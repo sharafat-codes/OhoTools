@@ -3,8 +3,6 @@ import Link from "next/link";
 import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon, SparklesIcon, ArrowLeftRightIcon, QrCodeIcon, TerminalIcon, CakeIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
-import { isSafepayConfigured } from "@/lib/safepay";
-import { SafepayButton } from "@/components/safepay-button";
 import { PLANS } from "@/lib/plans";
 import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
 import { cn } from "@/lib/utils";
@@ -78,7 +76,6 @@ const FAQS = [
 export default async function PricingPage() {
   const user = await getCurrentUser();
   const proHref = user ? "/dashboard/billing" : "/signup";
-  const safepay = isSafepayConfigured();
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
@@ -131,12 +128,6 @@ export default async function PricingPage() {
             >
               {plan.price === 0 ? "Use the free tools" : "Upgrade to Pro"}
             </Button>
-            {plan.price !== 0 && safepay && (
-              <div className="mt-2">
-                <p className="mb-1 text-center text-xs text-muted-foreground">Paying from Pakistan?</p>
-                <SafepayButton />
-              </div>
-            )}
           </div>
         ))}
       </div>
