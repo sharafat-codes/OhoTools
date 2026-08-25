@@ -100,8 +100,14 @@ export async function grantProFromPayment(p: {
   amount: number;
   currency: string;
 }): Promise<{ ok: boolean; reason?: string }> {
-  const existing = await prisma.payment.findUnique({ where: { reference: p.reference } });
-  if (existing) return { ok: true, reason: "already-recorded" };
+  // Idempotency check — best-effort, so a payment-table problem can't block the
+  // actual Pro grant.
+  try {
+    const existing = await prisma.payment.findUnique({ where: { reference: p.reference } });
+    if (existing) return { ok: true, reason: "already-recorded" };
+  } catch (e) {
+    console.error("[safepay] payment lookup failed (continuing to grant)", e);
+  }
 
   const user = await prisma.user.findUnique({ where: { id: p.userId }, select: { id: true, proUntil: true } });
   if (!user) return { ok: false, reason: "user-not-found" };
@@ -110,8 +116,12 @@ export async function grantProFromPayment(p: {
   const base = user.proUntil && user.proUntil > now ? user.proUntil : now;
   const proUntil = new Date(base.getTime() + PRO_DAYS * 24 * 60 * 60 * 1000);
 
-  await prisma.$transaction([
-    prisma.payment.create({
+  // Grant Pro — the critical step.
+  await prisma.user.update({ where: { id: p.userId }, data: { plan: "PRO", proUntil } });
+
+  // Record the payment — best-effort; never let this fail the grant.
+  try {
+    await prisma.payment.create({
       data: {
         userId: p.userId,
         provider: "safepay",
@@ -122,9 +132,11 @@ export async function grantProFromPayment(p: {
         status: "paid",
         plan: "PRO",
       },
-    }),
-    prisma.user.update({ where: { id: p.userId }, data: { plan: "PRO", proUntil } }),
-  ]);
+    });
+  } catch (e) {
+    console.error("[safepay] payment record failed (Pro still granted)", e);
+  }
+
   return { ok: true };
 }
 
