@@ -51,6 +51,8 @@ export async function POST(req: Request) {
   const eventType = String(
     pick(evt, "type", "event", "event_type") ?? pick(data, "type", "event", "event_type") ?? "",
   ).toLowerCase();
+  // Explicit payment state (Safepay sends state: "PAID" on success).
+  const state = String(pick(data, "state", "status") ?? pick(evt, "state", "status") ?? "").toLowerCase();
 
   // order_id is nested in payment_metadata (meta_key = "order_id").
   const orderId = String(
@@ -67,8 +69,13 @@ export async function POST(req: Request) {
   const currency = String(pick(data, "currency") ?? pick(evt, "currency") ?? PRO_CURRENCY);
 
   const userId = orderId.startsWith("pro_") ? orderId.split("_")[1] : "";
-  // Grant unless the event explicitly signals a non-success (refund/fail/etc.).
-  const isSuccess = eventType ? !/fail|declin|refund|cancel|error|expire|void|revers/.test(eventType) : true;
+  // Prefer the explicit state; else fall back to a non-failure event type;
+  // else (a signature-verified webhook with a valid order) allow.
+  const isSuccess = state
+    ? /paid|complete|success|captur/.test(state)
+    : eventType
+      ? !/fail|declin|refund|cancel|error|expire|void|revers/.test(eventType)
+      : true;
 
   if (isSuccess && userId && reference && amount > 0) {
     try {
@@ -77,7 +84,7 @@ export async function POST(req: Request) {
       console.error("[safepay webhook] grant failed", e);
     }
   } else {
-    console.log("[safepay webhook] not fulfilled", { eventType, orderId, userId, reference, amount });
+    console.log("[safepay webhook] not fulfilled", { state, eventType, orderId, userId, reference, amount });
   }
 
   // Always 200 so Safepay stops retrying a received event.
