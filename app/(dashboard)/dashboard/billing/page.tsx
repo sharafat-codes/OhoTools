@@ -6,6 +6,8 @@ import { syncStripeForCustomer } from "@/lib/stripe-sync";
 import { isPaddleConfigured } from "@/lib/paddle";
 import { syncPaddleForUser } from "@/lib/paddle-sync";
 import { isSafepayConfigured } from "@/lib/safepay";
+import { getProPrice } from "@/lib/region";
+import { PLAN_BY_ID } from "@/lib/plans";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
 export const metadata: Metadata = { title: "Billing" };
@@ -38,6 +40,7 @@ export default async function BillingPage({
   }
 
   const sub = dbUser?.subscription;
+  const proPrice = await getProPrice(PLAN_BY_ID.PRO.price);
 
   return (
     <div className="mx-auto w-full max-w-5xl">
@@ -64,6 +67,7 @@ export default async function BillingPage({
         }
         checkoutStatus={checkout ?? null}
         provider={isSafepayConfigured() ? "safepay" : isPaddleConfigured ? "paddle" : "stripe"}
+        proPrice={proPrice}
         userId={user.id}
         email={user.email}
       />

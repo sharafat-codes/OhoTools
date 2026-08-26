@@ -37,6 +37,7 @@ export function BillingView({
   subscription,
   checkoutStatus,
   provider = "stripe",
+  proPrice,
   userId,
   email,
 }: {
@@ -44,6 +45,7 @@ export function BillingView({
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
   provider?: "stripe" | "paddle" | "lemonsqueezy" | "safepay";
+  proPrice?: { display: string; period: string };
   userId: string;
   email?: string;
 }) {
@@ -186,9 +188,11 @@ export function BillingView({
                 </CardTitle>
                 <div className="flex items-baseline gap-1">
                   <span className="font-heading text-3xl font-semibold">
-                    ${plan.price}
+                    {plan.id === "PRO" && proPrice ? proPrice.display : `$${plan.price}`}
                   </span>
-                  <span className="text-sm text-muted-foreground">/month</span>
+                  <span className="text-sm text-muted-foreground">
+                    /{plan.id === "PRO" && proPrice ? proPrice.period : "month"}
+                  </span>
                 </div>
                 <CardDescription>{plan.tagline}</CardDescription>
               </CardHeader>

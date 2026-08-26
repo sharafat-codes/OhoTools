@@ -3,7 +3,8 @@ import Link from "next/link";
 import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon, SparklesIcon, ArrowLeftRightIcon, QrCodeIcon, TerminalIcon, CakeIcon } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
-import { PLANS } from "@/lib/plans";
+import { getProPrice } from "@/lib/region";
+import { PLANS, PLAN_BY_ID } from "@/lib/plans";
 import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -76,6 +77,7 @@ const FAQS = [
 export default async function PricingPage() {
   const user = await getCurrentUser();
   const proHref = user ? "/dashboard/billing" : "/signup";
+  const proPrice = await getProPrice(PLAN_BY_ID.PRO.price);
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
@@ -109,8 +111,12 @@ export default async function PricingPage() {
             {plan.popular && <Badge className="absolute -top-2.5 left-6">Most popular</Badge>}
             <h2 className="font-heading text-lg font-semibold">{plan.name}</h2>
             <div className="mt-2 flex items-baseline gap-1">
-              <span className="font-heading text-4xl font-semibold">${plan.price}</span>
-              <span className="text-sm text-muted-foreground">/month</span>
+              <span className="font-heading text-4xl font-semibold">
+                {plan.id === "PRO" ? proPrice.display : `$${plan.price}`}
+              </span>
+              <span className="text-sm text-muted-foreground">
+                /{plan.id === "PRO" ? proPrice.period : "month"}
+              </span>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">{plan.tagline}</p>
             <ul className="mt-5 flex flex-1 flex-col gap-2.5">
