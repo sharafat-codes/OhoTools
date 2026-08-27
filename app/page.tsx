@@ -223,7 +223,7 @@ export default async function Home() {
             {/* Tools wall — a taste of the breadth, each tile a real tool */}
             <div className="lg:justify-self-end">
               <div className="w-full max-w-md rounded-2xl border border-border bg-card p-4 shadow-sm">
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid auto-rows-fr grid-cols-3 gap-3">
                   {HERO_TILES.map((slug) => {
                     const t = getTool(slug);
                     if (!t) return null;
@@ -232,7 +232,7 @@ export default async function Home() {
                       <Link
                         key={slug}
                         href={`/tools/${slug}`}
-                        className="group flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-background p-3 text-center transition-colors hover:border-primary/40 hover:bg-muted/40"
+                        className="group flex h-full flex-col items-center gap-2 rounded-xl border border-border/60 bg-background p-3 text-center transition-colors hover:border-primary/40 hover:bg-muted/40"
                       >
                         <span className="grid size-9 place-items-center rounded-lg bg-primary/10 text-primary">
                           <TIcon className="size-4.5" />
@@ -433,7 +433,18 @@ export default async function Home() {
                 icon={SparklesIcon}
                 title="Unlimited AI tools"
                 body="Summarize, paraphrase, humanize, translate, write emails, and 20+ more. Everyone gets a free daily allowance — Pro removes the cap."
-              />
+              >
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {["Summarizer", "Paraphraser", "Humanizer", "Translator", "Grammar", "Email writer", "Chat with PDF"].map((x) => (
+                    <span
+                      key={x}
+                      className="rounded-md border border-border bg-background px-2 py-1 text-xs text-muted-foreground"
+                    >
+                      {x}
+                    </span>
+                  ))}
+                </div>
+              </FeatureCard>
               <FeatureCard
                 className="md:col-span-3"
                 icon={ZapIcon}
@@ -511,7 +522,7 @@ export default async function Home() {
                   </ul>
                   <Button
                     className="mt-6"
-                    variant={plan.popular ? "default" : "secondary"}
+                    variant={plan.popular ? "default" : "outline"}
                     render={<Link href={user ? "/dashboard/billing" : "/signup"} />}
                   >
                     {plan.price === 0 ? "Get started free" : `Choose ${plan.name}`}

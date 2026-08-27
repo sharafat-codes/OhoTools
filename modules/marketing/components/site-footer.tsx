@@ -31,7 +31,7 @@ export function SiteFooter() {
           <Logo size="sm" />
           <p className="text-xs text-muted-foreground">© {year} OhoTool. All rights reserved.</p>
         </div>
-        <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs sm:max-w-md sm:justify-end">
+        <nav className="flex flex-wrap justify-center gap-x-4 gap-y-3 text-xs sm:max-w-md sm:justify-start">
           {FOOTER_LINKS.map((l) => (
             <Link key={l.href} href={l.href} className="hover:text-foreground">
               {l.label}
