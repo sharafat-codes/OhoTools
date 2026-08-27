@@ -7,12 +7,16 @@ import {
   ZapIcon,
   SparklesIcon,
   WandSparklesIcon,
+  GemIcon,
+  BookmarkIcon,
+  ChevronRightIcon,
   type LucideIcon,
 } from "lucide-react";
 
 import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { devTools, getTool, toolCategories, categorySlugForName } from "@/modules/tools/registry";
+import { categoryIcon } from "@/modules/tools/category-icons";
 import { RecentTools } from "@/modules/tools/components/recent-tools";
 import { isPro, FREE_SAVE_LIMIT } from "@/lib/plans";
 import { getAiUsageToday, FREE_DAILY_AI_LIMIT } from "@/lib/ai-usage";
@@ -55,7 +59,7 @@ export default async function DashboardPage() {
   const popularTools = POPULAR.map((s) => getTool(s)).filter((t): t is NonNullable<typeof t> => Boolean(t));
 
   return (
-    <div className="mx-auto w-full max-w-5xl">
+    <div className="mx-auto w-full max-w-6xl">
       <div className="mb-8">
         <h1 className="font-heading text-2xl font-semibold tracking-tight">Welcome back, {firstName}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -69,7 +73,9 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              Plan
+              <span className="flex items-center gap-1.5">
+                <GemIcon className="size-4 text-primary" /> Plan
+              </span>
               <Badge
                 variant="secondary"
                 className={cn(pro && "border-primary/30 bg-primary/10 text-primary")}
@@ -135,7 +141,9 @@ export default async function DashboardPage() {
         {/* Saved items */}
         <Card>
           <CardHeader>
-            <CardTitle>Saved items</CardTitle>
+            <CardTitle className="flex items-center gap-1.5">
+              <BookmarkIcon className="size-4 text-primary" /> Saved items
+            </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 text-sm">
             <SavedRow icon={QrCodeIcon} label="QR codes" value={qrCount} href="/dashboard/qr" limit={pro ? undefined : FREE_SAVE_LIMIT} />
@@ -195,14 +203,16 @@ export default async function DashboardPage() {
           <div className="flex flex-wrap gap-2">
             {toolCategories.map((cat) => {
               const slug = categorySlugForName(cat.name);
+              const CIcon = categoryIcon(cat.name);
               return (
                 <Link
                   key={cat.name}
                   href={slug ? `/tools/${slug}` : "/tools"}
-                  className="rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-primary/40 hover:bg-muted/40"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm transition-colors hover:border-primary/40 hover:bg-muted/40"
                 >
+                  <CIcon className="size-3.5 shrink-0 text-primary" />
                   {cat.name}
-                  <span className="ml-1.5 text-xs text-muted-foreground">{cat.slugs.length}</span>
+                  <span className="text-xs text-muted-foreground">{cat.slugs.length}</span>
                 </Link>
               );
             })}
@@ -261,14 +271,17 @@ function SavedRow({
   limit?: number;
 }) {
   return (
-    <Link href={href} className="flex items-center justify-between gap-2 hover:opacity-80">
+    <Link href={href} className="group flex items-center justify-between gap-2 hover:opacity-80">
       <span className="flex items-center gap-2 text-muted-foreground">
         <Icon className="size-4 text-primary" />
         {label}
       </span>
-      <span className="tabular-nums font-medium">
-        {value.toLocaleString()}
-        {limit !== undefined && <span className="text-xs font-normal text-muted-foreground"> / {limit}</span>}
+      <span className="flex items-center gap-1">
+        <span className="tabular-nums font-medium">
+          {value.toLocaleString()}
+          {limit !== undefined && <span className="text-xs font-normal text-muted-foreground"> / {limit}</span>}
+        </span>
+        <ChevronRightIcon className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
       </span>
     </Link>
   );

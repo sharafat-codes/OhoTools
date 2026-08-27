@@ -8,21 +8,8 @@ import {
   ShieldCheckIcon,
   SparklesIcon,
   FileTextIcon,
-  ArrowLeftRightIcon,
-  CalculatorIcon,
-  TypeIcon,
-  CodeIcon,
-  GlobeIcon,
   QrCodeIcon,
   SendIcon,
-  FilmIcon,
-  AudioLinesIcon,
-  CropIcon,
-  NotebookPenIcon,
-  DicesIcon,
-  RulerIcon,
-  Gamepad2Icon,
-  PartyPopperIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -36,31 +23,13 @@ import {
   categorySlugForName,
   TOOL_COUNT_LABEL,
 } from "@/modules/tools/registry";
+import { categoryIcon } from "@/modules/tools/category-icons";
 import { SITE_URL as siteUrl, siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 import { SiteFooter } from "@/modules/marketing/components/site-footer";
-
-// Icon per category for the showcase (keyed by registry category name).
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  AI: SparklesIcon,
-  "Video & GIF": FilmIcon,
-  Audio: AudioLinesIcon,
-  "Image Editing": CropIcon,
-  Productivity: NotebookPenIcon,
-  Developer: CodeIcon,
-  "Web & SEO": GlobeIcon,
-  Converters: ArrowLeftRightIcon,
-  PDF: FileTextIcon,
-  Calculators: CalculatorIcon,
-  Text: TypeIcon,
-  Generators: DicesIcon,
-  "Unit Conversions": RulerIcon,
-  "Games & Tests": Gamepad2Icon,
-  "Cards & Invitations": PartyPopperIcon,
-};
 
 // High-intent tools surfaced on the homepage — deep links that also spread
 // internal-link equity to the pages we most want to rank.
@@ -314,7 +283,7 @@ export default async function Home() {
             />
             <div className="mt-12 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {toolCategories.map((cat) => {
-                const CIcon = CATEGORY_ICONS[cat.name] ?? SparklesIcon;
+                const CIcon = categoryIcon(cat.name);
                 const catSlug = categorySlugForName(cat.name);
                 return (
                   <Link
