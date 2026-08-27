@@ -19,6 +19,10 @@ import {
   AudioLinesIcon,
   CropIcon,
   NotebookPenIcon,
+  DicesIcon,
+  RulerIcon,
+  Gamepad2Icon,
+  PartyPopperIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -52,7 +56,10 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   PDF: FileTextIcon,
   Calculators: CalculatorIcon,
   Text: TypeIcon,
-  Generators: SparklesIcon,
+  Generators: DicesIcon,
+  "Unit Conversions": RulerIcon,
+  "Games & Tests": Gamepad2Icon,
+  "Cards & Invitations": PartyPopperIcon,
 };
 
 // High-intent tools surfaced on the homepage — deep links that also spread
@@ -305,7 +312,7 @@ export default async function Home() {
               title="A tool for every job"
               subtitle="Organized into clear categories so you can find what you need in seconds."
             />
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {toolCategories.map((cat) => {
                 const CIcon = CATEGORY_ICONS[cat.name] ?? SparklesIcon;
                 const catSlug = categorySlugForName(cat.name);
@@ -420,8 +427,8 @@ export default async function Home() {
         {/* Send a file */}
         <section className="py-16 sm:py-20">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-            <div className="flex flex-col items-start gap-5 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-4">
+            <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
                 <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
                   <SendIcon className="size-5" />
                 </span>
@@ -429,13 +436,13 @@ export default async function Home() {
                   <h2 className="font-heading text-xl font-semibold tracking-tight">
                     Need to send a file?
                   </h2>
-                  <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+                  <p className="mt-1 max-w-sm text-sm text-muted-foreground">
                     Share any file with a private, end-to-end encrypted link — free and no
                     sign-up. Add a password, and it auto-deletes within 24 hours.
                   </p>
                 </div>
               </div>
-              <Button className="shrink-0" render={<Link href="/send" />}>
+              <Button size="lg" className="shrink-0" render={<Link href="/send" />}>
                 Send a file
                 <ArrowRightIcon />
               </Button>
@@ -535,10 +542,10 @@ export default async function Home() {
                   </ul>
                   <Button
                     className="mt-6"
-                    variant={plan.popular ? "default" : "outline"}
+                    variant={plan.popular ? "default" : "secondary"}
                     render={<Link href={user ? "/dashboard/billing" : "/signup"} />}
                   >
-                    {plan.price === 0 ? "Get started" : `Choose ${plan.name}`}
+                    {plan.price === 0 ? "Get started free" : `Choose ${plan.name}`}
                   </Button>
                 </div>
               ))}
@@ -588,7 +595,7 @@ export default async function Home() {
                   variant="outline"
                   render={<Link href={user ? "/dashboard" : "/signup"} />}
                 >
-                  {user ? "Open dashboard" : "Create free account"}
+                  {user ? "Go to dashboard" : "Create free account"}
                 </Button>
               </div>
             </div>

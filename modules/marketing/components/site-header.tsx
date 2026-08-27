@@ -82,7 +82,7 @@ export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
                   Go Pro
                 </Button>
               )}
-              <Button size="sm" render={<Link href="/dashboard" />}>
+              <Button variant="outline" size="sm" render={<Link href="/dashboard" />}>
                 Dashboard
               </Button>
             </>
