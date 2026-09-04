@@ -71,6 +71,9 @@ import * as atsFriendlyGuide from "./posts/is-your-resume-ats-friendly";
 import * as mockDataGuide from "./posts/how-to-generate-mock-data-for-testing";
 import * as redirect301Guide from "./posts/301-vs-302-redirect";
 import * as userAgentGuide from "./posts/what-is-a-user-agent";
+import * as sloganGuide from "./posts/how-to-write-a-slogan";
+import * as resumeSummaryGuide from "./posts/how-to-write-a-resume-summary";
+import * as hashtagGuide from "./posts/how-to-choose-hashtags";
 
 export type PostMeta = {
   slug: string;
@@ -160,6 +163,9 @@ const modules: BlogPost[] = [
   mockDataGuide,
   redirect301Guide,
   userAgentGuide,
+  sloganGuide,
+  resumeSummaryGuide,
+  hashtagGuide,
 ];
 
 /** All posts, newest first. */
