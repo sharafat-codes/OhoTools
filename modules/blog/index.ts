@@ -78,6 +78,10 @@ import * as coverLetterGuide from "./posts/how-to-write-a-cover-letter";
 import * as bmiGuide from "./posts/what-is-a-healthy-bmi";
 import * as caloriesGuide from "./posts/how-many-calories-should-i-eat";
 import * as gpaGuide from "./posts/how-to-calculate-gpa";
+import * as excelFormulaGuide from "./posts/how-to-write-excel-formulas";
+import * as blogPostGuide from "./posts/how-to-write-a-blog-post";
+import * as linkedinPostGuide from "./posts/how-to-write-a-linkedin-post";
+import * as shortStoryGuide from "./posts/how-to-write-a-short-story";
 
 export type PostMeta = {
   slug: string;
@@ -174,6 +178,10 @@ const modules: BlogPost[] = [
   bmiGuide,
   caloriesGuide,
   gpaGuide,
+  excelFormulaGuide,
+  blogPostGuide,
+  linkedinPostGuide,
+  shortStoryGuide,
 ];
 
 /** All posts, newest first. */

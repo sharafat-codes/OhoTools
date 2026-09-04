@@ -3619,6 +3619,10 @@ export const TOOL_GUIDES: Record<string, string> = {
   "calorie-calculator": "how-many-calories-should-i-eat",
   "bmr-calculator": "how-many-calories-should-i-eat",
   "gpa-calculator": "how-to-calculate-gpa",
+  "excel-formula-generator": "how-to-write-excel-formulas",
+  "blog-post-generator": "how-to-write-a-blog-post",
+  "linkedin-post-generator": "how-to-write-a-linkedin-post",
+  "story-generator": "how-to-write-a-short-story",
 };
 
 /**
