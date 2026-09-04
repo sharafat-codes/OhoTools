@@ -6,7 +6,7 @@ import {
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
   CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
   ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
-  MicIcon, CaptionsIcon, PenToolIcon,
+  MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -736,6 +736,66 @@ export const extraTools: DevTool[] = [
       { q: "Can I use it to sign a PDF?", a: "Yes — download the PNG, then add it with our sign-PDF tool or any PDF editor." },
     ],
     related: ["sign-pdf", "crop-image", "add-text-to-image"],
+  },
+  {
+    slug: "sales-tax-calculator",
+    name: "Sales Tax Calculator",
+    tagline: "Add or remove sales tax from any price.",
+    description:
+      "Free sales tax calculator — add sales tax to a price to get the total, or remove tax from a total to find the pre-tax price. Enter any tax rate. Runs in your browser.",
+    keywords: [
+      "sales tax calculator",
+      "tax calculator",
+      "add sales tax",
+      "reverse sales tax calculator",
+      "calculate sales tax",
+      "price plus tax",
+    ],
+    icon: ReceiptIcon,
+    intro:
+      "Work out sales tax both ways. Enter a tax rate, then either add tax to a pre-tax price to see the tax and total, or remove tax from a tax-inclusive total to find the original price. Great for receipts, invoices, and quick checks — it all runs in your browser.",
+    steps: [
+      "Enter your sales tax rate as a percentage.",
+      "Choose Add tax (from a pre-tax price) or Remove tax (from a total).",
+      "Enter the amount and read the tax and result instantly.",
+    ],
+    faqs: [
+      { q: "How do I add sales tax to a price?", a: "Multiply the price by the tax rate (as a decimal) to get the tax, then add it to the price. This tool does it for you — enter the price and rate under Add tax." },
+      { q: "How do I remove sales tax from a total?", a: "Divide the tax-inclusive total by 1 plus the rate as a decimal (e.g. total ÷ 1.0825 for 8.25%). Use the Remove tax tab and it's calculated automatically." },
+      { q: "Which tax rate should I use?", a: "Use your local combined rate (state plus any city or county tax). Rates vary by location, so check your area's current sales tax rate." },
+      { q: "Is anything uploaded?", a: "No — the calculation runs entirely in your browser; nothing is sent anywhere." },
+    ],
+    related: ["discount-calculator", "percentage-calculator", "gst-vat-calculator"],
+  },
+  {
+    slug: "average-calculator",
+    name: "Average Calculator",
+    tagline: "Find the mean, median, mode, and range of any numbers.",
+    description:
+      "Free average calculator — paste a list of numbers to get the mean (average), median, mode, range, sum, count, min, and max instantly. Runs in your browser.",
+    keywords: [
+      "average calculator",
+      "mean median mode calculator",
+      "mean calculator",
+      "median calculator",
+      "how to calculate average",
+      "average of numbers",
+    ],
+    icon: SigmaIcon,
+    intro:
+      "Get every common average and summary statistic for a set of numbers at once. Paste or type your values — separated by commas, spaces, or new lines — and see the mean, median, mode, range, sum, count, minimum, and maximum. It all runs in your browser, so your data stays private.",
+    steps: [
+      "Enter your numbers, separated by commas, spaces, or new lines.",
+      "The mean, median, mode, and range update instantly.",
+      "Read the full breakdown, including sum, count, min, and max.",
+    ],
+    faqs: [
+      { q: "What's the difference between mean, median, and mode?", a: "The mean is the sum divided by how many numbers there are (the everyday 'average'). The median is the middle value when sorted. The mode is the value that appears most often." },
+      { q: "What if there's no repeating number?", a: "Then there's no mode — the tool shows 'None' when every value appears only once." },
+      { q: "Can it be more than one mode?", a: "Yes — if several values tie for the most occurrences, all of them are shown." },
+      { q: "Is my data uploaded?", a: "No — everything is calculated locally in your browser and nothing is sent to a server." },
+    ],
+    related: ["percentage-calculator", "gpa-calculator", "scientific-calculator"],
   },
 ];
 

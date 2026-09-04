@@ -3871,8 +3871,10 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
     slugs: [
       "scientific-calculator",
       "percentage-calculator",
+      "average-calculator",
       "tip-calculator",
       "discount-calculator",
+      "sales-tax-calculator",
       "gst-vat-calculator",
       "loan-calculator",
       "mortgage-calculator",

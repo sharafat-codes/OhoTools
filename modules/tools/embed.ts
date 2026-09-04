@@ -21,6 +21,8 @@ export const EMBED_DEDICATED_SLUGS = [
   "gst-vat-calculator",
   "aspect-ratio-calculator",
   "time-calculator",
+  "sales-tax-calculator",
+  "average-calculator",
   // Generators & utilities
   "qr-code",
   "password-generator",

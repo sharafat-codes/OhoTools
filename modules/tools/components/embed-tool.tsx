@@ -27,6 +27,8 @@ const MAP: Record<string, ComponentType> = {
   "gst-vat-calculator": d(() => import("./gst-vat-calculator").then((m) => ({ default: m.GstVatCalculator }))),
   "aspect-ratio-calculator": d(() => import("./aspect-ratio-calculator").then((m) => ({ default: m.AspectRatioCalculator }))),
   "time-calculator": d(() => import("./time-calculator").then((m) => ({ default: m.TimeCalculator }))),
+  "sales-tax-calculator": d(() => import("./sales-tax-calculator").then((m) => ({ default: m.SalesTaxCalculator }))),
+  "average-calculator": d(() => import("./average-calculator").then((m) => ({ default: m.AverageCalculator }))),
   "qr-code": d(() => import("./qr-code-tool").then((m) => ({ default: m.QrCodeTool }))),
   "password-generator": d(() => import("./password-generator").then((m) => ({ default: m.PasswordGenerator }))),
   "hash-generator": d(() => import("./hash-generator").then((m) => ({ default: m.HashGenerator }))),
