@@ -36,6 +36,8 @@ export const EMBED_DEDICATED_SLUGS = [
   "case-converter",
   "random-number-generator",
   "password-strength-checker",
+  "number-to-words",
+  "love-calculator",
 ] as const;
 
 const dedicatedSet = new Set<string>(EMBED_DEDICATED_SLUGS);

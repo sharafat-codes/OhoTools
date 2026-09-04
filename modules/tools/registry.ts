@@ -3734,12 +3734,12 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Video & GIF",
     blurb: "Convert, compress, trim, and extract — in your browser.",
-    slugs: ["screen-recorder", "video-to-gif", "video-to-mp4", "compress-video", "trim-video", "video-to-mp3"],
+    slugs: ["screen-recorder", "webcam-test", "video-to-gif", "video-to-mp4", "compress-video", "trim-video", "video-to-mp3"],
   },
   {
     name: "Audio",
     blurb: "Record, transcribe, convert, trim, merge, and clean audio — in your browser.",
-    slugs: ["voice-recorder", "speech-to-text", "audio-converter", "trim-audio", "merge-audio", "change-volume", "enhance-audio"],
+    slugs: ["voice-recorder", "mic-test", "speech-to-text", "audio-converter", "trim-audio", "merge-audio", "change-volume", "enhance-audio"],
   },
   {
     name: "Image Editing",
@@ -3828,6 +3828,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "text-to-binary",
       "number-base-converter",
       "roman-numeral",
+      "number-to-words",
       "color-converter",
       "timestamp-converter",
     ],
@@ -3939,7 +3940,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Games & Tests",
     blurb: "Fun browser challenges — click speed, reaction time, and keyboard tests.",
-    slugs: [...gameSlugs],
+    slugs: [...gameSlugs, "love-calculator"],
   },
   {
     name: "Cards & Invitations",

@@ -6,7 +6,7 @@ import {
   CalendarClockIcon, GraduationCapIcon, FileTextIcon, BarcodeIcon, BanknoteIcon,
   CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
   ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
-  MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon,
+  MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon, VideoIcon, SpellCheckIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -796,6 +796,122 @@ export const extraTools: DevTool[] = [
       { q: "Is my data uploaded?", a: "No — everything is calculated locally in your browser and nothing is sent to a server." },
     ],
     related: ["percentage-calculator", "gpa-calculator", "scientific-calculator"],
+  },
+  {
+    slug: "webcam-test",
+    name: "Webcam Test",
+    tagline: "Check your camera works — right in your browser.",
+    description:
+      "Free online webcam test — instantly check that your camera works, see the live preview, and view its resolution. Private: your video never leaves your device.",
+    keywords: [
+      "webcam test",
+      "camera test",
+      "test my webcam",
+      "check webcam",
+      "online webcam test",
+      "is my camera working",
+    ],
+    icon: VideoIcon,
+    intro:
+      "Quickly check that your webcam is working before a video call, interview, or recording. Click start, allow camera access, and you'll see a live preview plus your camera's name and resolution. Everything runs in your browser — your video is shown locally and never uploaded.",
+    steps: [
+      "Click Start camera and allow camera access when prompted.",
+      "Check the live preview — you should see yourself.",
+      "Review the detected camera name and resolution.",
+    ],
+    faqs: [
+      { q: "Is my video recorded or uploaded?", a: "No — the preview runs entirely in your browser and nothing is recorded or sent to a server." },
+      { q: "Why can't it see my camera?", a: "Make sure you allowed camera permission, that no other app (Zoom, Teams, etc.) is using the camera, and that you're on a secure (https) connection." },
+      { q: "Can I test a specific camera?", a: "It uses your default camera. Switch your system's default camera, then reload and start again to test another one." },
+    ],
+    related: ["mic-test", "screen-recorder", "voice-recorder"],
+  },
+  {
+    slug: "mic-test",
+    name: "Mic Test",
+    tagline: "Test your microphone with a live input meter.",
+    description:
+      "Free online mic test — check your microphone works with a live input-level meter. Speak and watch the bar move. Private: your audio never leaves your device.",
+    keywords: [
+      "mic test",
+      "microphone test",
+      "test my mic",
+      "check microphone",
+      "online mic test",
+      "is my microphone working",
+    ],
+    icon: MicIcon,
+    intro:
+      "Check that your microphone works before a call, interview, or recording. Click start, allow mic access, and speak — the live level meter moves with your voice. If the bar stays flat, your mic isn't picking up sound. It all runs in your browser; your audio is never uploaded.",
+    steps: [
+      "Click Start microphone and allow mic access when prompted.",
+      "Speak normally and watch the input-level meter.",
+      "If the bar moves, your mic is working; if it's flat, check your device.",
+    ],
+    faqs: [
+      { q: "Is my audio recorded or uploaded?", a: "No — the meter runs entirely in your browser and your audio is never recorded or sent anywhere." },
+      { q: "The bar isn't moving — what's wrong?", a: "Check that you allowed mic permission, selected the right input in your system settings, and that no other app is using the microphone." },
+      { q: "Which browsers are supported?", a: "All modern browsers (Chrome, Edge, Firefox, Safari) on a secure https connection support the microphone test." },
+    ],
+    related: ["webcam-test", "voice-recorder", "speech-to-text"],
+  },
+  {
+    slug: "number-to-words",
+    name: "Number to Words",
+    tagline: "Convert numbers into words — and amounts into currency text.",
+    description:
+      "Free number to words converter — turn any number into written words, or an amount into currency words (dollars and cents) for cheques and invoices. Runs in your browser.",
+    keywords: [
+      "number to words",
+      "number to words converter",
+      "amount in words",
+      "spell number",
+      "numbers to text",
+      "figures to words",
+    ],
+    icon: SpellCheckIcon,
+    intro:
+      "Convert any number into written words, or an amount into currency text like you'd write on a cheque. Type a number and get the words instantly — plus a dollars-and-cents version for invoices and legal documents. Everything runs in your browser.",
+    steps: [
+      "Type or paste a number (decimals and commas are fine).",
+      "Choose Words or Currency (USD).",
+      "Copy the written form with one click.",
+    ],
+    faqs: [
+      { q: "How big a number can it convert?", a: "Up to the hundreds of trillions, including decimals. Very large numbers are capped for readability." },
+      { q: "Can it write amounts for cheques?", a: "Yes — the Currency tab writes amounts as dollars and cents (e.g. 'One thousand two hundred thirty-four dollars and fifty-six cents')." },
+      { q: "Is my input sent anywhere?", a: "No — the conversion happens entirely in your browser; nothing is uploaded." },
+    ],
+    related: ["percentage-calculator", "roman-numeral", "number-base-converter"],
+  },
+  {
+    slug: "love-calculator",
+    name: "Love Calculator",
+    tagline: "Enter two names for a fun love-match score.",
+    description:
+      "Free love calculator — enter two names for a playful love-compatibility percentage and message. Just for fun, and it works entirely in your browser.",
+    keywords: [
+      "love calculator",
+      "love test",
+      "love compatibility",
+      "name compatibility",
+      "love percentage calculator",
+      "crush calculator",
+    ],
+    icon: HeartIcon,
+    intro:
+      "A fun love calculator: enter two names and get a playful compatibility percentage with a little message. The result is the same every time for the same pair of names, so you can share it — but it's purely for fun, not a real prediction. It runs entirely in your browser.",
+    steps: [
+      "Enter your name and their name.",
+      "Tap Calculate love.",
+      "See your match percentage and message — then share it!",
+    ],
+    faqs: [
+      { q: "Is the love calculator accurate?", a: "No — it's just for fun. The score is a playful calculation based on the letters in the two names, not a real measure of compatibility." },
+      { q: "Why do I get the same result each time?", a: "The score is deterministic, so the same two names always give the same percentage — that's what makes it shareable." },
+      { q: "Do you store the names I enter?", a: "No — everything runs in your browser and nothing is saved or uploaded." },
+    ],
+    related: ["spin-the-wheel", "coin-flip", "random-number-generator"],
   },
 ];
 
