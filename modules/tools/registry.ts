@@ -3611,6 +3611,9 @@ export const TOOL_GUIDES: Record<string, string> = {
   "mock-data-generator": "how-to-generate-mock-data-for-testing",
   "http-status-codes": "301-vs-302-redirect",
   "user-agent-parser": "what-is-a-user-agent",
+  "slogan-generator": "how-to-write-a-slogan",
+  "resume-summary-generator": "how-to-write-a-resume-summary",
+  "hashtag-generator": "how-to-choose-hashtags",
 };
 
 /**
