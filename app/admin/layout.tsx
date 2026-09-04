@@ -14,7 +14,7 @@ const links = [
   { label: "Requests", href: "/admin/requests", icon: InboxIcon },
 ];
 
-// Admin area — never index.
+// Admin area — never index
 export const metadata = { robots: { index: false, follow: false } };
 
 export default async function AdminLayout({
