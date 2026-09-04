@@ -4,7 +4,9 @@ import { prisma } from "@/lib/prisma";
 
 // Freemium quota for the AI tools: free (logged-in) users get this many runs
 // per UTC day; Pro is unlimited (never counted). See app/api/ai/route.ts.
-export const FREE_DAILY_AI_LIMIT = 5;
+// The value lives in lib/plans.ts (client-safe) and is re-exported here so the
+// existing server imports keep working from one source of truth.
+export { FREE_DAILY_AI_LIMIT } from "@/lib/plans";
 
 function today(): string {
   return new Date().toISOString().slice(0, 10); // UTC YYYY-MM-DD

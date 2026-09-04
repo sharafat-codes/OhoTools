@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
 import { useSession } from "@/components/plan-provider";
-import { isPro } from "@/lib/plans";
+import { isPro, FREE_DAILY_AI_LIMIT as FREE_LIMIT } from "@/lib/plans";
 
 export type AiControl = {
   key: string;
@@ -19,7 +19,6 @@ export type AiControl = {
 };
 
 const MAX_CHARS = 20_000;
-const FREE_LIMIT = 5; // must match FREE_DAILY_AI_LIMIT in lib/ai-usage.ts
 
 export function AiTextTool({
   task,

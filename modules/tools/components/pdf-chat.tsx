@@ -7,9 +7,7 @@ import { FileTextIcon, Loader2Icon, SendIcon, SparklesIcon } from "lucide-react"
 import { Dropzone } from "@/modules/tools/components/dropzone";
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
-import { isPro } from "@/lib/plans";
-
-const FREE_LIMIT = 5; // matches FREE_DAILY_AI_LIMIT
+import { isPro, FREE_DAILY_AI_LIMIT as FREE_LIMIT } from "@/lib/plans";
 
 type Msg = { role: "user" | "assistant"; content: string };
 

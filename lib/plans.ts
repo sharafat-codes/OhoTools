@@ -57,6 +57,11 @@ export const PLAN_BY_ID: Record<PlanId, Plan> = Object.fromEntries(
 // Free-tier limits (per asset type). Paid plans are unlimited.
 export const FREE_SAVE_LIMIT = 10;
 
+// Freemium quota for AI tools: free (logged-in) users get this many runs per UTC
+// day; Pro is unlimited. Single source of truth — imported by both the server
+// enforcement (lib/ai-usage.ts) and the client UI so the number never drifts.
+export const FREE_DAILY_AI_LIMIT = 5;
+
 const PLAN_RANK: Record<string, number> = { FREE: 0, PRO: 1, BUSINESS: 2 };
 
 export function hasPlan(current: string, required: PlanId): boolean {
