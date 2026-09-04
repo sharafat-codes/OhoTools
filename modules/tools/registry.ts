@@ -3614,6 +3614,11 @@ export const TOOL_GUIDES: Record<string, string> = {
   "slogan-generator": "how-to-write-a-slogan",
   "resume-summary-generator": "how-to-write-a-resume-summary",
   "hashtag-generator": "how-to-choose-hashtags",
+  "cover-letter-generator": "how-to-write-a-cover-letter",
+  "bmi-calculator": "what-is-a-healthy-bmi",
+  "calorie-calculator": "how-many-calories-should-i-eat",
+  "bmr-calculator": "how-many-calories-should-i-eat",
+  "gpa-calculator": "how-to-calculate-gpa",
 };
 
 /**

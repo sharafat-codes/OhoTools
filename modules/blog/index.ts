@@ -74,6 +74,10 @@ import * as userAgentGuide from "./posts/what-is-a-user-agent";
 import * as sloganGuide from "./posts/how-to-write-a-slogan";
 import * as resumeSummaryGuide from "./posts/how-to-write-a-resume-summary";
 import * as hashtagGuide from "./posts/how-to-choose-hashtags";
+import * as coverLetterGuide from "./posts/how-to-write-a-cover-letter";
+import * as bmiGuide from "./posts/what-is-a-healthy-bmi";
+import * as caloriesGuide from "./posts/how-many-calories-should-i-eat";
+import * as gpaGuide from "./posts/how-to-calculate-gpa";
 
 export type PostMeta = {
   slug: string;
@@ -166,6 +170,10 @@ const modules: BlogPost[] = [
   sloganGuide,
   resumeSummaryGuide,
   hashtagGuide,
+  coverLetterGuide,
+  bmiGuide,
+  caloriesGuide,
+  gpaGuide,
 ];
 
 /** All posts, newest first. */
