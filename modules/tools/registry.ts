@@ -3737,6 +3737,10 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "caption-generator",
       "product-description-generator",
       "faq-generator",
+      "excel-formula-generator",
+      "blog-post-generator",
+      "linkedin-post-generator",
+      "story-generator",
     ],
   },
   {

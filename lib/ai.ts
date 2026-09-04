@@ -100,6 +100,24 @@ const TASKS: Record<string, (o: Options) => string> = {
     }: its overall purpose, then the key steps or logic, and any notable behavior, edge cases, or bugs you notice. Use short paragraphs or a numbered list. Output only the explanation — do not restate the entire code or add XML tags.`,
   "cron-generator": () =>
     `You are a cron-schedule expert. Convert the user's plain-English schedule into a standard 5-field cron expression (minute hour day-of-month month day-of-week). Output the cron expression on the first line, then a blank line, then a one-line plain-English confirmation of when it runs, and a short note if the schedule cannot be expressed exactly in cron. No other preamble, notes, or XML tags.`,
+  "excel-formula": (o) =>
+    `You are a spreadsheet expert. From the user's plain-English description, write a correct ${
+      o.app ?? "Excel"
+    } formula. Output the formula on the first line (starting with =), then a blank line, then a brief explanation of how it works, and a final line starting with "Example:" showing sample usage. No other preamble, notes, code fences, or XML tags.`,
+  "blog-post": (o) =>
+    `You are a professional blog writer. Write a well-structured ${
+      o.length ?? "medium"
+    }-length blog post on the topic the user provides, in a ${
+      o.tone ?? "informative"
+    } tone. Include a compelling title, an engaging introduction, clear subheadings, and a short conclusion. Use Markdown for structure. Do not invent specific statistics, quotes, or facts the user didn't provide. Output only the blog post — no preamble, notes, or XML tags.`,
+  "linkedin-post": (o) =>
+    `You are a LinkedIn content expert. Write an engaging LinkedIn post on the topic the user provides, in a ${
+      o.tone ?? "professional"
+    } tone. Open with a strong one-line hook, use short scannable paragraphs, and end with a question or call to action, followed by a few relevant hashtags. Do not invent specific facts the user didn't provide. Output only the post — no preamble, notes, or XML tags.`,
+  story: (o) =>
+    `You are a creative fiction writer. Write a ${o.length ?? "short"} ${
+      o.genre ?? "general"
+    } story based on the user's prompt or premise. Give it a clear beginning, middle, and end, with vivid detail and natural dialogue where it fits. Keep it appropriate for a general audience. Output only the story — no preamble, notes, or XML tags.`,
 };
 
 export type AiResult =

@@ -7,6 +7,7 @@ import {
   CakeIcon, GemIcon, HeartIcon, WineIcon, MoonStarIcon, SparklesIcon, FileCheck2Icon,
   ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
   MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon, VideoIcon, SpellCheckIcon,
+  SheetIcon, NewspaperIcon, Share2Icon, BookOpenIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -912,6 +913,122 @@ export const extraTools: DevTool[] = [
       { q: "Do you store the names I enter?", a: "No — everything runs in your browser and nothing is saved or uploaded." },
     ],
     related: ["spin-the-wheel", "coin-flip", "random-number-generator"],
+  },
+  {
+    slug: "excel-formula-generator",
+    name: "AI Excel Formula Generator",
+    tagline: "Describe what you want — get the Excel or Sheets formula.",
+    description:
+      "Free AI Excel formula generator — describe what you need in plain English and get the correct Excel or Google Sheets formula, with an explanation. Free daily; Pro for unlimited.",
+    keywords: [
+      "excel formula generator",
+      "ai excel formula",
+      "google sheets formula generator",
+      "formula generator",
+      "excel formula from text",
+      "how to write excel formula",
+    ],
+    icon: SheetIcon,
+    intro:
+      "Stop hunting through function docs. Describe what you want to calculate in plain English — like \"sum column B where column A is 'Paid'\" — and get the correct Excel or Google Sheets formula, plus a short explanation of how it works. Everyone gets free daily AI runs; Pro removes the cap.",
+    steps: [
+      "Describe what you want the formula to do.",
+      "Pick Excel or Google Sheets.",
+      "Copy the generated formula and paste it into your spreadsheet.",
+    ],
+    faqs: [
+      { q: "Does it work for Google Sheets too?", a: "Yes — choose Google Sheets and it uses the right function names and syntax for Sheets." },
+      { q: "Will the formula always be correct?", a: "It's highly accurate for common tasks, but always test on your own data — describe your columns and conditions clearly for the best result." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["sql-generator", "regex-generator", "csv-to-xlsx"],
+  },
+  {
+    slug: "blog-post-generator",
+    name: "AI Blog Post Generator",
+    tagline: "Turn a topic into a structured draft blog post.",
+    description:
+      "Free AI blog post generator — enter a topic and get a structured draft with a title, intro, subheadings, and conclusion. Free daily runs; Pro for unlimited long-form.",
+    keywords: [
+      "ai blog post generator",
+      "blog post generator",
+      "ai article writer",
+      "blog writer ai",
+      "write a blog post with ai",
+      "content generator",
+    ],
+    icon: NewspaperIcon,
+    intro:
+      "Beat the blank page. Give the AI your topic (and any angle or key points) and get a structured first draft — title, introduction, subheadings, and a conclusion — that you can edit into your own voice. Great for outlines and drafts; always review and fact-check before publishing. Free daily runs; Pro removes the limit.",
+    steps: [
+      "Enter your topic and any key points or angle.",
+      "Choose a tone and length.",
+      "Generate, then edit the draft into your own voice.",
+    ],
+    faqs: [
+      { q: "Should I publish the output as-is?", a: "Treat it as a first draft — edit for accuracy and voice, and verify any facts. AI drafts are a starting point, not a finished article." },
+      { q: "Can it write long posts?", a: "Yes — choose the long option. Very long articles are best generated section by section for quality." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["headline-generator", "ai-paraphraser", "ai-summarizer", "faq-generator"],
+  },
+  {
+    slug: "linkedin-post-generator",
+    name: "AI LinkedIn Post Generator",
+    tagline: "Turn an idea into an engaging LinkedIn post.",
+    description:
+      "Free AI LinkedIn post generator — enter a topic and get an engaging post with a strong hook, scannable lines, and hashtags. Free daily runs; Pro for unlimited.",
+    keywords: [
+      "linkedin post generator",
+      "ai linkedin post",
+      "linkedin content generator",
+      "linkedin caption generator",
+      "write linkedin post ai",
+      "linkedin post ideas",
+    ],
+    icon: Share2Icon,
+    intro:
+      "Post consistently without staring at a blank box. Describe your idea, experience, or announcement and get a ready-to-edit LinkedIn post — a scroll-stopping hook, short readable paragraphs, a call to action, and relevant hashtags. Free daily runs; Pro for unlimited.",
+    steps: [
+      "Describe your topic, story, or announcement.",
+      "Pick a tone.",
+      "Generate, tweak, and post.",
+    ],
+    faqs: [
+      { q: "Will it sound like me?", a: "Give it your key points and pick a tone — then edit lightly so it keeps your voice. The more context you add, the more authentic it reads." },
+      { q: "Does it add hashtags?", a: "Yes — it ends with a few relevant hashtags you can keep or swap." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["caption-generator", "bio-generator", "headline-generator", "hashtag-generator"],
+  },
+  {
+    slug: "story-generator",
+    name: "AI Story Generator",
+    tagline: "Turn a prompt into a short story in any genre.",
+    description:
+      "Free AI story generator — give a premise and get a short story in the genre you choose, with a beginning, middle, and end. Free daily runs; Pro for unlimited.",
+    keywords: [
+      "ai story generator",
+      "story generator",
+      "short story generator",
+      "story writer ai",
+      "story idea generator",
+      "write a story with ai",
+    ],
+    icon: BookOpenIcon,
+    intro:
+      "Spark your imagination. Give the AI a premise, characters, or just a vibe, pick a genre and length, and get a complete short story with a beginning, middle, and end. Perfect for writing prompts, bedtime stories, and beating writer's block. Free daily runs; Pro removes the cap.",
+    steps: [
+      "Describe your premise, characters, or idea.",
+      "Choose a genre and length.",
+      "Generate your story — then continue or regenerate for a new take.",
+    ],
+    faqs: [
+      { q: "Can I control the genre?", a: "Yes — pick from options like fantasy, sci-fi, mystery, romance, and more, and set the length." },
+      { q: "Is the story original?", a: "Each story is generated fresh from your prompt. As with any AI writing, review it before publishing anywhere." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["ai-paraphraser", "headline-generator", "caption-generator"],
   },
 ];
 
