@@ -24,7 +24,11 @@ export type ProPrice = {
 export async function getProPrice(usdPrice: number): Promise<ProPrice> {
   const country = await getRequestCountry();
   const pkr = Number(process.env.SAFEPAY_PRO_AMOUNT || 0);
-  if (country === "PK" && pkr > 0) {
+  // Only show the PKR (Safepay) price once Safepay is LIVE in production. While
+  // it's still in sandbox/pending approval, PK visitors pay via Paddle in USD,
+  // so we must show USD to match. Flip SAFEPAY_ENVIRONMENT=production to re-enable.
+  const safepayLive = (process.env.SAFEPAY_ENVIRONMENT || "sandbox").trim() === "production";
+  if (country === "PK" && pkr > 0 && safepayLive) {
     return {
       isPk: true,
       currency: "PKR",

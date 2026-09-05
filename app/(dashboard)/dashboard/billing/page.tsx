@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { syncStripeForCustomer } from "@/lib/stripe-sync";
 import { isPaddleConfigured } from "@/lib/paddle";
 import { syncPaddleForUser } from "@/lib/paddle-sync";
-import { isSafepayConfigured } from "@/lib/safepay";
+import { isSafepayConfigured, safepayIsSandbox } from "@/lib/safepay";
 import { getProPrice, getRequestCountry } from "@/lib/region";
 import { PLAN_BY_ID } from "@/lib/plans";
 import { BillingView } from "@/modules/billing/components/billing-view";
@@ -42,12 +42,15 @@ export default async function BillingPage({
   const sub = dbUser?.subscription;
   const proPrice = await getProPrice(PLAN_BY_ID.PRO.price);
 
-  // Provider routing: Pakistani visitors pay locally in PKR via Safepay;
-  // everyone else uses Paddle (Merchant of Record) as the default. Safepay is
-  // the fallback if Paddle isn't configured yet. (Stripe/Lemon Squeezy retired.)
+  // Provider routing. Paddle (Merchant of Record) is the default for everyone.
+  // Pakistani visitors get Safepay (local PKR) ONLY once Safepay is live in
+  // production — while it's in sandbox/pending approval, they use Paddle too.
+  // Safepay is the last-resort fallback if Paddle isn't configured yet.
+  // Re-enable PK→Safepay later with just SAFEPAY_ENVIRONMENT=production.
   const country = await getRequestCountry();
+  const safepayLive = isSafepayConfigured() && !safepayIsSandbox();
   const provider: "safepay" | "paddle" | "stripe" =
-    country === "PK" && isSafepayConfigured()
+    country === "PK" && safepayLive
       ? "safepay"
       : isPaddleConfigured
         ? "paddle"
