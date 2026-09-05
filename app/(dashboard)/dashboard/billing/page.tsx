@@ -6,7 +6,7 @@ import { syncStripeForCustomer } from "@/lib/stripe-sync";
 import { isPaddleConfigured } from "@/lib/paddle";
 import { syncPaddleForUser } from "@/lib/paddle-sync";
 import { isSafepayConfigured } from "@/lib/safepay";
-import { getProPrice } from "@/lib/region";
+import { getProPrice, getRequestCountry } from "@/lib/region";
 import { PLAN_BY_ID } from "@/lib/plans";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
@@ -42,6 +42,19 @@ export default async function BillingPage({
   const sub = dbUser?.subscription;
   const proPrice = await getProPrice(PLAN_BY_ID.PRO.price);
 
+  // Provider routing: Pakistani visitors pay locally in PKR via Safepay;
+  // everyone else uses Paddle (Merchant of Record) as the default. Safepay is
+  // the fallback if Paddle isn't configured yet. (Stripe/Lemon Squeezy retired.)
+  const country = await getRequestCountry();
+  const provider: "safepay" | "paddle" | "stripe" =
+    country === "PK" && isSafepayConfigured()
+      ? "safepay"
+      : isPaddleConfigured
+        ? "paddle"
+        : isSafepayConfigured()
+          ? "safepay"
+          : "stripe";
+
   return (
     <div className="mx-auto w-full max-w-5xl">
       <div className="mb-6">
@@ -66,7 +79,7 @@ export default async function BillingPage({
             : null
         }
         checkoutStatus={checkout ?? null}
-        provider={isSafepayConfigured() ? "safepay" : isPaddleConfigured ? "paddle" : "stripe"}
+        provider={provider}
         proPrice={proPrice}
         userId={user.id}
         email={user.email}
