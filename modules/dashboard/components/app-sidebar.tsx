@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SparklesIcon } from "lucide-react";
 
 import { Logo } from "@/components/logo";
 import { Badge } from "@/components/ui/badge";
@@ -19,10 +20,18 @@ export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
       <div className="p-3">
         <Link
           href="/dashboard/billing"
-          className="block rounded-lg border border-border bg-muted/40 p-3 transition-colors hover:bg-muted"
+          className={cn(
+            "block rounded-lg border p-3 transition-colors",
+            plan === "FREE"
+              ? "border-primary/30 bg-primary/5 hover:bg-primary/10"
+              : "border-border bg-muted/40 hover:bg-muted",
+          )}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium">Your plan</span>
+            <span className="flex items-center gap-1.5 text-xs font-medium">
+              {plan === "FREE" && <SparklesIcon className="size-3.5 text-primary" />}
+              Your plan
+            </span>
             <Badge
               variant="secondary"
               className={cn(plan !== "FREE" && "border-primary/30 bg-primary/10 text-primary")}
@@ -30,9 +39,9 @@ export function AppSidebar({ plan = "FREE" }: { plan?: string }) {
               {plan}
             </Badge>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className={cn("mt-1 text-xs", plan === "FREE" ? "text-primary" : "text-muted-foreground")}>
             {plan === "FREE"
-              ? "Upgrade for unlimited AI & more."
+              ? "Go Pro for unlimited AI & more →"
               : "Manage your subscription and billing."}
           </p>
         </Link>
