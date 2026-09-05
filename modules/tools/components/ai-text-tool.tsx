@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CopyButton } from "@/components/copy-button";
+import { UpgradeCard } from "@/components/upgrade-card";
 import { useSession } from "@/components/plan-provider";
 import { isPro, FREE_DAILY_AI_LIMIT as FREE_LIMIT } from "@/lib/plans";
 
@@ -165,10 +166,7 @@ export function AiTextTool({
           Sign up to use AI tools
         </Button>
       ) : !pro && quotaHit ? (
-        <Button className="w-fit" render={<Link href="/pricing" />}>
-          <SparklesIcon className="size-4" />
-          Upgrade to Pro for unlimited AI
-        </Button>
+        <UpgradeCard reason={`You've used your ${FREE_LIMIT} free AI runs for today. Upgrade for unlimited — every AI tool, no daily cap.`} />
       ) : (
         <Button className="w-fit" onClick={run} disabled={busy || !text.trim() || tooLong}>
           {busy ? <Loader2Icon className="animate-spin" /> : <WandSparklesIcon className="size-4" />}
@@ -183,6 +181,15 @@ export function AiTextTool({
             <CopyButton value={result} label="" />
           </div>
           <Textarea id="ai-out" readOnly value={result} className="min-h-40 text-sm" />
+          {!pro && (
+            <p className="text-xs text-muted-foreground">
+              ✨ Made with free AI.{" "}
+              <Link href="/dashboard/billing" className="font-medium text-primary hover:underline">
+                Go Pro
+              </Link>{" "}
+              for unlimited runs — no daily limit.
+            </p>
+          )}
         </div>
       )}
     </div>
