@@ -2,7 +2,21 @@
 // by both the client UI and the API route. Kept self-contained so the whole
 // `interview` module can be lifted into its own app later with minimal rework.
 
-export type RoleId = "frontend" | "backend" | "fullstack" | "data" | "devops" | "mobile" | "java-backend";
+export type RoleId =
+  | "frontend"
+  | "backend"
+  | "fullstack"
+  | "data"
+  | "devops"
+  | "mobile"
+  | "java-backend"
+  | "python-backend"
+  | "react-frontend"
+  | "sql-analyst"
+  | "cloud-aws"
+  | "qa-sdet"
+  | "product-manager";
+
 export type LevelId = "junior" | "mid" | "senior";
 export type TypeId = "technical" | "behavioral" | "mixed";
 
@@ -14,7 +28,14 @@ export const ROLES: { id: RoleId; label: string; focus: string }[] = [
   { id: "devops", label: "DevOps / SRE", focus: "CI/CD, containers & Kubernetes, cloud, observability, incidents, IaC" },
   { id: "mobile", label: "Mobile", focus: "iOS/Android or React Native/Flutter, app lifecycle, performance, offline, releases" },
   { id: "java-backend", label: "Java Backend", focus: "Java core, Spring Boot & Spring ecosystem, JVM internals, concurrency, JPA/Hibernate, REST APIs, microservices, testing" },
+  { id: "python-backend", label: "Python Backend", focus: "Python core, FastAPI/Django/Flask, async, ORMs, REST & GraphQL APIs, Celery, testing, performance" },
+  { id: "react-frontend", label: "React Frontend", focus: "React hooks, component design, state management (Redux/Zustand/Context), SSR/Next.js, testing, performance optimisation" },
+  { id: "sql-analyst", label: "SQL / Data Analyst", focus: "SQL (joins, window functions, CTEs, indexes), data modeling, pandas, reporting, dashboards, ETL basics" },
+  { id: "cloud-aws", label: "Cloud / AWS", focus: "AWS core services (EC2, S3, Lambda, RDS, DynamoDB, IAM, VPC, CloudFront), serverless, cost optimisation, IaC with Terraform/CDK" },
+  { id: "qa-sdet", label: "QA / SDET", focus: "Testing strategies (unit, integration, E2E), Selenium/Playwright/Cypress, API testing, CI pipelines, test design, bug lifecycle" },
+  { id: "product-manager", label: "Product Manager", focus: "Product sense, user stories, prioritisation frameworks (RICE, ICE), metrics, stakeholder communication, roadmapping, estimation" },
 ];
+
 
 export const LEVELS: { id: LevelId; label: string }[] = [
   { id: "junior", label: "Junior" },
