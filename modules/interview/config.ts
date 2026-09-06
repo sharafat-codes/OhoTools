@@ -2,7 +2,7 @@
 // by both the client UI and the API route. Kept self-contained so the whole
 // `interview` module can be lifted into its own app later with minimal rework.
 
-export type RoleId = "frontend" | "backend" | "fullstack" | "data" | "devops" | "mobile";
+export type RoleId = "frontend" | "backend" | "fullstack" | "data" | "devops" | "mobile" | "java-backend";
 export type LevelId = "junior" | "mid" | "senior";
 export type TypeId = "technical" | "behavioral" | "mixed";
 
@@ -13,6 +13,7 @@ export const ROLES: { id: RoleId; label: string; focus: string }[] = [
   { id: "data", label: "Data / ML", focus: "SQL, data modeling, Python/pandas, statistics, ML fundamentals, pipelines" },
   { id: "devops", label: "DevOps / SRE", focus: "CI/CD, containers & Kubernetes, cloud, observability, incidents, IaC" },
   { id: "mobile", label: "Mobile", focus: "iOS/Android or React Native/Flutter, app lifecycle, performance, offline, releases" },
+  { id: "java-backend", label: "Java Backend", focus: "Java core, Spring Boot & Spring ecosystem, JVM internals, concurrency, JPA/Hibernate, REST APIs, microservices, testing" },
 ];
 
 export const LEVELS: { id: LevelId; label: string }[] = [

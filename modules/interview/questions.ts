@@ -122,6 +122,29 @@ export const QUESTION_BANKS: QuestionBank[] = [
     ],
   },
   {
+    slug: "java-backend",
+    topic: "Java Backend",
+    title: "Java Backend Interview Questions",
+    description:
+      "Java backend interview questions with answers — Spring Boot, JVM, concurrency, JPA/Hibernate, REST APIs, and microservices. Practice live with an AI interviewer.",
+    intro:
+      "The Java backend questions that come up most in Spring Boot and enterprise Java interviews, with concise, correct answers. Work through them, then run a live mock to practice explaining them out loud.",
+    questions: [
+      { q: "What is the difference between the JDK, JRE, and JVM?", a: "The JVM is the runtime engine that executes bytecode. The JRE bundles the JVM with the standard class libraries needed to run Java programs. The JDK is the full development kit — it includes the JRE plus the compiler (javac), debugger, and other tools. You develop with the JDK and ship/run with the JRE." },
+      { q: "Explain Java's memory model — heap vs. stack.", a: "The stack holds method frames with local variables and references, allocated and freed per-call in LIFO order. The heap holds all object instances and is shared across threads — managed by the garbage collector. Large long-lived objects go on the heap; primitives and references in an active frame stay on the stack." },
+      { q: "What is the difference between checked and unchecked exceptions?", a: "Checked exceptions (extend Exception but not RuntimeException) must be declared in the method signature or caught — the compiler enforces this. Unchecked exceptions (RuntimeException and its subclasses, plus Errors) don't require declaration. Use checked for recoverable conditions and unchecked for programming errors." },
+      { q: "How does Spring Boot auto-configuration work?", a: "Spring Boot scans the classpath for libraries and, based on what it finds (e.g. spring-data-jpa + a datasource), uses @Conditional annotations to register beans automatically. The spring.factories / AutoConfiguration.imports file lists candidate configurations that are evaluated at startup — you can override any bean or property to customise or disable them." },
+      { q: "What is the Spring Bean lifecycle?", a: "Spring instantiates the bean, injects dependencies, then calls @PostConstruct / afterPropertiesSet(). The bean is then in use. On shutdown it calls @PreDestroy / destroy(). The container manages scope — singleton beans live for the application lifetime, request/session-scoped beans are shorter." },
+      { q: "Explain @Transactional in Spring — what does it do and what are common pitfalls?", a: "@Transactional wraps the method in a database transaction that commits on success or rolls back on a RuntimeException by default. Common pitfalls: calling a @Transactional method from within the same bean bypasses the proxy (no transaction); checked exceptions don't trigger rollback unless you set rollbackFor; and catching exceptions inside the method silently swallows the rollback." },
+      { q: "What is N+1 query problem in JPA/Hibernate and how do you fix it?", a: "N+1 occurs when loading a list of N entities triggers N extra lazy queries for an association. Fix it with JOIN FETCH in JPQL, @EntityGraph, or a @NamedEntityGraph to eagerly load associations in a single query, or use batch fetching. Avoid FetchType.EAGER globally — it causes over-fetching." },
+      { q: "How does Java handle concurrency — threads, synchronized, and modern alternatives?", a: "Threads share heap memory; synchronized methods/blocks acquire an intrinsic lock to prevent concurrent access. Modern alternatives: ReentrantLock for explicit locking, volatile for visibility without mutual exclusion, java.util.concurrent classes (ConcurrentHashMap, atomic types, locks, semaphores), and CompletableFuture for async composition. Prefer higher-level abstractions to raw synchronized." },
+      { q: "What is the difference between ArrayList and LinkedList?", a: "ArrayList is backed by an array — O(1) random access, O(n) insertions in the middle. LinkedList is a doubly-linked list — O(1) insertions/deletions at head/tail, O(n) random access. ArrayList is almost always the better default due to cache locality; use LinkedList when you insert/remove frequently at both ends." },
+      { q: "Explain REST API best practices in a Spring Boot context.", a: "Use meaningful URIs (nouns, plural: /users/{id}), correct HTTP verbs (GET/POST/PUT/PATCH/DELETE), and standard status codes (200, 201, 204, 400, 404, 409, 500). Return consistent error bodies. Version via URI (/v1/) or Accept header. Secure with Spring Security (JWT or OAuth2). Validate input with @Valid/@Validated and handle exceptions globally with @ControllerAdvice." },
+      { q: "What is a microservice and what challenges does it introduce?", a: "A microservice is a small, independently deployable service with a single bounded context. Benefits: independent scaling and deployment. Challenges: distributed system problems — network latency, partial failures, distributed transactions (use sagas/outbox pattern), data consistency, service discovery, and observability (distributed tracing with Sleuth/Zipkin, centralised logging, metrics)." },
+      { q: "How do you write unit tests for a Spring Boot service?", a: "Use JUnit 5 and Mockito — annotate with @ExtendWith(MockitoExtension.class), mock dependencies with @Mock, inject them with @InjectMocks, and assert with AssertJ. For Spring slice tests use @WebMvcTest (controller layer with MockMvc) or @DataJpaTest (repository layer with an in-memory DB). Keep unit tests fast by avoiding the full context (@SpringBootTest is integration, not unit)." },
+    ],
+  },
+  {
     slug: "system-design",
     topic: "System Design",
     title: "System Design Interview Questions",

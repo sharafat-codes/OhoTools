@@ -58,7 +58,7 @@ const faqs = [
   },
   {
     q: "Which roles and levels does it cover?",
-    a: "Frontend, Backend, Full-Stack, Data / ML, DevOps / SRE, and Mobile — at junior, mid-level, and senior difficulty. You can pick a technical, behavioral, or mixed interview.",
+    a: "Frontend, Backend, Java Backend, Full-Stack, Data / ML, DevOps / SRE, and Mobile — at junior, mid-level, and senior difficulty. You can pick a technical, behavioral, or mixed interview.",
   },
   {
     q: "Does it include live coding questions?",
