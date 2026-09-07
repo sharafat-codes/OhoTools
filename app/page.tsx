@@ -10,6 +10,7 @@ import {
   FileTextIcon,
   QrCodeIcon,
   SendIcon,
+  Code2Icon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -413,6 +414,32 @@ export default async function Home() {
               </div>
               <Button size="lg" className="shrink-0" render={<Link href="/send" />}>
                 Send a file
+                <ArrowRightIcon />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Embeddable widgets — surface the backlink engine, not just in the footer */}
+        <section className="py-16 sm:py-20">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                  <Code2Icon className="size-5" />
+                </span>
+                <div>
+                  <h2 className="font-heading text-xl font-semibold tracking-tight">
+                    Add our tools to your site — free
+                  </h2>
+                  <p className="mt-1 max-w-md text-sm text-muted-foreground">
+                    Embed any calculator, generator, or converter on your blog or website with one
+                    line of code. No sign-up, always free.
+                  </p>
+                </div>
+              </div>
+              <Button size="lg" variant="outline" className="shrink-0" render={<Link href="/widgets" />}>
+                Browse widgets
                 <ArrowRightIcon />
               </Button>
             </div>
