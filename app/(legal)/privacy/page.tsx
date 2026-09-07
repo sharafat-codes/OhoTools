@@ -12,7 +12,7 @@ export default function PrivacyPage() {
   return (
     <article>
       <h1 className="font-heading text-3xl font-semibold tracking-tight">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Last updated: August 15, 2026</p>
+      <p className="mt-2 text-sm text-muted-foreground">Last updated: September 7, 2026</p>
 
       <p className="mt-6">
         This Privacy Policy explains how OhoTool (&quot;OhoTool&quot;, &quot;we&quot;, &quot;us&quot;) collects,
@@ -25,8 +25,9 @@ export default function PrivacyPage() {
       <ul>
         <li><strong>Account information</strong> — your name and email address when you create an account. Passwords are never stored in plain text; they are kept only as a secure one-way hash.</li>
         <li><strong>Content you create</strong> — the QR codes, barcodes, and links you generate and choose to save to your account, along with their settings.</li>
+        <li><strong>AI Mock Interview history</strong> — when you complete a mock interview, we save its feedback report (scores, strengths, areas to improve, and per-question feedback) to your account so you can track your progress over time. Free accounts keep only the most recent interview; Pro accounts keep the full history and can export it as a PDF. You can delete any saved interview at any time from your dashboard, and we never share it.</li>
         <li><strong>Scan data</strong> — for dynamic QR codes, each scan is logged with its timestamp, device/browser type, referring source, and approximate country, so we can show you scan analytics. We do not store full IP addresses.</li>
-        <li><strong>Billing information</strong> — processed by our payment provider, Stripe. We receive your subscription status and limited billing metadata, but never your full card number.</li>
+        <li><strong>Billing information</strong> — processed by our payment providers, Paddle (Merchant of Record, for international customers) and Safepay (for customers in Pakistan). We receive your subscription/payment status and limited billing metadata, but never your full card number.</li>
         <li><strong>Usage &amp; analytics data</strong> — aggregate, privacy-friendly usage statistics (see &quot;Analytics&quot; below) and basic technical information needed to operate and secure the service.</li>
       </ul>
 
@@ -117,7 +118,8 @@ export default function PrivacyPage() {
       <ul>
         <li><strong>Supabase</strong> — database hosting for your account and saved content.</li>
         <li><strong>Vercel</strong> — application hosting and privacy-friendly analytics.</li>
-        <li><strong>Stripe</strong> — payment processing and subscription management.</li>
+        <li><strong>Paddle</strong> — payment processing and subscription management (Merchant of Record) for international customers.</li>
+        <li><strong>Safepay</strong> — payment processing for customers in Pakistan.</li>
         <li><strong>Resend</strong> — delivery of transactional emails.</li>
         <li><strong>Google AdSense</strong> — advertising on the free tier (see &quot;Advertising&quot;).</li>
         <li><strong>OpenAI</strong> — powers our AI tools; text you submit to an AI tool is sent to process that request and is not used to train models.</li>
