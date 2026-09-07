@@ -60,7 +60,9 @@ export const FREE_SAVE_LIMIT = 10;
 // Freemium quota for AI tools: free (logged-in) users get this many runs per UTC
 // day; Pro is unlimited. Single source of truth — imported by both the server
 // enforcement (lib/ai-usage.ts) and the client UI so the number never drifts.
-export const FREE_DAILY_AI_LIMIT = 5;
+// Kept low to bound OpenAI API cost while still letting free users see the value
+// before the paywall (dropping to 1–2 hurts conversion; 3 is the sweet spot).
+export const FREE_DAILY_AI_LIMIT = 3;
 
 const PLAN_RANK: Record<string, number> = { FREE: 0, PRO: 1, BUSINESS: 2 };
 

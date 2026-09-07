@@ -66,6 +66,7 @@ model User {
   cards          Card[]
   subscription   Subscription?
   payments       Payment[]
+  interviewSessions InterviewSession[]
 
   // One-time Pro pass expiry (e.g. bought via Safepay). Null for Stripe
   // subscriptions (which manage plan via their own webhooks) and lifetime grants.
@@ -393,6 +394,28 @@ model InterviewUsage {
   @@unique([userId, day])
   @@index([userId])
   @@map("interview_usage")
+}
+
+// Saved mock-interview sessions — the Pro "History & Progress" feature. One row
+// per completed interview (when a feedback report is generated). Free users keep
+// only their most recent session; Pro keeps the full history + PDF export.
+// `report` holds the full InterviewReport as a JSON string; overallScore and
+// readiness are denormalized so the list and progress chart don't parse JSON.
+model InterviewSession {
+  id           String   @id @default(cuid())
+  userId       String
+  role         String // RoleId
+  level        String // LevelId
+  type         String // TypeId
+  overallScore Int // 0–100
+  readiness    String
+  report       String // full InterviewReport, JSON-encoded
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("interview_session")
 }
 
 // A tool a user has saved as a favorite. Anonymous users keep favorites in

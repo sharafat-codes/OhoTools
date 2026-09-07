@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getCurrentUser } from "@/lib/dal";
+import { prisma } from "@/lib/prisma";
 import { isPro } from "@/lib/plans";
 import { interviewTurn, interviewReport, isInterviewConfigured, type Turn } from "@/lib/interview";
 import {
@@ -119,6 +120,37 @@ export async function POST(req: Request) {
     const result = await interviewReport({ config, history });
     if (!result.ok) return NextResponse.json({ error: result.error }, { status: result.status });
     await incrementInterviewReports(userId).catch(() => {});
+
+    // Persist the session for the History & Progress feature (best-effort — a
+    // storage hiccup must never fail the report the user just earned). Free users
+    // keep only their most recent session; Pro keeps the full history.
+    try {
+      await prisma.interviewSession.create({
+        data: {
+          userId,
+          role: config.role,
+          level: config.level,
+          type: config.type,
+          overallScore: result.report.overallScore,
+          readiness: result.report.readiness,
+          report: JSON.stringify(result.report),
+        },
+      });
+      if (!pro) {
+        const stale = await prisma.interviewSession.findMany({
+          where: { userId },
+          orderBy: { createdAt: "desc" },
+          select: { id: true },
+          skip: 1,
+        });
+        if (stale.length) {
+          await prisma.interviewSession.deleteMany({ where: { id: { in: stale.map((s) => s.id) } } });
+        }
+      }
+    } catch {
+      /* best-effort — history is a bonus, not required for the response */
+    }
+
     return NextResponse.json({ report: result.report, pro });
   }
 
