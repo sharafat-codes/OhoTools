@@ -394,51 +394,40 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Send a file */}
+        {/* Send a file + Embeddable widgets — two secondary CTAs, side by side */}
         <section className="py-16 sm:py-20">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-4">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-                  <SendIcon className="size-5" />
-                </span>
-                <div>
-                  <h2 className="font-heading text-xl font-semibold tracking-tight">
-                    Need to send a file?
-                  </h2>
-                  <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-                    Share any file with a private, end-to-end encrypted link — free and no
-                    sign-up. Add a password, and it auto-deletes within 24 hours.
-                  </p>
-                </div>
+          <div className="mx-auto grid w-full max-w-5xl gap-4 px-4 sm:grid-cols-2 sm:px-6">
+            {/* Send a file */}
+            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6">
+              <span className="grid size-11 place-items-center rounded-xl bg-primary/10 text-primary">
+                <SendIcon className="size-5" />
+              </span>
+              <div className="flex-1">
+                <h2 className="font-heading text-lg font-semibold tracking-tight">Need to send a file?</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Share any file with a private, end-to-end encrypted link — free, no sign-up, and it
+                  auto-deletes within 24 hours.
+                </p>
               </div>
-              <Button size="lg" className="shrink-0" render={<Link href="/send" />}>
+              <Button className="w-fit" render={<Link href="/send" />}>
                 Send a file
                 <ArrowRightIcon />
               </Button>
             </div>
-          </div>
-        </section>
 
-        {/* Embeddable widgets — surface the backlink engine, not just in the footer */}
-        <section className="py-16 sm:py-20">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 rounded-2xl border border-border bg-card p-8 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-4">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-                  <Code2Icon className="size-5" />
-                </span>
-                <div>
-                  <h2 className="font-heading text-xl font-semibold tracking-tight">
-                    Add our tools to your site — free
-                  </h2>
-                  <p className="mt-1 max-w-md text-sm text-muted-foreground">
-                    Embed any calculator, generator, or converter on your blog or website with one
-                    line of code. No sign-up, always free.
-                  </p>
-                </div>
+            {/* Embeddable widgets — surface the backlink engine, not just in the footer */}
+            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6">
+              <span className="grid size-11 place-items-center rounded-xl bg-primary/10 text-primary">
+                <Code2Icon className="size-5" />
+              </span>
+              <div className="flex-1">
+                <h2 className="font-heading text-lg font-semibold tracking-tight">Add our tools to your site — free</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Embed any calculator, generator, or converter on your blog or website with one line
+                  of code. No sign-up, always free.
+                </p>
               </div>
-              <Button size="lg" variant="outline" className="shrink-0" render={<Link href="/widgets" />}>
+              <Button variant="outline" className="w-fit" render={<Link href="/widgets" />}>
                 Browse widgets
                 <ArrowRightIcon />
               </Button>
