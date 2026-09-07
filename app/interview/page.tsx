@@ -65,8 +65,8 @@ const faqs = [
     a: "Right now it focuses on technical concept questions (explained in words) and behavioral questions. In-browser live-coding questions are planned for a later update.",
   },
   {
-    q: "Are my answers saved?",
-    a: "No. The interview runs in your browser session and your answers aren't stored. Saving and revisiting past interviews is a planned Pro feature.",
+    q: "Is my interview history saved?",
+    a: "Your feedback reports are saved to your account so you can track your progress over time. Free keeps your most recent interview; Pro keeps your full history, shows a score-over-time chart, and lets you export PDF reports. You can delete any saved interview anytime from your dashboard, and we never share it.",
   },
 ];
 

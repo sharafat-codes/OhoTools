@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { isPro } from "@/lib/plans";
 import { labelFor, type RoleId, type LevelId, type TypeId, type InterviewReport } from "@/modules/interview/config";
 import { FeedbackReport } from "@/modules/interview/components/feedback-report";
+import { DeleteInterviewButton } from "@/modules/interview/components/delete-interview-button";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = { title: "Interview report" };
@@ -50,17 +51,20 @@ export default async function InterviewReportPage({
           <ArrowLeftIcon className="size-4" />
           Back to history
         </Link>
-        {pro ? (
-          <Button variant="outline" size="sm" render={<a href={`/api/interview/${id}/pdf`} />}>
-            <DownloadIcon className="size-4" />
-            Download PDF
-          </Button>
-        ) : (
-          <Button variant="outline" size="sm" render={<Link href="/dashboard/billing" />}>
-            <SparklesIcon className="size-4" />
-            Export PDF — Pro
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          {pro ? (
+            <Button variant="outline" size="sm" render={<a href={`/api/interview/${id}/pdf`} />}>
+              <DownloadIcon className="size-4" />
+              Download PDF
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" render={<Link href="/dashboard/billing" />}>
+              <SparklesIcon className="size-4" />
+              Export PDF — Pro
+            </Button>
+          )}
+          <DeleteInterviewButton id={id} />
+        </div>
       </div>
 
       <FeedbackReport report={report} pro={pro} label={label} />

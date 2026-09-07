@@ -409,8 +409,8 @@ export function InterviewApp({
       )}
       <p className="text-center text-xs text-muted-foreground">
         {pro
-          ? `Pro: up to ${caps.questions} questions, ${caps.sessionsPerDay} interviews/day.`
-          : `Free: 1 interview a day, ${caps.questions} questions. Answers aren't stored.`}
+          ? `Pro: up to ${caps.questions} questions, ${caps.sessionsPerDay} interviews/day, full saved history + PDF export.`
+          : `Free: 1 interview a day, ${caps.questions} questions. We save your latest report — go Pro for full history.`}
       </p>
     </div>
   );
