@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, DownloadIcon, SparklesIcon } from "lucide-react";
 
 import { requireUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { isPro } from "@/lib/plans";
 import { labelFor, type RoleId, type LevelId, type TypeId, type InterviewReport } from "@/modules/interview/config";
 import { FeedbackReport } from "@/modules/interview/components/feedback-report";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = { title: "Interview report" };
 
@@ -41,13 +42,26 @@ export default async function InterviewReportPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <Link
-        href="/dashboard/interviews"
-        className="mb-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeftIcon className="size-4" />
-        Back to history
-      </Link>
+      <div className="mb-5 flex items-center justify-between gap-3">
+        <Link
+          href="/dashboard/interviews"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeftIcon className="size-4" />
+          Back to history
+        </Link>
+        {pro ? (
+          <Button variant="outline" size="sm" render={<a href={`/api/interview/${id}/pdf`} />}>
+            <DownloadIcon className="size-4" />
+            Download PDF
+          </Button>
+        ) : (
+          <Button variant="outline" size="sm" render={<Link href="/dashboard/billing" />}>
+            <SparklesIcon className="size-4" />
+            Export PDF — Pro
+          </Button>
+        )}
+      </div>
 
       <FeedbackReport report={report} pro={pro} label={label} />
     </div>
