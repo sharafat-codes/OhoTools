@@ -9,6 +9,7 @@ import {
   MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon, VideoIcon, SpellCheckIcon,
   SheetIcon, NewspaperIcon, Share2Icon, BookOpenIcon,
   TerminalIcon, RulerIcon, BotIcon, FileCogIcon,
+  MegaphoneIcon, PlayCircleIcon, TagIcon, MessageSquareIcon, MailIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -1176,6 +1177,151 @@ export const extraTools: DevTool[] = [
       { q: "Is my data uploaded?", a: "No — the conversion runs entirely in your browser; nothing is sent to a server." },
     ],
     related: ["json-yaml", "json-formatter", "json-xml"],
+  },
+  {
+    slug: "ad-copy-generator",
+    name: "AI Ad Copy Generator",
+    tagline: "Write high-converting ad copy for Google, Facebook & more.",
+    description:
+      "Free AI ad copy generator — describe your product and get high-converting ad headlines and descriptions for Google, Facebook, Instagram, or LinkedIn. Free daily; Pro unlimited.",
+    keywords: [
+      "ad copy generator",
+      "ai ad copy",
+      "google ads copy generator",
+      "facebook ad copy",
+      "ad headline generator",
+      "advertising copy",
+    ],
+    icon: MegaphoneIcon,
+    intro:
+      "Turn a product description into ad copy that converts. Tell the AI what you're advertising and the platform, and get several headline-and-description variations tuned to that channel — ready to test in your campaigns. Everyone gets free daily runs; Pro removes the cap.",
+    steps: [
+      "Describe your product or service and the offer.",
+      "Pick the platform (Google, Facebook, Instagram, LinkedIn) and tone.",
+      "Generate variations and A/B test the best ones.",
+    ],
+    faqs: [
+      { q: "Which platforms are supported?", a: "Google, Facebook, Instagram, and LinkedIn — each gets copy suited to that channel's style and typical length." },
+      { q: "Should I edit the copy?", a: "Yes — treat it as strong first drafts. Review claims, add your specifics, and A/B test variations for the best results." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["headline-generator", "product-description-generator", "meta-description-generator"],
+  },
+  {
+    slug: "youtube-title-generator",
+    name: "AI YouTube Title & Description Generator",
+    tagline: "Get click-worthy titles, a description, and tags for your video.",
+    description:
+      "Free AI YouTube generator — enter your video topic and get catchy titles, a full description, and relevant tags. Free daily runs; Pro for unlimited.",
+    keywords: [
+      "youtube title generator",
+      "youtube description generator",
+      "ai youtube title",
+      "youtube tags generator",
+      "youtube seo",
+      "video title generator",
+    ],
+    icon: PlayCircleIcon,
+    intro:
+      "Get more clicks on your videos. Describe your video and the AI writes several click-worthy (but honest) titles, a structured description with a hook and call to action, and a set of relevant tags — everything you need to publish and rank. Free daily runs; Pro unlimited.",
+    steps: [
+      "Describe your video topic and angle.",
+      "Generate titles, a description, and tags.",
+      "Pick your favorite title and paste the rest into YouTube.",
+    ],
+    faqs: [
+      { q: "Does it write the description and tags too?", a: "Yes — you get 5 titles, a full description with a call to action, and 10–15 tags, all at once." },
+      { q: "Will the titles be clickbait?", a: "No — it aims for compelling but honest titles that match your content, which perform better long-term." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["headline-generator", "hashtag-generator", "caption-generator"],
+  },
+  {
+    slug: "meta-description-generator",
+    name: "AI Meta Description Generator",
+    tagline: "Write SEO meta descriptions that get clicks.",
+    description:
+      "Free AI meta description generator — enter your page topic and get compelling, under-155-character meta descriptions that include your keyword and drive clicks. Free daily; Pro unlimited.",
+    keywords: [
+      "meta description generator",
+      "ai meta description",
+      "seo meta description",
+      "meta description writer",
+      "meta description length",
+      "serp description",
+    ],
+    icon: TagIcon,
+    intro:
+      "Write meta descriptions that earn clicks from search results. Describe your page and the AI generates several options — each under 155 characters, keyword-aware, and written to entice searchers. Free daily runs; Pro removes the limit.",
+    steps: [
+      "Describe your page's topic or paste its content.",
+      "Generate 3 meta-description options.",
+      "Copy the best one into your page's <meta name=\"description\">.",
+    ],
+    faqs: [
+      { q: "How long should a meta description be?", a: "Around 150–155 characters so it isn't truncated in search results. Each option here is written to fit." },
+      { q: "Does it help SEO?", a: "Meta descriptions don't directly change rankings, but a compelling one improves click-through rate, which matters." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["meta-tag-generator", "headline-generator", "faq-generator"],
+  },
+  {
+    slug: "review-response-generator",
+    name: "AI Review Response Generator",
+    tagline: "Reply to customer reviews professionally in seconds.",
+    description:
+      "Free AI review response generator — paste a customer review and get a professional, empathetic reply for Google, Yelp, or anywhere. Free daily runs; Pro for unlimited.",
+    keywords: [
+      "review response generator",
+      "ai review reply",
+      "respond to google reviews",
+      "customer review response",
+      "reply to reviews",
+      "review reply template",
+    ],
+    icon: MessageSquareIcon,
+    intro:
+      "Respond to every review without spending your evening writing replies. Paste a customer's review — positive or negative — and the AI writes a warm, professional response that addresses their specific points. For complaints it apologizes and offers to make it right, never defensive. Free daily runs; Pro unlimited.",
+    steps: [
+      "Paste the customer's review (and your business name if you like).",
+      "Pick a tone.",
+      "Generate a reply, tweak it, and post it.",
+    ],
+    faqs: [
+      { q: "Does it handle negative reviews?", a: "Yes — for complaints it writes a sincere, non-defensive apology that acknowledges the issue and offers to fix it, which is exactly what future customers want to see." },
+      { q: "Will it invent details?", a: "No — it responds only to what's in the review and any info you add, so it won't promise refunds or policies you didn't mention." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["ai-email-writer", "faq-generator", "caption-generator"],
+  },
+  {
+    slug: "cold-email-generator",
+    name: "AI Cold Email Generator",
+    tagline: "Write cold outreach emails that get replies.",
+    description:
+      "Free AI cold email generator — describe your product and prospect and get a personalized cold outreach email with a subject line and clear call to action. Free daily; Pro unlimited.",
+    keywords: [
+      "cold email generator",
+      "ai cold email",
+      "cold outreach email",
+      "sales email generator",
+      "cold email template",
+      "b2b email writer",
+    ],
+    icon: MailIcon,
+    intro:
+      "Write cold emails that actually get opened and answered. Describe what you're offering and who you're reaching, and the AI writes a personalized email with a specific subject line, a value proposition tied to the prospect's needs, and a low-friction call to action — no spammy hype. Free daily runs; Pro removes the cap.",
+    steps: [
+      "Describe your product/service and the prospect.",
+      "Pick a tone and length.",
+      "Generate, personalize the details, and send.",
+    ],
+    faqs: [
+      { q: "Will it sound spammy?", a: "No — it avoids hype and false urgency and focuses on a clear, relevant value proposition, which is what gets replies." },
+      { q: "Can I set the length?", a: "Yes — choose short for a punchy first-touch email or longer when you need more context." },
+      { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
+    ],
+    related: ["ai-email-writer", "cover-letter-generator", "product-description-generator"],
   },
 ];
 

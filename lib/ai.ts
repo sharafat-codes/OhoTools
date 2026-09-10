@@ -118,6 +118,22 @@ const TASKS: Record<string, (o: Options) => string> = {
     `You are a creative fiction writer. Write a ${o.length ?? "short"} ${
       o.genre ?? "general"
     } story based on the user's prompt or premise. Give it a clear beginning, middle, and end, with vivid detail and natural dialogue where it fits. Keep it appropriate for a general audience. Output only the story — no preamble, notes, or XML tags.`,
+  "ad-copy": (o) =>
+    `You are a direct-response copywriter. Write high-converting ad copy for ${
+      o.platform ?? "Google"
+    } ads promoting the product or service the user describes, in a ${o.tone ?? "persuasive"} tone. Provide 3 distinct ad variations as a numbered list; for each, include a short punchy headline and a description that fits the platform's typical limits. Do not invent specific prices, claims, or features the user didn't provide. Output only the numbered ad variations — no preamble, notes, or XML tags.`,
+  youtube: () =>
+    `You are a YouTube growth expert. For the video topic the user describes, generate three sections, each on its own line group and clearly labeled:\n"Titles:" — 5 catchy, click-worthy but honest titles as a numbered list.\n"Description:" — a well-structured video description with a hook, a short summary, and a call to action.\n"Tags:" — 10 to 15 relevant tags separated by commas.\nAvoid clickbait that misrepresents the content. Output only those three labeled sections — no other preamble, notes, or XML tags.`,
+  "meta-description": () =>
+    `You are an SEO copywriter. Write 3 compelling meta descriptions for the page topic or content the user provides. Each must be under 155 characters, include the main keyword naturally, and entice clicks. Provide them as a numbered list. Output only the numbered list — no preamble, notes, character counts, or XML tags.`,
+  "review-response": (o) =>
+    `You write professional, empathetic responses to customer reviews on behalf of a business. Given the review the user provides (and any business name), write a single ${
+      o.tone ?? "warm and professional"
+    } reply: thank the customer, address their specific points, and — for a complaint — apologize sincerely and offer to make it right, without being defensive. Keep it concise and genuine. Do not invent facts, compensation, or policies the user didn't provide. Output only the reply — no preamble, notes, or XML tags.`,
+  "cold-email": (o) =>
+    `You write effective cold outreach emails. Using the product/service and prospect details the user provides, write a ${
+      o.tone ?? "professional"
+    }, ${o.length ?? "short"} cold email: a specific subject line, a personalized opening, a concise value proposition tied to the prospect's likely needs, and a clear low-friction call to action. Avoid spammy hype and false urgency. Start with a "Subject:" line, then the email body. Do not invent specific facts the user didn't provide. Output only the email — no preamble, notes, or XML tags.`,
 };
 
 export type AiResult =

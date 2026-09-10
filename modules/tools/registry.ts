@@ -3753,6 +3753,11 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "blog-post-generator",
       "linkedin-post-generator",
       "story-generator",
+      "ad-copy-generator",
+      "youtube-title-generator",
+      "meta-description-generator",
+      "review-response-generator",
+      "cold-email-generator",
     ],
   },
   {
