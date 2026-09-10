@@ -3627,6 +3627,10 @@ export const TOOL_GUIDES: Record<string, string> = {
   "px-rem-converter": "how-to-convert-px-to-rem",
   "robots-txt-generator": "what-is-robots-txt",
   "json-toml": "what-is-toml",
+  "json-to-schema": "how-to-create-a-json-schema",
+  "sales-tax-calculator": "how-to-calculate-sales-tax",
+  "average-calculator": "mean-median-mode-explained",
+  "number-to-words": "how-to-write-numbers-in-words",
 };
 
 /**
