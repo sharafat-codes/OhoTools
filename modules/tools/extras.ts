@@ -8,6 +8,7 @@ import {
   ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
   MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon, VideoIcon, SpellCheckIcon,
   SheetIcon, NewspaperIcon, Share2Icon, BookOpenIcon,
+  TerminalIcon, RulerIcon, BotIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -1029,6 +1030,123 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["ai-paraphraser", "headline-generator", "caption-generator"],
+  },
+  {
+    slug: "curl-to-code",
+    name: "cURL to Code",
+    tagline: "Convert a cURL command to JavaScript fetch or Python requests.",
+    description:
+      "Free cURL to code converter — paste a cURL command and get equivalent JavaScript (fetch) or Python (requests) code. Runs in your browser, nothing sent anywhere.",
+    keywords: [
+      "curl to code",
+      "curl to fetch",
+      "curl to javascript",
+      "curl to python",
+      "curl converter",
+      "curl to requests",
+    ],
+    icon: TerminalIcon,
+    intro:
+      "Turn a cURL command into ready-to-run code. Paste any cURL request — with its method, headers, and body — and get the equivalent JavaScript fetch or Python requests snippet you can drop straight into your app. It's parsed entirely in your browser, so your URLs and tokens never leave your device.",
+    steps: [
+      "Paste your cURL command.",
+      "Pick JavaScript (fetch) or Python (requests).",
+      "Copy the generated code.",
+    ],
+    faqs: [
+      { q: "Which cURL options are supported?", a: "The common ones: the URL, -X/--request (method), -H/--header, and -d/--data (and its variants). Uncommon flags are ignored so the core request still converts correctly." },
+      { q: "Is my command sent to a server?", a: "No — parsing and code generation happen entirely in your browser, so your API URLs and tokens stay on your device." },
+      { q: "Can it convert to other languages?", a: "Right now it outputs JavaScript (fetch) and Python (requests) — the two most requested. More languages may be added." },
+    ],
+    related: ["json-formatter", "url-parser", "jwt-decoder"],
+  },
+  {
+    slug: "json-to-schema",
+    name: "JSON to JSON Schema",
+    tagline: "Generate a JSON Schema from an example JSON object.",
+    description:
+      "Free JSON to JSON Schema generator — paste example JSON and get a draft-07 JSON Schema with types and required fields. Runs in your browser, nothing uploaded.",
+    keywords: [
+      "json to json schema",
+      "json schema generator",
+      "generate json schema",
+      "json schema from json",
+      "json schema draft-07",
+      "infer json schema",
+    ],
+    icon: BracesIcon,
+    intro:
+      "Generate a JSON Schema from a sample of your data. Paste an example JSON object and get a draft-07 schema with inferred types (string, integer, number, boolean, array, object) and required fields — ready to use for validation in your API or config. Everything runs in your browser.",
+    steps: [
+      "Paste an example JSON object or array.",
+      "The JSON Schema is generated instantly.",
+      "Copy the schema into your project.",
+    ],
+    faqs: [
+      { q: "Which JSON Schema version does it output?", a: "Draft-07, the most widely supported version across validation libraries." },
+      { q: "Are all fields marked required?", a: "Yes — from a single example, every present key is treated as required. Edit the generated 'required' array to make fields optional." },
+      { q: "Is my data uploaded?", a: "No — the schema is generated entirely in your browser; nothing is sent to a server." },
+    ],
+    related: ["json-formatter", "json-to-typescript", "mock-data-generator"],
+  },
+  {
+    slug: "px-rem-converter",
+    name: "PX to REM Converter",
+    tagline: "Convert between px, rem, and em for CSS.",
+    description:
+      "Free PX to REM converter — convert pixels to rem and em (and back) for any root font size. Instant, accurate CSS sizing, right in your browser.",
+    keywords: [
+      "px to rem",
+      "px to rem converter",
+      "rem to px",
+      "px to em",
+      "pixel to rem",
+      "css unit converter",
+    ],
+    icon: RulerIcon,
+    intro:
+      "Convert CSS sizes between pixels, rem, and em instantly. Set your root font size (16px by default), then convert px to rem and em, or rem back to px — handy for building responsive, accessible layouts that scale with the user's font settings. It all runs in your browser.",
+    steps: [
+      "Set your root font size (usually 16px).",
+      "Enter a value in pixels or rem.",
+      "Read the converted rem, em, and px values.",
+    ],
+    faqs: [
+      { q: "What is the difference between rem and em?", a: "rem is relative to the root (html) font size, so it's predictable across your whole page. em is relative to the parent element's font size, so it can compound when nested. For consistent spacing, rem is usually preferred." },
+      { q: "Why convert px to rem?", a: "Using rem lets your layout scale with the user's browser font-size setting, which is better for accessibility and responsive design than fixed pixels." },
+      { q: "What root font size should I use?", a: "16px is the browser default and the safest choice. Change it here only if you've set a different font-size on your html element." },
+    ],
+    related: ["css-gradient-generator", "color-converter", "aspect-ratio-calculator"],
+  },
+  {
+    slug: "robots-txt-generator",
+    name: "robots.txt Generator",
+    tagline: "Create a robots.txt file for your website.",
+    description:
+      "Free robots.txt generator — build a valid robots.txt with allow/disallow rules, crawl-delay, and a sitemap line. Copy it straight into your site's root.",
+    keywords: [
+      "robots.txt generator",
+      "create robots.txt",
+      "robots txt",
+      "robots.txt file",
+      "generate robots.txt",
+      "robots.txt example",
+    ],
+    icon: BotIcon,
+    intro:
+      "Generate a correct robots.txt for your website in seconds. Choose whether to allow all crawlers or block the whole site, list the paths you want to keep out of search, add an optional crawl-delay, and include your sitemap URL. Copy the result into a robots.txt file at your site's root.",
+    steps: [
+      "Choose your crawler policy and add any paths to disallow.",
+      "Add your sitemap URL (recommended).",
+      "Copy the generated robots.txt into your site's root.",
+    ],
+    faqs: [
+      { q: "What is a robots.txt file?", a: "It's a text file at your site's root (yoursite.com/robots.txt) that tells search-engine crawlers which pages or folders they may or may not request. It guides crawling — it is not a security or privacy control." },
+      { q: "Where do I put robots.txt?", a: "In the root of your domain, so it's reachable at https://yoursite.com/robots.txt. It won't work in a subfolder." },
+      { q: "Does Disallow hide a page from Google?", a: "Not reliably — Disallow asks crawlers not to fetch a page, but a blocked URL can still be indexed if linked elsewhere. To keep a page out of results, use a noindex meta tag or header instead." },
+      { q: "Should I add my sitemap?", a: "Yes — adding a Sitemap: line helps search engines discover all your pages, which is good for indexing." },
+    ],
+    related: ["meta-tag-generator", "utm-builder", "favicon-generator"],
   },
 ];
 

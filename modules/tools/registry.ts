@@ -3789,6 +3789,9 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "code-beautifier",
       "markdown-editor",
       "json-to-typescript",
+      "json-to-schema",
+      "curl-to-code",
+      "px-rem-converter",
       "jwt-decoder",
       "regex-tester",
       "cron-explainer",
@@ -3808,7 +3811,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Web & SEO",
     blurb: "Ship and market your site.",
-    slugs: ["utm-builder", "meta-tag-generator", "favicon-generator"],
+    slugs: ["utm-builder", "meta-tag-generator", "favicon-generator", "robots-txt-generator"],
   },
   {
     name: "Converters",
