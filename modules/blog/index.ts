@@ -82,6 +82,10 @@ import * as excelFormulaGuide from "./posts/how-to-write-excel-formulas";
 import * as blogPostGuide from "./posts/how-to-write-a-blog-post";
 import * as linkedinPostGuide from "./posts/how-to-write-a-linkedin-post";
 import * as shortStoryGuide from "./posts/how-to-write-a-short-story";
+import * as curlToFetchGuide from "./posts/how-to-convert-curl-to-fetch";
+import * as pxToRemGuide from "./posts/how-to-convert-px-to-rem";
+import * as robotsTxtGuide from "./posts/what-is-robots-txt";
+import * as tomlGuide from "./posts/what-is-toml";
 
 export type PostMeta = {
   slug: string;
@@ -182,6 +186,10 @@ const modules: BlogPost[] = [
   blogPostGuide,
   linkedinPostGuide,
   shortStoryGuide,
+  curlToFetchGuide,
+  pxToRemGuide,
+  robotsTxtGuide,
+  tomlGuide,
 ];
 
 /** All posts, newest first. */

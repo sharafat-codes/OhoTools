@@ -8,7 +8,7 @@ import {
   ServerIcon, DatabaseIcon, FingerprintIcon, TableIcon, GitBranchIcon, BracesIcon, LinkIcon,
   MicIcon, CaptionsIcon, PenToolIcon, SigmaIcon, ReceiptIcon, VideoIcon, SpellCheckIcon,
   SheetIcon, NewspaperIcon, Share2Icon, BookOpenIcon,
-  TerminalIcon, RulerIcon, BotIcon,
+  TerminalIcon, RulerIcon, BotIcon, FileCogIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -1147,6 +1147,35 @@ export const extraTools: DevTool[] = [
       { q: "Should I add my sitemap?", a: "Yes — adding a Sitemap: line helps search engines discover all your pages, which is good for indexing." },
     ],
     related: ["meta-tag-generator", "utm-builder", "favicon-generator"],
+  },
+  {
+    slug: "json-toml",
+    name: "JSON to TOML",
+    tagline: "Convert between JSON and TOML both ways.",
+    description:
+      "Free JSON to TOML converter — convert JSON to TOML and TOML to JSON in your browser. Great for Cargo, pyproject.toml, and config files. Nothing uploaded.",
+    keywords: [
+      "json to toml",
+      "toml to json",
+      "json toml converter",
+      "convert toml",
+      "toml converter",
+      "toml online",
+    ],
+    icon: FileCogIcon,
+    intro:
+      "Convert configuration data between JSON and TOML in both directions. Paste JSON to get clean TOML (the format used by Cargo, pyproject.toml, and many modern tools), or paste TOML to get JSON. Everything runs in your browser, so your config never leaves your device.",
+    steps: [
+      "Choose a direction — JSON → TOML or TOML → JSON.",
+      "Paste your data on the left.",
+      "Copy the converted result on the right.",
+    ],
+    faqs: [
+      { q: "What is TOML?", a: "TOML (Tom's Obvious, Minimal Language) is a human-friendly configuration format designed to be easy to read and unambiguous. It's used by Rust's Cargo, Python's pyproject.toml, and many other tools." },
+      { q: "Why won't my JSON convert to TOML?", a: "TOML requires a top-level object (a table). If your JSON is an array or a single value, wrap it in an object first — for example { \"items\": [...] }." },
+      { q: "Is my data uploaded?", a: "No — the conversion runs entirely in your browser; nothing is sent to a server." },
+    ],
+    related: ["json-yaml", "json-formatter", "json-xml"],
   },
 ];
 

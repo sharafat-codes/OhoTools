@@ -42,6 +42,7 @@ export const EMBED_DEDICATED_SLUGS = [
   "json-to-schema",
   "px-rem-converter",
   "robots-txt-generator",
+  "json-toml",
 ] as const;
 
 const dedicatedSet = new Set<string>(EMBED_DEDICATED_SLUGS);

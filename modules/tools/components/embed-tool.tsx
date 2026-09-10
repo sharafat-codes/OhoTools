@@ -35,6 +35,7 @@ const MAP: Record<string, ComponentType> = {
   "json-to-schema": d(() => import("./json-to-schema").then((m) => ({ default: m.JsonToSchema }))),
   "px-rem-converter": d(() => import("./px-rem-converter").then((m) => ({ default: m.PxRemConverter }))),
   "robots-txt-generator": d(() => import("./robots-txt-generator").then((m) => ({ default: m.RobotsTxtGenerator }))),
+  "json-toml": d(() => import("./json-toml").then((m) => ({ default: m.JsonToml }))),
   "qr-code": d(() => import("./qr-code-tool").then((m) => ({ default: m.QrCodeTool }))),
   "password-generator": d(() => import("./password-generator").then((m) => ({ default: m.PasswordGenerator }))),
   "hash-generator": d(() => import("./hash-generator").then((m) => ({ default: m.HashGenerator }))),

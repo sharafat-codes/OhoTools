@@ -3623,6 +3623,10 @@ export const TOOL_GUIDES: Record<string, string> = {
   "blog-post-generator": "how-to-write-a-blog-post",
   "linkedin-post-generator": "how-to-write-a-linkedin-post",
   "story-generator": "how-to-write-a-short-story",
+  "curl-to-code": "how-to-convert-curl-to-fetch",
+  "px-rem-converter": "how-to-convert-px-to-rem",
+  "robots-txt-generator": "what-is-robots-txt",
+  "json-toml": "what-is-toml",
 };
 
 /**
@@ -3822,6 +3826,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
       "timezone-converter",
       "currency-converter",
       "json-yaml",
+      "json-toml",
       "csv-to-xlsx",
       "xlsx-to-csv",
       "markdown-to-html",
