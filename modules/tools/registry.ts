@@ -3631,6 +3631,11 @@ export const TOOL_GUIDES: Record<string, string> = {
   "sales-tax-calculator": "how-to-calculate-sales-tax",
   "average-calculator": "mean-median-mode-explained",
   "number-to-words": "how-to-write-numbers-in-words",
+  "ad-copy-generator": "how-to-write-google-ad-copy",
+  "youtube-title-generator": "how-to-write-youtube-titles",
+  "meta-description-generator": "how-to-write-a-meta-description",
+  "review-response-generator": "how-to-respond-to-negative-reviews",
+  "cold-email-generator": "how-to-write-a-cold-email",
 };
 
 /**

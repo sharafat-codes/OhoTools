@@ -90,6 +90,11 @@ import * as jsonSchemaGuide from "./posts/how-to-create-a-json-schema";
 import * as salesTaxGuide from "./posts/how-to-calculate-sales-tax";
 import * as averageGuide from "./posts/mean-median-mode-explained";
 import * as numberWordsGuide from "./posts/how-to-write-numbers-in-words";
+import * as adCopyGuide from "./posts/how-to-write-google-ad-copy";
+import * as youtubeTitleGuide from "./posts/how-to-write-youtube-titles";
+import * as metaDescGuide from "./posts/how-to-write-a-meta-description";
+import * as reviewResponseGuide from "./posts/how-to-respond-to-negative-reviews";
+import * as coldEmailGuide from "./posts/how-to-write-a-cold-email";
 
 export type PostMeta = {
   slug: string;
@@ -198,6 +203,11 @@ const modules: BlogPost[] = [
   salesTaxGuide,
   averageGuide,
   numberWordsGuide,
+  adCopyGuide,
+  youtubeTitleGuide,
+  metaDescGuide,
+  reviewResponseGuide,
+  coldEmailGuide,
 ];
 
 /** All posts, newest first. */
