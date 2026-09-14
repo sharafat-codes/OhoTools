@@ -456,9 +456,27 @@ model Card {
 
   user     User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   watchers CardWatch[]
+  rsvps    Rsvp[]
 
   @@index([userId, createdAt])
   @@map("card")
+}
+
+// An RSVP response to an invitation card. Public (guests aren't accounts). The
+// host sees the responses in their dashboard; full guest list + export is Pro.
+model Rsvp {
+  id        String   @id @default(cuid())
+  cardId    String
+  name      String
+  attending Boolean
+  guests    Int      @default(1)
+  message   String?
+  createdAt DateTime @default(now())
+
+  card Card @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId])
+  @@map("rsvp")
 }
 
 // Someone who asked to be emailed when a specific card is opened. `notified`

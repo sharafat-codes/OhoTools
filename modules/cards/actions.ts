@@ -8,6 +8,39 @@ import { normalizeCard, OCCASIONS, type CardData } from "@/modules/cards/types";
 
 export type SaveResult = { ok: true; id: string; shortCode: string } | { ok: false; error: string };
 
+/**
+ * Record an RSVP to a shared invitation. Public — guests aren't accounts. Keyed
+ * by the card's short code; validates and clamps inputs. The host reads these in
+ * their dashboard.
+ */
+export async function submitRsvp(input: {
+  code: string;
+  name: string;
+  attending: boolean;
+  guests?: number;
+  message?: string;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const name = (input.name ?? "").toString().trim().slice(0, 80);
+  if (!name) return { ok: false, error: "Please enter your name." };
+
+  const card = await prisma.card.findUnique({
+    where: { shortCode: (input.code ?? "").toString() },
+    select: { id: true },
+  });
+  if (!card) return { ok: false, error: "This invitation could not be found." };
+
+  const attending = Boolean(input.attending);
+  const guests = attending ? Math.min(20, Math.max(1, Math.floor(Number(input.guests) || 1))) : 0;
+  const message = (input.message ?? "").toString().trim().slice(0, 300) || null;
+
+  try {
+    await prisma.rsvp.create({ data: { cardId: card.id, name, attending, guests, message } });
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Sorry — couldn't record your RSVP. Please try again." };
+  }
+}
+
 function autoTitle(card: CardData): string {
   const label = OCCASIONS[card.occasion].label;
   return card.to ? `${label} — ${card.to}` : label;

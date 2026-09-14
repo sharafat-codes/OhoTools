@@ -364,6 +364,12 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
           <p className="text-xs text-muted-foreground">
             Adds an &quot;Event details&quot; button to your card with Add-to-Calendar and map links.
           </p>
+          <ToggleRow
+            label="Collect RSVPs"
+            hint="Guests reply on the card; you see who's coming in your dashboard. Save the card to activate."
+            checked={!!data.rsvp}
+            onChange={(v) => set("rsvp", v)}
+          />
         </Section>
 
         {/* Pro */}
