@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 
 import { getCurrentUser } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { sendEmail, renderActionEmail } from "@/lib/email";
+import { SITE_URL } from "@/lib/site";
 import { normalizeCard, OCCASIONS, type CardData } from "@/modules/cards/types";
 
 export type SaveResult = { ok: true; id: string; shortCode: string } | { ok: false; error: string };
@@ -25,7 +27,7 @@ export async function submitRsvp(input: {
 
   const card = await prisma.card.findUnique({
     where: { shortCode: (input.code ?? "").toString() },
-    select: { id: true },
+    select: { id: true, title: true, user: { select: { email: true } } },
   });
   if (!card) return { ok: false, error: "This invitation could not be found." };
 
@@ -35,10 +37,27 @@ export async function submitRsvp(input: {
 
   try {
     await prisma.rsvp.create({ data: { cardId: card.id, name, attending, guests, message } });
-    return { ok: true };
   } catch {
     return { ok: false, error: "Sorry — couldn't record your RSVP. Please try again." };
   }
+
+  // Notify the host (best-effort — never fail the guest's RSVP on an email error).
+  // Only owned cards have an email; anon-minted cards silently skip.
+  const hostEmail = card.user?.email;
+  if (hostEmail) {
+    const html = renderActionEmail({
+      heading: `${name} ${attending ? "is coming 🎉" : "can't make it"}`,
+      body: `${name} responded to your invitation${card.title ? ` (${card.title})` : ""}${
+        attending ? ` and is bringing ${guests} guest${guests === 1 ? "" : "s"}` : ""
+      }.${message ? ` They wrote: "${message}"` : ""}`,
+      buttonLabel: "See all RSVPs",
+      buttonUrl: `${SITE_URL}/dashboard/cards/${card.id}`,
+      footnote: "You're receiving this because you turned on RSVPs for a card on OhoTool.",
+    });
+    await sendEmail({ to: hostEmail, subject: `📩 New RSVP from ${name}`, html }).catch(() => {});
+  }
+
+  return { ok: true };
 }
 
 function autoTitle(card: CardData): string {

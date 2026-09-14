@@ -95,6 +95,8 @@ import * as youtubeTitleGuide from "./posts/how-to-write-youtube-titles";
 import * as metaDescGuide from "./posts/how-to-write-a-meta-description";
 import * as reviewResponseGuide from "./posts/how-to-respond-to-negative-reviews";
 import * as coldEmailGuide from "./posts/how-to-write-a-cold-email";
+import * as christmasWishesGuide from "./posts/merry-christmas-wishes-messages";
+import * as newYearWishesGuide from "./posts/happy-new-year-wishes-messages";
 
 export type PostMeta = {
   slug: string;
@@ -208,6 +210,8 @@ const modules: BlogPost[] = [
   metaDescGuide,
   reviewResponseGuide,
   coldEmailGuide,
+  christmasWishesGuide,
+  newYearWishesGuide,
 ];
 
 /** All posts, newest first. */

@@ -3607,6 +3607,8 @@ export const TOOL_GUIDES: Record<string, string> = {
   "anniversary-card-maker": "anniversary-wishes-messages",
   "eid-card-maker": "eid-mubarak-wishes-messages",
   "diwali-card-maker": "happy-diwali-wishes-messages",
+  "christmas-card-maker": "merry-christmas-wishes-messages",
+  "new-year-card-maker": "happy-new-year-wishes-messages",
   "ats-resume-checker": "is-your-resume-ats-friendly",
   "mock-data-generator": "how-to-generate-mock-data-for-testing",
   "http-status-codes": "301-vs-302-redirect",
@@ -3983,7 +3985,7 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   {
     name: "Cards & Invitations",
     blurb: "Create animated cards and invitations, then share the link.",
-    slugs: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker", "eid-card-maker", "diwali-card-maker", "christmas-card-maker", "new-year-card-maker"],
+    slugs: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker", "save-the-date-maker", "eid-card-maker", "diwali-card-maker", "christmas-card-maker", "new-year-card-maker", "valentine-card-maker", "baby-shower-invitation-maker", "graduation-card-maker"],
   },
 ];
 

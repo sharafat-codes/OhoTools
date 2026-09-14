@@ -74,7 +74,9 @@ export function elemStyle(data: CardData, el: StyleElement): CSSProperties | und
   return Object.keys(st).length ? st : undefined;
 }
 
-export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary" | "eid" | "diwali" | "christmas" | "newyear";
+export type Occasion =
+  | "birthday" | "wedding" | "engagement" | "anniversary" | "eid" | "diwali" | "christmas" | "newyear"
+  | "valentine" | "baby-shower" | "graduation" | "save-the-date";
 
 export const OCCASIONS: Record<Occasion, {
   label: string;
@@ -188,6 +190,58 @@ export const OCCASIONS: Record<Occasion, {
     toLabel: "Who is it for?",
     toPlaceholder: "Name",
   },
+  valentine: {
+    label: "Valentine's",
+    eyebrow: "Happy Valentine's Day",
+    title: (to) => `Happy Valentine's Day, ${to}!`,
+    message:
+      "You make every day brighter. Thank you for being my favorite person — Happy Valentine's Day! ❤️",
+    effect: "hearts",
+    theme: "rose",
+    template: "romantic",
+    templates: ["romantic", "elegant", "luxe", "neon"],
+    toLabel: "Who is it for?",
+    toPlaceholder: "My Love",
+  },
+  "baby-shower": {
+    label: "Baby Shower",
+    eyebrow: "Baby Shower",
+    title: (to) => `Baby Shower — ${to}`,
+    message:
+      "We're expecting! Please join us to celebrate the upcoming arrival of our little one. Your love and presence would mean so much. 👶",
+    effect: "confetti",
+    theme: "ocean",
+    template: "playful",
+    templates: ["playful", "elegant", "romantic", "classic"],
+    toLabel: "Parents-to-be",
+    toPlaceholder: "Emma & Jack",
+  },
+  graduation: {
+    label: "Graduation",
+    eyebrow: "Congratulations",
+    title: (to) => `Congratulations, ${to}!`,
+    message:
+      "Congratulations on your graduation! All your hard work has paid off — here's to your bright future ahead. 🎓",
+    effect: "confetti",
+    theme: "midnight",
+    template: "elegant",
+    templates: ["elegant", "classic", "luxe", "neon"],
+    toLabel: "Graduate's name",
+    toPlaceholder: "Name",
+  },
+  "save-the-date": {
+    label: "Save the Date",
+    eyebrow: "Save the Date",
+    title: (to) => `Save the Date — ${to}`,
+    message:
+      "We're getting married! Save the date — a formal invitation will follow. We can't wait to celebrate this day with you. 💍",
+    effect: "hearts",
+    theme: "rose",
+    template: "romantic",
+    templates: ["romantic", "elegant", "luxe", "neon"],
+    toLabel: "Couple's names",
+    toPlaceholder: "Aisha & Bilal",
+  },
 };
 
 export type CardData = {
@@ -281,6 +335,10 @@ const DEFAULT_TO: Record<Occasion, string> = {
   diwali: "Priya",
   christmas: "Friend",
   newyear: "Friend",
+  valentine: "My Love",
+  "baby-shower": "Emma & Jack",
+  graduation: "Sarah",
+  "save-the-date": "Aisha & Bilal",
 };
 
 export function defaultCard(occasion: Occasion = "birthday"): CardData {
@@ -301,7 +359,7 @@ export const DEFAULT_CARD: CardData = defaultCard("birthday");
 
 const TEMPLATE_IDS = CARD_TEMPLATES.map((t) => t.id) as readonly string[];
 const EFFECTS: readonly string[] = ["confetti", "hearts", "stars"];
-const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary", "eid", "diwali", "christmas", "newyear"];
+const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary", "eid", "diwali", "christmas", "newyear", "valentine", "baby-shower", "graduation", "save-the-date"];
 
 export function normalizeCard(input: Partial<CardData> | null | undefined): CardData {
   const d = input ?? {};

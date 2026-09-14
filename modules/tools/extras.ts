@@ -1384,6 +1384,122 @@ export const extraTools: DevTool[] = [
     ],
     related: ["christmas-card-maker", "eid-card-maker", "diwali-card-maker", "birthday-card-maker"],
   },
+  {
+    slug: "valentine-card-maker",
+    name: "Valentine's Card Maker",
+    tagline: "Create an animated Valentine's card and share the link — free.",
+    description:
+      "Free animated Valentine's Day card maker — personalize a name, message, photo and theme, then share a link that opens as a full-screen romantic card with floating hearts. No sign-up.",
+    keywords: [
+      "valentine card maker",
+      "valentines day card",
+      "valentine card",
+      "romantic card maker",
+      "animated valentine card",
+      "valentine ecard",
+    ],
+    icon: HeartIcon,
+    intro:
+      "Send a heartfelt animated Valentine's card in seconds. Add a name, your message, a photo, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with floating hearts. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Type their name and your Valentine's message.",
+      "Pick a theme — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated card.",
+    ],
+    faqs: [
+      { q: "Is the Valentine's card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media — it opens as a full-screen animated card, no app needed." },
+      { q: "Can I add a photo?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
+    ],
+    related: ["anniversary-card-maker", "birthday-card-maker", "wedding-invitation-maker"],
+  },
+  {
+    slug: "baby-shower-invitation-maker",
+    name: "Baby Shower Invitation Maker",
+    tagline: "Create an animated baby shower invitation and share the link — free.",
+    description:
+      "Free animated baby shower invitation maker — add names, message, event details and theme, collect RSVPs, and share a link that opens as a full-screen animated invitation. No sign-up.",
+    keywords: [
+      "baby shower invitation maker",
+      "baby shower invitation",
+      "baby shower invite",
+      "online baby shower invitation",
+      "digital baby shower invite",
+      "baby shower ecard",
+    ],
+    icon: BabyIcon,
+    intro:
+      "Invite everyone to your baby shower with a sweet animated invitation. Add the parents-to-be, your message, the date and venue, and pick a theme — then share the link. Turn on RSVPs to see who's coming right in your dashboard. Free, works on any device, no sign-up.",
+    steps: [
+      "Enter the parents-to-be and your message, plus the date and venue.",
+      "Turn on Collect RSVPs and save your card.",
+      "Share the link — guests RSVP on the card and you track replies in your dashboard.",
+    ],
+    faqs: [
+      { q: "Can guests RSVP?", a: "Yes — turn on Collect RSVPs, save the card, and share the link. Guests reply on the card and you see the guest list in your dashboard (full list on Pro)." },
+      { q: "Can I add the date and venue?", a: "Yes — add event details and the invitation shows an 'Event details' button with Add-to-Calendar and map links." },
+      { q: "Is it free?", a: "Yes — creating and sharing is free. Pro unlocks the full guest list, no watermark, custom colors, and downloads." },
+    ],
+    related: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker"],
+  },
+  {
+    slug: "graduation-card-maker",
+    name: "Graduation Card Maker",
+    tagline: "Create an animated graduation card and share the link — free.",
+    description:
+      "Free animated graduation card maker — personalize the graduate's name, message, photo and theme, then share a link that opens as a full-screen congratulations card. No sign-up.",
+    keywords: [
+      "graduation card maker",
+      "graduation card",
+      "congratulations graduation card",
+      "graduation ecard",
+      "animated graduation card",
+      "grad card maker",
+    ],
+    icon: GraduationCapIcon,
+    intro:
+      "Congratulate a graduate with an animated card. Add their name, your message, a photo, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated congratulations card. Free, works on any device, no sign-up.",
+    steps: [
+      "Type the graduate's name and your congratulations message.",
+      "Pick a theme — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated card.",
+    ],
+    faqs: [
+      { q: "Is the graduation card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media — it opens as a full-screen animated card." },
+      { q: "Can I add a photo?", a: "Yes — add the graduate's photo and turn on music; both play when the card is opened." },
+    ],
+    related: ["birthday-card-maker", "anniversary-card-maker", "new-year-card-maker"],
+  },
+  {
+    slug: "save-the-date-maker",
+    name: "Save the Date Maker",
+    tagline: "Create an animated save-the-date and share the link — free.",
+    description:
+      "Free animated save-the-date maker — add the couple's names, wedding date and venue, collect RSVPs, and share a link that opens as a full-screen animated save-the-date. No sign-up.",
+    keywords: [
+      "save the date maker",
+      "save the date",
+      "digital save the date",
+      "online save the date",
+      "save the date card",
+      "wedding save the date",
+    ],
+    icon: CalendarClockIcon,
+    intro:
+      "Announce your wedding date in style with an animated save-the-date. Add the couple's names, the date and venue, and pick a theme — then share the link. Turn on RSVPs to start tracking who's coming right away. Free, works on any device, no sign-up.",
+    steps: [
+      "Enter the couple's names, the date, and the venue.",
+      "Turn on Collect RSVPs and save your card.",
+      "Share the link — guests can add it to their calendar and RSVP.",
+    ],
+    faqs: [
+      { q: "Can guests add it to their calendar?", a: "Yes — with a date set, the card shows an 'Add to calendar' button (Google Calendar) plus a map link." },
+      { q: "Can I collect RSVPs?", a: "Yes — turn on Collect RSVPs, save, and share. Guests reply on the card and you track them in your dashboard (full list on Pro)." },
+      { q: "Is it free?", a: "Yes — free to create and share. Pro unlocks the full guest list, no watermark, custom colors, and downloads." },
+    ],
+    related: ["wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker"],
+  },
 ];
 
 export const extraSlugs: string[] = extraTools.map((t) => t.slug);
