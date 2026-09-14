@@ -12,6 +12,8 @@ export const CARD_THEMES = {
   rose: { name: "Rose", bg1: "#e11d48", bg2: "#9333ea", accent: "#fecdd3", text: "#ffffff" },
   emerald: { name: "Emerald", bg1: "#047857", bg2: "#022c22", accent: "#facc15", text: "#ffffff" },
   marigold: { name: "Marigold", bg1: "#9a3412", bg2: "#581c87", accent: "#fde047", text: "#ffffff" },
+  christmas: { name: "Christmas", bg1: "#7f1d1d", bg2: "#14532d", accent: "#fbbf24", text: "#ffffff" },
+  newyear: { name: "New Year", bg1: "#0b1020", bg2: "#1e1b4b", accent: "#fde047", text: "#ffffff" },
 } as const;
 
 export type CardTheme = keyof typeof CARD_THEMES;
@@ -72,7 +74,7 @@ export function elemStyle(data: CardData, el: StyleElement): CSSProperties | und
   return Object.keys(st).length ? st : undefined;
 }
 
-export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary" | "eid" | "diwali";
+export type Occasion = "birthday" | "wedding" | "engagement" | "anniversary" | "eid" | "diwali" | "christmas" | "newyear";
 
 export const OCCASIONS: Record<Occasion, {
   label: string;
@@ -155,6 +157,32 @@ export const OCCASIONS: Record<Occasion, {
       "Wishing you a Diwali full of light, laughter, and love. May the festival of lights brighten your life with happiness, health, and prosperity! 🪔",
     effect: "stars",
     theme: "marigold",
+    template: "festival",
+    templates: ["festival", "elegant", "luxe", "neon"],
+    toLabel: "Who is it for?",
+    toPlaceholder: "Name",
+  },
+  christmas: {
+    label: "Christmas",
+    eyebrow: "Merry Christmas",
+    title: (to) => `Merry Christmas, ${to}!`,
+    message:
+      "Wishing you a Christmas full of warmth, joy, and precious moments with the people you love. May your days be merry and bright! 🎄",
+    effect: "stars",
+    theme: "christmas",
+    template: "festival",
+    templates: ["festival", "elegant", "luxe", "neon"],
+    toLabel: "Who is it for?",
+    toPlaceholder: "Name",
+  },
+  newyear: {
+    label: "New Year",
+    eyebrow: "Happy New Year",
+    title: (to) => `Happy New Year, ${to}!`,
+    message:
+      "Cheers to new beginnings! Wishing you a year ahead filled with happiness, health, success, and dreams come true. 🎉",
+    effect: "confetti",
+    theme: "newyear",
     template: "festival",
     templates: ["festival", "elegant", "luxe", "neon"],
     toLabel: "Who is it for?",
@@ -251,6 +279,8 @@ const DEFAULT_TO: Record<Occasion, string> = {
   anniversary: "Aisha & Bilal",
   eid: "Ahmed",
   diwali: "Priya",
+  christmas: "Friend",
+  newyear: "Friend",
 };
 
 export function defaultCard(occasion: Occasion = "birthday"): CardData {
@@ -271,7 +301,7 @@ export const DEFAULT_CARD: CardData = defaultCard("birthday");
 
 const TEMPLATE_IDS = CARD_TEMPLATES.map((t) => t.id) as readonly string[];
 const EFFECTS: readonly string[] = ["confetti", "hearts", "stars"];
-const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary", "eid", "diwali"];
+const OCCASION_IDS: readonly string[] = ["birthday", "wedding", "engagement", "anniversary", "eid", "diwali", "christmas", "newyear"];
 
 export function normalizeCard(input: Partial<CardData> | null | undefined): CardData {
   const d = input ?? {};

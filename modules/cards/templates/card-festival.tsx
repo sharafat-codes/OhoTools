@@ -27,7 +27,11 @@ const DIYAS = ["14%", "33%", "50%", "67%", "86%"];
 export function CardFestival({ data, fireKey = 0 }: { data: CardData; fireKey?: number }) {
   const t = resolveTheme(data);
   const occ = OCCASIONS[data.occasion];
-  const isEid = data.occasion === "eid";
+  const occId = data.occasion;
+  const isEid = occId === "eid";
+  const isDiwali = occId === "diwali";
+  const isChristmas = occId === "christmas";
+  const isNewYear = occId === "newyear";
 
   return (
     <div
@@ -47,17 +51,33 @@ export function CardFestival({ data, fireKey = 0 }: { data: CardData; fireKey?: 
 
       {isEid && <span className="cf-moon" aria-hidden />}
 
-      {/* Hanging lanterns (gold, gently swaying) */}
-      {LANTERNS.map((l, i) => (
-        <span key={i} className="cf-lantern" style={{ left: l.left, top: l.drop, animationDelay: l.delay, animationDuration: l.dur }} aria-hidden>
-          <span className="cf-lantern-body" />
-        </span>
-      ))}
+      {/* Hanging lanterns (Eid/Diwali) */}
+      {(isEid || isDiwali) &&
+        LANTERNS.map((l, i) => (
+          <span key={i} className="cf-lantern" style={{ left: l.left, top: l.drop, animationDelay: l.delay, animationDuration: l.dur }} aria-hidden>
+            <span className="cf-lantern-body" />
+          </span>
+        ))}
+
+      {/* Christmas: hanging baubles */}
+      {isChristmas &&
+        LANTERNS.map((l, i) => (
+          <span key={`b${i}`} className="cf-bauble" style={{ left: l.left, top: l.drop, animationDelay: l.delay, animationDuration: l.dur }} aria-hidden />
+        ))}
+
+      {/* New Year: firework bursts */}
+      {isNewYear && (
+        <div className="cf-fireworks" aria-hidden>
+          {["18%", "50%", "82%"].map((left, i) => (
+            <span key={i} className="cf-fw" style={{ left, top: `${12 + i * 6}%`, animationDelay: `${i * 0.8}s` }} />
+          ))}
+        </div>
+      )}
 
       <Confetti colors={[t.accent, "#ffffff", t.bg2]} fireKey={fireKey} effect={data.effect} />
 
       {/* Diwali: row of glowing diyas along the bottom */}
-      {!isEid && (
+      {isDiwali && (
         <div className="cf-diyas" aria-hidden>
           {DIYAS.map((left, i) => (
             <span key={i} className="cf-diya" style={{ left, animationDelay: `${i * 0.25}s` }}>
@@ -72,7 +92,7 @@ export function CardFestival({ data, fireKey = 0 }: { data: CardData; fireKey?: 
         {data.photo && <img src={data.photo} alt="" className="cf-photo" />}
         <div className="cf-eyebrow"><span style={elemStyle(data, "eyebrow")}>{occ.eyebrow}</span></div>
         <h1 className="cf-name"><span style={elemStyle(data, "name")}>{data.to}</span></h1>
-        <div className="cf-rule"><span className="cf-orn">{isEid ? "☾" : "✦"}</span></div>
+        <div className="cf-rule"><span className="cf-orn">{isEid ? "☾" : isChristmas ? "❄" : "✦"}</span></div>
         <p className="cf-msg"><span style={elemStyle(data, "message")}>{data.message}</span></p>
         {data.from.trim() && <div className="cf-from"><span style={elemStyle(data, "from")}>— {data.from}</span></div>}
       </div>
@@ -104,6 +124,19 @@ const CSS = `
 .cf-lantern-body::after{content:""; position:absolute; bottom:-5px; left:50%; transform:translateX(-50%); width:3px; height:6px; background:var(--accent); border-radius:0 0 2px 2px;}
 @keyframes cf-sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
 
+.cf-bauble{position:absolute; transform-origin:top center; animation:cf-sway ease-in-out infinite; z-index:2;
+  width:clamp(15px,3.6cqw,21px); height:clamp(15px,3.6cqw,21px);}
+.cf-bauble::before{content:""; position:absolute; left:50%; top:-34px; width:1px; height:34px; background:color-mix(in srgb, var(--accent) 55%, transparent);}
+.cf-bauble::after{content:""; display:block; width:100%; height:100%; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.55), transparent 42%),
+             radial-gradient(circle at 50% 55%, var(--accent), color-mix(in srgb, var(--accent) 45%, #7f1d1d));
+  box-shadow:0 0 12px color-mix(in srgb, var(--accent) 70%, transparent);}
+
+.cf-fireworks{position:absolute; inset:0; z-index:2; pointer-events:none;}
+.cf-fw{position:absolute; width:6px; height:6px; border-radius:50%; background:var(--accent);
+  animation:cf-burst 2.6s ease-out infinite;}
+@keyframes cf-burst{0%{transform:scale(.2); opacity:0}12%{opacity:1}60%{transform:scale(2.6); opacity:.5; box-shadow:0 0 26px 7px color-mix(in srgb, var(--accent) 55%, transparent)}100%{transform:scale(3.2); opacity:0}}
+
 .cf-diyas{position:absolute; bottom:5%; left:0; right:0; height:40px; z-index:2;}
 .cf-diya{position:absolute; bottom:0; width:clamp(22px,6cqw,34px); height:clamp(9px,2.4cqw,13px); transform:translateX(-50%);
   background:radial-gradient(circle at 50% 0, #b45309, #431407); border-radius:0 0 50% 50%; box-shadow:0 0 16px color-mix(in srgb, var(--accent) 55%, transparent);}
@@ -131,6 +164,6 @@ const CSS = `
 @keyframes cf-in{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
 @keyframes cf-rise{from{opacity:0; transform:translateY(24px) scale(.97)}to{opacity:1; transform:none}}
 @media (prefers-reduced-motion: reduce){
-  .cf-star,.cf-moon,.cf-lantern,.cf-flame,.cf-photo,.cf-eyebrow,.cf-name,.cf-rule,.cf-msg,.cf-from{animation:none !important}
+  .cf-star,.cf-moon,.cf-lantern,.cf-bauble,.cf-fw,.cf-flame,.cf-photo,.cf-eyebrow,.cf-name,.cf-rule,.cf-msg,.cf-from{animation:none !important}
 }
 `;

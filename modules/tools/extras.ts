@@ -10,6 +10,7 @@ import {
   SheetIcon, NewspaperIcon, Share2Icon, BookOpenIcon,
   TerminalIcon, RulerIcon, BotIcon, FileCogIcon,
   MegaphoneIcon, PlayCircleIcon, TagIcon, MessageSquareIcon, MailIcon,
+  TreePineIcon, PartyPopperIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -1322,6 +1323,66 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["ai-email-writer", "cover-letter-generator", "product-description-generator"],
+  },
+  {
+    slug: "christmas-card-maker",
+    name: "Christmas Card Maker",
+    tagline: "Create an animated Christmas card and share the link — free.",
+    description:
+      "Free animated Christmas card maker — personalize a name, message, photo and theme, then share a link that opens as a full-screen Merry Christmas card with snow and hanging baubles. No sign-up.",
+    keywords: [
+      "christmas card maker",
+      "merry christmas card",
+      "christmas card",
+      "christmas ecard",
+      "animated christmas card",
+      "christmas greeting card",
+    ],
+    icon: TreePineIcon,
+    intro:
+      "Send a festive animated Christmas card in seconds. Add a name, a Christmas message, a photo, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with twinkling snow and hanging baubles. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Type the recipient's name and your Christmas message.",
+      "Pick a theme — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated Christmas card.",
+    ],
+    faqs: [
+      { q: "Is the Christmas card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media. Anyone who opens it sees the full animated card — no app or account needed." },
+      { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
+      { q: "Can I add event details?", a: "Yes — add a date, time, and venue and the card shows an 'Event details' button with Add-to-Calendar and map links — great for Christmas parties." },
+    ],
+    related: ["new-year-card-maker", "eid-card-maker", "diwali-card-maker", "birthday-card-maker"],
+  },
+  {
+    slug: "new-year-card-maker",
+    name: "New Year Card Maker",
+    tagline: "Create an animated Happy New Year card and share the link — free.",
+    description:
+      "Free animated New Year card maker — personalize a name, message, photo and theme, then share a link that opens as a full-screen Happy New Year card with fireworks. No sign-up.",
+    keywords: [
+      "new year card maker",
+      "happy new year card",
+      "new year card",
+      "new year ecard",
+      "animated new year card",
+      "new year greeting card",
+    ],
+    icon: PartyPopperIcon,
+    intro:
+      "Ring in the new year with an animated card. Add a name, a New Year message, a photo, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with fireworks and confetti. Free, works on any device, and no sign-up needed.",
+    steps: [
+      "Type the recipient's name and your New Year message.",
+      "Pick a theme — add a photo and music if you like.",
+      "Copy the share link and send it — it opens as a full-screen animated New Year card.",
+    ],
+    faqs: [
+      { q: "Is the New Year card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
+      { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media. Anyone who opens it sees the full animated card — no app or account needed." },
+      { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
+      { q: "Can I invite people to a party?", a: "Yes — add event details (date, time, venue) and turn on RSVPs, and guests can reply right on the card." },
+    ],
+    related: ["christmas-card-maker", "eid-card-maker", "diwali-card-maker", "birthday-card-maker"],
   },
 ];
 
