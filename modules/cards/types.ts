@@ -179,6 +179,18 @@ export type CardData = {
   noWatermark?: boolean;
   /** Pro: per-element text styling (font, size, color, bold, italic). */
   styles?: CardStyles;
+  /** Optional event details for invitations (date/time/venue) — rides in the link. */
+  event?: CardEvent;
+  /** Collect RSVPs on the shared card (only works on saved cards with a short link). */
+  rsvp?: boolean;
+};
+
+/** Structured event details for an invitation. `date` is YYYY-MM-DD, `time` is HH:MM. */
+export type CardEvent = {
+  date?: string;
+  time?: string;
+  venue?: string;
+  address?: string;
 };
 
 type ResolvedTheme = { bg1: string; bg2: string; accent: string; text: string };
@@ -204,6 +216,20 @@ function cleanElem(e: unknown): ElemStyle | undefined {
   if (r.bold === true) out.bold = true;
   if (r.italic === true) out.italic = true;
   return Object.keys(out).length ? out : undefined;
+}
+
+function cleanEvent(input: unknown): CardEvent | undefined {
+  if (!input || typeof input !== "object") return undefined;
+  const r = input as Record<string, unknown>;
+  const str = (v: unknown, n: number) =>
+    typeof v === "string" && v.trim() ? v.trim().slice(0, n) : undefined;
+  const out: CardEvent = {
+    date: str(r.date, 10),
+    time: str(r.time, 5),
+    venue: str(r.venue, 120),
+    address: str(r.address, 200),
+  };
+  return out.date || out.time || out.venue || out.address ? out : undefined;
 }
 
 function cleanStyles(input: unknown): CardStyles | undefined {
@@ -276,5 +302,7 @@ export function normalizeCard(input: Partial<CardData> | null | undefined): Card
     custom,
     noWatermark: Boolean(d.noWatermark),
     styles: cleanStyles(d.styles),
+    event: cleanEvent(d.event),
+    rsvp: Boolean(d.rsvp),
   };
 }

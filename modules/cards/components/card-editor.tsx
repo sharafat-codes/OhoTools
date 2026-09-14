@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon,
   TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon, FilmIcon, SaveIcon,
+  CalendarDaysIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ import { CardStage } from "@/modules/cards/components/card-stage";
 import {
   CARD_THEMES, CARD_TEMPLATES, CARD_FONTS, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
   type CardData, type CardTheme, type CardEffect, type TemplateId, type Occasion,
-  type StyleElement, type ElemStyle, type FontKey,
+  type StyleElement, type ElemStyle, type FontKey, type CardEvent,
 } from "@/modules/cards/types";
 import { cardShareUrl, encodeCard } from "@/modules/cards/share";
 
@@ -120,6 +121,12 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   // self-contained encoded link.
   const url = shortCode && origin ? `${origin}/c/${shortCode}` : encodedUrl;
   const set = <K extends keyof CardData>(k: K, v: CardData[K]) => setData((d) => ({ ...d, [k]: v }));
+  const setEvent = (patch: Partial<CardEvent>) =>
+    setData((d) => {
+      const ev = { ...(d.event ?? {}), ...patch };
+      const has = ev.date || ev.time || ev.venue || ev.address;
+      return { ...d, event: has ? ev : undefined };
+    });
 
   const { data: sess } = useSession();
   const pro = isPro(((sess?.user as { plan?: string } | null)?.plan) ?? "FREE");
@@ -336,6 +343,27 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
           {photoError && <p className="text-xs text-red-500">{photoError}</p>}
 
           <ToggleRow label="Play music" hint="Plays a birthday tune on the shared card" checked={!!data.music} onChange={(v) => set("music", v)} />
+        </Section>
+
+        {/* Event details — turns a card into a real invitation */}
+        <Section icon={CalendarDaysIcon} label="Event details (optional)">
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Date">
+              <input type="date" value={data.event?.date ?? ""} onChange={(e) => setEvent({ date: e.target.value || undefined })} className={inputCls} />
+            </Field>
+            <Field label="Time">
+              <input type="time" value={data.event?.time ?? ""} onChange={(e) => setEvent({ time: e.target.value || undefined })} className={inputCls} />
+            </Field>
+          </div>
+          <Field label="Venue">
+            <input value={data.event?.venue ?? ""} maxLength={120} onChange={(e) => setEvent({ venue: e.target.value || undefined })} placeholder="e.g. Grand Ballroom" className={inputCls} />
+          </Field>
+          <Field label="Address">
+            <input value={data.event?.address ?? ""} maxLength={200} onChange={(e) => setEvent({ address: e.target.value || undefined })} placeholder="Street, city" className={inputCls} />
+          </Field>
+          <p className="text-xs text-muted-foreground">
+            Adds an &quot;Event details&quot; button to your card with Add-to-Calendar and map links.
+          </p>
         </Section>
 
         {/* Pro */}

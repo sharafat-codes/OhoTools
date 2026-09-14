@@ -6,6 +6,7 @@ import { normalizeCard, OCCASIONS } from "@/modules/cards/types";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import { CardOpenPing } from "@/modules/cards/components/card-open-ping";
+import { InvitationPanel } from "@/modules/cards/components/invitation-panel";
 import { SITE_URL } from "@/lib/site";
 
 // Per-visitor render — never cache. The open is counted client-side (see
@@ -76,6 +77,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <main className="relative min-h-[100dvh] w-full overflow-hidden">
       <CardStage data={found.card} />
+      <InvitationPanel card={found.card} code={code} />
       <CardOpenPing code={code} />
     </main>
   );

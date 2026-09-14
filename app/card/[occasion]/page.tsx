@@ -5,6 +5,7 @@ import { decodeCard } from "@/modules/cards/share";
 import { DEFAULT_CARD, OCCASIONS } from "@/modules/cards/types";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { CardStage } from "@/modules/cards/components/card-stage";
+import { InvitationPanel } from "@/modules/cards/components/invitation-panel";
 import { SITE_URL } from "@/lib/site";
 
 type SearchParams = Promise<{ d?: string }>;
@@ -62,6 +63,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   return (
     <main className="relative min-h-[100dvh] w-full overflow-hidden">
       <CardStage data={card} />
+      <InvitationPanel card={card} />
     </main>
   );
 }
