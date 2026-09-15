@@ -14,14 +14,15 @@ const DEFAULT_SLOT = "1372834528"; // "OhoTool Display" — responsive display u
 const ADSENSE_ENABLED = false;
 
 // Adsterra Native Banner — the interim network while AdSense is under review.
-// Configured from env so the unit can be re-pointed or switched off in Vercel
-// without a code change. BOTH must be set or nothing renders:
-//   NEXT_PUBLIC_ADSTERRA_SRC        e.g. //pl27012345.effectiveratecpm.com/<hash>/invoke.js
-//   NEXT_PUBLIC_ADSTERRA_CONTAINER  e.g. container-<hash>
+// Hardcoded like the AdSense client id above: these are public ids that ship in
+// the client bundle anyway, and NEXT_PUBLIC_* is inlined at build time, so env
+// vars would still need a redeploy to change. Flip ADSTERRA_ENABLED to false to
+// pull the ads. Values: Adsterra → Websites → Native Banner → GET CODE.
 // Only the "Native Banner" format is wired up on purpose. Popunder and Social
 // Bar are prohibited alongside AdSense and break tool-page UX — do not add them.
-const ADSTERRA_SRC = process.env.NEXT_PUBLIC_ADSTERRA_SRC || "";
-const ADSTERRA_CONTAINER = process.env.NEXT_PUBLIC_ADSTERRA_CONTAINER || "";
+const ADSTERRA_ENABLED = true;
+const ADSTERRA_SRC = "https://pl31352874.profitableratecpmnetwork.com/52ebe673889ca974ffb203c97b8d78b2/invoke.js";
+const ADSTERRA_CONTAINER = "container-52ebe673889ca974ffb203c97b8d78b2";
 
 const LABEL = "mb-1 block text-[10px] uppercase tracking-wider text-muted-foreground/60";
 
@@ -127,6 +128,6 @@ export function AdUnit({ slot = DEFAULT_SLOT, className = "" }: { slot?: string;
 
   if (pro || process.env.NODE_ENV !== "production") return null;
   if (ADSENSE_ENABLED) return <AdSenseSlot slot={slot} className={className} />;
-  if (ADSTERRA_SRC && ADSTERRA_CONTAINER) return <AdsterraNative className={className} />;
+  if (ADSTERRA_ENABLED) return <AdsterraNative className={className} />;
   return null;
 }
