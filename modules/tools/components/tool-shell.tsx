@@ -128,8 +128,12 @@ export async function ToolShell({
       </div>
       <p className="mb-8 text-pretty text-muted-foreground">{tool.intro}</p>
 
-      {/* The tool */}
-      {children}
+      {/* The tool — breaks out wider than the prose column so two-pane editors
+         (card makers, image tools) get real room to work in. The surrounding
+         copy keeps its ~720px reading width; only this block widens. The
+         negative margins are gated on breakpoints wide enough to absorb them
+         (848px from lg, 976px from xl), so the page never scrolls sideways. */}
+      <div className="lg:-mx-16 xl:-mx-32">{children}</div>
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {tool.serverSide
