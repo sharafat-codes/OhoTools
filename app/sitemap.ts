@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { devTools, categoryPages } from "@/modules/tools/registry";
+import { devTools, categoryPages, isThinGeneratedTool } from "@/modules/tools/registry";
 import { posts } from "@/modules/blog";
 import { questionBankSlugs } from "@/modules/interview/questions";
 import { SITE_URL as siteUrl } from "@/lib/site";
@@ -15,7 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  const toolPages: MetadataRoute.Sitemap = devTools.map((t) => ({
+  // Generated unit-conversion / image-format pages are noindexed (thin,
+  // templated), so they're excluded here too — a sitemap must not list them.
+  const toolPages: MetadataRoute.Sitemap = devTools.filter((t) => !isThinGeneratedTool(t.slug)).map((t) => ({
     url: `${siteUrl}/tools/${t.slug}`,
     lastModified,
     changeFrequency: "monthly",
@@ -49,8 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...toolPages,
     { url: `${siteUrl}/blog`, lastModified, changeFrequency: "weekly", priority: 0.7 },
     ...blogPages,
-    { url: `${siteUrl}/login`, lastModified, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${siteUrl}/signup`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    // login/signup are noindexed (auth layout) — listing them contradicts that.
     { url: `${siteUrl}/about`, lastModified, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },

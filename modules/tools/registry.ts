@@ -3526,6 +3526,17 @@ const baseDevTools: DevTool[] = [
 // metadata pick them up automatically.
 export const devTools: DevTool[] = [...baseDevTools, ...conversionTools, ...imageFormatTools, ...gameTools, ...extraTools];
 
+// Programmatically generated pages (unit-conversion + image-format pairs) each
+// share one text template, so to search and ad reviewers they read as
+// near-duplicate "doorway" pages — AdSense flagged the site for low-value
+// content because of them. They stay fully usable and internally linked, but
+// are kept OUT of the index and the sitemap. The real hubs (unit-converter,
+// image-converter) remain indexed.
+const THIN_GENERATED = new Set<string>([...conversionSlugs, ...imageFormatSlugs]);
+export function isThinGeneratedTool(slug: string): boolean {
+  return THIN_GENERATED.has(slug);
+}
+
 /** Exact number of tools. */
 export const TOOL_COUNT = devTools.length;
 /**
@@ -3702,6 +3713,8 @@ export function toolMetadata(slug: string): Metadata {
     description: tool.description,
     keywords: tool.keywords,
     alternates: { canonical: path },
+    // Thin generated pages are noindexed (follow kept so link equity still flows).
+    ...(isThinGeneratedTool(slug) ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       type: "website",
       url: `${SITE_URL}${path}`,
