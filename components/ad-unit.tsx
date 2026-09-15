@@ -23,6 +23,11 @@ const ADSENSE_ENABLED = false;
 const ADSTERRA_ENABLED = true;
 const ADSTERRA_SRC = "https://pl31352874.profitableratecpmnetwork.com/52ebe673889ca974ffb203c97b8d78b2/invoke.js";
 const ADSTERRA_CONTAINER = "container-52ebe673889ca974ffb203c97b8d78b2";
+// The only host Adsterra is registered for. NODE_ENV is "production" on Vercel
+// preview builds too, so without this the unit would also load on *.vercel.app
+// — traffic from a domain the network does not know is what gets flagged as
+// invalid. Checked at runtime so no build-time env plumbing can silently break it.
+const ADSTERRA_HOST = "ohotool.com";
 
 const LABEL = "mb-1 block text-[10px] uppercase tracking-wider text-muted-foreground/60";
 
@@ -89,12 +94,19 @@ function AdSenseSlot({ slot, className }: { slot: string; className: string }) {
  */
 function AdsterraNative({ className }: { className: string }) {
   const consented = useAdConsent();
+  const [onLiveHost, setOnLiveHost] = React.useState(false);
   const hostRef = React.useRef<HTMLDivElement | null>(null);
   const injected = React.useRef(false);
 
   React.useEffect(() => {
+    setOnLiveHost(window.location.hostname.replace(/^www[.]/, "") === ADSTERRA_HOST);
+  }, []);
+
+  const show = consented && onLiveHost;
+
+  React.useEffect(() => {
     const host = hostRef.current;
-    if (!consented || injected.current || !host) return;
+    if (!show || injected.current || !host) return;
     injected.current = true;
 
     const src = /^(https?:)?\/\//.test(ADSTERRA_SRC) ? ADSTERRA_SRC : `//${ADSTERRA_SRC}`;
@@ -105,9 +117,9 @@ function AdsterraNative({ className }: { className: string }) {
     // Adsterra's snippet puts the <script> immediately before its container div;
     // invoke.js resolves the container by id, so keep that ordering.
     host.insertBefore(s, host.lastChild);
-  }, [consented]);
+  }, [show]);
 
-  if (!consented) return null;
+  if (!show) return null;
 
   return (
     <div ref={hostRef} className={"my-8 overflow-hidden " + className}>
