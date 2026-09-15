@@ -30,6 +30,7 @@ function readChoice(): "granted" | "denied" | null {
 function apply(granted: boolean) {
   document.cookie = `${COOKIE}=${granted ? "granted" : "denied"}; path=/; max-age=${MAX_AGE}; SameSite=Lax`;
   window.gtag?.("consent", "update", granted ? GRANT : DENY);
+  window.dispatchEvent(new Event("oho:consent-change"));
 }
 
 export function CookieConsent() {
@@ -57,7 +58,7 @@ export function CookieConsent() {
     >
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-3 rounded-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:flex-row sm:items-center sm:gap-4 sm:p-5">
         <p className="text-sm text-muted-foreground">
-          We use cookies to keep you signed in and, on the free tier, to show ads (Google AdSense) and
+          We use cookies to keep you signed in and, on the free tier, to show ads (Google AdSense, Adsterra) and
           measure traffic. You can accept or reject non-essential cookies.{" "}
           <Link href="/privacy" className="font-medium text-foreground underline underline-offset-2 hover:text-primary">
             Learn more

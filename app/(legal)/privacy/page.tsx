@@ -66,6 +66,13 @@ export default function PrivacyPage() {
         personalized ads based on your prior visits to this and other websites. Third-party vendors,
         including Google, use cookies to serve ads based on your interests.
       </p>
+      <p>
+        We also work with <strong>Adsterra</strong>, an independent ad network, to serve native
+        banner ads on the free tier while our Google AdSense application is under review. Adsterra
+        is not covered by Google Consent Mode, so its script loads only after you accept
+        non-essential cookies. If you reject, or simply ignore the cookie banner, no Adsterra
+        script is loaded and no Adsterra ad is requested.
+      </p>
       <ul>
         <li>
           Google&apos;s use of advertising cookies is governed by the{" "}
@@ -122,6 +129,7 @@ export default function PrivacyPage() {
         <li><strong>Safepay</strong> — payment processing for customers in Pakistan.</li>
         <li><strong>Resend</strong> — delivery of transactional emails.</li>
         <li><strong>Google AdSense</strong> — advertising on the free tier (see &quot;Advertising&quot;).</li>
+        <li><strong>Adsterra</strong> — advertising on the free tier, loaded only with your consent (see &quot;Advertising&quot;).</li>
         <li><strong>OpenAI</strong> — powers our AI tools; text you submit to an AI tool is sent to process that request and is not used to train models.</li>
       </ul>
       <p>
