@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { MenuIcon, SparklesIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
