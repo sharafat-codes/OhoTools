@@ -176,7 +176,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SiteHeader isAuthed={!!user} />
+      <SiteHeader />
 
       <main className="flex-1 overflow-x-clip">
         {/* Hero */}

@@ -28,10 +28,15 @@ const LINKS = [
   { label: "FAQ", href: "/#faq" },
 ];
 
-export function SiteHeader({ isAuthed }: { isAuthed: boolean }) {
+export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   const { data: session } = useSession();
+  // Auth state is derived here on the client rather than passed down from a
+  // server layout. That is what lets every public page render without reading
+  // the session, so the HTML is cacheable at the edge instead of re-rendered per
+  // request. Signed-in users see the logged-out buttons for one frame.
+  const isAuthed = !!session?.user;
   // Only surface "Go Pro" once the session has resolved to a confirmed free
   // user — avoids flashing an upgrade CTA at someone who's already Pro.
   const showGoPro = !!session && !isPro((session.user as { plan?: string } | undefined)?.plan ?? "FREE");

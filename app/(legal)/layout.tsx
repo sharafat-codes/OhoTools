@@ -1,17 +1,14 @@
-import { getCurrentUser } from "@/lib/dal";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
 import { SiteFooter } from "@/modules/marketing/components/site-footer";
 
-export default async function LegalLayout({
+export default function LegalLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
-
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <SiteHeader isAuthed={!!user} />
+      <SiteHeader />
       <main className="flex-1">
         <div
           className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6 [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:font-heading [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_li]:mb-1.5 [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-muted-foreground [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-muted-foreground"

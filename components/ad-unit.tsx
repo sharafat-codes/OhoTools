@@ -135,9 +135,13 @@ function AdsterraNative({ className }: { className: string }) {
  * otherwise the Adsterra Native Banner when it is configured.
  */
 export function AdUnit({ slot = DEFAULT_SLOT, className = "" }: { slot?: string; className?: string }) {
-  const { data } = useSession();
+  const { data, isPending } = useSession();
   const pro = isPro(((data?.user as { plan?: string } | null)?.plan) ?? "FREE");
 
+  // Pages are cached now, so the server cannot know the plan. Render nothing
+  // until the session resolves — otherwise a Pro user would see an ad flash on
+  // a site that promises them an ad-free experience.
+  if (isPending) return null;
   if (pro || process.env.NODE_ENV !== "production") return null;
   if (ADSENSE_ENABLED) return <AdSenseSlot slot={slot} className={className} />;
   if (ADSTERRA_ENABLED) return <AdsterraNative className={className} />;
