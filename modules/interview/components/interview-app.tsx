@@ -2,7 +2,17 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { SendIcon, Loader2Icon, SparklesIcon, LockIcon, RotateCcwIcon, MailWarningIcon } from "lucide-react";
+import {
+  SendIcon,
+  Loader2Icon,
+  SparklesIcon,
+  LockIcon,
+  RotateCcwIcon,
+  MailWarningIcon,
+  TrendingUpIcon,
+  ArrowRightIcon,
+  XIcon,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { sendVerificationEmail } from "@/lib/auth-client";
@@ -105,6 +115,8 @@ export function InterviewApp({
   const [error, setError] = React.useState("");
   const [limitReached, setLimitReached] = React.useState(false);
   const [retryPayload, setRetryPayload] = React.useState<{ history: Msg[]; wasFinal: boolean } | null>(null);
+  // Show the upgrade modal once when a free user first reaches the report phase.
+  const [showUpgradeModal, setShowUpgradeModal] = React.useState(false);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
@@ -170,12 +182,16 @@ export function InterviewApp({
         const data = await post({ action: "report", config: config(), history });
         setReport(data.report);
         setPhase("report");
+        // Trigger upgrade modal for free users right as the report appears.
+        if (!pro) setShowUpgradeModal(true);
       } else {
         const data = await post({ action: "turn", config: config(), history });
         if (data.done) {
           const r = await post({ action: "report", config: config(), history });
           setReport(r.report);
           setPhase("report");
+          // Trigger upgrade modal for free users right as the report appears.
+          if (!pro) setShowUpgradeModal(true);
         } else {
           setMessages([...history, { role: "assistant", content: data.message }]);
           setQNum(data.questionNumber);
@@ -213,8 +229,90 @@ export function InterviewApp({
 
   // ── Report ─────────────────────────────────────────────────────────────────
   if (phase === "report" && report) {
+    const score = report.overallScore;
     return (
-      <div className="flex flex-col gap-5">
+      <div className="relative flex flex-col gap-5">
+        {/* Post-interview upgrade modal — free users only */}
+        {!pro && showUpgradeModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="upgrade-modal-title"
+          >
+            <div className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl">
+              {/* Dismiss */}
+              <button
+                type="button"
+                onClick={() => setShowUpgradeModal(false)}
+                className="absolute right-4 top-4 text-muted-foreground hover:text-foreground"
+                aria-label="Close"
+              >
+                <XIcon className="size-4" />
+              </button>
+
+              {/* Score */}
+              <div className="mb-4 flex flex-col items-center gap-1 text-center">
+                <span className="grid size-16 place-items-center rounded-2xl bg-primary/10 text-primary">
+                  <TrendingUpIcon className="size-8" />
+                </span>
+                <p className="mt-3 text-sm text-muted-foreground">Your score</p>
+                <p
+                  id="upgrade-modal-title"
+                  className={cn(
+                    "font-heading text-5xl font-bold tabular-nums",
+                    score >= 80
+                      ? "text-emerald-600 dark:text-emerald-500"
+                      : score >= 60
+                        ? "text-amber-600 dark:text-amber-500"
+                        : "text-rose-600 dark:text-rose-500",
+                  )}
+                >
+                  {score}<span className="text-xl text-muted-foreground">/100</span>
+                </p>
+                <p className="mt-1 font-medium">{report.readiness}</p>
+              </div>
+
+              <div className="mb-5 rounded-xl border border-primary/20 bg-primary/5 p-4">
+                <p className="text-sm font-medium">Keep your progress — go Pro</p>
+                <ul className="mt-2 flex flex-col gap-1.5 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <SparklesIcon className="size-3.5 shrink-0 text-primary" />
+                    Save every session and track your score over time
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <SparklesIcon className="size-3.5 shrink-0 text-primary" />
+                    Unlimited interviews — practice daily
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <SparklesIcon className="size-3.5 shrink-0 text-primary" />
+                    10 questions (vs 5 free) + JD/resume tailoring
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <SparklesIcon className="size-3.5 shrink-0 text-primary" />
+                    PDF report export
+                  </li>
+                </ul>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Button render={<Link href="/pricing" />} className="w-full">
+                  <SparklesIcon />
+                  Upgrade to Pro — $9/mo
+                  <ArrowRightIcon className="ml-auto size-4" />
+                </Button>
+                <button
+                  type="button"
+                  onClick={() => setShowUpgradeModal(false)}
+                  className="w-full rounded-lg py-2 text-sm text-muted-foreground hover:text-foreground"
+                >
+                  See my report first
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <FeedbackReport report={report} pro={pro} label={labelFor(config())} />
         <div className="flex flex-wrap justify-center gap-2">
           <Button onClick={reset} variant="outline">
@@ -224,7 +322,7 @@ export function InterviewApp({
           {!pro && (
             <Button render={<Link href="/pricing" />}>
               <SparklesIcon />
-              Go Pro for longer interviews
+              Go Pro — save history &amp; unlimited
             </Button>
           )}
         </div>

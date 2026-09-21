@@ -6,7 +6,11 @@ export type PlanId = "FREE" | "PRO" | "BUSINESS";
 export type Plan = {
   id: PlanId;
   name: string;
-  price: number; // USD / month
+  price: number;         // USD / month (current promo price)
+  originalPrice?: number; // USD / month (crossed-out "was" price)
+  annualPrice?: number;  // USD / year (billed annually)
+  annualMonthly?: number; // annualPrice / 12 for display
+  promoLabel?: string;   // e.g. "Save 25% — limited offer"
   tagline: string;
   features: string[];
   popular?: boolean;
@@ -31,7 +35,13 @@ export const PLANS: Plan[] = [
   {
     id: "PRO",
     name: "Pro",
+    // Introductory price. Original (full) price is $12/mo.
+    // Annual plan: $90/yr = $7.50/mo (save 37.5% vs original).
     price: 9,
+    originalPrice: 12,
+    annualPrice: 90,
+    annualMonthly: 7.50,
+    promoLabel: "Launch offer — 25% off",
     tagline: "For creators, teams, and businesses.",
     popular: true,
     features: [

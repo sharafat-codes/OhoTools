@@ -30,7 +30,7 @@ async function ensureCustomerId(userId: string, email: string, name: string) {
 }
 
 export async function createCheckoutSession(
-  plan: "PRO" | "BUSINESS",
+  plan: "PRO" | "PRO_ANNUAL" | "BUSINESS",
 ): Promise<ActionResult> {
   const user = await requireUser();
   if (!isStripeConfigured) return { error: "Billing isn't configured yet." };

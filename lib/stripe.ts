@@ -12,18 +12,19 @@ export const stripe = new Stripe(
 
 export const isStripeConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
 
-const PRICE_IDS: Record<"PRO" | "BUSINESS", string | undefined> = {
+const PRICE_IDS: Record<"PRO" | "PRO_ANNUAL" | "BUSINESS", string | undefined> = {
   PRO: process.env.STRIPE_PRICE_PRO,
+  PRO_ANNUAL: process.env.STRIPE_PRICE_PRO_ANNUAL,
   BUSINESS: process.env.STRIPE_PRICE_BUSINESS,
 };
 
-export function priceIdForPlan(plan: "PRO" | "BUSINESS"): string | undefined {
+export function priceIdForPlan(plan: "PRO" | "PRO_ANNUAL" | "BUSINESS"): string | undefined {
   return PRICE_IDS[plan];
 }
 
 /** Map a Stripe price back to a plan tier (source of truth for the webhook). */
 export function planFromPriceId(priceId: string | null | undefined): PlanTier {
   if (priceId && priceId === PRICE_IDS.BUSINESS) return "BUSINESS";
-  if (priceId && priceId === PRICE_IDS.PRO) return "PRO";
+  if (priceId && (priceId === PRICE_IDS.PRO || priceId === PRICE_IDS.PRO_ANNUAL)) return "PRO";
   return "FREE";
 }
