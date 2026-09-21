@@ -312,6 +312,7 @@ export function BillingView({
                   <PaddleUpgradeButton
                     userId={userId}
                     email={email}
+                    annual={annual}
                     variant={plan.popular ? "default" : "outline"}
                   >
                     Upgrade to {plan.name}

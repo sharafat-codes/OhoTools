@@ -7,22 +7,25 @@ import { LoaderCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const TOKEN = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
-const PRICE = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO;
+const PRICE_MONTHLY = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO;
+const PRICE_ANNUAL = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO_ANNUAL;
 const ENV = process.env.NEXT_PUBLIC_PADDLE_ENV === "production" ? "production" : "sandbox";
 
 export function isPaddleClientConfigured() {
-  return Boolean(TOKEN && PRICE);
+  return Boolean(TOKEN && PRICE_MONTHLY);
 }
 
 export function PaddleUpgradeButton({
   userId,
   email,
+  annual = false,
   children,
   className,
   variant = "default",
 }: {
   userId: string;
   email?: string;
+  annual?: boolean;
   children?: React.ReactNode;
   className?: string;
   variant?: "default" | "outline";
@@ -48,10 +51,11 @@ export function PaddleUpgradeButton({
   }, []);
 
   function open() {
-    if (!paddle || !PRICE) return;
+    const priceId = annual && PRICE_ANNUAL ? PRICE_ANNUAL : PRICE_MONTHLY;
+    if (!paddle || !priceId) return;
     setOpening(true);
     paddle.Checkout.open({
-      items: [{ priceId: PRICE, quantity: 1 }],
+      items: [{ priceId, quantity: 1 }],
       customData: { userId },
       customer: email ? { email } : undefined,
       settings: {
