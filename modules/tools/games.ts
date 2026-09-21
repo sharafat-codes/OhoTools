@@ -181,7 +181,7 @@ export const gameTools: DevTool[] = [
     name: "Typing Speed Test (WPM)",
     tagline: "Measure your typing speed in words per minute.",
     description:
-      "Free typing speed test — measure your typing speed in words per minute (WPM) and accuracy. Take a 15, 30, or 60-second test and beat your best score.",
+      "Free typing speed test — measure your typing speed in words per minute (WPM) and accuracy. Take a 15 to 120-second test, a word-count run, or a quote, and beat your best score.",
     keywords: [
       "typing test",
       "typing speed test",
@@ -192,7 +192,7 @@ export const gameTools: DevTool[] = [
     ],
     icon: GaugeIcon,
     intro:
-      "Find out how fast you type. Start typing and the timer begins — your live WPM updates as you go, and at the end you get your speed in words per minute (WPM), accuracy, raw speed, consistency, a character breakdown, and a WPM-over-time graph. Choose a timed test (15–120s), a fixed word count, or a real quote, and add punctuation and numbers for a harder run. Press Tab anytime to restart. Everything runs in your browser and nothing you type is saved or sent anywhere.",
+      "Find out how fast you type. Start typing and the timer begins — your live WPM updates as you go, and at the end you get your speed in words per minute (WPM), accuracy, raw speed, consistency, a character breakdown, and a WPM-over-time graph. Choose a timed test (15–120s), a fixed word count, or a real quote, and add punctuation and numbers for a harder run. Press Tab, Enter, or Escape to restart. Everything runs in your browser and nothing you type is sent anywhere; only your best score is kept in your own browser.",
     steps: [
       "Pick a mode — timed, a set number of words, or a quote — and optionally turn on punctuation and numbers.",
       "Click the box and start typing; the timer starts on your first keystroke and your live WPM ticks up.",
@@ -228,6 +228,11 @@ export const gameTools: DevTool[] = [
         a: "Raw WPM counts every keystroke, including mistakes, while WPM counts only correct characters. Consistency shows how steady your speed was from second to second — a higher percentage means a more even pace rather than bursts and pauses.",
       },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How is typing speed measured, and what do WPM, raw WPM, and accuracy mean?",
+      body: "Typing speed is measured in words per minute, or WPM, where a word is standardized as five characters so that long and short words count equally. This test starts its timer on your first keystroke and reports net WPM, which counts only correctly typed characters, alongside raw WPM, which counts everything you typed including mistakes. Accuracy is the share of typed characters that were correct, and consistency measures how steady your speed stayed from second to second. You can run a timed test of 15, 30, 60, or 120 seconds, a fixed passage of 10, 25, 50, or 100 words, or one of twelve built-in quotes, with optional punctuation and numbers for a harder run. Words are drawn from a bank of 173 common English words. Your best score for each mode is kept in your own browser so you can beat it later; nothing you type is sent anywhere. Press Tab, Enter, or Escape to restart.",
+    },
     related: ["cps-test", "spacebar-counter", "keyboard-tester"],
   },
 ];

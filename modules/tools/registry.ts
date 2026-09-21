@@ -182,7 +182,13 @@ const baseDevTools: DevTool[] = [
       { q: "Is my JSON uploaded anywhere?", a: "No. Formatting and validation happen entirely in your browser — nothing is sent to a server." },
       { q: "What does minify do?", a: "Minifying removes all whitespace and line breaks to produce the smallest valid JSON, useful for reducing payload size." },
       { q: "Why is my JSON invalid?", a: "The tool shows the parser's exact error, commonly caused by trailing commas, single quotes, or unquoted keys." },
+      { q: "Can I change the indent size or sort keys?", a: "Not currently. Format always indents with two spaces, which is the most common convention, and keeps keys in the order they were written. Minify removes all whitespace. If you need tabs or four-space indentation, format here first and re-indent in your editor." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What does a JSON formatter do, and why does my JSON fail to validate?",
+      body: "A JSON formatter takes raw JSON, checks that it is valid, and rewrites it either pretty-printed with indentation for reading or minified onto one line for transfer. This tool uses your browser's built-in parser, the same one every JavaScript program relies on, so validation is strict standard JSON: keys must be double-quoted, strings use double quotes, and comments, trailing commas, and single quotes are all rejected. Format indents with two spaces and preserves key order exactly as written; Minify strips every unnecessary space and line break for the smallest possible payload. When parsing fails, the parser's own error message is shown so you can see what it choked on, though the exact wording varies by browser. Everything happens on your device the moment you click Format or Minify, and nothing is uploaded, so it is safe for API responses that contain credentials or personal data. A Copy button puts the result on your clipboard.",
+    },
     related: ["base64", "jwt-decoder", "url-encoder"],
   },
   {
@@ -203,7 +209,13 @@ const baseDevTools: DevTool[] = [
     faqs: [
       { q: "Does it support emoji and non-English text?", a: "Yes — encoding uses UTF-8, so emoji and any Unicode characters convert correctly." },
       { q: "Is Base64 encryption?", a: "No. Base64 is an encoding, not encryption — anyone can decode it, so never use it to protect secrets." },
+      { q: "Can I encode a file or image here?", a: "No, this tool handles text only. To turn an image into a Base64 data URI for embedding in HTML or CSS, use the separate Image to Base64 tool, which reads the file in your browser and produces the complete data URL." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What is Base64, and when should you use it?",
+      body: "Base64 is a way of writing binary data using only 64 printable characters, letters, digits, plus, and slash, with equals signs for padding. It exists so that arbitrary bytes can travel safely through systems built for plain text, such as email, JSON, URLs, and HTML attributes. It is an encoding, not encryption: anyone can reverse it instantly, so it hides nothing. Encoded output is about a third larger than the input. This tool converts text in both directions live as you type, entirely in your browser. When encoding, it first turns your text into UTF-8 bytes, so emoji and non-English scripts round-trip correctly rather than being corrupted. When decoding, it accepts the standard alphabet and tolerates missing padding, but not the URL-safe variant that swaps plus and slash for hyphen and underscore. It works on text only; to encode an image as a data URI, use the separate image to Base64 tool.",
+    },
     related: ["url-encoder", "jwt-decoder", "hash-generator"],
   },
   {
@@ -245,7 +257,13 @@ const baseDevTools: DevTool[] = [
     faqs: [
       { q: "Are these passwords safe to use?", a: "Yes — they use the Web Crypto secure random generator and are created entirely on your device, never transmitted." },
       { q: "How long should my password be?", a: "16 or more characters with a mix of upper- and lowercase letters, numbers, and symbols is recommended for strong security." },
+      { q: "I enabled symbols, so why does my password have none?", a: "Each character is drawn independently from the combined pool, so nothing forces every enabled set to appear. That is statistically rare at 16 characters and above but possible for short passwords. If you need a symbol guaranteed, click Regenerate or increase the length." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does this password generator make passwords, and how strong are they?",
+      body: "A password generator builds a random string from character sets you choose, so the result has no words, patterns, or personal details an attacker could guess. This one draws every character from your browser's cryptographically secure random number generator, the same source used for encryption keys, rather than the ordinary random function that games use. You set a length from 6 to 64 characters, with 16 as the default, and toggle four sets: lowercase letters, uppercase letters, digits, and 25 common symbols. Each position is chosen independently, so a very short password may happen to omit one of the enabled sets. Generation happens entirely on your device; nothing is sent or stored, and a Copy button places the result on your clipboard. The strength label is a simple guide: Strong needs at least 16 characters and three sets, Good needs 12 and two, and anything less is marked Weak. For most accounts, 16 or more mixed characters is a sound choice.",
+    },
     related: ["hash-generator", "uuid-generator", "jwt-decoder"],
   },
   {
@@ -261,12 +279,18 @@ const baseDevTools: DevTool[] = [
     steps: [
       "Type or paste your text.",
       "Watch the live counts update instantly.",
-      "Trim or expand to hit your target length.",
+      "Edit until the counts fit your limit.",
     ],
     faqs: [
       { q: "How is reading time calculated?", a: "It's based on an average adult reading speed of about 200 words per minute." },
       { q: "Does it count characters with and without spaces?", a: "Yes — both totals are shown, which is handy for character-limited fields like meta descriptions and tweets." },
+      { q: "Why does it show 0 sentences?", a: "A sentence is only counted when a period, exclamation mark, or question mark is followed by a space or the end of the text. Headlines, lists, and notes with no closing punctuation therefore show zero sentences even though the word count is correct." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does this word counter count words, sentences, and reading time?",
+      body: "A word counter reports the length of a text in several units at once so you can check it against a limit before you publish. This one updates live as you type and shows six figures: words, characters including spaces, characters excluding spaces, sentences, paragraphs, and estimated reading time. Words are counted by splitting on whitespace, so a hyphenated term counts once and a stray dash counts as a word. Characters are counted as your text is stored, so line breaks are included and an emoji may count as two. A sentence is any run of text ending in a period, exclamation mark, or question mark followed by a space or the end; text with no closing punctuation shows zero sentences. Each line break starts a new paragraph. Reading time assumes 200 words per minute, rounds up to whole minutes, and shows at least one minute for any text. Nothing you type leaves your browser.",
+    },
     related: ["word-frequency", "case-converter", "text-diff"],
   },
   {
@@ -299,16 +323,22 @@ const baseDevTools: DevTool[] = [
     keywords: ["jwt decoder", "decode jwt", "json web token", "jwt parser"],
     icon: FileKey2Icon,
     intro:
-      "Decode a JSON Web Token to inspect its header and payload, with issued and expiry timestamps shown in human-readable form. Decoding happens locally — your token is never sent anywhere.",
+      "Decode a JSON Web Token to inspect its header and payload, with the iat, nbf, and exp timestamps converted to UTC dates. Decoding happens locally — your token is never sent anywhere.",
     steps: [
       "Paste your JWT.",
       "Review the decoded header and payload.",
-      "Check the exp / iat timestamps in plain English.",
+      "Read the iat, nbf, and exp timestamps as UTC dates.",
     ],
     faqs: [
       { q: "Does this verify the signature?", a: "No — verifying a signature requires the secret or key. This tool decodes and displays the token's contents only." },
       { q: "Is my token sent to a server?", a: "No. Decoding is done entirely in your browser, so it's safe for sensitive tokens." },
+      { q: "Does it tell me whether the token has expired?", a: "No. It converts the exp claim into a UTC date so you can read it, but it does not compare that date with the current time or label the token valid or expired. Check the date yourself, and remember that an unexpired token can still be forged if the signature was never verified." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What is a JWT, and what does decoding one actually show?",
+      body: "A JSON Web Token, or JWT, is a compact string used to pass identity and permission claims between systems, made of two or three parts separated by dots: a header describing the token type and signing algorithm, a payload carrying the claims, and usually a signature. The first two parts are just Base64url-encoded JSON, not encrypted, so anyone holding the token can read them. This decoder does exactly that, in your browser, as you type: it decodes the header and payload, pretty-prints each as JSON with its own copy button, and converts the iat, nbf, and exp claims from Unix seconds into UTC dates. It does not verify the signature, so it can tell you what a token claims but never whether the claim is genuine or the token has been tampered with; use it for debugging, not for trusting input. It also does not check whether exp has passed. Tokens are never sent anywhere.",
+    },
     related: ["base64", "hash-generator", "timestamp-converter"],
   },
   {
@@ -552,7 +582,7 @@ const baseDevTools: DevTool[] = [
     keywords: ["qr code generator", "create qr code", "qr code maker", "free qr code"],
     icon: QrCodeIcon,
     intro:
-      "Create a QR code for any link, text, or message and download it as a PNG. Customize the colors and size — and sign up free to add a logo, make it editable (dynamic), track scans, and save your codes.",
+      "Create a QR code for any link, text, or message and download it as a PNG. Customize the colors and size. A free account saves up to ten codes and unlocks more settings; logos, dynamic codes, and scan analytics are Pro features.",
     steps: [
       "Enter a URL or any text.",
       "Adjust the colors and size.",
@@ -560,8 +590,13 @@ const baseDevTools: DevTool[] = [
     ],
     faqs: [
       { q: "Is this QR code free to use?", a: "Yes — the PNG is free for personal and commercial use, and static QR codes never expire." },
-      { q: "Can I change where it points after printing?", a: "Yes, with a dynamic QR code — free on an OhoTool account, along with scan analytics and logo branding." },
+      { q: "Can I change where it points after printing?", a: "Not with a standard code, which permanently encodes the text you typed. A dynamic QR code instead encodes a short OhoTool link that redirects to a destination you can change at any time, and it records each scan. Dynamic codes and scan analytics are OhoTool Pro features." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does a QR code generator work, and what do the settings mean?",
+      body: "A QR code is a two-dimensional barcode that stores text as a grid of dark and light squares that any phone camera can read. This generator encodes whatever you type and draws the result on a canvas in your browser, so nothing is sent to a server. You can set the foreground and background colors and choose an output size from 128 to 1024 pixels, then download a PNG. Error correction is fixed at level M, meaning the code still scans with up to 15 percent of it damaged or covered, and a two-module quiet zone is kept around the edge so readers can find it. The code is static: it points wherever the text says. A free OhoTool account adds a choice of error-correction level, a transparent background, multiline content, and saving up to ten codes. Logos, custom shapes, SVG and PDF export, and dynamic codes you can re-point after printing with scan analytics are part of Pro.",
+    },
     related: ["url-encoder", "color-converter", "hash-generator"],
   },
   {
@@ -1084,7 +1119,7 @@ const baseDevTools: DevTool[] = [
     ],
     icon: BarChart3Icon,
     intro:
-      "Analyze any text to see how often each word appears and its keyword density — each word's percentage share of the total content — ranked with a visual bar. Filter out common stop words for on-page SEO analysis, or keep them for style and readability checks. Export the full list as CSV.",
+      "Analyze any text to see how often each word appears and its keyword density — each word's percentage share of the total content — ranked with a visual bar. Filter out common stop words for on-page SEO analysis, or keep them for style and readability checks. Copy the full list as CSV to your clipboard.",
     steps: [
       "Paste your text.",
       "Optionally ignore case, hide common words, or set a minimum word length.",
@@ -1094,7 +1129,13 @@ const baseDevTools: DevTool[] = [
       { q: "What is keyword density?", a: "Keyword density is how often a word appears as a percentage of the total words — count ÷ total words × 100. It's used in on-page SEO to check a page isn't over- or under-using a target keyword." },
       { q: "How do I ignore filler words?", a: "Turn on 'Ignore common words' to exclude stop words like 'the', 'and', and 'of', so the ranking shows the meaningful keywords in your content." },
       { q: "Can I export the results?", a: "Yes — click Copy CSV to get the complete word, count, and density list, ready for a spreadsheet." },
+      { q: "Why don't the percentages add up to 100% when I hide common words?", a: "Because density is always measured against every word in the text, including the stop words you have hidden. That keeps each word's percentage stable whether the filter is on or off, so the visible rows will sum to less than 100% when common words are excluded." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What is a word frequency counter, and what does keyword density mean?",
+      body: "A word frequency counter lists every distinct word in a piece of text alongside how many times it appears, ranked from most to least common. Keyword density is each word's share of the total: a word used 6 times in 300 words has a density of 2%. This tool tokenizes on runs of letters, digits, and apostrophes, so it works across languages, keeps contractions like don't as one word, and splits hyphenated terms into their parts. You can ignore case, hide 76 common English stop words, and drop words below a minimum length. Density is always calculated against the full word count before filtering, so the percentages stay comparable when stop words are hidden. Results sort by count, then alphabetically, with a relative bar for each word. The screen shows the top 200 words; Copy CSV puts the complete list on your clipboard with word, count, and density columns. Everything runs in your browser.",
+    },
     related: ["word-counter", "case-converter", "text-diff"],
   },
   {
@@ -1552,7 +1593,13 @@ const baseDevTools: DevTool[] = [
       { q: "How many images can I convert at once?", a: "The free tier processes up to 3 images per batch. OhoTool Pro removes the limit and adds a one-click ZIP download for the whole batch." },
       { q: "Are my images uploaded?", a: "No — every image is processed locally in your browser using a canvas, so nothing ever leaves your device." },
       { q: "Which formats are supported?", a: "Convert to PNG, JPG, or WebP, with an adjustable quality setting for the lossy formats and an optional maximum width/height." },
+      { q: "Does it ever make images larger?", a: "No. The maximum size setting only shrinks images whose longer side exceeds it and leaves smaller images at their original dimensions. Converting a PNG to JPG will also typically reduce the file size, though any transparent areas become white." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What does a bulk image converter do, and how does this one work?",
+      body: "A bulk image converter changes the format of many images in one pass instead of opening each file separately. This tool accepts any image your browser can display, converts every file to JPG, PNG, or WebP, or keeps each file's original format, and can shrink images to a maximum size in pixels. That maximum applies to the longer side, keeps the aspect ratio, and only ever downscales, so small images are left alone. A quality slider from 10 to 100 controls JPG and WebP output and is hidden for PNG, which is lossless. Because JPG has no transparency, transparent areas are filled with white when you convert to it. Each image is redrawn on a canvas and re-encoded in your browser, so processing happens on your device rather than a server, and there is no file-size limit. Free use converts three images per batch with individual downloads; Pro removes the limit and adds a single ZIP download. Before and after sizes are shown per file.",
+    },
     related: ["image-converter", "image-resizer", "favicon-generator"],
     pro: true,
   },
@@ -1754,7 +1801,13 @@ const baseDevTools: DevTool[] = [
       { q: "Can I compress an image to a specific size?", a: "Yes — choose &quot;Target size&quot;, enter a value in KB, and the tool finds the highest quality that stays under it." },
       { q: "Does it reduce quality?", a: "Compression is lossy for JPG and WebP, but at 60–80% quality the difference is usually invisible while the file gets much smaller." },
       { q: "Are my images uploaded?", a: "No — compression happens locally in your browser using a canvas, so nothing leaves your device." },
+      { q: "Why did my PNG come out as a JPG?", a: "PNG is a lossless format with no quality setting, so re-saving it as PNG rarely makes it smaller. To actually reduce the size, the tool re-encodes PNG and GIF input as JPG, which is lossy and much more compact. Transparent areas become white in the result, so keep your original PNG if you need transparency. WebP input stays WebP." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does image compression work, and what happens to PNG files?",
+      body: "Image compression reduces a file's size by re-encoding it with a lossy codec that discards detail you are unlikely to notice. This tool redraws each image at its original dimensions and re-encodes it in your browser, so nothing is uploaded and pixel size never changes. WebP files stay WebP. Every other input, including PNG and GIF, is saved as JPG, because PNG is lossless and rarely shrinks; any transparent areas become white in the process, so keep the original if you need transparency. You can compress by quality, on a slider from 10 to 95 percent, or set a target size in kilobytes and let a seven-step search find the highest quality that fits. If no quality reaches the target, you get the 95 percent version, which may still be larger than requested. Free use handles three images per batch with individual downloads; Pro removes the limit and adds a ZIP. Each result shows the old size, new size, and the percentage saved when it shrank.",
+    },
     related: ["image-converter", "image-resizer", "bulk-image-converter"],
     pro: true,
   },
@@ -2781,7 +2834,13 @@ const baseDevTools: DevTool[] = [
       { q: "Is it really free with no sign-up?", a: "Yes — the conversion happens right in your browser, so it's completely free with no account and no watermark." },
       { q: "Are my files uploaded?", a: "No — your CSV is read and converted locally in your browser and never leaves your device." },
       { q: "Why convert CSV to XLSX?", a: "CSV is just plain text; XLSX is a full Excel workbook with typed cells. Converting stores numbers as numbers and makes the data easier to sort, filter, and format in Excel." },
+      { q: "My file uses semicolons or tabs. Why is everything in one column?", a: "The parser splits on commas only and does not detect other delimiters. Open the file in a text editor or spreadsheet and re-export it as comma-separated CSV, then convert again. Quoted fields containing commas are handled correctly, so values with embedded commas are safe." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does CSV to Excel conversion work, and what changes in the file?",
+      body: "A CSV file is plain text with one row per line and commas between values; an XLSX file is a zipped bundle of XML that Excel, Google Sheets, and LibreOffice open natively with real columns and cell types. This converter reads a comma-separated file in your browser, parses it following the CSV standard so quoted fields, doubled quotes, and line breaks inside quotes are handled correctly, and writes a single-sheet workbook without uploading anything. Plain integers and decimals become numeric cells you can sum and sort; everything else stays text, which means ZIP codes and IDs keep their leading zeros and dates are left as written rather than reinterpreted. Only comma delimiters are supported, so semicolon or tab-separated files will land in one column. The first row is written like any other, with no bold header or filter applied. There is no size limit, the output keeps your file's name with an .xlsx extension, and you see the row and column count before downloading.",
+    },
     related: ["xlsx-to-csv", "excel-to-pdf", "json-to-csv"],
   },
   {
@@ -2958,7 +3017,13 @@ const baseDevTools: DevTool[] = [
     faqs: [
       { q: "Can it handle more than 24 hours?", a: "Yes — totals can exceed 24 hours (e.g. a full timesheet), shown as total hours, minutes, and seconds." },
       { q: "Does it work across midnight?", a: "Yes — in duration mode, an end time earlier than the start is treated as the next day." },
+      { q: "Can I enter decimal hours like 7.5?", a: "No. Fields take whole numbers, and a decimal is truncated, so 7.5 becomes 7. Enter 7 in the hours field and 30 in the minutes field instead. Values above the usual range are fine and are normalized, so 90 minutes is treated as 1 hour 30 minutes." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does a time calculator add, subtract, and find durations?",
+      body: "A time calculator does arithmetic on clock times and durations, which ordinary calculators get wrong because minutes and seconds roll over at 60 rather than 100. This one has two modes. Add or Subtract takes two spans entered as hours, minutes, and seconds, converts each to total seconds, applies the operation, and splits the answer back into hours, minutes, and seconds, so entering 90 minutes is fine and comes back as 1h 30m. Hours are not capped, so totals beyond 24 hours display as is, and if you subtract a larger span from a smaller one the result is shown with a minus sign. Duration takes a start and end clock time in hours and minutes and gives the gap between them; if the end is earlier than the start, it assumes you crossed midnight and adds a day. Results update as you type, values are whole numbers, and no dates or time zones are involved. Everything runs in your browser.",
+    },
     related: ["date-difference", "age-calculator", "timestamp-converter"],
   },
   {

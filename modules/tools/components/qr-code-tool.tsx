@@ -90,14 +90,14 @@ export function QrCodeTool() {
           <div className="flex items-start gap-2">
             <SparklesIcon className="mt-0.5 size-4 shrink-0 text-primary" />
             <p className="text-sm text-muted-foreground">
-              Want a <strong className="text-foreground">logo</strong>, a{" "}
-              <strong className="text-foreground">dynamic QR</strong> you can edit
-              after printing, <strong className="text-foreground">scan analytics</strong>,
-              SVG/PDF export, and saved history? It&apos;s free.
+              A free account saves up to 10 codes and adds error-correction, quiet-zone, and
+              transparent-background settings. <strong className="text-foreground">Logos</strong>,{" "}
+              <strong className="text-foreground">dynamic QR</strong> codes you can edit after printing,{" "}
+              <strong className="text-foreground">scan analytics</strong>, and SVG/PDF export are part of Pro.
             </p>
           </div>
           <Button size="sm" render={<Link href="/signup" />}>
-            Unlock with a free account
+            Create a free account
           </Button>
         </CardContent>
       </Card>
