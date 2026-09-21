@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckIcon, ZapIcon, ShieldOffIcon, InfinityIcon, XCircleIcon, SparklesIcon, ArrowLeftRightIcon, QrCodeIcon, TerminalIcon, CakeIcon } from "lucide-react";
+import {
+  InfinityIcon,
+  ShieldOffIcon,
+  ZapIcon,
+  XCircleIcon,
+  SparklesIcon,
+  ArrowLeftRightIcon,
+  QrCodeIcon,
+  TerminalIcon,
+  CakeIcon,
+} from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { getProPrice } from "@/lib/region";
 import { PLANS, PLAN_BY_ID } from "@/lib/plans";
 import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { PricingCards } from "@/modules/billing/components/pricing-cards";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -65,6 +73,10 @@ const FAQS = [
     a: "Yes — Pro unlocks unlimited mock interviews and resume reviews with model answers and AI-written bullet rewrites, which is exactly what you want during an active job search. And you can cancel the moment you land the role.",
   },
   {
+    q: "What's the difference between monthly and annual billing?",
+    a: "Monthly gives you full flexibility — cancel any time. Annual is billed as one payment of $90/year (just $7.50/month) and saves you 37% compared to the full $12/month price. Both plans include all Pro features.",
+  },
+  {
     q: "Do I need an account to use the tools?",
     a: "No — the formatters, converters, calculators, and generators all run in your browser without an account. An account is only needed to save codes and use Pro features.",
   },
@@ -81,13 +93,14 @@ export default async function PricingPage() {
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
+      {/* Header */}
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
           Simple, honest pricing
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Most tools are free forever. Upgrade for unlimited AI — mock interviews, resume reviews,
-          Chat with PDF — plus advanced converters, dynamic QR analytics, bulk tools, and the API.
+          Most tools are free forever. Upgrade for unlimited AI, advanced converters, dynamic QR
+          analytics, bulk tools, and the API.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
           {REASSURANCE.map((r) => (
@@ -99,48 +112,19 @@ export default async function PricingPage() {
         </div>
       </div>
 
-      <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
-        {PLANS.map((plan) => (
-          <div
-            key={plan.id}
-            className={cn(
-              "relative flex flex-col rounded-2xl border border-border bg-card p-6",
-              plan.popular && "border-primary/40 ring-2 ring-primary/20",
-            )}
-          >
-            {plan.popular && <Badge className="absolute -top-2.5 left-6">Most popular</Badge>}
-            <h2 className="font-heading text-lg font-semibold">{plan.name}</h2>
-            <div className="mt-2 flex items-baseline gap-1">
-              <span className="font-heading text-4xl font-semibold">
-                {plan.id === "PRO" ? proPrice.display : `$${plan.price}`}
-              </span>
-              <span className="text-sm text-muted-foreground">
-                /{plan.id === "PRO" ? proPrice.period : "month"}
-              </span>
-            </div>
-            <p className="mt-1 text-sm text-muted-foreground">{plan.tagline}</p>
-            <ul className="mt-5 flex flex-1 flex-col gap-2.5">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm">
-                  <CheckIcon className="mt-0.5 size-4 shrink-0 text-primary" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <Button
-              className="mt-6"
-              variant={plan.popular ? "default" : "outline"}
-              render={<Link href={plan.price === 0 ? "/tools" : proHref} />}
-            >
-              {plan.price === 0 ? "Use the free tools" : "Upgrade to Pro"}
-            </Button>
-          </div>
-        ))}
-      </div>
+      {/* Pricing cards with toggle — client island */}
+      <PricingCards
+        plans={PLANS}
+        proPrice={proPrice}
+        proHref={proHref}
+        isLoggedIn={Boolean(user)}
+      />
 
       {/* What Pro unlocks */}
       <div className="mx-auto mt-16 max-w-4xl">
-        <h2 className="text-center font-heading text-2xl font-semibold tracking-tight">What Pro unlocks</h2>
+        <h2 className="text-center font-heading text-2xl font-semibold tracking-tight">
+          What Pro unlocks
+        </h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {PRO_HIGHLIGHTS.map((h) => {
             const Icon = h.icon;
@@ -159,6 +143,7 @@ export default async function PricingPage() {
         </div>
       </div>
 
+      {/* FAQ */}
       <div className="mx-auto mt-16 max-w-3xl">
         <h2 className="text-center font-heading text-2xl font-semibold tracking-tight">
           Pricing questions

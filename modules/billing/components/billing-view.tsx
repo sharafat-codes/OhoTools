@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { format } from "date-fns";
-import { CheckIcon, LoaderCircleIcon } from "lucide-react";
+import { CheckIcon, LoaderCircleIcon, ZapIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -32,6 +32,14 @@ type SubscriptionInfo = {
   cancelAtPeriodEnd: boolean;
 } | null;
 
+/** Mirrors lib/region.ProPrice — duplicated here to avoid importing server-only. */
+type ProPrice = {
+  isPk: boolean;
+  currency: "USD" | "PKR";
+  display: string;
+  period: string;
+};
+
 export function BillingView({
   currentPlan,
   subscription,
@@ -45,12 +53,13 @@ export function BillingView({
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
   provider?: "stripe" | "paddle" | "lemonsqueezy" | "safepay";
-  proPrice?: { display: string; period: string };
+  proPrice?: ProPrice;
   userId: string;
   email?: string;
 }) {
   const [isPending, startTransition] = React.useTransition();
   const [action, setAction] = React.useState<string | null>(null);
+  const [annual, setAnnual] = React.useState(false);
 
   React.useEffect(() => {
     if (checkoutStatus === "success") {
@@ -62,9 +71,10 @@ export function BillingView({
 
   function upgrade(plan: PlanId) {
     if (plan === "FREE") return;
+    const billingPlan = plan === "PRO" && annual ? "PRO_ANNUAL" : plan;
     setAction(plan);
     startTransition(async () => {
-      const res = await createCheckoutSession(plan);
+      const res = await createCheckoutSession(billingPlan as "PRO" | "PRO_ANNUAL" | "BUSINESS");
       if ("error" in res) {
         toast.error(res.error);
         setAction(null);
@@ -168,7 +178,46 @@ export function BillingView({
       </Card>
 
       {/* Plans */}
-      <div className="mx-auto grid max-w-2xl gap-4 sm:grid-cols-2">
+      <div className="mx-auto max-w-2xl">
+        {/* Annual toggle */}
+        <div className="mb-5 flex flex-col items-center gap-2">
+          <div className="flex items-center gap-3 rounded-full border border-border bg-muted p-1">
+            <button
+              type="button"
+              onClick={() => setAnnual(false)}
+              className={cn(
+                "rounded-full px-5 py-1.5 text-sm font-medium transition-colors",
+                !annual
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              Monthly
+            </button>
+            <button
+              type="button"
+              onClick={() => setAnnual(true)}
+              className={cn(
+                "flex items-center gap-1.5 rounded-full px-5 py-1.5 text-sm font-medium transition-colors",
+                annual
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              Annual
+              <span className="rounded-full bg-emerald-500/15 px-1.5 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                Save 37%
+              </span>
+            </button>
+          </div>
+          {annual && (
+            <p className="text-xs text-muted-foreground">
+              Billed as <strong className="text-foreground">$90 / year</strong> — 3 months free
+            </p>
+          )}
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
         {PLANS.map((plan) => {
           const isCurrent = plan.id === current.id;
           return (
@@ -187,13 +236,35 @@ export function BillingView({
                   {plan.name}
                 </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="font-heading text-3xl font-semibold">
-                    {plan.id === "PRO" && proPrice ? proPrice.display : `$${plan.price}`}
+                <span className="font-heading text-3xl font-semibold">
+                  {plan.id === "PRO" && proPrice
+                    ? annual
+                      ? proPrice.isPk ? proPrice.display : `$${plan.annualMonthly ?? plan.price}`
+                      : proPrice.display
+                    : `$${plan.price}`}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  /{plan.id === "PRO" && proPrice
+                    ? annual && !proPrice.isPk
+                      ? "mo · billed annually"
+                      : proPrice.period
+                    : "month"}
+                </span>
+              </div>
+              {/* Strikethrough + promo badge */}
+              {plan.id === "PRO" && !annual && plan.originalPrice && (
+                <div className="mt-0.5 flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground line-through">
+                    ${plan.originalPrice}/mo
                   </span>
-                  <span className="text-sm text-muted-foreground">
-                    /{plan.id === "PRO" && proPrice ? proPrice.period : "month"}
-                  </span>
+                  {plan.promoLabel && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+                      <ZapIcon className="size-2.5" />
+                      {plan.promoLabel}
+                    </span>
+                  )}
                 </div>
+              )}
                 <CardDescription>{plan.tagline}</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-1 flex-col gap-4">
@@ -261,6 +332,7 @@ export function BillingView({
             </Card>
           );
         })}
+        </div>
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
