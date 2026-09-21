@@ -11,7 +11,7 @@ import { BirthdayLuxe } from "@/modules/cards/templates/birthday-luxe";
 import { BirthdayNeon } from "@/modules/cards/templates/birthday-neon";
 import { CardRomantic } from "@/modules/cards/templates/card-romantic";
 import { CardFestival } from "@/modules/cards/templates/card-festival";
-import { playHappyBirthday } from "@/modules/cards/music";
+import { playCardMusic } from "@/modules/cards/music";
 
 const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
   classic: BirthdayClassic,
@@ -46,9 +46,9 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
     if (!ctx) { ctx = new Ctor(); ctxRef.current = ctx; }
     if (ctx.state === "suspended") void ctx.resume();
     stopRef.current?.();
-    stopRef.current = playHappyBirthday(ctx);
+    stopRef.current = playCardMusic(ctx, data.occasion);
     setMuted(false);
-  }, []);
+  }, [data.occasion]);
 
   const stopMusic = React.useCallback(() => {
     stopRef.current?.();

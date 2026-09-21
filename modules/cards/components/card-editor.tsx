@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
+import { MUSIC_LABEL } from "@/modules/cards/music";
 import { saveCard, updateCard, watchCardOpens } from "@/modules/cards/actions";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
@@ -342,7 +343,7 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
           </div>
           {photoError && <p className="text-xs text-red-500">{photoError}</p>}
 
-          <ToggleRow label="Play music" hint="Plays a birthday tune on the shared card" checked={!!data.music} onChange={(v) => set("music", v)} />
+          <ToggleRow label="Play music" hint={`Plays ${MUSIC_LABEL[data.occasion]} on the shared card`} checked={!!data.music} onChange={(v) => set("music", v)} />
         </Section>
 
         {/* Event details — turns a card into a real invitation */}

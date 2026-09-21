@@ -360,7 +360,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: GemIcon,
     intro:
-      "Create a beautiful animated wedding invitation in minutes. Add the couple's names, your message, a photo, and choose an elegant theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated invitation with animation and falling effects. Free, works on any device, and no sign-up needed.",
+      "Create a beautiful animated wedding invitation in minutes. Add the couple's names, your message, a photo, and choose an elegant theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated invitation with music and animation. Free, works on any device, and no sign-up needed.",
     steps: [
       "Enter the couple's names and your invitation message.",
       "Pick an elegant template, theme, and effect — add a photo and music if you like.",
@@ -369,7 +369,7 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is the wedding invitation free?", a: "Yes — completely free, with no sign-up. Personalize it and share the link as many times as you like." },
       { q: "How do guests open it?", a: "They just tap the link — it opens as a full-screen animated invitation on any phone or computer. No app or account needed." },
-      { q: "Can we add our photo?", a: "Yes to the photo: it is cropped and resized in your browser, so it is never uploaded. There is also an optional tune, but it currently plays a birthday melody on every occasion, so most couples leave it switched off until we add wedding music." },
+      { q: "Can we add our photo and music?", a: "Yes to both. The photo is cropped and resized inside your browser, so it is never uploaded. The optional tune plays Wagner’s Bridal Chorus, synthesized in the browser rather than streamed, and guests get a mute button on the invitation itself." },
       { q: "Is our information stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
       { q: "Can guests RSVP to the invitation?", a: "Yes. Turn on Collect RSVPs in the editor and save the invitation to your account, which is what activates replies. Guests then reply on the invitation with their name, whether they are attending, a guest count, and an optional message, and each reply is emailed to you. The running headcount is free; the full list of names with CSV export is a Pro feature." },
     ],
@@ -395,7 +395,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: HeartIcon,
     intro:
-      "Announce your engagement in style with an animated invitation. Add your names, your message, a photo, and pick a romantic theme — then share the link on WhatsApp or social media. It opens as a full-screen animated invitation with animation and falling effects. Free and instant, no sign-up.",
+      "Announce your engagement in style with an animated invitation. Add your names, your message, a photo, and pick a romantic theme — then share the link on WhatsApp or social media. It opens as a full-screen animated invitation with music and animation. Free and instant, no sign-up.",
     steps: [
       "Enter your names and your engagement message.",
       "Choose a template, theme, and effect — add a photo and music if you like.",
@@ -404,7 +404,7 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is it free?", a: "Yes — completely free with no sign-up. Personalize it and share the link freely." },
       { q: "How do people open it?", a: "They tap the link and it plays as a full-screen animated invitation on any device — no app needed." },
-      { q: "Can I add a photo?", a: "Yes to the photo: it is cropped and resized inside your browser and never uploaded. There is an optional tune as well, though it currently plays a birthday melody whatever the occasion, so most people leave it off for an engagement." },
+      { q: "Can I add a photo and music?", a: "Yes to both. The photo is cropped and resized inside your browser and never uploaded. The optional tune plays the Bridal Chorus, synthesized in the browser, and whoever opens the invitation can mute it." },
       { q: "Is my data stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
     ],
     updated: "2026-09-21",
@@ -429,7 +429,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: WineIcon,
     intro:
-      "Celebrate an anniversary with a heartfelt animated card. Add the names, your message, a photo, and choose a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with animation and falling effects. Free, works on any device, no sign-up.",
+      "Celebrate an anniversary with a heartfelt animated card. Add the names, your message, a photo, and choose a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with music and animation. Free, works on any device, no sign-up.",
     steps: [
       "Enter the names and your anniversary message.",
       "Pick a template, theme, and effect — add a photo and music if you like.",
@@ -438,7 +438,7 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is the anniversary card free?", a: "Yes — completely free with no sign-up. Personalize and share the link as often as you like." },
       { q: "How is it opened?", a: "The recipient taps the link and it plays as a full-screen animated card on any phone or computer." },
-      { q: "Can I add a photo?", a: "Yes to the photo: it is cropped and resized inside your browser, so it never leaves your device. There is an optional tune too, but it currently plays a birthday melody regardless of occasion, so it is usually best left off for an anniversary." },
+      { q: "Can I add a photo and music?", a: "Yes to both. The photo is cropped and resized inside your browser, so it never leaves your device. The optional tune plays Pachelbel’s Canon in D, synthesized in the browser, and it can be muted on the card." },
       { q: "Is anything stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
     ],
     updated: "2026-09-21",
