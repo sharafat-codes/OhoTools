@@ -15,10 +15,10 @@ export const metadata: Metadata = { title: "Billing" };
 export default async function BillingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string }>;
+  searchParams: Promise<{ checkout?: string; billing?: string }>;
 }) {
   const user = await requireUser();
-  const { checkout } = await searchParams;
+  const { checkout, billing } = await searchParams;
 
   let dbUser = await prisma.user.findUnique({
     where: { id: user.id },
@@ -82,6 +82,10 @@ export default async function BillingPage({
             : null
         }
         checkoutStatus={checkout ?? null}
+        // /pricing links here as ?billing=annual when the visitor picked the
+        // annual plan. Without this the toggle reset to monthly and they bought
+        // the wrong plan.
+        defaultAnnual={billing === "annual"}
         provider={provider}
         proPrice={proPrice}
         userId={user.id}

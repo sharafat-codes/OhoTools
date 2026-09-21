@@ -48,6 +48,7 @@ export function BillingView({
   proPrice,
   userId,
   email,
+  defaultAnnual = false,
 }: {
   currentPlan: string;
   subscription: SubscriptionInfo;
@@ -56,10 +57,11 @@ export function BillingView({
   proPrice?: ProPrice;
   userId: string;
   email?: string;
+  defaultAnnual?: boolean;
 }) {
   const [isPending, startTransition] = React.useTransition();
   const [action, setAction] = React.useState<string | null>(null);
-  const [annual, setAnnual] = React.useState(false);
+  const [annual, setAnnual] = React.useState(defaultAnnual);
 
   React.useEffect(() => {
     if (checkoutStatus === "success") {
