@@ -151,6 +151,15 @@ export type DevTool = {
   related: string[]; // slugs
   pro?: boolean; // premium tool — usable free with limits, full with Pro
   serverSide?: boolean; // processed on the server (not in-browser) — e.g. Office conversion
+  /** ISO date (YYYY-MM-DD) the page copy was last substantively revised. Emits
+   *  schema.org dateModified and a visible "Updated" line. Set it only when the
+   *  content genuinely changed — recency is a strong AI-citation signal, and a
+   *  fake date is worse than none. */
+  updated?: string;
+  /** Optional question-headed, self-contained answer block (aim 134–167 words).
+   *  Rendered as its own H2 section so AI assistants and featured snippets can
+   *  lift it without surrounding context. */
+  explainer?: { heading: string; body: string };
 };
 
 const baseDevTools: DevTool[] = [
@@ -2065,11 +2074,18 @@ const baseDevTools: DevTool[] = [
       "Pull the text out of an image, screenshot, photo, or scanned document using optical character recognition (OCR). Works with JPG, PNG, WebP, GIF, and BMP images. It runs entirely in your browser — your image is never uploaded, so it stays completely private. The recognition engine downloads once on first use, then works offline.",
     steps: ["Upload an image or photo of text (JPG, PNG, WebP, GIF, or BMP).", "Click Extract text (the engine loads on first use).", "Copy the recognized text."],
     faqs: [
-      { q: "Which image formats are supported?", a: "JPG, PNG, WebP, GIF, and BMP. For best results use a clear, high-contrast image of real text." },
-      { q: "Is my image uploaded anywhere?", a: "No — recognition happens locally in your browser using an in-page OCR engine, so the image never leaves your device." },
-      { q: "What images work best?", a: "Clear, well-lit photos and scans of real text with good contrast. Stylized graphics, decorative fonts, and low-resolution images are harder to read accurately." },
-      { q: "Why does the first run take a moment?", a: "The OCR engine (a few MB) downloads once on your first extraction, then it's cached for instant use afterward." },
+      { q: "Which image formats are supported?", a: "JPG, PNG, WebP, GIF, and BMP, up to 15 MB per image. Any image your browser can display will work. For the best results use a sharp, high-contrast picture of printed text." },
+      { q: "Is my image uploaded anywhere?", a: "No. Recognition runs entirely inside your browser using the Tesseract engine, so the image is never sent to a server and nothing is stored. Once the engine has loaded, the tool even works offline." },
+      { q: "Can I extract text from a photo taken on my phone?", a: "Yes. Photograph the page straight-on in good light, keep the lines of text level, and let the text fill most of the frame. Skewed, shadowed, or low-resolution photos lower accuracy noticeably." },
+      { q: "Does it read handwriting?", a: "Poorly. The engine is trained on printed text, so neat block capitals may partly work, but cursive and everyday handwriting usually do not. For handwritten notes, a dedicated handwriting-recognition service will do better." },
+      { q: "Which languages does it recognize?", a: "Printed English. Words in other Latin-alphabet languages may be partly recognized, but accented characters and non-Latin scripts such as Arabic, Urdu, Hindi, or Chinese are not reliably supported." },
+      { q: "Why does the first run take a moment?", a: "The OCR engine, a few megabytes in size, downloads the first time you extract text. Your browser caches it afterwards, so later extractions start immediately." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What is image to text (OCR), and how does it work?",
+      body: "Image to text, or OCR (optical character recognition), is the process of detecting the characters in a picture and turning them into text you can select, copy, search, and edit. This tool runs the open-source Tesseract engine directly in your browser, so the image is processed on your own device and never uploaded to a server. It reads printed English text from JPG, PNG, WebP, GIF, and BMP files up to 15 MB, including phone photos, screenshots, and scanned pages. Accuracy is highest on sharp, well-lit images of standard fonts with strong contrast between the text and its background; handwriting, decorative fonts, and blurry or skewed photos recognize poorly. The engine, a few megabytes in size, downloads once on first use and is cached, so later extractions start instantly and work offline. There is no sign-up and no limit on how many images you can process.",
+    },
     related: ["pdf-to-text", "image-converter", "strip-html"],
   },
   {
@@ -4093,9 +4109,9 @@ export const categoryPages: CategoryPage[] = [
     keywords: ["developer tools", "online dev tools", "json formatter", "jwt decoder", "regex tester", "cron expression", "hash generator"],
     h1: "Free developer tools",
     intro:
-      "A fast, private toolkit for everyday development — format and validate code and data, decode tokens, test regular expressions, explain cron schedules, and more. No sign-up, nothing uploaded.",
+      "Online developer tools are small, single-purpose utilities for the everyday chores of writing software: formatting and validating JSON, SQL, and XML, decoding JWTs, testing regular expressions, explaining cron schedules, calculating chmod permissions and CIDR ranges, and generating hashes, UUIDs, and mock data. Every formatter, decoder, tester, and calculator here runs inside your browser, so your code and tokens never leave your device. The AI-assisted generators send only the text you type. Nothing to install, no account needed, and the core tools are free without limits.",
     faqs: [
-      { q: "Do these tools send my data anywhere?", a: "No. Every developer tool runs entirely in your browser — your code, tokens, and data never leave your device." },
+      { q: "Do these tools send my data anywhere?", a: "The formatters, decoders, testers, and calculators run entirely in your browser and send nothing. The AI-assisted generators send only the text you submit, which is used to produce your result and not to train models." },
       { q: "Is the JWT decoder safe to use?", a: "Yes — decoding happens locally in your browser, so your tokens are never transmitted or stored." },
     ],
   },

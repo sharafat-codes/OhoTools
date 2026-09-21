@@ -15,6 +15,11 @@ import { isEmbeddable } from "@/modules/tools/embed";
 import { AdUnit } from "@/components/ad-unit";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
+/** "2026-09-21" → "Sep 21, 2026". UTC so the rendered date never shifts with server timezone. */
+function formatUpdated(iso: string): string {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+}
+
 export async function ToolShell({
   tool,
   children,
@@ -54,6 +59,7 @@ export async function ToolShell({
         operatingSystem: "Web",
         browserRequirements: "Requires JavaScript. Runs in any modern browser.",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        ...(tool.updated ? { dateModified: tool.updated } : {}),
       },
       {
         "@type": "BreadcrumbList",
@@ -111,6 +117,12 @@ export async function ToolShell({
             {tool.pro && <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary">Pro</Badge>}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">{tool.tagline}</p>
+          {tool.updated && (
+            <p className="mt-1 text-xs text-muted-foreground/70">
+              Updated{" "}
+              <time dateTime={tool.updated}>{formatUpdated(tool.updated)}</time>
+            </p>
+          )}
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <FavoriteButton slug={tool.slug} initialFavorited={favorited} />
@@ -141,6 +153,16 @@ export async function ToolShell({
         <div className="mt-6 flex justify-center">
           <EmbedDialog slug={tool.slug} name={tool.name} />
         </div>
+      )}
+
+      {/* Explainer — a question-headed, self-contained answer block (opt-in per
+         tool). Kept high on the page: most AI citations lift from the first
+         third of a document. */}
+      {tool.explainer && (
+        <section className="mt-14">
+          <h2 className="font-heading text-xl font-semibold tracking-tight">{tool.explainer.heading}</h2>
+          <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">{tool.explainer.body}</p>
+        </section>
       )}
 
       {/* How to use */}
