@@ -325,7 +325,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: CakeIcon,
     intro:
-      "Create a beautiful animated birthday card in seconds. Add a name, a personal message, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with confetti and floating balloons. Free, works on any device, and no sign-up needed.",
+      "Create a beautiful animated birthday card in seconds. Add a name, a personal message, and pick a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with confetti and animation. Free, works on any device, and no sign-up needed.",
     steps: [
       "Type the birthday person's name and your message.",
       "Pick a color theme and watch the live preview.",
@@ -334,9 +334,14 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is the birthday card free?", a: "Yes — completely free, with no sign-up. Personalize it and share the link as many times as you like." },
       { q: "How do I share the card?", a: "Copy the link and send it on WhatsApp, SMS, email, or social media. Anyone who opens it sees the full animated card — no app or account needed." },
-      { q: "Is my card stored on your servers?", a: "No — the card is encoded entirely in the link itself, so nothing is saved or tracked on our side." },
-      { q: "Can I add a photo?", a: "Photos are coming soon. For now cards are text-based with animated themes, which keeps the shareable link lightweight and instant." },
+      { q: "Is my card stored on your servers?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
+      { q: "Can I add a photo?", a: "Yes. Use Add a photo in the editor. The image is cropped to a square and resized inside your browser before it goes into the card, so it is never uploaded anywhere. Very detailed photos can make the share link too long, in which case the editor asks for a simpler one." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What is an animated birthday card, and how does the link work?",
+      body: "An animated birthday card here is a web page you send as a link rather than a file or a picture. You type who it is for, a message of up to 400 characters, and optionally your name, then pick one of five designs and any of nine colour themes, and choose whether confetti, hearts, or stars fall across the screen. You can add a photo, which is cropped and resized to a small square inside your browser and never uploaded, and switch on a short tune. The link you copy contains the entire card encoded within it, so nothing is stored on OhoTool unless you choose to save it. Opening the link shows the card full-screen on any phone or computer, with a replay button for the animation. A small OhoTool credit sits at the bottom unless you remove it with Pro, which also unlocks two extra designs, custom colours, and image or video download.",
+    },
     related: ["countdown-to-date", "qr-code", "meme-generator"],
   },
   {
@@ -355,7 +360,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: GemIcon,
     intro:
-      "Create a beautiful animated wedding invitation in minutes. Add the couple's names, your message, a photo, and choose an elegant theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated invitation with music and effects. Free, works on any device, and no sign-up needed.",
+      "Create a beautiful animated wedding invitation in minutes. Add the couple's names, your message, a photo, and choose an elegant theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated invitation with animation and falling effects. Free, works on any device, and no sign-up needed.",
     steps: [
       "Enter the couple's names and your invitation message.",
       "Pick an elegant template, theme, and effect — add a photo and music if you like.",
@@ -364,9 +369,15 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is the wedding invitation free?", a: "Yes — completely free, with no sign-up. Personalize it and share the link as many times as you like." },
       { q: "How do guests open it?", a: "They just tap the link — it opens as a full-screen animated invitation on any phone or computer. No app or account needed." },
-      { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and the invitation plays them when a guest opens it." },
-      { q: "Is our information stored?", a: "No — the invitation is encoded in the link itself, so nothing is saved on our servers." },
+      { q: "Can we add our photo?", a: "Yes to the photo: it is cropped and resized in your browser, so it is never uploaded. There is also an optional tune, but it currently plays a birthday melody on every occasion, so most couples leave it switched off until we add wedding music." },
+      { q: "Is our information stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
+      { q: "Can guests RSVP to the invitation?", a: "Yes. Turn on Collect RSVPs in the editor and save the invitation to your account, which is what activates replies. Guests then reply on the invitation with their name, whether they are attending, a guest count, and an optional message, and each reply is emailed to you. The running headcount is free; the full list of names with CSV export is a Pro feature." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does a digital wedding invitation work, and can guests RSVP?",
+      body: "A digital wedding invitation is a link you send on WhatsApp, email, or anywhere else instead of printing and posting cards. You enter the couple's names, your wording, and optionally a photo, then choose from four designs and nine colour themes. What turns a card into an invitation is the event block: add the date, time, venue, and address, and guests get a Details button that opens the full information along with an Add to Google Calendar link and a map link for the address. Switch on Collect RSVPs and guests reply on the invitation itself with their name, whether they are coming, how many people they are bringing, and a message, and you are emailed each reply. RSVPs need the invitation saved to an account first, because replies attach to its short link. Seeing the headcount is free; the full guest list with names and CSV export is Pro.",
+    },
     related: ["engagement-invitation-maker", "anniversary-card-maker", "birthday-card-maker"],
   },
   {
@@ -384,7 +395,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: HeartIcon,
     intro:
-      "Announce your engagement in style with an animated invitation. Add your names, your message, a photo, and pick a romantic theme — then share the link on WhatsApp or social media. It opens as a full-screen animated invitation with music and effects. Free and instant, no sign-up.",
+      "Announce your engagement in style with an animated invitation. Add your names, your message, a photo, and pick a romantic theme — then share the link on WhatsApp or social media. It opens as a full-screen animated invitation with animation and falling effects. Free and instant, no sign-up.",
     steps: [
       "Enter your names and your engagement message.",
       "Choose a template, theme, and effect — add a photo and music if you like.",
@@ -393,9 +404,14 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is it free?", a: "Yes — completely free with no sign-up. Personalize it and share the link freely." },
       { q: "How do people open it?", a: "They tap the link and it plays as a full-screen animated invitation on any device — no app needed." },
-      { q: "Can I add a photo and music?", a: "Yes — add a couple photo and turn on music; both play when the invitation is opened." },
-      { q: "Is my data stored?", a: "No — the invitation lives in the link itself; nothing is saved on our servers." },
+      { q: "Can I add a photo?", a: "Yes to the photo: it is cropped and resized inside your browser and never uploaded. There is an optional tune as well, though it currently plays a birthday melody whatever the occasion, so most people leave it off for an engagement." },
+      { q: "Is my data stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How do you send an engagement announcement as a link?",
+      body: "An engagement invitation here is a full-screen animated page that lives entirely inside the link you share, which makes it well suited to a group chat or a social post where an image would be flattened and a PDF would not open. You enter both names, your announcement, and optionally a photo that is cropped and resized inside your browser rather than uploaded. Four designs and nine colour themes are available, with floating hearts, confetti, or stars drifting over the card. If you are announcing a party rather than just the news, add the date, time, venue, and address, and the invitation gains a Details button with an Add to Google Calendar link and a map. You can also collect RSVPs once the invitation is saved to an account. Everything is free, including sharing; Pro adds two premium designs, custom colours, removal of the small OhoTool credit, and image or video download.",
+    },
     related: ["wedding-invitation-maker", "anniversary-card-maker", "birthday-card-maker"],
   },
   {
@@ -413,7 +429,7 @@ export const extraTools: DevTool[] = [
     ],
     icon: WineIcon,
     intro:
-      "Celebrate an anniversary with a heartfelt animated card. Add the names, your message, a photo, and choose a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with music and effects. Free, works on any device, no sign-up.",
+      "Celebrate an anniversary with a heartfelt animated card. Add the names, your message, a photo, and choose a theme — then share the link on WhatsApp or anywhere. It opens as a full-screen animated card with animation and falling effects. Free, works on any device, no sign-up.",
     steps: [
       "Enter the names and your anniversary message.",
       "Pick a template, theme, and effect — add a photo and music if you like.",
@@ -422,9 +438,14 @@ export const extraTools: DevTool[] = [
     faqs: [
       { q: "Is the anniversary card free?", a: "Yes — completely free with no sign-up. Personalize and share the link as often as you like." },
       { q: "How is it opened?", a: "The recipient taps the link and it plays as a full-screen animated card on any phone or computer." },
-      { q: "Can I add a photo and music?", a: "Yes — add a photo and enable music; both play when the card is opened." },
-      { q: "Is anything stored?", a: "No — the card is encoded in the link, so nothing is saved on our servers." },
+      { q: "Can I add a photo?", a: "Yes to the photo: it is cropped and resized inside your browser, so it never leaves your device. There is an optional tune too, but it currently plays a birthday melody regardless of occasion, so it is usually best left off for an anniversary." },
+      { q: "Is anything stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What makes an animated anniversary card different from a printed one?",
+      body: "An anniversary card here is a link rather than an object, which means it arrives instantly wherever the person already is and can carry things paper cannot: a photo, movement, and a message you can rewrite until it is right. You enter the names and up to 400 characters of your own words, then choose from four designs and nine colour themes. The default pairing is a dark, elegant design with floating hearts, which suits an anniversary better than the brighter birthday styles. Any photo you add is cropped and resized inside your browser and never uploaded. If you are marking the date with a dinner or a party, you can attach the date, time, venue, and address, and the card gains a Details button with an Add to Google Calendar link and a map. Sharing is free and unlimited; Pro adds two premium designs, custom colours, watermark removal, and image or video download.",
+    },
     related: ["wedding-invitation-maker", "engagement-invitation-maker", "birthday-card-maker"],
   },
   {

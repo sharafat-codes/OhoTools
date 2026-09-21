@@ -2169,12 +2169,18 @@ const baseDevTools: DevTool[] = [
     keywords: ["ai summarizer", "text summarizer", "summarize text", "tl;dr generator", "summary generator"],
     icon: ScrollTextIcon,
     intro:
-      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by advanced AI. Free users get a few runs a day; Pro is unlimited.",
+      "Turn long text into a clear summary or bullet-point takeaways. Paste an article, meeting notes, or a report and get the gist in seconds — powered by advanced AI. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Choose the length and format.", "Summarize and copy the result."],
     faqs: [
       { q: "What can I summarize?", a: "Articles, reports, transcripts, emails, notes — any text up to about 20,000 characters per run." },
-      { q: "Is my text stored?", a: "No — your text is sent to the AI model to generate the summary and is not stored on our servers afterward." },
+      { q: "Is my text stored?", a: "It is sent to an AI provider to generate the result, which is how the tool works. OhoTool does not keep your text or the output: the only thing recorded is a count of how many runs you have used that day. Because the text does reach a third party, avoid pasting passwords, keys, or anything confidential." },
+      { q: "Do I need an account?", a: "Yes. The AI tools need a free OhoTool account, unlike the rest of the site. A free account includes 3 AI runs per day shared across every AI tool here, so three summaries or one summary and two rewrites both use the day's allowance. The counter resets at midnight UTC. Pro removes the daily cap." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does an AI summarizer work, and how long can the text be?",
+      body: "An AI summarizer reads a piece of text and produces a shorter version that keeps the main points, which is useful for long articles, meeting notes, research papers, and reports you need the gist of quickly. This one lets you pick a length of short, medium, or long, and a format of either a flowing paragraph or a bulleted list of key points, then returns a summary you can copy. It handles up to 20,000 characters per run, roughly 3,000 to 4,000 words, so very long documents need splitting or you can use Chat with PDF instead. Summaries are generated, not extracted, so check anything important against the original before relying on it. The tool needs a free account, and free accounts get three AI runs a day shared across every AI tool here, resetting at midnight UTC. Pro removes the cap.",
+    },
     related: ["ai-paraphraser", "ai-translator", "word-counter"],
     pro: true,
     serverSide: true,
@@ -2245,12 +2251,20 @@ const baseDevTools: DevTool[] = [
     keywords: ["ai humanizer", "humanize ai text", "make ai text sound human", "ai to human text", "humanize text"],
     icon: WandSparklesIcon,
     intro:
-      "Paste AI-generated text and get a version that reads more naturally — varied sentences, natural phrasing, and none of the robotic, repetitive patterns — with the original meaning intact. Free users get a few runs a day; Pro is unlimited.",
+      "Paste AI-generated text and get a version that reads more naturally — varied sentences, natural phrasing, and none of the robotic, repetitive patterns — with the original meaning intact. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Run the humanizer.", "Copy the natural-sounding result."],
     faqs: [
       { q: "Does it change the meaning?", a: "No — it rewrites the phrasing and flow for a more natural read while preserving your meaning and facts." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap entirely. There is no charge per rewrite either way." },
+      { q: "Do I need an account?", a: "Yes. The AI tools need a free OhoTool account, unlike the rest of the site. A free account includes 3 AI runs per day shared across every AI tool here, so three summaries or one summary and two rewrites both use the day's allowance. The counter resets at midnight UTC. Pro removes the daily cap." },
+      { q: "What happens to my text?", a: "It is sent to an AI provider to generate the result, which is how the tool works. OhoTool does not keep your text or the output: the only thing recorded is a count of how many runs you have used that day. Because the text does reach a third party, avoid pasting passwords, keys, or anything confidential." },
+      { q: "Will it get past AI detectors?", a: "There is no honest way to promise that. Detection services change constantly and disagree with each other, and this tool does not test your text against any of them or report a score. What it does is rephrase generated text to read more naturally while keeping your meaning intact. Treat the result as a draft to edit, not a guarantee." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What does an AI humanizer do, and what are its limits?",
+      body: "An AI humanizer rewrites text so it reads as though a person wrote it, by varying sentence length and structure and removing the repetitive, formulaic phrasing that generated drafts tend to fall into. This one is instructed to preserve your meaning, facts, and language exactly, and to add no new information, so it rephrases rather than rewrites. Paste up to 20,000 characters and you get a single rewritten version you can copy; there are no tone or strength settings, and no detector score. That last point is worth being clear about: no tool can guarantee how any AI-detection service will classify a piece of text, and this one does not claim to. It needs a free account, and free accounts get three AI runs a day shared across all the AI tools on the site, resetting at midnight UTC. Pro removes the daily cap.",
+    },
     related: ["ai-paraphraser", "tone-changer", "ai-grammar-checker"],
     pro: true,
     serverSide: true,
@@ -2728,10 +2742,16 @@ const baseDevTools: DevTool[] = [
       "Clean up a noisy recording — cut background hiss and hum, enhance voice clarity, and even out the loudness. It runs entirely in your browser, so your audio never leaves your device. The result is saved as an MP3.",
     steps: ["Choose an audio file.", "Pick an enhancement mode.", "Enhance and download the MP3."],
     faqs: [
-      { q: "What does the noise reduction do?", a: "It applies a spectral denoiser that lowers steady background noise — hiss, fans, hum — while keeping the main sound intact." },
+      { q: "What does the noise reduction do?", a: "Only two of the three modes denoise. Reduce background noise runs a spectral denoiser that lowers steady sounds such as hum, hiss, and air conditioning, and Clean up and normalise applies a gentler version alongside loudness levelling. The default Enhance voice mode does not denoise at all: it filters, compresses, and normalises for clarity. Sudden noises like coughs or door slams are not removed by any mode." },
       { q: "Will it fix any recording?", a: "It helps most with mild-to-moderate background noise and quiet or uneven voice recordings. Very heavy noise or distortion can't be fully removed." },
       { q: "Is my audio uploaded?", a: "No — enhancement runs locally in your browser; your audio never leaves your device." },
+      { q: "What format do I get back, and is there a size limit?", a: "The result is always an MP3 at 192 kbps, whatever you put in, so this doubles as a converter. Input files can be up to 100 MB in any audio format your browser can read, and there is no limit on length. The enhanced file downloads with the original name and an .mp3 extension." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "What does audio enhancement actually do to a recording?",
+      body: "This tool runs a real audio filter chain over your file rather than simply turning the volume up, and it offers three modes that do different things. Enhance voice, the default, rolls off rumble below 100 Hz and hiss above 12 kHz, applies compression to even out loud and quiet passages, then normalises the overall loudness to broadcast level; it does not remove background noise. Reduce background noise runs a spectral denoiser that lowers steady, constant sounds such as fan hum or air conditioning, and changes nothing else. Clean up and normalise does a lighter version of both. Files up to 100 MB are accepted in any common audio format, and the result is always an MP3 at 192 kbps. Processing happens in your browser using a WebAssembly build of ffmpeg, so your audio is never uploaded, though the engine itself downloads once on first use.",
+    },
     related: ["change-volume", "audio-converter", "trim-audio"],
   },
   {
@@ -3379,8 +3399,14 @@ const baseDevTools: DevTool[] = [
     steps: ["Pick the number of dice and sides.", "Click Roll dice.", "Read each die and the total."],
     faqs: [
       { q: "Which dice can I roll?", a: "Standard polyhedral dice: d4, d6, d8, d10, d12, and d20 — roll up to 12 at once." },
-      { q: "Are the rolls random?", a: "Yes — every roll is generated randomly in your browser, so results are fair and unpredictable." },
+      { q: "Are the rolls random?", a: "Each die is generated independently by your browser's built-in random number function, which distributes results evenly across every face, so no number is favoured. It is a standard pseudorandom generator rather than the cryptographic kind, which is the right tool for games but not something to use where security depends on it." },
+      { q: "Does it keep a history of my rolls?", a: "No. Each roll replaces the last, so there is no log, running total, or per-face tally across rolls. The total shown applies only to the dice currently on screen, and only when more than one die was rolled." },
     ],
+    updated: "2026-09-21",
+    explainer: {
+      heading: "How does an online dice roller generate its numbers?",
+      body: "An online dice roller replaces physical dice with numbers your browser generates, which is handy when dice are lost, when you are playing over a call, or when you need more dice than you own. This one rolls between 1 and 12 dice at once, in six standard sizes: four, six, eight, ten, twelve, and twenty sides. Six-sided dice are drawn with real pip faces and the rest show numerals, and a total appears underneath whenever you roll more than one. Each die is generated independently by your browser's standard random number function, which is designed for even distribution across all faces and is fine for board games and tabletop play, though it is not the cryptographic kind used for security. Everything happens on your device with nothing sent anywhere. Results are not kept between rolls, so there is no running history or tally.",
+    },
     related: ["coin-flip", "random-number-generator", "spin-the-wheel"],
   },
   {
@@ -4095,6 +4121,10 @@ export type CategoryPage = {
   h1: string;
   intro: string;
   faqs: ToolFaq[];
+  /** Optional question-headed, self-contained answer block (aim 134–167 words),
+   *  rendered after the tool list and before the FAQ. Same purpose as the
+   *  per-tool explainer: give AI assistants and snippets something liftable. */
+  explainer?: { heading: string; body: string };
   /** Curated tool list (overrides the category's default slugs, e.g. a
    * cross-category collection like "image"). */
   toolSlugs?: string[];
@@ -4176,9 +4206,13 @@ export const categoryPages: CategoryPage[] = [
     intro:
       "Online developer tools are small, single-purpose utilities for the everyday chores of writing software: formatting and validating JSON, SQL, and XML, decoding JWTs, testing regular expressions, explaining cron schedules, calculating chmod permissions and CIDR ranges, and generating hashes, UUIDs, and mock data. Every formatter, decoder, tester, and calculator here runs inside your browser, so your code and tokens never leave your device. The AI-assisted generators send only the text you type. Nothing to install, no account needed, and the core tools are free without limits.",
     faqs: [
-      { q: "Do these tools send my data anywhere?", a: "The formatters, decoders, testers, and calculators run entirely in your browser and send nothing. The AI-assisted generators send only the text you submit, which is used to produce your result and not to train models." },
+      { q: "Do these tools send my data anywhere?", a: "The formatters, decoders, testers, and calculators run entirely in your browser and send nothing. The AI-assisted generators necessarily send the text you type to an AI provider to produce a result; those tools are labelled and need a free account. OhoTool does not store your input or output either way." },
       { q: "Is the JWT decoder safe to use?", a: "Yes — decoding happens locally in your browser, so your tokens are never transmitted or stored." },
     ],
+    explainer: {
+      heading: "Which of these developer tools send your data anywhere?",
+      body: "Most tools on this page never send your data anywhere. The formatters, validators, decoders, converters, testers, and calculators all run as JavaScript inside the tab you already have open, so your code, tokens, and configuration files stay on your machine and the tools keep working if your connection drops. That matters because developer utilities routinely handle production secrets: a JWT from a live session, an API response with customer records, a connection string in a config file. Pasting those into a site that processes them on a server means handing them to a third party. The exception here is the AI-assisted generators, such as the regex and SQL helpers, which necessarily send the text you type to an AI provider to produce a result; those are labelled and need an account. Nothing you enter is stored by OhoTool either way, and no tool on this page requires sign-up.",
+    },
   },
   {
     slug: "image",

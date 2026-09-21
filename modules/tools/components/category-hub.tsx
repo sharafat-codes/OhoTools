@@ -121,6 +121,15 @@ export function CategoryHub({ slug }: { slug: string }) {
         })}
       </div>
 
+      {/* Explainer — self-contained answer block, after the tool list so the
+         page still leads with the tools themselves. */}
+      {cat.explainer && (
+        <section className="mt-14">
+          <h2 className="font-heading text-xl font-semibold tracking-tight">{cat.explainer.heading}</h2>
+          <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">{cat.explainer.body}</p>
+        </section>
+      )}
+
       {/* FAQ */}
       {cat.faqs.length > 0 && (
         <section className="mt-14">
