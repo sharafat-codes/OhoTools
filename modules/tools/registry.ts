@@ -2200,6 +2200,11 @@ const baseDevTools: DevTool[] = [
       { q: "Will it keep my meaning?", a: "Yes — the paraphraser preserves your original meaning and key details while changing the wording and tone." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to rewrite it and is not stored on our servers afterward." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What does a paraphrasing tool do, and when should you use one?",
+      body: "A paraphrasing tool rewrites text in different words while keeping the meaning, which is useful when a sentence is clumsy, when you are reusing your own writing somewhere it would read as repetitive, or when a draft is right in substance but wrong in register. This one is instructed to preserve your meaning and key details and to add nothing new, so it rephrases rather than rewrites. You pick one of six tones: professional, casual, concise, friendly, formal, or confident. Paste up to 20,000 characters and you get a single rewritten version to copy; there is no side-by-side comparison and no list of changes. It is not a way to pass off someone else's work as your own, and it will not check whether your source was quoted properly. A free account gives three AI runs a day shared across every AI tool here; Pro removes the cap.",
+    },
     related: ["ai-summarizer", "ai-grammar-checker", "case-converter"],
     pro: true,
     serverSide: true,
@@ -2219,6 +2224,11 @@ const baseDevTools: DevTool[] = [
       { q: "Which languages are supported?", a: "20+ major languages including Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, and more." },
       { q: "Is it better than a basic translator?", a: "It's context-aware, so it handles tone and idioms more naturally than word-for-word tools." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "How does AI translation differ from a word-for-word translator?",
+      body: "A word-for-word translator maps each term to its closest equivalent, which is why older tools mangle idioms, drop politeness levels, and produce sentences that are technically correct and obviously foreign. A language model translates the passage as a whole, so it can carry tone, register, and formatting across, and it handles expressions that have no literal equivalent. This one offers 22 languages: English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Chinese in both Simplified and Traditional, Japanese, Korean, Arabic, Hindi, Bengali, Urdu, Turkish, Polish, Vietnamese, Thai, Indonesian, and Ukrainian. It detects the source language from the text itself, so you only choose the target. Paste up to 20,000 characters per run. For anything legal, medical, or contractual, have a fluent human check the result; fluency is not the same as accuracy. A free account allows three AI runs a day across all AI tools.",
+    },
     related: ["ai-summarizer", "ai-paraphraser", "image-to-text"],
     pro: true,
     serverSide: true,
@@ -2238,6 +2248,11 @@ const baseDevTools: DevTool[] = [
       { q: "Will it change my meaning?", a: "No — it corrects mechanics (spelling, grammar, punctuation) while preserving your meaning and tone." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to correct it and is not stored on our servers afterward." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What does this grammar checker fix, and what does it leave alone?",
+      body: "A grammar checker corrects the mechanics of writing: spelling, grammar, and punctuation. This one is instructed to act as a proofreader and to preserve your meaning and tone, so it repairs errors without rewriting your voice or restructuring your argument. Paste up to 20,000 characters and you get the corrected text back in one piece, ready to copy. It does not produce a list of the changes it made, and it does not highlight them inline, so it is worth comparing against your original if the text matters. Because it is a language model rather than a rule engine, it catches things a simple checker misses, such as agreement across a long sentence, but it can also make a judgement call you disagree with. If you want the wording changed rather than corrected, use the paraphraser or tone changer instead. A free account allows three AI runs a day across all AI tools.",
+    },
     related: ["ai-paraphraser", "ai-summarizer", "word-counter"],
     pro: true,
     serverSide: true,
@@ -2322,6 +2337,11 @@ const baseDevTools: DevTool[] = [
       { q: "Which tones are available?", a: "Professional, friendly, formal, casual, confident, and empathetic — pick the one that fits." },
       { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What does changing the tone of text actually change?",
+      body: "Tone is the attitude your writing conveys, separate from what it says. The same request can read as brusque or warm, stiff or relaxed, depending on sentence length, word choice, and how much hedging you use. A tone changer rewrites the wording to shift that impression while leaving the substance, the facts, and the language of the original in place. This one offers six settings: professional, friendly, formal, casual, confident, and empathetic. It is most useful on messages that are correct but land wrong, such as a complaint that reads angrier than you meant, a note to a colleague that sounds curt, or a first draft to a client that feels stiff. Paste up to 20,000 characters and copy the result. A free account allows three AI runs a day shared across every AI tool on the site, and Pro removes the cap.",
+    },
     related: ["ai-paraphraser", "ai-humanizer", "ai-email-writer"],
     pro: true,
     serverSide: true,
@@ -2550,6 +2570,11 @@ const baseDevTools: DevTool[] = [
       { q: "Does it keep the meaning?", a: "Yes — it simplifies the wording and structure while preserving the key meaning of your text." },
       { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What does simplifying text involve, and when is it worth doing?",
+      body: "Simplifying text means saying the same thing in shorter sentences with everyday words, cutting jargon and the passive constructions that make official writing hard to follow. It is worth doing whenever the reader has less context than the writer: patient information, terms and conditions, policy notes, technical documentation for non-specialists, or anything being read by someone in a second language. This tool offers three levels: plain English, an explanation a five-year-old could understand, and as simply as possible. It is instructed to keep the key meaning intact while changing the wording and structure. Simplification always loses some nuance, so for anything legal or medical treat the result as a way to understand the original rather than as a replacement for it. Paste up to 20,000 characters per run. A free account allows three AI runs a day shared across every AI tool.",
+    },
     related: ["ai-summarizer", "ai-paraphraser", "text-shortener"],
     pro: true,
     serverSide: true,
@@ -3604,6 +3629,11 @@ const baseDevTools: DevTool[] = [
       { q: "Is my document uploaded?", a: "The file itself never leaves your browser — the text is extracted locally, and only that text is sent to the AI to answer your question." },
       { q: "Is there a size limit?", a: "Very long documents are truncated (answers use roughly the first 60,000 characters) to keep responses fast." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "How can you ask questions about a PDF, and where does the file go?",
+      body: "Chatting with a PDF means asking questions in plain English and getting answers drawn from that document rather than from the model's general knowledge. This one is instructed to use only the document's contents and to say when it cannot find something, which is what stops it inventing an answer. The file itself never leaves your browser: the text is extracted on your device, and only that text is sent to be answered, never the PDF. Nothing is stored afterwards. It needs a PDF with selectable text, so a scan or a photographed page will not work until it has been through OCR; the image to text tool handles that. Very long documents are cut at roughly the first 60,000 characters, so answers about the end of a long report may be incomplete. A free account allows three AI runs a day shared across every AI tool.",
+    },
     related: ["pdf-to-text", "ai-summarizer", "merge-pdf"],
     pro: true,
     serverSide: true,
@@ -4179,6 +4209,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are my PDFs uploaded to a server?", a: "Most PDF tools run entirely in your browser, so your files never leave your device. The advanced Office conversions are processed securely on our server and deleted right after." },
       { q: "Is there a file size limit?", a: "Browser-based tools are limited mainly by your device's memory; server conversions accept files up to 15 MB." },
     ],
+    explainer: {
+      heading: "Which PDF tools run in your browser, and which need a server?",
+      body: "Most things you do to a PDF can happen entirely on your own machine, because the format is well documented and browsers are capable enough to read and rewrite it directly. That covers merging, splitting, rotating, deleting pages, adding page numbers or a watermark, signing, adding or removing a password, and pulling out the text. Those tools never upload your file, which matters because PDFs are so often contracts, statements, and medical letters. The exceptions are the Office conversions: turning Word, Excel, or PowerPoint into PDF, or a PDF back into an editable Word or PowerPoint file. Those depend on rendering engines too large to run in a browser, so the file is sent over an encrypted connection, converted, and deleted straight after, with a 15 MB limit. Nine of these tools are completely free with no sign-up; the rest, including merge, split, and compress, are Pro.",
+    },
   },
   {
     slug: "converters",
@@ -4194,6 +4228,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Do these converters upload my files?", a: "Almost all of them run entirely in your browser, including every image-format, text, data, and unit converter, so those files never leave your device. The exceptions are Excel to CSV and the two HEIC converters, which need a server library; those files are sent over an encrypted connection, converted, and deleted straight after." },
       { q: "What image formats are supported?", a: "JPG, PNG, WebP, AVIF, and HEIC, plus resizing, compression, and OCR. Everything except HEIC is converted in your browser; HEIC is handled on our server, because decoding Apple's format needs a library browsers do not ship." },
     ],
+    explainer: {
+      heading: "What actually changes when you convert a file?",
+      body: "Converting a file rewrites the same information using a different set of rules, and what survives depends on how close those rules are. Moving a photo between JPG, PNG, and WebP re-encodes the pixels, so quality can drop if the target format is lossy, and transparency disappears when you convert to JPG, which has no concept of it. Converting data between JSON, YAML, CSV, and XML rearranges structure rather than content, but formats differ in what they can express, so nested data flattened into CSV loses its shape. Unit and number-base conversions are pure arithmetic and lose nothing at all. Nearly every converter here runs in your browser, so files are not uploaded and there is no size ceiling beyond your device's memory. Excel to CSV and the two HEIC converters are the exceptions and run on our server, because those formats need libraries browsers do not include.",
+    },
   },
   {
     slug: "developer",
@@ -4228,6 +4266,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are my images uploaded?", a: "Nearly always, no. Converting, resizing, compressing, cropping, and OCR all happen in your browser, so those images never leave your device. HEIC to JPG and HEIC to PNG are the exceptions: Apple's format needs a decoder browsers do not include, so those files are sent over an encrypted connection and deleted after conversion." },
       { q: "Can I convert HEIC photos from my iPhone?", a: "Yes. HEIC to JPG and HEIC to PNG both work. These two run on our server rather than in your browser, because decoding Apple's HEIC format needs a library browsers do not ship; the file is deleted immediately after conversion." },
     ],
+    explainer: {
+      heading: "Why do most of these image tools work offline, but HEIC does not?",
+      body: "Browsers can already decode, redraw, and re-encode the common image formats, because they have to display them. That is why converting between JPG, PNG, WebP, and AVIF, resizing, compressing, cropping, and even reading text out of a picture all happen on your own device here, with no upload and no waiting on a connection. It also means the tools keep working if your connection drops, and your photos never reach anyone else. HEIC is the exception. Apple adopted it as the default camera format on iPhones, but it is built on a video codec that browsers do not ship a decoder for, largely because of patent licensing. So converting a HEIC photo needs a server library: those two tools send the file over an encrypted connection and delete it immediately after converting. Everything else on this page stays on your device, and the core tools are free without sign-up.",
+    },
     toolSlugs: [
       "image-converter",
       "image-resizer",
@@ -4275,6 +4317,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Is my text sent to a server?", a: "No — every text tool runs locally in your browser, so your content stays private." },
       { q: "Is there a length limit?", a: "You can paste large amounts of text; the practical limit is your device's memory." },
     ],
+    explainer: {
+      heading: "Why do these text tools work without sending anything anywhere?",
+      body: "Everything on this page is arithmetic on strings, and your browser is already very good at that. Counting words, changing case, finding and replacing, sorting and deduplicating lines, stripping HTML tags, generating a slug, comparing two versions, and measuring keyword density are all operations a few lines of JavaScript can do instantly on your own machine. There is no reason to involve a server, so none of these tools does. Nothing you paste is uploaded, nothing is stored, and there is no length limit beyond what your device's memory can hold; the tools even keep working with the connection off. That is a genuine privacy difference rather than a slogan, because text tools are so often used on drafts, client copy, and pasted documents. None of these needs an account, and none of them is limited. The AI-powered writing tools are a separate category and do send text to a provider.",
+    },
   },
   {
     slug: "generators",
@@ -4321,6 +4367,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are the AI tools free?", a: "Yes, with a daily limit — sign in and you get a set number of free AI runs per day. The underlying AI has a per-use cost, so unlimited use is part of Pro." },
       { q: "Is my text stored?", a: "No — your text is sent to the AI model to produce the result and is not stored on our servers afterward." },
     ],
+    explainer: {
+      heading: "What happens to text you paste into these AI tools?",
+      body: "Every tool on this page works the same way underneath. The text you submit is sent to an AI provider, which generates the result and returns it. OhoTool does not keep your text or the output; the only thing recorded is a count of how many runs you have used today. That is worth knowing before you paste anything confidential, because the text does reach a third party, so passwords, keys, and client data are better left out. These tools are the one part of the site that needs an account. A free account includes three runs a day, shared across every AI tool here rather than three per tool, and the count resets at midnight UTC. Pro removes the daily cap; it does not give a different or more capable model. Results are generated rather than looked up, so check anything factual against a source before relying on it.",
+    },
   },
   {
     slug: "video",

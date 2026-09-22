@@ -476,6 +476,11 @@ export const extraTools: DevTool[] = [
       { q: "Does it work for both Eid al-Fitr and Eid al-Adha?", a: "Yes — the wording is a general 'Eid Mubarak' that suits both. Edit the message to mention the specific Eid if you like." },
       { q: "Can I add a photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What is an animated Eid card, and how do you send one?",
+      body: "An Eid card here is a full-screen animated page that lives inside the link you send, so it opens instantly in WhatsApp or any browser with nothing to install. You choose who it is for, write up to 400 characters, and pick from four designs and nine colour themes; the default pairs a deep green with twinkling stars and hanging lanterns. The wording is a general Eid Mubarak that suits both Eid al-Fitr and Eid al-Adha, and you can edit it to name either. A photo can be added, cropped and resized inside your browser so it is never uploaded. The optional tune is a short neutral celebration chime rather than borrowed religious music. Sharing is free and unlimited. A small OhoTool credit sits at the bottom unless you remove it with Pro, which also unlocks two premium designs, custom colours, and image or video download.",
+    },
     related: ["diwali-card-maker", "birthday-card-maker", "anniversary-card-maker"],
   },
   {
@@ -506,6 +511,11 @@ export const extraTools: DevTool[] = [
       { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
       { q: "Is my information stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "How does an animated Diwali card work?",
+      body: "A Diwali card here is a web page rather than an image or a file, and the whole card is encoded inside the link you copy, so there is nothing to attach and nothing for the recipient to install. You enter the name, write up to 400 characters, and choose from four designs and nine colour themes; the default is a warm marigold with glowing diyas, drifting sparkles, and hanging lanterns. You can add a photo, which is cropped and resized inside your browser and never uploaded, and switch on a short neutral celebration chime rather than borrowed religious music. The card opens full-screen on any phone or computer with a replay button for the animation. Creating and sharing cost nothing. Pro removes the small OhoTool credit and adds two premium designs, custom colours, and the option to download the card as an image or a short video.",
+    },
     related: ["eid-card-maker", "birthday-card-maker", "anniversary-card-maker"],
   },
   {
@@ -1382,6 +1392,11 @@ export const extraTools: DevTool[] = [
       { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
       { q: "Can I add event details?", a: "Yes — add a date, time, and venue and the card shows an 'Event details' button with Add-to-Calendar and map links — great for Christmas parties." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What can you put on an animated Christmas card?",
+      body: "A Christmas card here is a link that opens as a full-screen animated page, which means it arrives instantly and costs nothing to send however many people are on your list. You write up to 400 characters, pick from four designs and nine colour themes, and the default pairs deep red and green with falling snow and hanging baubles. A photo can be added and is cropped and resized inside your browser, so it never leaves your device. The optional tune plays Deck the Halls, synthesized in the browser rather than streamed. If you are hosting rather than just greeting, add a date, time, venue, and address, and the card grows a Details button with an Add to Google Calendar link and a map, which turns the same card into a Christmas party invitation. Pro adds two premium designs, custom colours, watermark removal, and image or video download.",
+    },
     related: ["new-year-card-maker", "eid-card-maker", "diwali-card-maker", "birthday-card-maker"],
   },
   {
@@ -1412,6 +1427,11 @@ export const extraTools: DevTool[] = [
       { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
       { q: "Can I invite people to a party?", a: "Yes — add event details (date, time, venue) and turn on RSVPs, and guests can reply right on the card." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "How do you send New Year wishes or a party invitation as a link?",
+      body: "A New Year card here is a full-screen animated page delivered as a link, which suits a moment when everyone is messaging at once and nobody wants to download anything. You write up to 400 characters, choose from four designs and nine colour themes, and the default sets fireworks and confetti against a midnight palette. A photo can be added and is cropped and resized inside your browser, never uploaded. The optional tune plays Auld Lang Syne, synthesized in the browser. If you are throwing a party rather than only sending wishes, add the date, time, venue, and address to get a Details button with an Add to Google Calendar link and a map, and switch on Collect RSVPs so guests reply on the card itself and you are emailed each response. The headcount is free; the full guest list with CSV export is Pro.",
+    },
     related: ["christmas-card-maker", "eid-card-maker", "diwali-card-maker", "birthday-card-maker"],
   },
   {
@@ -1441,6 +1461,11 @@ export const extraTools: DevTool[] = [
       { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media — it opens as a full-screen animated card, no app needed." },
       { q: "Can I add a photo?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What makes a digital Valentine's card different from a paper one?",
+      body: "A Valentine's card here is a link rather than an object, so it arrives the moment you send it, wherever the person already is, and it can carry things paper cannot: movement, a photo, and words you can rewrite until they are right. You write up to 400 characters, then choose from four designs and nine colour themes; the default is a rose palette with floating hearts drifting up the screen. Any photo you add is cropped and resized inside your browser, so it never leaves your device, and the whole card is encoded in the link itself rather than stored anywhere. The optional tune plays Pachelbel's Canon in D, synthesized in the browser. Sending costs nothing and there is no limit on how many you make. Pro adds two premium designs, custom colours, removal of the small OhoTool credit, and the ability to download the card as an image or a short video.",
+    },
     related: ["anniversary-card-maker", "birthday-card-maker", "wedding-invitation-maker"],
   },
   {
@@ -1470,6 +1495,11 @@ export const extraTools: DevTool[] = [
       { q: "Can I add the date and venue?", a: "Yes — add event details and the invitation shows an 'Event details' button with Add-to-Calendar and map links." },
       { q: "Is it free?", a: "Yes — creating and sharing is free. Pro unlocks the full guest list, no watermark, custom colors, and downloads." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "How does a digital baby shower invitation work, and can guests reply?",
+      body: "A baby shower invitation here is a link you send on WhatsApp or by email rather than a card you print and post. You enter the parents-to-be, write up to 400 characters, and choose from four playful designs and nine colour themes; the default is a soft ocean palette with confetti. Unusually among the card makers, every design here is free, with none reserved for Pro. Add the date, time, venue, and address and guests get a Details button with an Add to Google Calendar link and a map to the address. Switch on Collect RSVPs and save the invitation to your account, which is what activates replies, and guests respond on the invitation itself with their name, whether they are coming, how many people they are bringing, and a message. You are emailed each reply. The running headcount is free; the full guest list with CSV export is Pro.",
+    },
     related: ["birthday-card-maker", "wedding-invitation-maker", "engagement-invitation-maker"],
   },
   {
@@ -1499,6 +1529,11 @@ export const extraTools: DevTool[] = [
       { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media — it opens as a full-screen animated card." },
       { q: "Can I add a photo?", a: "Yes — add the graduate's photo and turn on music; both play when the card is opened." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What goes on an animated graduation card?",
+      body: "A graduation card here is a full-screen animated page sent as a link, which makes it easy to get a whole family or a group of coursemates to sign off on one message quickly. You enter the graduate's name, write up to 400 characters, and choose from four designs and nine colour themes; the default is a dark, elegant treatment with confetti, which suits the occasion better than the brighter birthday styles. A photo of the graduate can be added and is cropped and resized inside your browser, so it never leaves your device. The optional tune plays Elgar's Pomp and Circumstance, the traditional processional, synthesized in the browser rather than streamed. Creating and sharing are free and unlimited. Pro adds two premium designs, custom colours, removal of the small OhoTool credit, and the option to download the finished card as an image or a short video to keep.",
+    },
     related: ["birthday-card-maker", "anniversary-card-maker", "new-year-card-maker"],
   },
   {
@@ -1528,6 +1563,11 @@ export const extraTools: DevTool[] = [
       { q: "Can I collect RSVPs?", a: "Yes — turn on Collect RSVPs, save, and share. Guests reply on the card and you track them in your dashboard (full list on Pro)." },
       { q: "Is it free?", a: "Yes — free to create and share. Pro unlocks the full guest list, no watermark, custom colors, and downloads." },
     ],
+    updated: "2026-09-22",
+    explainer: {
+      heading: "What is a save-the-date, and when should you send one?",
+      body: "A save-the-date is a short early announcement that tells guests your wedding date so they can hold it, sent long before the formal invitation with the full details. The usual guidance is six to eight months ahead, or closer to a year if people will need to travel or book time off. This one is a link rather than a printed card, so it costs nothing to send and reaches everyone the same day. You enter the couple's names, write up to 400 characters, and choose from four designs and nine colour themes. Add the date and the card shows an Add to Google Calendar button, which is the whole point of a save-the-date, plus a map link if you name the venue. You can switch on RSVPs to start tracking numbers early, once the card is saved to an account. The headcount is free; the full guest list is Pro.",
+    },
     related: ["wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker"],
   },
 ];
