@@ -31,7 +31,7 @@ const LINKS = [
 export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
   // Auth state is derived here on the client rather than passed down from a
   // server layout. That is what lets every public page render without reading
   // the session, so the HTML is cacheable at the edge instead of re-rendered per
@@ -74,7 +74,27 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <ToolSearch />
           <ThemeToggle />
-          {isAuthed ? (
+          {isPending ? (
+            /* Session not resolved yet — these pages are edge-cached, so the
+               server could not know. Render both variants and let the pre-paint
+               script + CSS reveal the right one, instead of painting a wrong
+               state and correcting it once React hydrates. */
+            <>
+              <span className="auth-only-in contents">
+                <Button variant="outline" size="sm" render={<Link href="/dashboard" />}>
+                  Dashboard
+                </Button>
+              </span>
+              <span className="auth-only-out contents">
+                <Button variant="ghost" size="sm" className="hidden sm:inline-flex" render={<Link href="/login" />}>
+                  Log in
+                </Button>
+                <Button size="sm" className="hidden sm:inline-flex" render={<Link href="/signup" />}>
+                  Get started
+                </Button>
+              </span>
+            </>
+          ) : isAuthed ? (
             <>
               {showGoPro && (
                 <Button

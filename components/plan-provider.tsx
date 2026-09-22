@@ -29,6 +29,13 @@ function readSnapshot(): Snapshot | null {
 }
 
 function writeSnapshot(next: Snapshot) {
+  // Keep the attribute the pre-paint script sets in step with reality, so a
+  // sign-out takes effect immediately rather than on the next page load.
+  try {
+    document.documentElement.setAttribute("data-authed", next.authed ? "1" : "0");
+  } catch {
+    /* no DOM (SSR) */
+  }
   try {
     localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(next));
   } catch {

@@ -151,3 +151,13 @@
     scroll-behavior: auto !important;
   }
 }
+/* Auth-dependent header chrome.
+   Public pages are statically cached, so the server cannot know who is viewing.
+   The header renders BOTH variants until the session resolves, and the
+   pre-paint script in app/layout.tsx stamps data-authed on <html> from the last
+   known state — so the correct one is visible on the very first frame.
+   With no attribute at all (first ever visit) the signed-out variant shows,
+   which matches the cached HTML. */
+:root:not([data-authed]) .auth-only-in,
+[data-authed="0"] .auth-only-in { display: none !important; }
+[data-authed="1"] .auth-only-out { display: none !important; }

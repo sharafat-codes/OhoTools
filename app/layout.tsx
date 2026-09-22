@@ -105,6 +105,15 @@ export default function RootLayout({
            cookies are gated by the user's choice. Default: denied in the
            EEA/UK/CH until the visitor accepts (see the cookie banner), granted
            elsewhere. A stored choice (oho_consent cookie) is honored on load. */}
+        {/* Applies the last known sign-in state to <html> BEFORE the first paint,
+           so a cached page never shows "Log in" to someone who is signed in.
+           Same trick as a theme switcher. The value is written by useSession in
+           components/plan-provider and is only a boolean + plan name — no token.
+           Absent or unreadable storage falls back to the signed-out state, which
+           is what the cached HTML already shows. */}
+        <Script id="auth-hint" strategy="beforeInteractive">
+          {`try{var v=localStorage.getItem('oho-auth');var a=!!(v&&JSON.parse(v).authed);document.documentElement.setAttribute('data-authed',a?'1':'0');}catch(e){}`}
+        </Script>
         <Script id="consent-mode" strategy="beforeInteractive">
           {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 var EEA=["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"];
