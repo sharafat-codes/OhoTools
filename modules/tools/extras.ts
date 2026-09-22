@@ -504,7 +504,7 @@ export const extraTools: DevTool[] = [
       { q: "Is the Diwali card free?", a: "Yes — completely free with no sign-up. Personalize it and share the link as many times as you like." },
       { q: "How do I send it?", a: "Copy the link and send it on WhatsApp, SMS, or social media. Anyone who opens it sees the full animated Diwali card — no app or account needed." },
       { q: "Can I add our photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened." },
-      { q: "Is my information stored?", a: "No — the card is encoded in the link itself, so nothing is saved on our servers." },
+      { q: "Is my information stored?", a: "By default, no. The share link carries the whole card inside it, so an unsaved card exists only in that link. Three things do create a record: saving it to an account, switching on the open-notification email, and collecting RSVPs. Saved cards get a short link that counts how many times it has been opened, and you can delete them from your dashboard at any time." },
     ],
     related: ["eid-card-maker", "birthday-card-maker", "anniversary-card-maker"],
   },
@@ -966,6 +966,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["sql-generator", "regex-generator", "csv-to-xlsx"],
+    serverSide: true,
   },
   {
     slug: "blog-post-generator",
@@ -995,6 +996,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["headline-generator", "ai-paraphraser", "ai-summarizer", "faq-generator"],
+    serverSide: true,
   },
   {
     slug: "linkedin-post-generator",
@@ -1024,6 +1026,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["caption-generator", "bio-generator", "headline-generator", "hashtag-generator"],
+    serverSide: true,
   },
   {
     slug: "story-generator",
@@ -1053,6 +1056,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["ai-paraphraser", "headline-generator", "caption-generator"],
+    serverSide: true,
   },
   {
     slug: "curl-to-code",
@@ -1228,6 +1232,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["headline-generator", "product-description-generator", "meta-description-generator"],
+    serverSide: true,
   },
   {
     slug: "youtube-title-generator",
@@ -1257,6 +1262,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["headline-generator", "hashtag-generator", "caption-generator"],
+    serverSide: true,
   },
   {
     slug: "meta-description-generator",
@@ -1286,6 +1292,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["meta-tag-generator", "headline-generator", "faq-generator"],
+    serverSide: true,
   },
   {
     slug: "review-response-generator",
@@ -1315,6 +1322,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["ai-email-writer", "faq-generator", "caption-generator"],
+    serverSide: true,
   },
   {
     slug: "cold-email-generator",
@@ -1344,6 +1352,7 @@ export const extraTools: DevTool[] = [
       { q: "Is it free?", a: "You get a set number of free AI runs each day; go Pro for unlimited use." },
     ],
     related: ["ai-email-writer", "cover-letter-generator", "product-description-generator"],
+    serverSide: true,
   },
   {
     slug: "christmas-card-maker",

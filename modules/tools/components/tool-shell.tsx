@@ -143,7 +143,9 @@ export function ToolShell({
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {tool.serverSide
-          ? "Your file is processed securely on our server for conversion, then deleted."
+          ? category?.name === "AI"
+            ? "Your text is sent to an AI provider to generate the result. We don’t keep it — only a count of your daily runs."
+            : "Your file is processed securely on our server for conversion, then deleted."
           : "Runs entirely in your browser — nothing is uploaded."}
       </p>
 

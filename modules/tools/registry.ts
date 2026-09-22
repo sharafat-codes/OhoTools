@@ -2194,7 +2194,7 @@ const baseDevTools: DevTool[] = [
     keywords: ["ai paraphraser", "paraphrasing tool", "rewrite text", "rephrase text", "reword"],
     icon: WandSparklesIcon,
     intro:
-      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let AI rewrite it. Free users get a few runs a day; Pro is unlimited.",
+      "Rephrase text without losing its meaning — great for polishing emails, rewording drafts, or adjusting tone. Pick a style and let AI rewrite it. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Pick a tone.", "Rewrite and copy the result."],
     faqs: [
       { q: "Will it keep my meaning?", a: "Yes — the paraphraser preserves your original meaning and key details while changing the wording and tone." },
@@ -2213,7 +2213,7 @@ const baseDevTools: DevTool[] = [
     keywords: ["ai translator", "translate text", "language translator", "online translator", "translate english to spanish"],
     icon: LanguagesIcon,
     intro:
-      "Translate text into 20+ languages with natural, context-aware results — powered by advanced AI. Great for messages, documents, and content. Free users get a few runs a day; Pro is unlimited.",
+      "Translate text into 20+ languages with natural, context-aware results — powered by advanced AI. Great for messages, documents, and content. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Choose the target language.", "Translate and copy the result."],
     faqs: [
       { q: "Which languages are supported?", a: "20+ major languages including Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, and more." },
@@ -2232,7 +2232,7 @@ const baseDevTools: DevTool[] = [
     keywords: ["ai grammar checker", "grammar checker", "spell checker", "fix grammar", "proofreader"],
     icon: SpellCheckIcon,
     intro:
-      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by advanced AI. Paste a draft and get a corrected version back. Free users get a few runs a day; Pro is unlimited.",
+      "Clean up spelling, grammar, and punctuation while keeping your voice intact — powered by advanced AI. Paste a draft and get a corrected version back. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Run the checker.", "Copy the corrected text."],
     faqs: [
       { q: "Will it change my meaning?", a: "No — it corrects mechanics (spelling, grammar, punctuation) while preserving your meaning and tone." },
@@ -2278,11 +2278,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["text expander", "make text longer", "expand text", "sentence expander", "lengthen text"],
     icon: ExpandIcon,
     intro:
-      "Turn brief notes or a short draft into a fuller, more detailed piece — with added explanation and examples, keeping your meaning and tone. Free users get a few runs a day; Pro is unlimited.",
+      "Turn brief notes or a short draft into a fuller, more detailed piece — with added explanation and examples, keeping your meaning and tone. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your short text.", "Run the expander.", "Copy the longer version."],
     faqs: [
       { q: "Will it invent facts?", a: "It adds explanation and detail around what you wrote and avoids inventing specific facts or figures." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["text-shortener", "ai-paraphraser", "ai-summarizer"],
     pro: true,
@@ -2297,11 +2297,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["text shortener", "make text shorter", "shorten text", "sentence shortener", "condense text"],
     icon: ShrinkIcon,
     intro:
-      "Trim wordy text down to a shorter, tighter version that keeps the key points and tone — great for fitting a limit or cutting fluff. Free users get a few runs a day; Pro is unlimited.",
+      "Trim wordy text down to a shorter, tighter version that keeps the key points and tone — great for fitting a limit or cutting fluff. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Run the shortener.", "Copy the shorter version."],
     faqs: [
       { q: "Will it lose important points?", a: "It removes filler and redundancy while keeping the essential meaning of your text." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["text-expander", "ai-summarizer", "ai-paraphraser"],
     pro: true,
@@ -2316,11 +2316,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["tone changer", "change tone of text", "rewrite tone", "make text professional", "make text friendly"],
     icon: PaletteIcon,
     intro:
-      "Paste your text and rewrite it in the tone you need — professional, friendly, formal, casual, confident, or empathetic — while keeping the meaning. Free users get a few runs a day; Pro is unlimited.",
+      "Paste your text and rewrite it in the tone you need — professional, friendly, formal, casual, confident, or empathetic — while keeping the meaning. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your text.", "Pick the tone.", "Run and copy the rewritten text."],
     faqs: [
       { q: "Which tones are available?", a: "Professional, friendly, formal, casual, confident, and empathetic — pick the one that fits." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["ai-paraphraser", "ai-humanizer", "ai-email-writer"],
     pro: true,
@@ -2335,11 +2335,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["ai email writer", "email generator", "write an email", "professional email generator", "email writing ai"],
     icon: MailIcon,
     intro:
-      "Describe what you want to say and get a polished email back — with a subject line, greeting, and sign-off — in the tone and length you choose. Free users get a few runs a day; Pro is unlimited.",
+      "Describe what you want to say and get a polished email back — with a subject line, greeting, and sign-off — in the tone and length you choose. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Describe the email (or paste a rough draft).", "Pick tone and length.", "Run and copy the email."],
     faqs: [
       { q: "Can it reply to an email?", a: "Yes — paste the message you received plus a note on how you want to respond, and it drafts a reply." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["tone-changer", "ai-paraphraser", "ai-grammar-checker"],
     pro: true,
@@ -2354,11 +2354,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["product description generator", "ai product description", "ecommerce description writer", "write product description", "shopify description generator"],
     icon: PackageIcon,
     intro:
-      "Enter your product name and a few features, and get a compelling, benefit-focused description ready for your store or marketplace. Free users get a few runs a day; Pro is unlimited.",
+      "Enter your product name and a few features, and get a compelling, benefit-focused description ready for your store or marketplace. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Enter the product name and key features.", "Pick a tone.", "Run and copy the description."],
     faqs: [
       { q: "Will it make up specs?", a: "No — it writes around the details you provide and avoids inventing specifications, prices, or claims." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["caption-generator", "ai-paraphraser", "tone-changer"],
     pro: true,
@@ -2373,11 +2373,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["caption generator", "instagram caption generator", "social media caption", "ai captions", "hashtag caption generator"],
     icon: HashIcon,
     intro:
-      "Describe your post or topic and get several ready-to-use caption options with relevant hashtags, tuned to the platform you choose. Free users get a few runs a day; Pro is unlimited.",
+      "Describe your post or topic and get several ready-to-use caption options with relevant hashtags, tuned to the platform you choose. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Describe your post or topic.", "Pick the platform.", "Run and copy your favorite caption."],
     faqs: [
       { q: "Which platforms are supported?", a: "Instagram, LinkedIn, X (Twitter), Facebook, and TikTok — each with a fitting voice and hashtags." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["product-description-generator", "ai-paraphraser", "tone-changer"],
     pro: true,
@@ -2392,11 +2392,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["business name generator", "company name generator", "brand name generator", "startup name ideas", "name generator"],
     icon: RocketIcon,
     intro:
-      "Stuck on what to call your business? Describe what you do and get a batch of short, brandable name ideas to shortlist. Pick a style, run it as many times as you like for fresh options. Free users get a few runs a day; Pro is unlimited.",
+      "Stuck on what to call your business? Describe what you do and get a batch of short, brandable name ideas to shortlist. Pick a style, run it as many times as you like for fresh options. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Describe your business, product, or industry.", "Pick a naming style.", "Generate and shortlist your favorites."],
     faqs: [
       { q: "Are the names available to register?", a: "Always check domain and trademark availability yourself — the tool suggests ideas but can't verify registration." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["slogan-generator", "caption-generator", "bio-generator"],
     pro: true,
@@ -2411,11 +2411,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["slogan generator", "tagline generator", "catchphrase generator", "motto generator", "business slogan"],
     icon: MegaphoneIcon,
     intro:
-      "Get a batch of catchy slogan and tagline ideas for your business or product — just describe it and pick a tone. Run it again for fresh angles. Free users get a few runs a day; Pro is unlimited.",
+      "Get a batch of catchy slogan and tagline ideas for your business or product — just describe it and pick a tone. Run it again for fresh angles. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Describe your business or product.", "Pick a tone.", "Generate and pick your favorite tagline."],
     faqs: [
       { q: "Can I use these commercially?", a: "Yes — but check that a slogan isn't already trademarked by someone else before you build a brand around it." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["business-name-generator", "caption-generator", "product-description-generator"],
     pro: true,
@@ -2430,11 +2430,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["cover letter generator", "ai cover letter", "write a cover letter", "cover letter maker", "job application letter"],
     icon: FileTextIcon,
     intro:
-      "Turn the job details and your background into a polished, tailored cover letter — greeting, a strong opening, experience matched to the role, and a confident close. Pick a tone and edit to taste. Free users get a few runs a day; Pro is unlimited.",
+      "Turn the job details and your background into a polished, tailored cover letter — greeting, a strong opening, experience matched to the role, and a confident close. Pick a tone and edit to taste. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste the job description and your key experience.", "Pick a tone.", "Generate, then tweak and send."],
     faqs: [
       { q: "Will it make things up about me?", a: "It writes around the details you provide and avoids inventing employers, dates, or achievements — always review before sending." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["resume-summary-generator", "ai-email-writer", "ai-grammar-checker"],
     pro: true,
@@ -2449,11 +2449,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["resume summary generator", "professional summary generator", "cv summary", "resume profile", "resume summary examples"],
     icon: BriefcaseIcon,
     intro:
-      "Get a concise, results-oriented professional summary for the top of your resume — just enter your role, experience, and key skills, and pick your level. Free users get a few runs a day; Pro is unlimited.",
+      "Get a concise, results-oriented professional summary for the top of your resume — just enter your role, experience, and key skills, and pick your level. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Enter your role, experience, and skills.", "Pick your experience level.", "Generate and paste it into your resume."],
     faqs: [
       { q: "How long is the summary?", a: "Two to four punchy sentences — the ideal length for a resume profile that recruiters actually read." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["cover-letter-generator", "ai-paraphraser", "ai-grammar-checker"],
     pro: true,
@@ -2468,11 +2468,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["bio generator", "instagram bio generator", "linkedin bio generator", "profile bio", "social media bio"],
     icon: UserRoundIcon,
     intro:
-      "Tell it a bit about yourself and get short, engaging bio options tuned to the platform — Instagram, LinkedIn, X, and more. Free users get a few runs a day; Pro is unlimited.",
+      "Tell it a bit about yourself and get short, engaging bio options tuned to the platform — Instagram, LinkedIn, X, and more. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Describe yourself — what you do and your vibe.", "Pick the platform.", "Generate and pick your favorite bio."],
     faqs: [
       { q: "Does it fit character limits?", a: "It aims for the typical length of the platform you choose; trim as needed for hard limits." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["hashtag-generator", "caption-generator", "business-name-generator"],
     pro: true,
@@ -2487,11 +2487,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["hashtag generator", "instagram hashtag generator", "tiktok hashtags", "hashtags for reels", "best hashtags"],
     icon: TagsIcon,
     intro:
-      "Enter your topic or describe your post and get a set of relevant hashtags — a mix of popular and niche tags to widen reach. Choose how many you want. Free users get a few runs a day; Pro is unlimited.",
+      "Enter your topic or describe your post and get a set of relevant hashtags — a mix of popular and niche tags to widen reach. Choose how many you want. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Describe your post or topic.", "Choose how many hashtags.", "Generate and copy the set."],
     faqs: [
       { q: "How many hashtags should I use?", a: "It varies by platform — the tool lets you generate 10, 20, or 30 so you can match each network's best practice." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["caption-generator", "bio-generator", "headline-generator"],
     pro: true,
@@ -2506,11 +2506,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["headline generator", "title generator", "blog title generator", "youtube title generator", "ai headline"],
     icon: HeadingIcon,
     intro:
-      "Enter your topic and get a batch of compelling headline options — for blog posts, YouTube videos, news, or ads. Varied angles, clear and clickable without the cheap clickbait. Free users get a few runs a day; Pro is unlimited.",
+      "Enter your topic and get a batch of compelling headline options — for blog posts, YouTube videos, news, or ads. Varied angles, clear and clickable without the cheap clickbait. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Enter your topic or article summary.", "Pick the content type.", "Generate and choose the strongest headline."],
     faqs: [
       { q: "What kinds of headlines can it write?", a: "Blog posts, YouTube video titles, news headlines, and ad headlines — pick the type to match the format." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["ai-summarizer", "hashtag-generator", "faq-generator"],
     pro: true,
@@ -2525,11 +2525,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["faq generator", "faq maker", "questions and answers generator", "faq schema content", "generate faqs"],
     icon: MessagesSquareIcon,
     intro:
-      "Paste a topic, product summary, or page content and get a ready-to-use FAQ — clear questions with concise answers. Great for support pages and SEO. Free users get a few runs a day; Pro is unlimited.",
+      "Paste a topic, product summary, or page content and get a ready-to-use FAQ — clear questions with concise answers. Great for support pages and SEO. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste your topic, product, or page content.", "Generate the FAQ.", "Copy the question-and-answer pairs."],
     faqs: [
       { q: "Will it invent facts like prices?", a: "No — it writes around what you provide and avoids inventing specifics like prices or policies, so review and fill those in." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["headline-generator", "ai-summarizer", "meta-tag-generator"],
     pro: true,
@@ -2544,11 +2544,11 @@ const baseDevTools: DevTool[] = [
     keywords: ["simplify text", "text simplifier", "plain english converter", "explain simply", "make text easier to read"],
     icon: BookOpenIcon,
     intro:
-      "Paste dense, technical, or jargon-heavy text and get a version that's easy to understand — short sentences, everyday words, meaning intact. Choose how simple you want it. Free users get a few runs a day; Pro is unlimited.",
+      "Paste dense, technical, or jargon-heavy text and get a version that's easy to understand — short sentences, everyday words, meaning intact. Choose how simple you want it. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Paste the text you want to simplify.", "Pick how simple to make it.", "Generate the plain-language version."],
     faqs: [
       { q: "Does it keep the meaning?", a: "Yes — it simplifies the wording and structure while preserving the key meaning of your text." },
-      { q: "Is it free?", a: "You get a set number of free AI runs per day. Go Pro for unlimited use." },
+      { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
     related: ["ai-summarizer", "ai-paraphraser", "text-shortener"],
     pro: true,
@@ -3597,7 +3597,7 @@ const baseDevTools: DevTool[] = [
     keywords: ["chat with pdf", "ask pdf questions", "ai pdf reader", "talk to your pdf", "pdf question answering"],
     icon: MessagesSquareIcon,
     intro:
-      "Turn any PDF into something you can talk to. Upload a document — a report, contract, paper, or manual — and ask questions in plain English to get answers, summaries, and the key points, drawn from the document itself. The text is extracted right in your browser; only that text (not the file) is sent to the AI to answer. Free users get a few questions a day; Pro is unlimited.",
+      "Turn any PDF into something you can talk to. Upload a document — a report, contract, paper, or manual — and ask questions in plain English to get answers, summaries, and the key points, drawn from the document itself. The text is extracted right in your browser; only that text (not the file) is sent to the AI to answer. It needs a free account: free accounts get 3 AI runs a day shared across every AI tool, and Pro removes the cap.",
     steps: ["Upload a PDF (the text is read in your browser).", "Ask a question, or pick a starter prompt.", "Get an answer grounded in the document — keep the conversation going."],
     faqs: [
       { q: "What kind of PDFs work?", a: "PDFs with selectable text (exported from Word, Google Docs, most tools). Scanned image-only PDFs won't work unless they've been OCR'd first — try the Image to Text tool for those." },
@@ -4175,7 +4175,7 @@ export const categoryPages: CategoryPage[] = [
     intro:
       "Everything you need to work with PDFs — merge, split, compress, rotate, watermark, number, and sign, plus conversions to and from Word, images, and plain text. Most tools run right in your browser, so your files stay private.",
     faqs: [
-      { q: "Are these PDF tools free?", a: "Yes. The core PDF tools are free and unlimited with no sign-up. A few advanced conversions (like Word↔PDF) are Pro features." },
+      { q: "Are these PDF tools free?", a: "Nine are completely free with no sign-up: PDF to text, text to PDF, sign, rotate, delete pages, add page numbers, watermark, and add or remove a password. Merging, splitting, compressing, converting to or from images, and the Office conversions such as Word to PDF are Pro features." },
       { q: "Are my PDFs uploaded to a server?", a: "Most PDF tools run entirely in your browser, so your files never leave your device. The advanced Office conversions are processed securely on our server and deleted right after." },
       { q: "Is there a file size limit?", a: "Browser-based tools are limited mainly by your device's memory; server conversions accept files up to 15 MB." },
     ],
@@ -4191,8 +4191,8 @@ export const categoryPages: CategoryPage[] = [
     intro:
       "Convert between formats without installing anything — images, documents, data, units, and more. Everything runs in your browser unless noted, so your files stay on your device.",
     faqs: [
-      { q: "Do these converters upload my files?", a: "No — image, text, and data converters run locally in your browser. Your files are never uploaded." },
-      { q: "What image formats are supported?", a: "JPG, PNG, WebP, and HEIC, plus resizing, compression, and OCR (image to text)." },
+      { q: "Do these converters upload my files?", a: "Almost all of them run entirely in your browser, including every image-format, text, data, and unit converter, so those files never leave your device. The exceptions are Excel to CSV and the two HEIC converters, which need a server library; those files are sent over an encrypted connection, converted, and deleted straight after." },
+      { q: "What image formats are supported?", a: "JPG, PNG, WebP, AVIF, and HEIC, plus resizing, compression, and OCR. Everything except HEIC is converted in your browser; HEIC is handled on our server, because decoding Apple's format needs a library browsers do not ship." },
     ],
   },
   {
@@ -4223,10 +4223,10 @@ export const categoryPages: CategoryPage[] = [
     keywords: ["image tools", "image converter", "compress image", "resize image", "heic to jpg", "image to text", "images to pdf"],
     h1: "Free image tools",
     intro:
-      "Convert, resize, compress, and read text from images — all in your browser, so your photos never get uploaded. Handle one image or batches of them in seconds.",
+      "Convert, resize, compress, crop, and read text from images, one at a time or in batches. Almost every tool here works entirely in your browser, so your photos never leave your device; the exception is HEIC conversion, which needs a server library. Nothing to install, and the core tools are free.",
     faqs: [
-      { q: "Are my images uploaded?", a: "No — image tools process everything locally in your browser. Your images never leave your device." },
-      { q: "Can I convert HEIC photos from my iPhone?", a: "Yes — convert HEIC to JPG or PNG instantly, right in the browser." },
+      { q: "Are my images uploaded?", a: "Nearly always, no. Converting, resizing, compressing, cropping, and OCR all happen in your browser, so those images never leave your device. HEIC to JPG and HEIC to PNG are the exceptions: Apple's format needs a decoder browsers do not include, so those files are sent over an encrypted connection and deleted after conversion." },
+      { q: "Can I convert HEIC photos from my iPhone?", a: "Yes. HEIC to JPG and HEIC to PNG both work. These two run on our server rather than in your browser, because decoding Apple's HEIC format needs a library browsers do not ship; the file is deleted immediately after conversion." },
     ],
     toolSlugs: [
       "image-converter",
@@ -4363,9 +4363,9 @@ export const categoryPages: CategoryPage[] = [
     keywords: ["image editing tools", "crop image", "rotate image", "add text to image", "circle crop", "image to ico"],
     h1: "Free image editing tools",
     intro:
-      "Crop, rotate, flip, round-crop, and caption your images — all in your browser, so your photos never leave your device. No sign-up, no watermarks.",
+      "Crop, rotate, flip, round-crop, and caption your images. The editing happens in your browser, so your photos never leave your device and there is no upload to wait for. The one thing that travels is optional: if you ask the meme generator to write a caption for you, the words you type are sent to an AI service. No sign-up, no watermarks.",
     faqs: [
-      { q: "Are my images uploaded?", a: "No — every image editing tool runs locally in your browser, so your photos never leave your device." },
+      { q: "Are my images uploaded?", a: "Your images are not, no. Every edit is applied in your browser and the picture itself never leaves your device. The only exception is the meme generator's optional AI caption button, which sends the text you type, never the image, to an AI service." },
       { q: "What formats can I edit?", a: "JPG, PNG, WebP, and most common image formats. Crop, rotate, and text keep your format; circle-crop outputs a transparent PNG and Image to ICO outputs a .ico file." },
       { q: "Do I need an account?", a: "No — all image editing tools are free with no sign-up." },
     ],
