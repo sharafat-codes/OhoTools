@@ -10,6 +10,10 @@ import { Button } from "@/components/ui/button";
 const TOKEN = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
 const PRICE_MONTHLY = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO;
 const PRICE_ANNUAL = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO_ANNUAL;
+// One-time Pro pass. Absent means the pass simply isn't offered.
+const PRICE_PASS = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO_PASS;
+export const PASS_DAYS = Number(process.env.NEXT_PUBLIC_PADDLE_PASS_DAYS || 30);
+export const isPaddlePassOffered = Boolean(PRICE_PASS);
 const ENV = process.env.NEXT_PUBLIC_PADDLE_ENV === "production" ? "production" : "sandbox";
 
 export function isPaddleClientConfigured() {
@@ -20,6 +24,7 @@ export function PaddleUpgradeButton({
   userId,
   email,
   annual = false,
+  pass = false,
   children,
   className,
   variant = "default",
@@ -27,6 +32,7 @@ export function PaddleUpgradeButton({
   userId: string;
   email?: string;
   annual?: boolean;
+  pass?: boolean;
   children?: React.ReactNode;
   className?: string;
   variant?: "default" | "outline";
@@ -55,7 +61,7 @@ export function PaddleUpgradeButton({
     // Never silently fall back from annual to monthly. The visitor chose the
     // annual plan and saw its price; charging them the monthly one instead is
     // a different product than the one they agreed to.
-    const priceId = annual ? PRICE_ANNUAL : PRICE_MONTHLY;
+    const priceId = pass ? PRICE_PASS : annual ? PRICE_ANNUAL : PRICE_MONTHLY;
     if (!paddle) return;
     if (!priceId) {
       toast.error(

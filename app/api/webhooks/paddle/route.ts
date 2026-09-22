@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { getPaddle } from "@/lib/paddle";
+import { getPaddle, grantPaddlePass, isPaddlePassConfigured, PADDLE_PASS_PRICE_ID } from "@/lib/paddle";
 import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
@@ -57,9 +57,65 @@ export async function POST(req: NextRequest) {
         const canceled = event.eventType === "subscription.canceled" || data.status === "canceled";
         const active = data.status === "active" || data.status === "trialing";
         if (canceled) {
-          await prisma.user.update({ where: { id: userId }, data: { plan: "FREE" } }).catch(() => {});
+          // Don't revoke a one-time pass that is still running: the user paid
+          // for a window, and cancelling a separate subscription must not cut
+          // it short. expireProPasses() downgrades them when the date passes.
+          const u = await prisma.user
+            .findUnique({ where: { id: userId }, select: { proUntil: true } })
+            .catch(() => null);
+          const passStillValid = !!u?.proUntil && u.proUntil > new Date();
+          if (!passStillValid) {
+            await prisma.user.update({ where: { id: userId }, data: { plan: "FREE" } }).catch(() => {});
+          }
         } else if (active) {
           await prisma.user.update({ where: { id: userId }, data: { plan: "PRO" } }).catch(() => {});
+        }
+      }
+    }
+
+    // One-time Pro pass. A subscription's first payment also fires
+    // transaction.completed, so match on the pass price id specifically —
+    // otherwise every subscription payment would also grant a pass.
+    if (event.eventType === "transaction.completed" && isPaddlePassConfigured) {
+      const data = event.data as {
+        id?: string;
+        customerId?: string;
+        customData?: { userId?: string } | null;
+        items?: Array<{ price?: { id?: string } | null } | null> | null;
+        currencyCode?: string;
+        details?: { totals?: { grandTotal?: string; currencyCode?: string } | null } | null;
+      };
+
+      const isPass = (data.items ?? []).some((i) => i?.price?.id === PADDLE_PASS_PRICE_ID);
+      if (isPass && data.id) {
+        let userId = data.customData?.userId;
+
+        // Same email fallback as the subscription path, for a checkout that
+        // somehow lost its customData.
+        if (!userId && data.customerId) {
+          try {
+            const customer = await getPaddle().customers.get(data.customerId);
+            if (customer?.email) {
+              const u = await prisma.user.findUnique({
+                where: { email: customer.email },
+                select: { id: true },
+              });
+              userId = u?.id;
+            }
+          } catch {
+            // nothing we can do without a mappable user
+          }
+        }
+
+        if (userId) {
+          // Paddle sends totals as a string in minor units ("900" = 9.00).
+          const minor = Number(data.details?.totals?.grandTotal ?? NaN);
+          await grantPaddlePass({
+            userId,
+            reference: data.id,
+            amount: Number.isFinite(minor) ? minor / 100 : 0,
+            currency: data.details?.totals?.currencyCode ?? data.currencyCode ?? "USD",
+          });
         }
       }
     }

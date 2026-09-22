@@ -13,7 +13,7 @@ import { createPaddlePortalSession } from "@/modules/billing/paddle-actions";
 import { createLemonCheckout, createLemonPortalSession } from "@/modules/billing/lemon-actions";
 import { PLANS, PLAN_BY_ID, type PlanId } from "@/lib/plans";
 import { cn } from "@/lib/utils";
-import { PaddleUpgradeButton } from "@/components/paddle-upgrade-button";
+import { PaddleUpgradeButton, isPaddlePassOffered, PASS_DAYS } from "@/components/paddle-upgrade-button";
 import { SafepayButton } from "@/components/safepay-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -330,6 +330,21 @@ export function BillingView({
                     )}
                     Upgrade to {plan.name}
                   </Button>
+                )}
+
+                {/* One-time pass. Most of what people come here for is a single
+                    job — one invitation, one batch of conversions — and a monthly
+                    subscription is the wrong ask for that. Hidden unless a
+                    one-time price is configured in Paddle. */}
+                {plan.id === "PRO" && !isCurrent && provider === "paddle" && isPaddlePassOffered && (
+                  <div className="flex flex-col gap-1.5">
+                    <PaddleUpgradeButton userId={userId} email={email} pass variant="outline">
+                      Or buy a {PASS_DAYS}-day pass
+                    </PaddleUpgradeButton>
+                    <p className="text-center text-xs text-muted-foreground">
+                      One payment, no subscription. Nothing renews.
+                    </p>
+                  </div>
                 )}
               </CardContent>
             </Card>
