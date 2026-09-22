@@ -16,6 +16,7 @@ type ProPrice = {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PASS_DAYS, PASS_PRICE, isPaddlePassOffered } from "@/lib/pro-pass";
 
 type Props = {
   plans: Plan[];
@@ -172,6 +173,24 @@ export function PricingCards({ plans, proPrice, proHref }: Props) {
           );
         })}
       </div>
+
+      {/* One-time pass. Most people arrive for a single job — one invitation,
+          one batch of conversions — and bounce at a monthly commitment. This is
+          the alternative, so it has to be visible before they leave. Pakistani
+          visitors are routed to Safepay, which has its own pass, so it is hidden
+          for them. */}
+      {isPaddlePassOffered && !proPrice.isPk && (
+        <div className="mt-5 rounded-xl border border-primary/25 bg-primary/[0.04] p-5 text-center">
+          <p className="font-heading text-base font-semibold">Only need it once?</p>
+          <p className="mx-auto mt-1 max-w-md text-pretty text-sm text-muted-foreground">
+            Get the full Pro toolkit for {PASS_DAYS} days{PASS_PRICE ? ` for ${PASS_PRICE}` : ""}. One payment,
+            nothing renews, no subscription to cancel.
+          </p>
+          <Button className="mt-4" variant="outline" render={<Link href={`${proHref}?billing=pass`} />}>
+            Get the {PASS_DAYS}-day pass
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

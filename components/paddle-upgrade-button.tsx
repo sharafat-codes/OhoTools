@@ -6,14 +6,15 @@ import { LoaderCircleIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { PASS_DAYS, isPaddlePassOffered } from "@/lib/pro-pass";
+
+export { PASS_DAYS, isPaddlePassOffered };
 
 const TOKEN = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
 const PRICE_MONTHLY = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO;
 const PRICE_ANNUAL = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO_ANNUAL;
 // One-time Pro pass. Absent means the pass simply isn't offered.
 const PRICE_PASS = process.env.NEXT_PUBLIC_PADDLE_PRICE_PRO_PASS;
-export const PASS_DAYS = Number(process.env.NEXT_PUBLIC_PADDLE_PASS_DAYS || 30);
-export const isPaddlePassOffered = Boolean(PRICE_PASS);
 const ENV = process.env.NEXT_PUBLIC_PADDLE_ENV === "production" ? "production" : "sandbox";
 
 export function isPaddleClientConfigured() {

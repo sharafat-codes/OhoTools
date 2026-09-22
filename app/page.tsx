@@ -30,6 +30,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteHeader } from "@/modules/marketing/components/site-header";
+import { PASS_DAYS, PASS_PRICE, isPaddlePassOffered } from "@/lib/pro-pass";
 import { SiteFooter } from "@/modules/marketing/components/site-footer";
 
 // High-intent tools surfaced on the homepage — deep links that also spread
@@ -543,6 +544,11 @@ export default async function Home() {
                   >
                     {plan.price === 0 ? "Get started free" : `Choose ${plan.name}`}
                   </Button>
+                  {plan.price > 0 && isPaddlePassOffered && (
+                    <p className="mt-2.5 text-center text-xs text-muted-foreground">
+                      Or {PASS_PRICE ? `${PASS_PRICE} ` : ""}once for {PASS_DAYS} days — nothing renews.
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
