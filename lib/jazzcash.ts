@@ -28,12 +28,17 @@ const IS_PRODUCTION = (process.env.JAZZCASH_ENVIRONMENT || "sandbox").trim() ===
 export const JAZZCASH_PRO_AMOUNT = Number(process.env.JAZZCASH_PRO_AMOUNT || 0);
 export const JAZZCASH_PRO_DAYS = Number(process.env.JAZZCASH_PRO_DAYS || 30);
 
-const POST_URL = IS_PRODUCTION
-  ? "https://payments.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/"
-  : "https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/";
+// The hosted-checkout URL is issued per environment: the integration guide says
+// only “in place of localhost, the test environment IP should be placed”, and that
+// the production URL is “communicated after business approval”. Probing the public
+// sandbox host confirmed it — every /CustomerPortal/ and /MerchantPortal/
+// merchantform path returns 404. So there is no safe default to guess: take it
+// verbatim from your JazzCash portal. Unset means JazzCash is simply not offered,
+// which is far better than silently posting customers at a 404.
+const POST_URL = process.env.JAZZCASH_POST_URL?.trim() || "";
 
 export function isJazzCashConfigured(): boolean {
-  return Boolean(MERCHANT_ID && PASSWORD && INTEGRITY_SALT && JAZZCASH_PRO_AMOUNT > 0);
+  return Boolean(MERCHANT_ID && PASSWORD && INTEGRITY_SALT && POST_URL && JAZZCASH_PRO_AMOUNT > 0);
 }
 
 export function jazzCashIsSandbox(): boolean {
