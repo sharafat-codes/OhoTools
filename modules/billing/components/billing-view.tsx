@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { PaddleUpgradeButton } from "@/components/paddle-upgrade-button";
 import { PASS_DAYS, isPaddlePassOffered } from "@/lib/pro-pass";
 import { SafepayButton } from "@/components/safepay-button";
+import { JazzCashButton } from "@/components/jazzcash-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -45,6 +46,7 @@ export function BillingView({
   currentPlan,
   subscription,
   checkoutStatus,
+  jazzcashStatus = null,
   provider = "stripe",
   proPrice,
   userId,
@@ -54,7 +56,8 @@ export function BillingView({
   currentPlan: string;
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
-  provider?: "stripe" | "paddle" | "lemonsqueezy" | "safepay";
+  jazzcashStatus?: string | null;
+  provider?: "stripe" | "paddle" | "lemonsqueezy" | "safepay" | "jazzcash";
   proPrice?: ProPrice;
   userId: string;
   email?: string;
@@ -70,7 +73,12 @@ export function BillingView({
     } else if (checkoutStatus === "cancelled") {
       toast.info("Checkout cancelled — no charge was made.");
     }
-  }, [checkoutStatus]);
+    if (jazzcashStatus === "declined") {
+      toast.error("That payment was declined by JazzCash. No charge was made.");
+    } else if (jazzcashStatus === "error") {
+      toast.error("We could not confirm that payment. If you were charged, contact support and we will sort it out.");
+    }
+  }, [checkoutStatus, jazzcashStatus]);
 
   function upgrade(plan: PlanId) {
     if (plan === "FREE") return;
@@ -309,6 +317,10 @@ export function BillingView({
                     )}
                     Upgrade to {plan.name}
                   </Button>
+                ) : provider === "jazzcash" ? (
+                  <JazzCashButton variant={plan.popular ? "default" : "outline"}>
+                    Pay with JazzCash
+                  </JazzCashButton>
                 ) : provider === "safepay" ? (
                   <SafepayButton />
                 ) : provider === "paddle" ? (
@@ -355,7 +367,7 @@ export function BillingView({
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Payments are securely handled by {provider === "safepay" ? "Safepay" : provider === "lemonsqueezy" ? "Lemon Squeezy" : provider === "paddle" ? "Paddle" : "Stripe"}.
+        Payments are securely handled by {provider === "jazzcash" ? "JazzCash" : provider === "safepay" ? "Safepay" : provider === "lemonsqueezy" ? "Lemon Squeezy" : provider === "paddle" ? "Paddle" : "Stripe"}.
       </p>
     </div>
   );

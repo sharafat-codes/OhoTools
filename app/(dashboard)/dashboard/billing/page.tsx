@@ -7,6 +7,7 @@ import { isPaddleConfigured } from "@/lib/paddle";
 import { syncPaddleForUser } from "@/lib/paddle-sync";
 import { isSafepayConfigured, safepayIsSandbox } from "@/lib/safepay";
 import { getProPrice, getRequestCountry } from "@/lib/region";
+import { isJazzCashConfigured, jazzCashIsSandbox } from "@/lib/jazzcash";
 import { PLAN_BY_ID } from "@/lib/plans";
 import { BillingView } from "@/modules/billing/components/billing-view";
 
@@ -15,10 +16,10 @@ export const metadata: Metadata = { title: "Billing" };
 export default async function BillingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string; billing?: string }>;
+  searchParams: Promise<{ checkout?: string; billing?: string; jazzcash?: string }>;
 }) {
   const user = await requireUser();
-  const { checkout, billing } = await searchParams;
+  const { checkout, billing, jazzcash } = await searchParams;
 
   let dbUser = await prisma.user.findUnique({
     where: { id: user.id },
@@ -49,14 +50,21 @@ export default async function BillingPage({
   // Re-enable PK→Safepay later with just SAFEPAY_ENVIRONMENT=production.
   const country = await getRequestCountry();
   const safepayLive = isSafepayConfigured() && !safepayIsSandbox();
-  const provider: "safepay" | "paddle" | "stripe" =
+  // Paddle does not support PKR, so Pakistani buyers would be quoted USD and
+  // need an internationally enabled card — which most local debit cards are
+  // not. Prefer a provider that settles in rupees over local rails, and fall
+  // back to Paddle only when neither is live.
+  const jazzCashLive = isJazzCashConfigured() && !jazzCashIsSandbox();
+  const provider: "safepay" | "jazzcash" | "paddle" | "stripe" =
     country === "PK" && safepayLive
       ? "safepay"
-      : isPaddleConfigured
-        ? "paddle"
-        : isSafepayConfigured()
-          ? "safepay"
-          : "stripe";
+      : country === "PK" && jazzCashLive
+        ? "jazzcash"
+        : isPaddleConfigured
+          ? "paddle"
+          : isSafepayConfigured()
+            ? "safepay"
+            : "stripe";
 
   return (
     <div className="mx-auto w-full max-w-5xl">
@@ -82,6 +90,7 @@ export default async function BillingPage({
             : null
         }
         checkoutStatus={checkout ?? null}
+        jazzcashStatus={jazzcash ?? null}
         // /pricing links here as ?billing=annual when the visitor picked the
         // annual plan. Without this the toggle reset to monthly and they bought
         // the wrong plan.
