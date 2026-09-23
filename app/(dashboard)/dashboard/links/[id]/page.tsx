@@ -11,6 +11,8 @@ import {
   DailyBars,
   StatTile,
 } from "@/modules/links/components/scan-charts";
+import { LinkQr } from "@/modules/links/components/link-qr";
+import { ScanExport } from "@/modules/links/components/scan-export";
 import { CopyButton } from "@/components/copy-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +39,7 @@ export default async function LinkAnalyticsPage({
   const since30 = new Date(now - 29 * DAY);
   const since7 = new Date(now - 6 * DAY);
 
-  const [recent, last7, devicesG, referrersG] = await Promise.all([
+  const [recent, last7, devicesG, referrersG, countriesG, exportRows] = await Promise.all([
     prisma.scanLog.findMany({
       where: { linkId: link.id, createdAt: { gte: since30 } },
       select: { createdAt: true },
@@ -54,6 +56,19 @@ export default async function LinkAnalyticsPage({
       by: ["referrer"],
       where: { linkId: link.id },
       _count: { _all: true },
+    }),
+    prisma.scanLog.groupBy({
+      by: ["country"],
+      where: { linkId: link.id },
+      _count: { _all: true },
+    }),
+    // Rows for the CSV. Capped so a very popular link can't blow up the page
+    // payload; the newest scans are the ones people actually want.
+    prisma.scanLog.findMany({
+      where: { linkId: link.id },
+      select: { createdAt: true, device: true, country: true, referrer: true },
+      orderBy: { createdAt: "desc" },
+      take: 5000,
     }),
   ]);
 
@@ -75,6 +90,24 @@ export default async function LinkAnalyticsPage({
     .map((r) => ({ label: r.referrer ?? "Direct", value: r._count._all }))
     .sort((a, b) => b.value - a.value)
     .slice(0, 6);
+
+  // Country was already being recorded on every scan but never shown. ISO
+  // codes mean nothing to a customer, so resolve them to real names.
+  const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+  const countryRows = countriesG
+    .map((c) => {
+      let label = "Unknown";
+      if (c.country) {
+        try {
+          label = regionNames.of(c.country) ?? c.country;
+        } catch {
+          label = c.country;
+        }
+      }
+      return { label, value: c._count._all };
+    })
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 8);
 
   const url = `${getAppUrl()}/r/${link.shortCode}`;
   const expired = link.expiresAt ? link.expiresAt.getTime() < now : false;
@@ -117,6 +150,15 @@ export default async function LinkAnalyticsPage({
         </div>
         <div className="flex items-center gap-2">
           <CopyButton value={url} label="Copy link" />
+          <ScanExport
+            rows={exportRows.map((r) => ({
+              createdAt: r.createdAt.toISOString(),
+              device: r.device,
+              country: r.country,
+              referrer: r.referrer,
+            }))}
+            filename={`scans-${link.shortCode}`}
+          />
           <Button variant="outline" render={<Link href="/dashboard/links" />}>
             <SettingsIcon />
             Manage
@@ -148,6 +190,18 @@ export default async function LinkAnalyticsPage({
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <Breakdown title="Devices" rows={deviceRows} empty="No scans yet." />
         <Breakdown title="Top referrers" rows={referrerRows} empty="No scans yet." />
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Breakdown title="Countries" rows={countryRows} empty="No scans yet." />
+        <Card>
+          <CardHeader>
+            <CardTitle>Your QR code</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LinkQr url={url} filename={`qr-${link.shortCode}`} />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

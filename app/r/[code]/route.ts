@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 
 import { prisma } from "@/lib/prisma";
-import { parseDevice, parseReferrer } from "@/modules/links/scan";
+import { isBotUserAgent, parseDevice, parseReferrer } from "@/modules/links/scan";
 
 export const dynamic = "force-dynamic";
 
@@ -33,15 +33,20 @@ export async function GET(
   }
 
   // Log the scan and bump the counter (best-effort; never block the redirect).
+  // Preview crawlers and bots are redirected like anyone else but never
+  // counted — otherwise pasting the link into a chat app inflates the scan
+  // total before a single person has opened it.
+  const ua = req.headers.get("user-agent");
+  if (!isBotUserAgent(ua)) {
   try {
     await prisma.$transaction([
       prisma.scanLog.create({
         data: {
           linkId: link.id,
-          device: parseDevice(req.headers.get("user-agent")),
+          device: parseDevice(ua),
           referrer: parseReferrer(req.headers.get("referer")),
           country: req.headers.get("x-vercel-ip-country") || null,
-          userAgent: req.headers.get("user-agent")?.slice(0, 512) || null,
+          userAgent: ua?.slice(0, 512) || null,
         },
       }),
       prisma.dynamicLink.update({
@@ -51,6 +56,7 @@ export async function GET(
     ]);
   } catch {
     // Swallow logging errors — the redirect is what matters.
+  }
   }
 
   return Response.redirect(link.targetUrl, 302);
