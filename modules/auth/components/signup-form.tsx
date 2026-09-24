@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -10,6 +11,7 @@ import { LoaderCircleIcon } from "lucide-react";
 import { signUp } from "@/lib/auth-client";
 import { signUpSchema, type SignUpInput } from "@/modules/auth/validations";
 import { SocialAuth } from "@/modules/auth/components/social-buttons";
+import { safeRedirect } from "@/modules/auth/redirect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +26,15 @@ import {
 
 export function SignupForm({ googleEnabled = false }: { googleEnabled?: boolean }) {
   const router = useRouter();
+
+  // Where to land after signing up. An upgrade prompt elsewhere on the site
+  // can send a signed-out visitor here and get them back to what they were
+  // doing. Read after mount rather than from server searchParams, so this
+  // page stays statically rendered; it is only needed once the form is sent.
+  const [redirectTo, setRedirectTo] = React.useState("/dashboard");
+  React.useEffect(() => {
+    setRedirectTo(safeRedirect(new URLSearchParams(window.location.search).get("redirect")));
+  }, []);
   const {
     register,
     handleSubmit,
@@ -43,7 +54,7 @@ export function SignupForm({ googleEnabled = false }: { googleEnabled?: boolean 
     }
 
     toast.success("Account created. Welcome to OhoTool!");
-    router.push("/dashboard");
+    router.push(redirectTo);
     router.refresh();
   }
 
@@ -54,7 +65,7 @@ export function SignupForm({ googleEnabled = false }: { googleEnabled?: boolean 
         <CardDescription>Start using OhoTool for free.</CardDescription>
       </CardHeader>
       <CardContent>
-        <SocialAuth enabled={googleEnabled} redirectTo="/dashboard" />
+        <SocialAuth enabled={googleEnabled} redirectTo={redirectTo} />
         <form
           id="signup-form"
           onSubmit={handleSubmit(onSubmit)}
@@ -120,7 +131,7 @@ export function SignupForm({ googleEnabled = false }: { googleEnabled?: boolean 
         </Button>
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-foreground hover:underline">
+          <Link href={redirectTo === "/dashboard" ? "/login" : `/login?redirect=${encodeURIComponent(redirectTo)}`} className="font-medium text-foreground hover:underline">
             Log in
           </Link>
         </p>

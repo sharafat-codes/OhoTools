@@ -118,7 +118,7 @@ export function LoginForm({
         </Button>
         <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-medium text-foreground hover:underline">
+          <Link href={redirectTo === "/dashboard" ? "/signup" : `/signup?redirect=${encodeURIComponent(redirectTo)}`} className="font-medium text-foreground hover:underline">
             Sign up
           </Link>
         </p>

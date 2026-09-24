@@ -9,8 +9,10 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useSession } from "@/components/plan-provider";
+import { PADDLE_PRICE_PASS, usePaddleCheckout } from "@/components/paddle-upgrade-button";
 import { isPro } from "@/lib/plans";
 import { MUSIC_LABEL } from "@/modules/cards/music";
+import { PASS_DAYS, PASS_PRICE, isPaddlePassOffered } from "@/lib/pro-pass";
 import { saveCard, updateCard, watchCardOpens } from "@/modules/cards/actions";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
@@ -19,6 +21,37 @@ import {
   type StyleElement, type ElemStyle, type FontKey, type CardEvent,
 } from "@/modules/cards/types";
 import { cardShareUrl, encodeCard } from "@/modules/cards/share";
+
+// A card lives only in this component's state until it is shared, so any
+// navigation away from the editor throws it away. Upgrading used to do
+// exactly that. The card is stashed before a trip through sign-up or
+// checkout and handed back on return.
+const DRAFT_KEY = "oho-card-draft";
+const DRAFT_TTL = 6 * 60 * 60 * 1000;
+
+function stashDraft(data: CardData) {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ at: Date.now(), data }));
+  } catch {
+    /* storage unavailable — the card is lost, which is what happened before */
+  }
+}
+
+/** Reads the stash and clears it, so a stale card never reappears later. */
+function takeDraft(occasion: Occasion): CardData | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    localStorage.removeItem(DRAFT_KEY);
+    if (!raw) return null;
+    const v = JSON.parse(raw) as { at?: number; data?: CardData };
+    if (!v?.data || typeof v.at !== "number") return null;
+    if (Date.now() - v.at > DRAFT_TTL) return null;
+    if (v.data.occasion !== occasion) return null;
+    return normalizeCard(v.data);
+  } catch {
+    return null;
+  }
+}
 
 const EFFECTS: { id: CardEffect; label: string; Icon: typeof StarIcon }[] = [
   { id: "confetti", label: "Confetti", Icon: PartyPopperIcon },
@@ -132,6 +165,56 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   const { data: sess } = useSession();
   const pro = isPro(((sess?.user as { plan?: string } | null)?.plan) ?? "FREE");
   const loggedIn = !!sess?.user;
+
+  // Someone making a wedding invitation does not want a monthly plan with a
+  // developer API in it. When the one-time pass is configured, sell that
+  // instead; otherwise fall back to the pricing page so nothing breaks while
+  // the pass is unconfigured.
+  const sellPass = !pro && isPaddlePassOffered;
+  const priceLabel = PASS_PRICE || "one payment";
+  const user = sess?.user as { id?: string; email?: string } | undefined;
+
+  // Paddle opens over the editor rather than on a billing page, so paying
+  // never costs the visitor the card they were making. On success we reload
+  // with the card restored — by then the webhook has granted the pass, and
+  // the watermark and downloads are simply unlocked in place.
+  const dataRef = React.useRef(data);
+  React.useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
+  const onPaid = React.useCallback(() => {
+    stashDraft(dataRef.current);
+    window.location.href = `${window.location.pathname}?resume=card`;
+  }, []);
+  const { opening: paying, open: openCheckout } = usePaddleCheckout(onPaid);
+
+  // Hand the card back after sign-up or checkout.
+  React.useEffect(() => {
+    if (initialCard) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("resume") !== "card") return;
+    const draft = takeDraft(occasion);
+    if (draft) setData(draft);
+    params.delete("resume");
+    const q = params.toString();
+    window.history.replaceState(null, "", window.location.pathname + (q ? `?${q}` : ""));
+  }, [initialCard, occasion]);
+
+  function startUpgrade() {
+    if (!sellPass) {
+      window.location.href = "/pricing";
+      return;
+    }
+    // Stash first: every path below either reloads or navigates.
+    stashDraft(data);
+    if (user?.id && openCheckout({ priceId: PADDLE_PRICE_PASS, userId: user.id, email: user.email })) return;
+    // No user id yet means either a signed-out visitor, or the cached session
+    // snapshot before the real one resolves. Paddle needs the id to attribute
+    // the payment, so send them somewhere that has it.
+    window.location.href = loggedIn
+      ? "/dashboard/billing"
+      : `/signup?redirect=${encodeURIComponent(`${window.location.pathname}?resume=card`)}`;
+  }
 
   async function saveToAccount() {
     if (!loggedIn) {
@@ -271,7 +354,7 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
                   </>
                 );
                 return locked ? (
-                  <a key={tpl.id} href="/pricing" className={chipCls} title="Unlock with Pro">{inner}</a>
+                  <button key={tpl.id} type="button" onClick={startUpgrade} className={chipCls} title={sellPass ? `Unlock every design — ${priceLabel}, one payment` : "Unlock with Pro"}>{inner}</button>
                 ) : (
                   <button key={tpl.id} type="button" onClick={() => set("template", tpl.id as TemplateId)} className={chipCls}>{inner}</button>
                 );
@@ -375,14 +458,23 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
 
         {/* Pro */}
         <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.07] via-primary/[0.02] to-transparent p-4">
-          <div className="mb-3.5 flex items-center justify-between">
+          <div className={(sellPass ? "mb-1.5" : "mb-3.5") + " flex items-center justify-between gap-2"}>
             <span className="flex items-center gap-1.5 text-sm font-semibold">
-              <CrownIcon className="size-4 text-primary" /> Pro features
+              <CrownIcon className="size-4 text-primary" />
+              {sellPass ? "Remove the watermark & download" : "Pro features"}
             </span>
             {!pro && (
-              <a href="/pricing" className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90">Upgrade</a>
+              <button type="button" onClick={startUpgrade} disabled={paying} className="shrink-0 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60">
+                {sellPass ? `${priceLabel} once` : "Upgrade"}
+              </button>
             )}
           </div>
+          {sellPass && (
+            <p className="mb-3.5 text-xs text-muted-foreground">
+              One payment, no subscription — every design and every download for{" "}
+              {PASS_DAYS} days. Cards you finish stay watermark-free for good.
+            </p>
+          )}
 
           <div className={"flex flex-col gap-3.5 " + (pro ? "" : "opacity-70")}>
             <div className="flex flex-col gap-2.5">
@@ -416,8 +508,11 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
                 <p className="text-xs text-muted-foreground">The first video render loads a small engine (~30 MB), so it can take a moment.</p>
               </div>
             ) : (
-              <Button variant="outline" render={<a href="/pricing" />} className="self-start">
-                <DownloadIcon className="size-4" /> Download image &amp; video
+              <Button variant="outline" onClick={startUpgrade} disabled={paying} className="self-start">
+                <DownloadIcon className="size-4" />
+                {sellPass
+                  ? `Remove watermark & download — ${priceLabel}`
+                  : "Download image & video"}
               </Button>
             )}
           </div>
@@ -431,7 +526,7 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
                 <TypeIcon className="size-4 text-primary" /> Fonts &amp; text
                 <span className="rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">PRO</span>
               </span>
-              {!pro && <a href="/pricing" className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90">Upgrade</a>}
+              {!pro && <button type="button" onClick={startUpgrade} disabled={paying} className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60">{sellPass ? `${priceLabel} once` : "Upgrade"}</button>}
             </div>
 
             <div className={pro ? "" : "pointer-events-none opacity-60"}>
