@@ -21,7 +21,8 @@ export type CardTheme = keyof typeof CARD_THEMES;
 export type TemplateId =
   | "classic" | "elegant" | "playful" | "luxe" | "neon" | "romantic" | "festival"
   | "botanical" | "monogram" | "mehndi" | "editorial"
-  | "wish" | "polaroid" | "retro";
+  | "wish" | "polaroid" | "retro"
+  | "darkfloral" | "marble" | "stringlights";
 
 // NOTE: the tool explainers in modules/tools/extras.ts quote how many designs
 // each occasion offers and how many of them are Pro. Adding or moving a
@@ -38,6 +39,9 @@ export const CARD_TEMPLATES: { id: TemplateId; name: string; pro?: boolean }[] =
   { id: "retro", name: "Retro Pop", pro: true },
   { id: "monogram", name: "Gold Monogram", pro: true },
   { id: "mehndi", name: "Mehndi Nights", pro: true },
+  { id: "darkfloral", name: "Midnight Garden", pro: true },
+  { id: "marble", name: "Marble & Gold", pro: true },
+  { id: "stringlights", name: "String Lights", pro: true },
   { id: "editorial", name: "Editorial", pro: true },
   { id: "luxe", name: "Golden Luxe", pro: true },
   { id: "neon", name: "Neon Glow", pro: true },
@@ -123,7 +127,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "rose",
     template: "romantic",
-    templates: ["romantic", "botanical", "monogram", "mehndi", "editorial", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "monogram", "mehndi", "darkfloral", "marble", "stringlights", "polaroid", "editorial", "elegant", "luxe", "neon"],
     toLabel: "Couple's names",
     toPlaceholder: "Aisha & Bilal",
   },
@@ -135,7 +139,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "rose",
     template: "romantic",
-    templates: ["romantic", "botanical", "monogram", "mehndi", "editorial", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "monogram", "mehndi", "darkfloral", "marble", "stringlights", "polaroid", "editorial", "elegant", "luxe", "neon"],
     toLabel: "Couple's names",
     toPlaceholder: "Aisha & Bilal",
   },
@@ -147,7 +151,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "midnight",
     template: "elegant",
-    templates: ["romantic", "botanical", "monogram", "editorial", "polaroid", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "monogram", "darkfloral", "marble", "stringlights", "editorial", "polaroid", "elegant", "luxe", "neon"],
     toLabel: "Names",
     toPlaceholder: "Aisha & Bilal",
   },
@@ -212,7 +216,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "rose",
     template: "romantic",
-    templates: ["romantic", "botanical", "editorial", "polaroid", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "darkfloral", "editorial", "polaroid", "elegant", "luxe", "neon"],
     toLabel: "Who is it for?",
     toPlaceholder: "My Love",
   },
@@ -251,7 +255,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "rose",
     template: "romantic",
-    templates: ["romantic", "botanical", "monogram", "mehndi", "editorial", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "monogram", "mehndi", "darkfloral", "marble", "stringlights", "polaroid", "editorial", "elegant", "luxe", "neon"],
     toLabel: "Couple's names",
     toPlaceholder: "Aisha & Bilal",
   },

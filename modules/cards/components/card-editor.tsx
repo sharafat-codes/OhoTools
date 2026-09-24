@@ -90,6 +90,9 @@ const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; 
   wish: { bg: "radial-gradient(ellipse at 50% 88%,#4a2f18,#0c0805)", accent: "#ffb84d", serif: true, glow: true },
   polaroid: { bg: "linear-gradient(160deg,#f2e7d5,#dfcdb1)", accent: "#b4553f", serif: true },
   retro: { bg: "linear-gradient(170deg,#fdf6e3,#f7e9c9)", accent: "#e63946" },
+  darkfloral: { bg: "linear-gradient(165deg,#3a1526,#0a0c0b)", accent: "#d9b96c", serif: true },
+  marble: { bg: "linear-gradient(150deg,#fbfaf7,#e6e1d7)", accent: "#b08d4f", serif: true },
+  stringlights: { bg: "linear-gradient(170deg,#2e2116,#1a130d)", accent: "#ffc861", serif: true, glow: true },
 };
 
 const inputCls =
