@@ -87,6 +87,9 @@ const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; 
   monogram: { bg: "radial-gradient(circle at 50% 22%,#1d2437,#0d101a)", accent: "#d9b96c", serif: true },
   mehndi: { bg: "radial-gradient(circle at 50% 34%,#0f4436,#3d0f1c)", accent: "#e9c46a", serif: true, glow: true },
   editorial: { bg: "linear-gradient(180deg,#faf7f2,#f2ece2)", accent: "#9a7b4f", serif: true },
+  wish: { bg: "radial-gradient(ellipse at 50% 88%,#4a2f18,#0c0805)", accent: "#ffb84d", serif: true, glow: true },
+  polaroid: { bg: "linear-gradient(160deg,#f2e7d5,#dfcdb1)", accent: "#b4553f", serif: true },
+  retro: { bg: "linear-gradient(170deg,#fdf6e3,#f7e9c9)", accent: "#e63946" },
 };
 
 const inputCls =

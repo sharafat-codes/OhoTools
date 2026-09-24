@@ -20,7 +20,8 @@ export type CardTheme = keyof typeof CARD_THEMES;
 
 export type TemplateId =
   | "classic" | "elegant" | "playful" | "luxe" | "neon" | "romantic" | "festival"
-  | "botanical" | "monogram" | "mehndi" | "editorial";
+  | "botanical" | "monogram" | "mehndi" | "editorial"
+  | "wish" | "polaroid" | "retro";
 
 // NOTE: the tool explainers in modules/tools/extras.ts quote how many designs
 // each occasion offers and how many of them are Pro. Adding or moving a
@@ -32,6 +33,9 @@ export const CARD_TEMPLATES: { id: TemplateId; name: string; pro?: boolean }[] =
   { id: "elegant", name: "Elegant" },
   { id: "playful", name: "Playful" },
   { id: "botanical", name: "Botanical" },
+  { id: "wish", name: "Make a Wish", pro: true },
+  { id: "polaroid", name: "Polaroid", pro: true },
+  { id: "retro", name: "Retro Pop", pro: true },
   { id: "monogram", name: "Gold Monogram", pro: true },
   { id: "mehndi", name: "Mehndi Nights", pro: true },
   { id: "editorial", name: "Editorial", pro: true },
@@ -107,7 +111,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "confetti",
     theme: "festive",
     template: "classic",
-    templates: ["classic", "elegant", "playful", "luxe", "neon"],
+    templates: ["classic", "elegant", "playful", "wish", "polaroid", "retro", "luxe", "neon"],
     toLabel: "Whose birthday is it?",
     toPlaceholder: "Name",
   },
@@ -143,7 +147,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "midnight",
     template: "elegant",
-    templates: ["romantic", "botanical", "monogram", "editorial", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "monogram", "editorial", "polaroid", "elegant", "luxe", "neon"],
     toLabel: "Names",
     toPlaceholder: "Aisha & Bilal",
   },
@@ -208,7 +212,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "hearts",
     theme: "rose",
     template: "romantic",
-    templates: ["romantic", "botanical", "editorial", "elegant", "luxe", "neon"],
+    templates: ["romantic", "botanical", "editorial", "polaroid", "elegant", "luxe", "neon"],
     toLabel: "Who is it for?",
     toPlaceholder: "My Love",
   },
@@ -234,7 +238,7 @@ export const OCCASIONS: Record<Occasion, {
     effect: "confetti",
     theme: "midnight",
     template: "elegant",
-    templates: ["elegant", "editorial", "monogram", "classic", "luxe", "neon"],
+    templates: ["elegant", "editorial", "monogram", "polaroid", "classic", "luxe", "neon"],
     toLabel: "Graduate's name",
     toPlaceholder: "Name",
   },

@@ -15,6 +15,9 @@ import { CardBotanical } from "@/modules/cards/templates/card-botanical";
 import { CardMonogram } from "@/modules/cards/templates/card-monogram";
 import { CardMehndi } from "@/modules/cards/templates/card-mehndi";
 import { CardEditorial } from "@/modules/cards/templates/card-editorial";
+import { BirthdayWish } from "@/modules/cards/templates/birthday-wish";
+import { CardPolaroid } from "@/modules/cards/templates/card-polaroid";
+import { BirthdayRetro } from "@/modules/cards/templates/birthday-retro";
 import { playCardMusic } from "@/modules/cards/music";
 
 const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
@@ -29,6 +32,9 @@ const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKe
   monogram: CardMonogram,
   mehndi: CardMehndi,
   editorial: CardEditorial,
+  wish: BirthdayWish,
+  polaroid: CardPolaroid,
+  retro: BirthdayRetro,
 };
 
 /**
