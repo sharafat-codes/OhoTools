@@ -20,7 +20,7 @@ import {
   type CardData, type CardTheme, type CardEffect, type TemplateId, type Occasion,
   type StyleElement, type ElemStyle, type FontKey, type CardEvent,
 } from "@/modules/cards/types";
-import { cardShareUrl, encodeCard } from "@/modules/cards/share";
+import { cardShareUrl } from "@/modules/cards/share";
 
 // A card lives only in this component's state until it is shared, so any
 // navigation away from the editor throws it away. Upgrading used to do
@@ -127,6 +127,7 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   const [copied, setCopied] = React.useState(false);
   const [photoError, setPhotoError] = React.useState("");
   const [videoBusy, setVideoBusy] = React.useState(false);
+  const [imageBusy, setImageBusy] = React.useState(false);
   const [videoPct, setVideoPct] = React.useState(0);
   const [savedId, setSavedId] = React.useState<string | undefined>(cardId);
   const [shortCode, setShortCode] = React.useState<string | undefined>(initialShortCode);
@@ -262,7 +263,6 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
       setNotifyError(res.error);
     }
   }
-  const imageUrl = origin ? `${origin}/api/card/image?d=${encodeCard(normalizeCard(data))}` : "#";
   const cur = resolveTheme(normalizeCard(data));
   const occ = OCCASIONS[data.occasion];
 
@@ -274,6 +274,30 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
     );
   }
 
+  function saveBlob(blob: Blob, filename: string) {
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = href;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(href);
+  }
+
+  async function downloadImage() {
+    if (imageBusy) return;
+    setImageBusy(true);
+    setPhotoError("");
+    try {
+      const { captureCardBlob, cardFileBase } = await import("@/modules/cards/capture");
+      const card = normalizeCard(data);
+      saveBlob(await captureCardBlob(card), `${cardFileBase(card)}.png`);
+    } catch {
+      setPhotoError("Sorry — couldn't render the image. Please try again.");
+    } finally {
+      setImageBusy(false);
+    }
+  }
+
   async function downloadVideo() {
     if (videoBusy) return;
     setVideoBusy(true);
@@ -281,14 +305,10 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
     setPhotoError("");
     try {
       const { exportCardVideo } = await import("@/modules/cards/video");
-      const blob = await exportCardVideo(normalizeCard(data), setVideoPct);
-      const dl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const safe = (data.to || "card").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-      a.href = dl;
-      a.download = `birthday-${safe}.mp4`;
-      a.click();
-      URL.revokeObjectURL(dl);
+      const { cardFileBase } = await import("@/modules/cards/capture");
+      const card = normalizeCard(data);
+      const blob = await exportCardVideo(card, setVideoPct);
+      saveBlob(blob, `${cardFileBase(card)}.mp4`);
     } catch {
       setPhotoError("Sorry — couldn't render the video. Please try again.");
     } finally {
@@ -505,14 +525,14 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
             {pro ? (
               <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" disabled={!origin || videoBusy} render={<a href={imageUrl} download />}>
-                    <DownloadIcon className="size-4" /> Image
+                  <Button variant="outline" disabled={imageBusy || videoBusy} onClick={downloadImage}>
+                    <DownloadIcon className="size-4" /> {imageBusy ? "Rendering…" : "Image"}
                   </Button>
-                  <Button variant="outline" disabled={videoBusy} onClick={downloadVideo}>
+                  <Button variant="outline" disabled={videoBusy || imageBusy} onClick={downloadVideo}>
                     <FilmIcon className="size-4" /> {videoBusy ? `Rendering… ${videoPct}%` : "Video (MP4)"}
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground">The first video render loads a small engine (~30 MB), so it can take a moment.</p>
+                <p className="text-xs text-muted-foreground">Both exports draw your card at full size first, so they take a few seconds. The first video render also loads a small engine (~30 MB).</p>
               </div>
             ) : (
               <Button variant="outline" onClick={startUpgrade} disabled={paying} className="self-start">
