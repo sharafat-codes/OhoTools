@@ -11,6 +11,10 @@ import { BirthdayLuxe } from "@/modules/cards/templates/birthday-luxe";
 import { BirthdayNeon } from "@/modules/cards/templates/birthday-neon";
 import { CardRomantic } from "@/modules/cards/templates/card-romantic";
 import { CardFestival } from "@/modules/cards/templates/card-festival";
+import { CardBotanical } from "@/modules/cards/templates/card-botanical";
+import { CardMonogram } from "@/modules/cards/templates/card-monogram";
+import { CardMehndi } from "@/modules/cards/templates/card-mehndi";
+import { CardEditorial } from "@/modules/cards/templates/card-editorial";
 import { playCardMusic } from "@/modules/cards/music";
 
 const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
@@ -21,6 +25,10 @@ const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKe
   neon: BirthdayNeon,
   romantic: CardRomantic,
   festival: CardFestival,
+  botanical: CardBotanical,
+  monogram: CardMonogram,
+  mehndi: CardMehndi,
+  editorial: CardEditorial,
 };
 
 /**
@@ -79,7 +87,7 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
           type="button"
           onClick={() => (muted ? playMusic() : stopMusic())}
           aria-label={muted ? "Play music" : "Mute music"}
-          className="absolute left-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/40"
+          className="absolute left-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60"
         >
           {muted ? <VolumeXIcon className="size-3.5" /> : <Volume2Icon className="size-3.5" />}
           {muted ? "Play music" : "Music"}
@@ -91,7 +99,7 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
           type="button"
           onClick={() => setFireKey((k) => k + 1)}
           aria-label="Replay animation"
-          className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/40"
+          className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60"
         >
           <RotateCwIcon className="size-3.5" /> Replay
         </button>
@@ -100,7 +108,7 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
       {cta && !data.noWatermark && (
         <a
           href="/tools/birthday-card-maker"
-          className="absolute bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-black/25 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/40"
+          className="absolute bottom-3 left-1/2 z-30 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-black/45 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60"
         >
           <SparklesIcon className="size-3.5" /> Made with OhoTool — create your own
         </a>

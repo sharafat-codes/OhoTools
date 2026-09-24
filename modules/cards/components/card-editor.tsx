@@ -83,6 +83,10 @@ const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; 
   playful: { bg: "linear-gradient(135deg,#f97316,#db2777)", accent: "#ffffff" },
   luxe: { bg: "radial-gradient(circle at 50% 30%,#2b2410,#0a0a0c)", accent: "#e7c873", serif: true },
   neon: { bg: "radial-gradient(circle at 50% 40%,#10131f,#060711)", accent: "#38bdf8", glow: true },
+  botanical: { bg: "linear-gradient(168deg,#fdfbf7,#eaeee3)", accent: "#7f9873", serif: true },
+  monogram: { bg: "radial-gradient(circle at 50% 22%,#1d2437,#0d101a)", accent: "#d9b96c", serif: true },
+  mehndi: { bg: "radial-gradient(circle at 50% 34%,#0f4436,#3d0f1c)", accent: "#e9c46a", serif: true, glow: true },
+  editorial: { bg: "linear-gradient(180deg,#faf7f2,#f2ece2)", accent: "#9a7b4f", serif: true },
 };
 
 const inputCls =
