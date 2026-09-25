@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
+import { ImpersonationBanner } from "@/components/impersonation-banner";
 
 // Body / UI text — highly legible SaaS standard.
 const inter = Inter({
@@ -135,6 +136,8 @@ gtag('set','ads_data_redaction',true);gtag('set','url_passthrough',true);`}
           {children}
           <Toaster />
           <CookieConsent />
+          {/* Renders nothing unless an admin is logged in as someone else. */}
+          <ImpersonationBanner />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

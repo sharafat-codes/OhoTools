@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import {
   MoreHorizontalIcon, CrownIcon, UserIcon, ShieldIcon, ShieldOffIcon,
   TicketIcon, TicketXIcon, CopyIcon, MailIcon, Trash2Icon, LoaderCircleIcon,
+  LogInIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import {
 import {
   setUserPlan, setUserRole, grantProPass, endProPass, deleteUser, type AdminResult,
 } from "@/modules/admin/actions";
+import { impersonateUser } from "@/modules/admin/impersonation";
 
 export type AdminUserRow = {
   id: string;
@@ -52,6 +54,28 @@ export function UserRowActions({ user }: { user: AdminUserRow }) {
     }
   }
 
+  /**
+   * Swaps this browser onto a short-lived session for the user and reloads —
+   * a router push would leave server components rendered for the admin. `busy`
+   * deliberately stays on: the page is on its way out.
+   */
+  async function logInAs() {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const res = await impersonateUser(user.id);
+      if (!res.ok) {
+        toast.error(res.error ?? "That didn't work. Please try again.");
+        setBusy(false);
+        return;
+      }
+      window.location.assign("/dashboard");
+    } catch {
+      toast.error("That didn't work. Please try again.");
+      setBusy(false);
+    }
+  }
+
   async function copyEmail() {
     try {
       await navigator.clipboard.writeText(user.email);
@@ -79,6 +103,18 @@ export function UserRowActions({ user }: { user: AdminUserRow }) {
             <DropdownMenuLabel className="truncate">{who}</DropdownMenuLabel>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
+
+          {/* Hidden on your own row (pointless) and on other admins (refused
+             server-side — one admin must not be able to step into another). */}
+          {!user.isSelf && user.role !== "ADMIN" && (
+            <>
+              <DropdownMenuItem onClick={logInAs}>
+                <LogInIcon />
+                Log in as this user
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
 
           {user.plan === "PRO" ? (
             <DropdownMenuItem onClick={() => run("Moved to Free.", () => setUserPlan(user.id, "FREE"))}>
