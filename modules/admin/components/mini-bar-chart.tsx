@@ -51,9 +51,10 @@ export function MiniBarChart({
               const y = top + (plotH - drawn);
               return (
                 <rect key={i} x={x} y={y} width={barW} height={drawn} rx="1.5" className="fill-primary">
-                  <title>
-                    {d.label}: {d.value}
-                  </title>
+                  {/* One template string, not three children: a <title> may
+                     only hold a single text node, and the split form hydrates
+                     as a mismatch on every bar. */}
+                  <title>{`${d.label}: ${d.value}`}</title>
                 </rect>
               );
             })}

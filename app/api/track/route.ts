@@ -8,6 +8,15 @@ export const dynamic = "force-dynamic";
 // Lightweight, anonymous tool-view counter for the admin analytics dashboard.
 // No personal data — just a per-tool daily tally. Fails silently.
 export async function POST(req: Request) {
+  // Only the live site counts. A dev server and a preview deployment share this
+  // database, and the `oho_no_track` cookie below is scoped to one origin and
+  // one browser profile — it is never present on localhost, in an incognito
+  // window, or on a phone. Without this, building the site inflates the numbers
+  // you then use to decide what to build.
+  if (process.env.VERCEL_ENV !== "production") {
+    return NextResponse.json({ ok: true, skipped: true });
+  }
+
   // Don't count the owner's own visits — the admin area sets an `oho_no_track`
   // cookie (see modules/admin/components/no-track.tsx), which rides along on
   // this same-origin beacon.

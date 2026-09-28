@@ -11,6 +11,10 @@ import {
   KeyIcon,
   CreditCardIcon,
   InboxIcon,
+  SquarePenIcon,
+  EyeIcon,
+  Share2Icon,
+  CalendarCheckIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -145,6 +149,37 @@ export default async function AdminOverviewPage() {
   }
   const maxCat = Math.max(1, ...categoryViews.map((c) => c.count));
 
+  // Cards & invitations — the busiest part of the site, and the only one whose
+  // reach is not a tool view: a share link is opened by the recipient, not by a
+  // visitor browsing tools, so none of the numbers above can see it.
+  let cardsTotal = 0;
+  let cards30 = 0;
+  let cardsOpened = 0;
+  let cardOpens = 0;
+  let rsvpTotal = 0;
+  let rsvpYes = 0;
+  let cardRows: { createdAt: Date }[] = [];
+  try {
+    const [total, recent, opened, opensAgg, rsvps, yes, rows] = await Promise.all([
+      prisma.card.count(),
+      prisma.card.count({ where: { createdAt: { gte: d30 } } }),
+      prisma.card.count({ where: { lastOpenedAt: { not: null } } }),
+      prisma.card.aggregate({ _sum: { views: true } }),
+      prisma.rsvp.count(),
+      prisma.rsvp.count({ where: { attending: true } }),
+      prisma.card.findMany({ where: { createdAt: { gte: d14 } }, select: { createdAt: true }, take: 5000 }),
+    ]);
+    cardsTotal = total;
+    cards30 = recent;
+    cardsOpened = opened;
+    cardOpens = opensAgg._sum.views ?? 0;
+    rsvpTotal = rsvps;
+    rsvpYes = yes;
+    cardRows = rows;
+  } catch {
+    /* card / rsvp tables not migrated yet */
+  }
+
   let newRequests = 0;
   try {
     newRequests = await prisma.toolRequest.count({ where: { status: "new" } });
@@ -164,10 +199,17 @@ export default async function AdminOverviewPage() {
     const key = u.createdAt.toISOString().slice(0, 10);
     signupByDay.set(key, (signupByDay.get(key) ?? 0) + 1);
   }
+  const cardByDay = new Map<string, number>();
+  for (const c of cardRows) {
+    const key = c.createdAt.toISOString().slice(0, 10);
+    cardByDay.set(key, (cardByDay.get(key) ?? 0) + 1);
+  }
   const signupsSeries = days14.map((d) => ({ label: shortLabel(d), value: signupByDay.get(d) ?? 0 }));
   const viewsSeries = days14.map((d) => ({ label: shortLabel(d), value: viewsByDay.get(d) ?? 0 }));
+  const cardsSeries = days14.map((d) => ({ label: shortLabel(d), value: cardByDay.get(d) ?? 0 }));
   const signupsTotal = signupsSeries.reduce((a, b) => a + b.value, 0);
   const viewsTotal = viewsSeries.reduce((a, b) => a + b.value, 0);
+  const cardsTotal14 = cardsSeries.reduce((a, b) => a + b.value, 0);
 
   const traffic = [
     { label: "New (7 days)", value: new7, icon: UserPlusIcon },
@@ -179,6 +221,16 @@ export default async function AdminOverviewPage() {
     { label: "AI runs (30d)", value: aiRuns30, icon: SparklesIcon },
     { label: "API calls (total)", value: apiCalls, icon: ZapIcon },
     { label: "API keys", value: apiKeys, icon: KeyIcon },
+  ];
+  // "Cards opened" is the share rate — how many saved cards actually reached
+  // somebody. "Card opens" is the reach itself, and every one of them is a
+  // person who saw the product without ever visiting a tool page.
+  const openRate = cardsTotal > 0 ? Math.round((cardsOpened / cardsTotal) * 100) : 0;
+  const cards = [
+    { label: "Cards made", value: cardsTotal, icon: SquarePenIcon, hint: `${cards30.toLocaleString()} in the last 30 days` },
+    { label: "Cards opened", value: cardsOpened, icon: Share2Icon, hint: `${openRate}% of cards were shared` },
+    { label: "Card opens", value: cardOpens, icon: EyeIcon, hint: "people who opened a share link" },
+    { label: "RSVPs", value: rsvpTotal, icon: CalendarCheckIcon, hint: `${rsvpYes.toLocaleString()} attending` },
   ];
   const qr = [
     { label: "QR codes", value: qrCodes, icon: QrCodeIcon },
@@ -223,14 +275,22 @@ export default async function AdminOverviewPage() {
       </div>
 
       {/* Trends */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <MiniBarChart title="New signups · 14 days" total={signupsTotal} data={signupsSeries} />
         <MiniBarChart title="Tool views · 14 days" total={viewsTotal} data={viewsSeries} />
+        <MiniBarChart title="Cards made · 14 days" total={cardsTotal14} data={cardsSeries} />
       </div>
 
       <SectionLabel>Traffic</SectionLabel>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {traffic.map((s) => (
+          <Stat key={s.label} {...s} />
+        ))}
+      </div>
+
+      <SectionLabel>Cards &amp; invitations</SectionLabel>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {cards.map((s) => (
           <Stat key={s.label} {...s} />
         ))}
       </div>
