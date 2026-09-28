@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   CopyIcon, CheckIcon, ExternalLinkIcon, ImagePlusIcon, XIcon, SparklesIcon, DownloadIcon, LockIcon,
   TypeIcon, PaletteIcon, ImageIcon, CrownIcon, PartyPopperIcon, HeartIcon, StarIcon, FilmIcon, SaveIcon,
+  Share2Icon,
   CalendarDaysIcon,
 } from "lucide-react";
 
@@ -13,7 +14,7 @@ import { PADDLE_PRICE_PASS, usePaddleCheckout } from "@/components/paddle-upgrad
 import { isPro } from "@/lib/plans";
 import { MUSIC_LABEL } from "@/modules/cards/music";
 import { PASS_DAYS, PASS_PRICE, isPaddlePassOffered } from "@/lib/pro-pass";
-import { saveCard, updateCard, watchCardOpens } from "@/modules/cards/actions";
+import { saveCard, updateCard, watchCardOpens, mintShareLink } from "@/modules/cards/actions";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
   CARD_THEMES, CARD_TEMPLATES, CARD_FONTS, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
@@ -135,6 +136,8 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   const [savedId, setSavedId] = React.useState<string | undefined>(cardId);
   const [shortCode, setShortCode] = React.useState<string | undefined>(initialShortCode);
   const [saveState, setSaveState] = React.useState<"idle" | "saving" | "saved">("idle");
+  const [sharing, setSharing] = React.useState(false);
+  const [canShare, setCanShare] = React.useState(false);
   const [styleTarget, setStyleTarget] = React.useState<"global" | StyleElement>("global");
   // "Notify me when opened" — optional email capture (also grows the list).
   const [notifyEmail, setNotifyEmail] = React.useState("");
@@ -159,7 +162,20 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
     });
   }
 
-  React.useEffect(() => setOrigin(window.location.origin), []);
+  React.useEffect(() => {
+    setOrigin(window.location.origin);
+    // After mount, not during render: the primary button reads "Share card" on
+    // a phone and "Copy share link" on a desktop, and deciding that on the
+    // server would hydrate as a mismatch.
+    // Touch devices only. Desktop Chrome has navigator.share too, but there it
+    // opens an OS share sheet nobody expects — on a phone it is one tap to
+    // WhatsApp, which is where these cards actually go.
+    setCanShare(
+      typeof navigator !== "undefined" &&
+        typeof navigator.share === "function" &&
+        window.matchMedia?.("(pointer: coarse)").matches === true,
+    );
+  }, []);
 
   const encodedUrl = origin ? cardShareUrl(origin, normalizeCard(data)) : "";
   // Saved cards get a short link (/c/<code>) with open tracking; otherwise the
@@ -269,12 +285,71 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
   const cur = resolveTheme(normalizeCard(data));
   const occ = OCCASIONS[data.occasion];
 
-  function copy() {
-    if (!url) return;
-    navigator.clipboard.writeText(url).then(
-      () => { setCopied(true); window.setTimeout(() => setCopied(false), 1600); },
-      () => {},
-    );
+  /**
+   * The link that actually gets sent to people.
+   *
+   * Until now this was the encoded URL unless the card had been saved to an
+   * account, so almost every share was invisible — no open count, no "it was
+   * opened" email, no RSVP. Minting happens here, at the moment of sharing,
+   * rather than on every keystroke, so a card row still means someone shared.
+   * If the mint fails the encoded link is handed back: a share must never be
+   * blocked by our analytics.
+   */
+  async function trackedUrl(): Promise<string> {
+    if (!origin) return "";
+    if (shortCode) return `${origin}/c/${shortCode}`;
+    const res = await mintShareLink({ cardId: savedId, data: normalizeCard(data) });
+    if (!res.ok) return encodedUrl;
+    setSavedId(res.cardId);
+    setShortCode(res.shortCode);
+    return `${origin}/c/${res.shortCode}`;
+  }
+
+  function flashCopied() {
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
+  }
+
+  async function copy() {
+    if (!origin || sharing) return;
+    setSharing(true);
+    const pending = trackedUrl();
+    try {
+      // Safari drops clipboard permission across an await, so the promise is
+      // handed to ClipboardItem — which is exactly what that API is for — and
+      // writeText is only the fallback for browsers without it.
+      if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
+        await navigator.clipboard.write([
+          new ClipboardItem({ "text/plain": pending.then((t) => new Blob([t], { type: "text/plain" })) }),
+        ]);
+      } else {
+        await navigator.clipboard.writeText(await pending);
+      }
+      flashCopied();
+    } catch {
+      try {
+        await navigator.clipboard.writeText(await pending);
+        flashCopied();
+      } catch {
+        /* clipboard blocked — the link is still shown by "Open card" */
+      }
+    } finally {
+      setSharing(false);
+    }
+  }
+
+  /** One tap to WhatsApp on a phone; falls back to copying everywhere else. */
+  async function share() {
+    if (!origin || sharing) return;
+    if (!canShare) return copy();
+    setSharing(true);
+    try {
+      await navigator.share({ title: occ.title(data.to), text: data.message.slice(0, 120), url: await trackedUrl() });
+    } catch {
+      /* the sheet was dismissed, or the gesture expired — not an error */
+    } finally {
+      setSharing(false);
+    }
   }
 
   function saveBlob(blob: Blob, filename: string) {
@@ -618,10 +693,23 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
           </div>
 
           <div className="mx-auto mt-5 flex w-full max-w-[280px] flex-col gap-2">
-            <Button onClick={copy} disabled={!url} className="w-full">
-              {copied ? <CheckIcon className="size-4 text-emerald-400" /> : <CopyIcon className="size-4" />}
-              {copied ? "Link copied!" : "Copy share link"}
-            </Button>
+            {canShare ? (
+              <>
+                <Button onClick={share} disabled={!origin || sharing} className="w-full">
+                  <Share2Icon className="size-4" />
+                  {sharing ? "Preparing link…" : "Share card"}
+                </Button>
+                <Button variant="outline" onClick={copy} disabled={!origin || sharing} className="w-full">
+                  {copied ? <CheckIcon className="size-4 text-emerald-500" /> : <CopyIcon className="size-4" />}
+                  {copied ? "Link copied!" : "Copy link"}
+                </Button>
+              </>
+            ) : (
+              <Button onClick={copy} disabled={!origin || sharing} className="w-full">
+                {copied ? <CheckIcon className="size-4 text-emerald-400" /> : <CopyIcon className="size-4" />}
+                {copied ? "Link copied!" : sharing ? "Preparing link…" : "Copy share link"}
+              </Button>
+            )}
             <Button variant="outline" disabled={!url} render={<a href={url || "#"} target="_blank" rel="noopener noreferrer" />} className="w-full">
               <ExternalLinkIcon className="size-4" /> Open card
             </Button>

@@ -124,6 +124,82 @@ export async function updateCard(id: string, input: { title?: string; data: Card
   }
 }
 
+// A card carries its photo inline, so a row is not tiny — but it is not a file
+// host either. Generous enough for a real photo card, small enough that the
+// signed-out mint below can't be used to park data in the table.
+const MAX_CARD_BYTES = 1_000_000;
+
+/**
+ * Returns the tracked card behind a short link, creating one if needed.
+ *
+ * `userId` is nullable on purpose (see prisma/schema.prisma): a share has to be
+ * countable without an account, because most people sharing a card have never
+ * signed in. When they have, the card is attributed to them so it also turns up
+ * in their dashboard.
+ */
+async function ensureTrackedCard(
+  cardId: string | undefined,
+  card: CardData,
+): Promise<{ cardId: string; shortCode: string } | null> {
+  const json = JSON.stringify(card);
+  if (json.length > MAX_CARD_BYTES) return null;
+
+  if (cardId) {
+    const existing = await prisma.card.findUnique({ where: { id: cardId }, select: { id: true, shortCode: true } });
+    if (existing?.shortCode) return { cardId: existing.id, shortCode: existing.shortCode };
+    if (existing) {
+      for (let a = 0; a < 5; a++) {
+        const code = makeCode();
+        try {
+          await prisma.card.update({ where: { id: existing.id }, data: { shortCode: code } });
+          return { cardId: existing.id, shortCode: code };
+        } catch (e) {
+          if (a < 4 && (e as { code?: string })?.code === "P2002") continue;
+          throw e;
+        }
+      }
+      return null;
+    }
+  }
+
+  const user = await getCurrentUser();
+  const userId = (user as { id?: string } | null)?.id ?? null;
+  for (let a = 0; a < 5; a++) {
+    const code = makeCode();
+    try {
+      const row = await prisma.card.create({
+        data: { userId, title: autoTitle(card), occasion: card.occasion, data: json, shortCode: code },
+      });
+      if (userId) revalidatePath("/dashboard/cards");
+      return { cardId: row.id, shortCode: code };
+    } catch (e) {
+      if (a < 4 && (e as { code?: string })?.code === "P2002") continue;
+      throw e;
+    }
+  }
+  return null;
+}
+
+export type MintResult = { ok: true; cardId: string; shortCode: string } | { ok: false; error: string };
+
+/**
+ * Hands back a tracked /c/<code> link for the card in the editor.
+ *
+ * The editor's fallback is a self-contained encoded URL, which works but
+ * records nothing: no opens, no open notifications, no RSVPs. Calling this at
+ * the moment someone actually shares means the share is visible and the
+ * features sold on top of it can fire — without asking anyone to sign in first.
+ */
+export async function mintShareLink(input: { cardId?: string; data: CardData }): Promise<MintResult> {
+  try {
+    const res = await ensureTrackedCard(input.cardId, normalizeCard(input.data));
+    if (!res) return { ok: false, error: "Couldn't create a share link." };
+    return { ok: true, ...res };
+  } catch {
+    return { ok: false, error: "Couldn't create a share link." };
+  }
+}
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export type WatchResult = { ok: true; shortCode: string; cardId: string } | { ok: false; error: string };
@@ -144,50 +220,9 @@ export async function watchCardOpens(input: {
   const card = normalizeCard(input.data);
 
   try {
-    let cardId = input.cardId;
-    let shortCode: string | undefined;
-
-    if (cardId) {
-      const existing = await prisma.card.findUnique({ where: { id: cardId }, select: { id: true, shortCode: true } });
-      if (!existing) {
-        cardId = undefined;
-      } else {
-        shortCode = existing.shortCode ?? undefined;
-        if (!shortCode) {
-          for (let a = 0; a < 5; a++) {
-            const code = makeCode();
-            try {
-              await prisma.card.update({ where: { id: cardId }, data: { shortCode: code } });
-              shortCode = code;
-              break;
-            } catch (e) {
-              if (a < 4 && (e as { code?: string })?.code === "P2002") continue;
-              throw e;
-            }
-          }
-        }
-      }
-    }
-
-    if (!cardId) {
-      // Anonymous: create a tracked card from the current data.
-      for (let a = 0; a < 5; a++) {
-        const code = makeCode();
-        try {
-          const row = await prisma.card.create({
-            data: { userId: null, title: autoTitle(card), occasion: card.occasion, data: JSON.stringify(card), shortCode: code },
-          });
-          cardId = row.id;
-          shortCode = code;
-          break;
-        } catch (e) {
-          if (a < 4 && (e as { code?: string })?.code === "P2002") continue;
-          throw e;
-        }
-      }
-    }
-
-    if (!cardId || !shortCode) return { ok: false, error: "Couldn't set up notifications. Please try again." };
+    const tracked = await ensureTrackedCard(input.cardId, card);
+    if (!tracked) return { ok: false, error: "Couldn't set up notifications. Please try again." };
+    const { cardId, shortCode } = tracked;
 
     // Register the watcher (idempotent per card+email).
     await prisma.cardWatch.upsert({
