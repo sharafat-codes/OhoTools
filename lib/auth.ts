@@ -8,8 +8,46 @@ import { SITE_URL } from "@/lib/site";
 
 const origin = SITE_URL.replace(/\/$/, "");
 
-// BETTER_AUTH_SECRET and BETTER_AUTH_URL are read from the environment
-// automatically by Better Auth.
+// BETTER_AUTH_SECRET is read from the environment automatically.
+//
+// baseURL is passed explicitly rather than left to BETTER_AUTH_URL alone. When
+// that variable is missing or wrong — which is easy to do when moving hosts —
+// Better Auth infers an origin from the incoming request, and behind a reverse
+// proxy that can come out as http://localhost. Every sign-in then fails with
+// INVALID_ORIGIN, because the browser's Origin header no longer matches.
+// Development still overrides it via BETTER_AUTH_URL=http://localhost:3000.
+const baseURL = process.env.BETTER_AUTH_URL?.trim() || origin;
+
+/**
+ * Origins allowed to post to the auth endpoints (Better Auth's CSRF check).
+ *
+ * Covers both the apex and www forms of the canonical domain, since serving
+ * both and only trusting one is an easy way to lock out half your visitors.
+ * AUTH_TRUSTED_ORIGINS adds any extra host — a staging domain, or the
+ * temporary one a host gives you before DNS is pointed — as a comma-separated
+ * list. Keep it tight: anything listed here can drive a sign-in.
+ */
+const trustedOrigins = [
+  ...new Set(
+    [
+      baseURL,
+      origin,
+      ...[baseURL, origin].flatMap((u) => {
+        try {
+          const { protocol, host } = new URL(u);
+          const bare = host.replace(/^www\./, "");
+          return [`${protocol}//${bare}`, `${protocol}//www.${bare}`];
+        } catch {
+          return [];
+        }
+      }),
+      ...(process.env.AUTH_TRUSTED_ORIGINS ?? "")
+        .split(",")
+        .map((s) => s.trim().replace(/\/$/, ""))
+        .filter(Boolean),
+    ].filter(Boolean),
+  ),
+];
 
 // Reuse the same Google OAuth client the Drive picker already uses
 // (NEXT_PUBLIC_GOOGLE_CLIENT_ID) — only the server-side secret is new. A
@@ -23,6 +61,9 @@ const googleConfigured = !!googleClientId && !!process.env.GOOGLE_CLIENT_SECRET;
 export const isGoogleAuthEnabled = googleConfigured;
 
 export const auth = betterAuth({
+  baseURL,
+  trustedOrigins,
+
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
