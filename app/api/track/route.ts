@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
+import { isLiveSite } from "@/lib/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,7 +14,7 @@ export async function POST(req: Request) {
   // one browser profile — it is never present on localhost, in an incognito
   // window, or on a phone. Without this, building the site inflates the numbers
   // you then use to decide what to build.
-  if (process.env.VERCEL_ENV !== "production") {
+  if (!isLiveSite) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 

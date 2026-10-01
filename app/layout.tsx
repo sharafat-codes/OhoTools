@@ -36,6 +36,7 @@ const manrope = Manrope({
 });
 
 import { SITE_URL as siteUrl } from "@/lib/site";
+import { isLiveSite } from "@/lib/env";
 import { TOOL_COUNT_LABEL } from "@/modules/tools/registry";
 
 // Google Analytics 4 — injected only on the production deployment so local dev
@@ -141,7 +142,7 @@ gtag('set','ads_data_redaction',true);gtag('set','url_passthrough',true);`}
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
-        {process.env.VERCEL_ENV === "production" && (
+        {isLiveSite && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
