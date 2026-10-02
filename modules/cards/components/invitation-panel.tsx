@@ -9,14 +9,14 @@ import {
 import { OCCASIONS, resolveTheme, type CardData } from "@/modules/cards/types";
 import { submitRsvp } from "@/modules/cards/actions";
 
-function fmtDate(date?: string) {
+export function fmtDate(date?: string) {
   if (!date) return "";
   const d = new Date(`${date}T00:00:00`);
   if (Number.isNaN(d.getTime())) return date;
   return d.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 }
 
-function fmtTime(time?: string) {
+export function fmtTime(time?: string) {
   if (!time) return "";
   const [h, m] = time.split(":").map(Number);
   if (Number.isNaN(h)) return time;
@@ -25,7 +25,7 @@ function fmtTime(time?: string) {
   return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
 }
 
-function calendarUrl(card: CardData, title: string): string {
+export function calendarUrl(card: CardData, title: string): string {
   const ev = card.event;
   if (!ev?.date) return "";
   const dnum = ev.date.replace(/-/g, "");
@@ -50,12 +50,12 @@ function calendarUrl(card: CardData, title: string): string {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-function mapUrl(card: CardData): string {
+export function mapUrl(card: CardData): string {
   const q = card.event?.address || card.event?.venue;
   return q ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}` : "";
 }
 
-function RsvpForm({ code, accent }: { code: string; accent: string }) {
+export function RsvpForm({ code, accent }: { code: string; accent: string }) {
   const [name, setName] = React.useState("");
   const [attending, setAttending] = React.useState<"yes" | "no">("yes");
   const [guests, setGuests] = React.useState("1");

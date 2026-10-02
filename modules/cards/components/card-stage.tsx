@@ -3,7 +3,9 @@
 import * as React from "react";
 import { RotateCwIcon, SparklesIcon, Volume2Icon, VolumeXIcon, GiftIcon } from "lucide-react";
 
-import type { CardData, TemplateId } from "@/modules/cards/types";
+import { hasSite, type CardData, type TemplateId } from "@/modules/cards/types";
+import { sitePalette } from "@/modules/cards/palette";
+import { ScrollCue } from "@/modules/cards/components/card-site";
 import { BirthdayClassic } from "@/modules/cards/templates/birthday-classic";
 import { BirthdayElegant } from "@/modules/cards/templates/birthday-elegant";
 import { BirthdayPlayful } from "@/modules/cards/templates/birthday-playful";
@@ -52,14 +54,34 @@ const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKe
 export function CardStage({ data, cta = true, interactive = true, sound = true }: { data: CardData; cta?: boolean; interactive?: boolean; sound?: boolean }) {
   const Template = TEMPLATES[data.template] ?? BirthdayClassic;
   const musicGate = sound && !!data.music;
+  // When sections scroll beneath the card, the music control has to travel with
+  // the viewer — a button pinned inside the hero is gone after the first swipe.
+  const site = hasSite(data);
+  const customTrack = data.site?.musicUrl;
 
   const [fireKey, setFireKey] = React.useState(0);
   const [opened, setOpened] = React.useState(!musicGate);
   const [muted, setMuted] = React.useState(false);
   const ctxRef = React.useRef<AudioContext | null>(null);
   const stopRef = React.useRef<null | (() => void)>(null);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
   const playMusic = React.useCallback(() => {
+    // A host-uploaded track plays through an <audio> element and loops for as
+    // long as the guest is on the page; the built-in melody is synthesised.
+    if (customTrack) {
+      let el = audioRef.current;
+      if (!el) {
+        el = new Audio(customTrack);
+        el.loop = true;
+        el.preload = "auto";
+        audioRef.current = el;
+      }
+      el.volume = 0.7;
+      void el.play().catch(() => {});
+      setMuted(false);
+      return;
+    }
     const Ctor = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (!Ctor) return;
     let ctx = ctxRef.current;
@@ -68,9 +90,10 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
     stopRef.current?.();
     stopRef.current = playCardMusic(ctx, data.occasion);
     setMuted(false);
-  }, [data.occasion]);
+  }, [data.occasion, customTrack]);
 
   const stopMusic = React.useCallback(() => {
+    audioRef.current?.pause();
     stopRef.current?.();
     stopRef.current = null;
     setMuted(true);
@@ -79,6 +102,8 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
   React.useEffect(() => {
     return () => {
       stopRef.current?.();
+      audioRef.current?.pause();
+      audioRef.current = null;
       try { void ctxRef.current?.close(); } catch { /* ignore */ }
     };
   }, []);
@@ -98,13 +123,18 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
         <button
           type="button"
           onClick={() => (muted ? playMusic() : stopMusic())}
-          aria-label={muted ? "Play music" : "Mute music"}
-          className="absolute left-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+          aria-label={muted ? "Play music" : "Pause music"}
+          className={
+            "z-30 inline-flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60 " +
+            (site ? "fixed bottom-4 left-4" : "absolute left-3 top-3")
+          }
         >
           {muted ? <VolumeXIcon className="size-3.5" /> : <Volume2Icon className="size-3.5" />}
           {muted ? "Play music" : "Music"}
         </button>
       )}
+
+      {opened && site && cta && <ScrollCue accent={sitePalette(data).accent} ink={sitePalette(data).ink} />}
 
       {interactive && (
         <button

@@ -282,6 +282,12 @@ export type CardData = {
   event?: CardEvent;
   /** Collect RSVPs on the shared card (only works on saved cards with a short link). */
   rsvp?: boolean;
+  /**
+   * Pro: turns the card into a scrolling invitation website. The animated card
+   * stays as the opening; these sections render beneath it. Photos and music are
+   * URLs into storage rather than inline data — a gallery can't ride in a link.
+   */
+  site?: CardSite;
 };
 
 /** Structured event details for an invitation. `date` is YYYY-MM-DD, `time` is HH:MM. */
@@ -291,6 +297,50 @@ export type CardEvent = {
   venue?: string;
   address?: string;
 };
+
+/** One entry in the wedding schedule (mehndi, nikah, walima…). */
+export type SiteEvent = {
+  title: string;
+  date?: string;
+  time?: string;
+  venue?: string;
+  note?: string;
+};
+
+/** Someone a guest can call or message. */
+export type SiteContact = {
+  name: string;
+  phone?: string;
+  whatsapp?: string;
+};
+
+export type CardSite = {
+  /** Count down to `event.date` (+ `event.time`) above the schedule. */
+  countdown?: boolean;
+  schedule?: SiteEvent[];
+  /** Public https URLs of uploaded photos, in display order. */
+  gallery?: string[];
+  contacts?: SiteContact[];
+  /** Public https URL of an uploaded MP3/M4A that replaces the built-in melody. */
+  musicUrl?: string;
+};
+
+export const SITE_LIMITS = { schedule: 8, gallery: 12, contacts: 4 } as const;
+
+/** Occasions that can become a full invitation website. */
+export const SITE_OCCASIONS: readonly Occasion[] = ["wedding", "engagement", "save-the-date", "anniversary", "baby-shower"];
+
+/** True when the card has anything to scroll down to. */
+export function hasSite(d: CardData): boolean {
+  const s = d.site;
+  if (!s) return false;
+  return Boolean(
+    (s.gallery && s.gallery.length) ||
+      (s.schedule && s.schedule.length) ||
+      (s.contacts && s.contacts.length) ||
+      (s.countdown && d.event?.date),
+  );
+}
 
 type ResolvedTheme = { bg1: string; bg2: string; accent: string; text: string };
 
@@ -329,6 +379,61 @@ function cleanEvent(input: unknown): CardEvent | undefined {
     address: str(r.address, 200),
   };
   return out.date || out.time || out.venue || out.address ? out : undefined;
+}
+
+const HTTPS = /^https:\/\/[^\s"'<>]{1,500}$/;
+
+/**
+ * Validates the website sections. Lists are capped, strings trimmed and cut,
+ * and media must be an https URL — never inline data, which is what keeps a
+ * card with a gallery from blowing past URL and row limits.
+ */
+function cleanSite(input: unknown, event: CardEvent | undefined): CardSite | undefined {
+  if (!input || typeof input !== "object") return undefined;
+  const r = input as Record<string, unknown>;
+  const str = (v: unknown, n: number) =>
+    typeof v === "string" && v.trim() ? v.trim().slice(0, n) : undefined;
+  const out: CardSite = {};
+
+  if (r.countdown === true && event?.date) out.countdown = true;
+
+  if (Array.isArray(r.schedule)) {
+    const list: SiteEvent[] = [];
+    for (const e of r.schedule.slice(0, SITE_LIMITS.schedule)) {
+      if (!e || typeof e !== "object") continue;
+      const x = e as Record<string, unknown>;
+      const title = str(x.title, 60);
+      if (!title) continue;
+      list.push({ title, date: str(x.date, 10), time: str(x.time, 5), venue: str(x.venue, 120), note: str(x.note, 160) });
+    }
+    if (list.length) out.schedule = list;
+  }
+
+  if (Array.isArray(r.gallery)) {
+    const urls = r.gallery.filter((u): u is string => typeof u === "string" && HTTPS.test(u)).slice(0, SITE_LIMITS.gallery);
+    if (urls.length) out.gallery = urls;
+  }
+
+  if (Array.isArray(r.contacts)) {
+    const list: SiteContact[] = [];
+    for (const c of r.contacts.slice(0, SITE_LIMITS.contacts)) {
+      if (!c || typeof c !== "object") continue;
+      const x = c as Record<string, unknown>;
+      const name = str(x.name, 60);
+      if (!name) continue;
+      // Digits, plus, spaces and dashes only — these become tel:/wa.me links.
+      const tel = (v: unknown) => {
+        const s = str(v, 24);
+        return s && /^[+\d][\d\s-]{4,}$/.test(s) ? s : undefined;
+      };
+      list.push({ name, phone: tel(x.phone), whatsapp: tel(x.whatsapp) });
+    }
+    if (list.length) out.contacts = list;
+  }
+
+  if (typeof r.musicUrl === "string" && HTTPS.test(r.musicUrl)) out.musicUrl = r.musicUrl;
+
+  return Object.keys(out).length ? out : undefined;
 }
 
 function cleanStyles(input: unknown): CardStyles | undefined {
@@ -409,5 +514,7 @@ export function normalizeCard(input: Partial<CardData> | null | undefined): Card
     styles: cleanStyles(d.styles),
     event: cleanEvent(d.event),
     rsvp: Boolean(d.rsvp),
+    // Only invitation occasions get a website; the section is dropped elsewhere.
+    site: SITE_OCCASIONS.includes(occasion) ? cleanSite(d.site, cleanEvent(d.event)) : undefined,
   };
 }

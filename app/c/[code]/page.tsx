@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { prisma } from "@/lib/prisma";
-import { normalizeCard, OCCASIONS } from "@/modules/cards/types";
+import { normalizeCard, OCCASIONS, hasSite } from "@/modules/cards/types";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import { CardOpenPing } from "@/modules/cards/components/card-open-ping";
 import { InvitationPanel } from "@/modules/cards/components/invitation-panel";
+import { CardSite } from "@/modules/cards/components/card-site";
 import { SITE_URL } from "@/lib/site";
 
 // Per-visitor render — never cache. The open is counted client-side (see
@@ -74,10 +75,22 @@ export default async function Page({ params }: { params: Params }) {
     );
   }
 
+  // A plain card fills the viewport and never scrolls. A card with website
+  // sections keeps the animation as a full-height opening, then scrolls into
+  // them — the details modal is redundant there because the same information
+  // is laid out inline.
+  const site = hasSite(found.card);
   return (
-    <main className="relative min-h-[100dvh] w-full overflow-hidden">
-      <CardStage data={found.card} />
-      <InvitationPanel card={found.card} code={code} />
+    <main className="relative w-full">
+      <section className="relative h-[100dvh] w-full overflow-hidden">
+        <CardStage data={found.card} />
+        {!site && <InvitationPanel card={found.card} code={code} />}
+      </section>
+      {site && (
+        <div id="invitation">
+          <CardSite card={found.card} code={code} />
+        </div>
+      )}
       <CardOpenPing code={code} />
     </main>
   );

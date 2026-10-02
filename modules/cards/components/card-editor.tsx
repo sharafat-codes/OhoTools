@@ -15,11 +15,17 @@ import { isPro } from "@/lib/plans";
 import { MUSIC_LABEL } from "@/modules/cards/music";
 import { PASS_DAYS, PASS_PRICE, isPaddlePassOffered } from "@/lib/pro-pass";
 import { saveCard, updateCard, watchCardOpens, mintShareLink } from "@/modules/cards/actions";
+import { uploadCardMedia } from "@/modules/cards/media-client";
+import {
+  GlobeIcon, Trash2Icon, PlusIcon, MusicIcon, ImagesIcon, CalendarRangeIcon, PhoneIcon, TimerIcon, LoaderCircleIcon,
+} from "lucide-react";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import {
   CARD_THEMES, CARD_TEMPLATES, CARD_FONTS, OCCASIONS, defaultCard, normalizeCard, resolveTheme,
+  SITE_OCCASIONS, SITE_LIMITS,
   type CardData, type CardTheme, type CardEffect, type TemplateId, type Occasion,
   type StyleElement, type ElemStyle, type FontKey, type CardEvent,
+  type CardSite, type SiteEvent, type SiteContact,
 } from "@/modules/cards/types";
 import { cardShareUrl } from "@/modules/cards/share";
 
@@ -394,6 +400,59 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
     }
   }
 
+  // ── Invitation website (Pro) ──────────────────────────────────────────────
+  const [uploading, setUploading] = React.useState("");
+  const [siteError, setSiteError] = React.useState("");
+  const schedule = data.site?.schedule ?? [];
+  const gallery = data.site?.gallery ?? [];
+  const contacts = data.site?.contacts ?? [];
+
+  /** Merges into `site`; normalizeCard drops the block again if it ends up empty. */
+  const setSite = (patch: Partial<CardSite>) =>
+    setData((d) => ({ ...d, site: { ...(d.site ?? {}), ...patch } }));
+  const setScheduleAt = (i: number, patch: Partial<SiteEvent>) =>
+    setSite({ schedule: schedule.map((e, j) => (j === i ? { ...e, ...patch } : e)) });
+  const setContactAt = (i: number, patch: Partial<SiteContact>) =>
+    setSite({ contacts: contacts.map((c, j) => (j === i ? { ...c, ...patch } : c)) });
+
+  async function onGallery(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []).slice(0, SITE_LIMITS.gallery - gallery.length);
+    e.target.value = "";
+    if (!files.length) return;
+    setSiteError("");
+    const added: string[] = [];
+    try {
+      // One at a time: the resize is CPU-bound on a phone and parallel uploads
+      // of twelve photos is how a flaky connection drops half of them silently.
+      for (let i = 0; i < files.length; i++) {
+        setUploading(`${i + 1} of ${files.length}`);
+        added.push(await uploadCardMedia(files[i], "image"));
+        setSite({ gallery: [...gallery, ...added] });
+      }
+    } catch (err) {
+      setSiteError(err instanceof Error ? err.message : "Upload failed. Please try again.");
+    } finally {
+      setUploading("");
+    }
+  }
+
+  async function onMusic(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setSiteError("");
+    setUploading("music");
+    try {
+      const url = await uploadCardMedia(file, "audio");
+      setSite({ musicUrl: url });
+      if (!data.music) set("music", true);
+    } catch (err) {
+      setSiteError(err instanceof Error ? err.message : "Upload failed. Please try again.");
+    } finally {
+      setUploading("");
+    }
+  }
+
   async function onPhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -560,6 +619,141 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
             onChange={(v) => set("rsvp", v)}
           />
         </Section>
+
+        {/* Invitation website — the premium edition for weddings and the like. */}
+        {SITE_OCCASIONS.includes(data.occasion) && (
+          <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.07] via-primary/[0.02] to-transparent p-4">
+            <div className="mb-1.5 flex items-center justify-between gap-2">
+              <span className="flex items-center gap-1.5 text-sm font-semibold">
+                <GlobeIcon className="size-4 text-primary" /> Invitation website
+                <span className="rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">PRO</span>
+              </span>
+              {!pro && (
+                <button type="button" onClick={startUpgrade} disabled={paying} className="shrink-0 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60">
+                  {sellPass ? `${priceLabel} once` : "Upgrade"}
+                </button>
+              )}
+            </div>
+            <p className="mb-4 text-xs text-muted-foreground">
+              Your card becomes the opening of a full page guests scroll through: countdown, schedule, photo gallery, RSVP and who to call.
+              {!loggedIn && " Sign in so your photos can be saved."}
+            </p>
+
+            <div className={"flex flex-col gap-5 " + (pro ? "" : "pointer-events-none opacity-60")}>
+              <ToggleRow
+                label="Countdown to the day"
+                hint={data.event?.date ? "Counts down to the event date above." : "Add an event date above to enable."}
+                checked={!!data.site?.countdown}
+                disabled={!pro || !data.event?.date}
+                onChange={(v) => setSite({ countdown: v || undefined })}
+              />
+
+              {/* Schedule */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 text-sm font-medium"><CalendarRangeIcon className="size-4 text-primary" /> Schedule</span>
+                  <span className="text-xs text-muted-foreground">{schedule.length}/{SITE_LIMITS.schedule}</span>
+                </div>
+                {schedule.map((e, i) => (
+                  <div key={i} className="rounded-xl border border-border bg-card p-3">
+                    <div className="grid grid-cols-[1fr_auto] gap-2">
+                      <input value={e.title} maxLength={60} placeholder="e.g. Mehndi" onChange={(ev) => setScheduleAt(i, { title: ev.target.value })} className={inputCls} />
+                      <button type="button" onClick={() => setSite({ schedule: schedule.filter((_, j) => j !== i) })} aria-label="Remove" className="rounded-lg border border-border px-2.5 text-muted-foreground hover:text-destructive">
+                        <Trash2Icon className="size-4" />
+                      </button>
+                    </div>
+                    <div className="mt-2 grid grid-cols-2 gap-2">
+                      <input type="date" value={e.date ?? ""} onChange={(ev) => setScheduleAt(i, { date: ev.target.value || undefined })} className={inputCls} />
+                      <input type="time" value={e.time ?? ""} onChange={(ev) => setScheduleAt(i, { time: ev.target.value || undefined })} className={inputCls} />
+                    </div>
+                    <input value={e.venue ?? ""} maxLength={120} placeholder="Venue (optional)" onChange={(ev) => setScheduleAt(i, { venue: ev.target.value || undefined })} className={inputCls + " mt-2"} />
+                    <input value={e.note ?? ""} maxLength={160} placeholder="A line for guests, e.g. dress code (optional)" onChange={(ev) => setScheduleAt(i, { note: ev.target.value || undefined })} className={inputCls + " mt-2"} />
+                  </div>
+                ))}
+                {schedule.length < SITE_LIMITS.schedule && (
+                  <button type="button" onClick={() => setSite({ schedule: [...schedule, { title: "" }] })} className="inline-flex items-center gap-1.5 self-start rounded-lg border border-dashed border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:border-primary/50 hover:text-foreground">
+                    <PlusIcon className="size-3.5" /> Add an event
+                  </button>
+                )}
+              </div>
+
+              {/* Gallery */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 text-sm font-medium"><ImagesIcon className="size-4 text-primary" /> Photo gallery</span>
+                  <span className="text-xs text-muted-foreground">{gallery.length}/{SITE_LIMITS.gallery}</span>
+                </div>
+                {gallery.length > 0 && (
+                  <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+                    {gallery.map((src) => (
+                      <div key={src} className="group relative aspect-square overflow-hidden rounded-lg bg-muted">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={src} alt="" className="size-full object-cover" />
+                        <button type="button" onClick={() => setSite({ gallery: gallery.filter((u) => u !== src) })} aria-label="Remove photo" className="absolute right-1 top-1 grid size-6 place-items-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100">
+                          <XIcon className="size-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {gallery.length < SITE_LIMITS.gallery && (
+                  <label className={"inline-flex cursor-pointer items-center gap-1.5 self-start rounded-lg border border-dashed border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:border-primary/50 hover:text-foreground " + (uploading ? "pointer-events-none opacity-60" : "")}>
+                    {uploading ? <LoaderCircleIcon className="size-3.5 animate-spin" /> : <ImagePlusIcon className="size-3.5" />}
+                    {uploading ? `Uploading ${uploading}…` : "Add photos"}
+                    <input type="file" accept="image/*" multiple onChange={onGallery} className="hidden" disabled={!pro || !!uploading} />
+                  </label>
+                )}
+                <p className="text-xs text-muted-foreground">Photos are resized for phones automatically. The first one shows large.</p>
+              </div>
+
+              {/* Music */}
+              <div className="flex flex-col gap-2">
+                <span className="flex items-center gap-1.5 text-sm font-medium"><MusicIcon className="size-4 text-primary" /> Your own music</span>
+                {data.site?.musicUrl ? (
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-3 text-sm">
+                    <span className="flex items-center gap-2 truncate"><MusicIcon className="size-4 text-primary" /> Custom track added</span>
+                    <button type="button" onClick={() => setSite({ musicUrl: undefined })} className="text-xs text-muted-foreground hover:text-foreground">Remove</button>
+                  </div>
+                ) : (
+                  <label className={"inline-flex cursor-pointer items-center gap-1.5 self-start rounded-lg border border-dashed border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:border-primary/50 hover:text-foreground " + (uploading ? "pointer-events-none opacity-60" : "")}>
+                    <PlusIcon className="size-3.5" /> Upload MP3
+                    <input type="file" accept="audio/mpeg,audio/mp4,audio/x-m4a,audio/aac,.mp3,.m4a" onChange={onMusic} className="hidden" disabled={!pro || !!uploading} />
+                  </label>
+                )}
+                <p className="text-xs text-muted-foreground">Replaces {MUSIC_LABEL[data.occasion]}. Plays when the guest opens the card and keeps going as they scroll. Turn &quot;Play music&quot; on above.</p>
+              </div>
+
+              {/* Contacts */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 text-sm font-medium"><PhoneIcon className="size-4 text-primary" /> Who guests can contact</span>
+                  <span className="text-xs text-muted-foreground">{contacts.length}/{SITE_LIMITS.contacts}</span>
+                </div>
+                {contacts.map((c, i) => (
+                  <div key={i} className="rounded-xl border border-border bg-card p-3">
+                    <div className="grid grid-cols-[1fr_auto] gap-2">
+                      <input value={c.name} maxLength={60} placeholder="Name, e.g. Bilal (groom's brother)" onChange={(ev) => setContactAt(i, { name: ev.target.value })} className={inputCls} />
+                      <button type="button" onClick={() => setSite({ contacts: contacts.filter((_, j) => j !== i) })} aria-label="Remove" className="rounded-lg border border-border px-2.5 text-muted-foreground hover:text-destructive">
+                        <Trash2Icon className="size-4" />
+                      </button>
+                    </div>
+                    <div className="mt-2 grid grid-cols-2 gap-2">
+                      <input value={c.phone ?? ""} inputMode="tel" maxLength={24} placeholder="Phone" onChange={(ev) => setContactAt(i, { phone: ev.target.value || undefined })} className={inputCls} />
+                      <input value={c.whatsapp ?? ""} inputMode="tel" maxLength={24} placeholder="WhatsApp (+92…)" onChange={(ev) => setContactAt(i, { whatsapp: ev.target.value || undefined })} className={inputCls} />
+                    </div>
+                  </div>
+                ))}
+                {contacts.length < SITE_LIMITS.contacts && (
+                  <button type="button" onClick={() => setSite({ contacts: [...contacts, { name: "" }] })} className="inline-flex items-center gap-1.5 self-start rounded-lg border border-dashed border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:border-primary/50 hover:text-foreground">
+                    <PlusIcon className="size-3.5" /> Add a person
+                  </button>
+                )}
+              </div>
+
+              {siteError && <p className="text-xs text-red-500">{siteError}</p>}
+            </div>
+          </div>
+        )}
 
         {/* Pro */}
         <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.07] via-primary/[0.02] to-transparent p-4">

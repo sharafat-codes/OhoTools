@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { decodeCard } from "@/modules/cards/share";
-import { DEFAULT_CARD, OCCASIONS } from "@/modules/cards/types";
+import { DEFAULT_CARD, OCCASIONS, hasSite } from "@/modules/cards/types";
 import { ogImageUrl } from "@/modules/tools/registry";
 import { CardStage } from "@/modules/cards/components/card-stage";
 import { InvitationPanel } from "@/modules/cards/components/invitation-panel";
+import { CardSite } from "@/modules/cards/components/card-site";
 import { SITE_URL } from "@/lib/site";
 
 type SearchParams = Promise<{ d?: string }>;
@@ -60,10 +61,18 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     );
   }
 
+  const site = hasSite(card);
   return (
-    <main className="relative min-h-[100dvh] w-full overflow-hidden">
-      <CardStage data={card} />
-      <InvitationPanel card={card} />
+    <main className="relative w-full">
+      <section className="relative h-[100dvh] w-full overflow-hidden">
+        <CardStage data={card} />
+        {!site && <InvitationPanel card={card} />}
+      </section>
+      {site && (
+        <div id="invitation">
+          <CardSite card={card} />
+        </div>
+      )}
     </main>
   );
 }
