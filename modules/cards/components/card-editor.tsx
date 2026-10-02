@@ -475,6 +475,22 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
       {/* Controls */}
       <div className="order-2 flex flex-col gap-8 lg:order-1">
+        {/* The one channel back to whoever asked for this: they said they'd
+           return to this page. Everyone else gets told the same thing. */}
+        {SITE_OCCASIONS.includes(data.occasion) && !advanced && (
+          <a
+            href="#invitation-website"
+            className="group flex items-start gap-3 rounded-2xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm transition-colors hover:bg-primary/10"
+          >
+            <span className="mt-0.5 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">New</span>
+            <span className="min-w-0 flex-1">
+              <span className="font-semibold">Your invitation can now be a full website.</span>{" "}
+              <span className="text-muted-foreground">Schedule, photo gallery, countdown, RSVP and who to call — all behind the same link.</span>
+            </span>
+            <span className="shrink-0 self-center font-medium text-primary group-hover:underline">See how →</span>
+          </a>
+        )}
+
         {/* Content */}
         <Section icon={TypeIcon} label="Content">
           <Field label={occ.toLabel}>
@@ -622,7 +638,7 @@ export function CardEditor({ occasion = "birthday", initialCard, cardId, initial
 
         {/* Invitation website — the premium edition for weddings and the like. */}
         {SITE_OCCASIONS.includes(data.occasion) && (
-          <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.07] via-primary/[0.02] to-transparent p-4">
+          <div id="invitation-website" className="scroll-mt-24 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.07] via-primary/[0.02] to-transparent p-4">
             <div className="mb-1.5 flex items-center justify-between gap-2">
               <span className="flex items-center gap-1.5 text-sm font-semibold">
                 <GlobeIcon className="size-4 text-primary" /> Invitation website
