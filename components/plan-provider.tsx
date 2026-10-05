@@ -59,9 +59,12 @@ const useIsoLayoutEffect = typeof window !== "undefined" ? React.useLayoutEffect
 export function useSession() {
   const real = useAuthSession();
   const [snapshot, setSnapshot] = React.useState<Snapshot | null>(null);
+  // False only until this component's first layout effect — see below.
+  const [hydrated, setHydrated] = React.useState(false);
 
   useIsoLayoutEffect(() => {
     setSnapshot(readSnapshot());
+    setHydrated(true);
   }, []);
 
   const resolved = !real.isPending;
@@ -71,6 +74,20 @@ export function useSession() {
     if (!resolved) return;
     writeSnapshot(user ? { authed: true, plan: user.plan ?? "FREE" } : { authed: false, plan: "FREE" });
   }, [resolved, user]);
+
+  // The first client render has to reproduce the static HTML exactly, and the
+  // server built that with no session at all. But on a slow connection the
+  // tiny session request often finishes before the much larger page scripts
+  // do, so by the time React hydrates, the real session is already known.
+  // Rendering it here made the markup differ; React then discarded the server
+  // HTML and re-rendered the whole page on the client (error #418 — 4 in 6
+  // slow first loads of /send). Holding the "not known yet" state for this one
+  // render costs nothing visible: the layout effect above flips it before paint.
+  // Per instance on purpose — a module-wide "already hydrated" flag would be
+  // wrong for Suspense boundaries that hydrate later than the header does.
+  if (!hydrated) {
+    return { ...real, isPending: true, data: null as unknown as typeof real.data };
+  }
 
   if (!resolved && snapshot) {
     return {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { NavPending } from "@/components/nav-pending";
 
 /**
  * OhoTool brand mark — the gradient "O" + sparkle. A small pre-optimized raster
@@ -60,6 +61,9 @@ export function Logo({
           OhoTool
         </span>
       )}
+      {/* The homepage is dynamic and has no loading boundary, so it is never
+         prefetched — this is the only feedback a logo click gets while it renders. */}
+      <NavPending />
     </Link>
   );
 }

@@ -5,7 +5,7 @@ import { StarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { getFavorites, toggleFavorite, mergeFavorites } from "@/modules/tools/favorites-actions";
 
 // Favorites are stored in the account (DB) for signed-in users — persistent and

@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { SparklesIcon, XIcon } from "lucide-react";
 
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 
 const KEY = "oho-pro-nudge-dismissed";

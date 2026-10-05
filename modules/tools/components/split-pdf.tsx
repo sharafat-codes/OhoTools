@@ -11,7 +11,7 @@ import { FileResult, formatBytes } from "@/modules/tools/components/tool-result"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 import { CloudImport } from "@/modules/cloud/cloud-import";
 

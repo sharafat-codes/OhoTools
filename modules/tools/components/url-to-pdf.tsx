@@ -7,7 +7,7 @@ import { DownloadIcon, Loader2Icon, SparklesIcon, CheckCircle2Icon } from "lucid
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 
 export function UrlToPdf() {

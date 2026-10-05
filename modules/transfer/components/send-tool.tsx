@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/copy-button";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/components/plan-provider";
 import { isPro } from "@/lib/plans";
 import {
   TRANSFER_BUCKET,

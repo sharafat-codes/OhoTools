@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ToolSearch } from "@/components/tool-search";
+import { NavPending } from "@/components/nav-pending";
 
 const LINKS = [
   { label: "Tools", href: "/tools" },
@@ -31,6 +32,8 @@ const LINKS = [
 export function SiteHeader() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
+  // Close the mobile sheet once the new route has rendered (see the nav below).
+  React.useEffect(() => setOpen(false), [pathname]);
   const { data: session, isPending } = useSession();
   // Auth state is derived here on the client rather than passed down from a
   // server layout. That is what lets every public page render without reading
@@ -55,7 +58,7 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-1 md:flex">
           {LINKS.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               aria-current={isActive(l.href) ? "page" : undefined}
@@ -67,7 +70,8 @@ export function SiteHeader() {
               )}
             >
               {l.label}
-            </a>
+              <NavPending />
+            </Link>
           ))}
         </nav>
 
@@ -138,10 +142,10 @@ export function SiteHeader() {
               </SheetHeader>
               <nav className="flex flex-col gap-1 px-3">
                 {LINKS.map((l) => (
-                  <a
+                  <Link
                     key={l.href}
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={l.href.includes("#") ? () => setOpen(false) : undefined}
                     aria-current={isActive(l.href) ? "page" : undefined}
                     className={cn(
                       "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
@@ -151,7 +155,8 @@ export function SiteHeader() {
                     )}
                   >
                     {l.label}
-                  </a>
+                    <NavPending />
+                  </Link>
                 ))}
               </nav>
               <div className="mt-auto flex flex-col gap-2 p-4">

@@ -161,3 +161,28 @@
 :root:not([data-authed]) .auth-only-in,
 [data-authed="0"] .auth-only-in { display: none !important; }
 [data-authed="1"] .auth-only-out { display: none !important; }
+
+/* Navigation feedback (components/nav-pending.tsx). Invisible for the first
+   120ms and only then grows, so instant prefetched navigations never flash it.
+   It eases towards — never reaches — the end: the real page replaces it. */
+.nav-pending {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--primary);
+}
+.nav-pending.is-pending {
+  animation: nav-pending 10s cubic-bezier(0.1, 0.7, 0.2, 1) 120ms forwards;
+}
+@keyframes nav-pending {
+  0% { opacity: 1; transform: scaleX(0.05); }
+  12% { opacity: 1; transform: scaleX(0.45); }
+  100% { opacity: 1; transform: scaleX(0.95); }
+}
