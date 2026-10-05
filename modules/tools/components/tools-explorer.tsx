@@ -89,20 +89,36 @@ export function ToolsExplorer({
 
   const activeIdx = Math.min(Math.max(activeIndex, 0), Math.max(results.length - 1, 0));
 
-  // Restore the last search/category (unless the URL provided ?q=). Deferred so
-  // it never runs during render/hydration.
+  // Apply ?q= from the URL (the homepage's search action links here), otherwise
+  // restore the last search/category. The URL is read here rather than through
+  // the page's searchParams so /tools can be prerendered and prefetched like a
+  // static page instead of rendered on every request. Deferred so it never
+  // runs during render/hydration; the flag is set inside the frame so React's
+  // development double-run of effects doesn't cancel the restore.
   React.useEffect(() => {
     if (restored.current || initialQuery) return;
-    restored.current = true;
+    let urlQ: string | null = null;
     let sq: string | null = null;
     let sc: string | null = null;
     try {
-      sq = localStorage.getItem(LS_Q);
-      sc = localStorage.getItem(LS_CAT);
+      urlQ = new URLSearchParams(window.location.search).get("q")?.trim() || null;
     } catch {
-      /* storage unavailable */
+      /* no URL API */
+    }
+    if (!urlQ) {
+      try {
+        sq = localStorage.getItem(LS_Q);
+        sc = localStorage.getItem(LS_CAT);
+      } catch {
+        /* storage unavailable */
+      }
     }
     const raf = requestAnimationFrame(() => {
+      restored.current = true;
+      if (urlQ) {
+        setQuery(urlQ.slice(0, 100));
+        return;
+      }
       if (sq) setQuery(sq);
       if (sc && (sc === "all" || groups.some((g) => g.name === sc))) setCat(sc);
     });

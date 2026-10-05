@@ -30,13 +30,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools" },
 };
 
-export default async function ToolsHub({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
-  const { q } = await searchParams;
-
+// No searchParams on purpose: reading them made every visit a server render
+// and kept the page out of prefetching. ?q= is applied by ToolsExplorer in the
+// browser instead.
+export default function ToolsHub() {
   const toItem = (slug: string): ToolItem | null => {
     const tool = getTool(slug);
     if (!tool) return null;
@@ -102,7 +99,7 @@ export default async function ToolsHub({
       </div>
 
       <div className="mt-12">
-        <ToolsExplorer groups={groups} popular={popular} initialQuery={q ?? ""} />
+        <ToolsExplorer groups={groups} popular={popular} />
       </div>
 
       <div className="mt-12 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
