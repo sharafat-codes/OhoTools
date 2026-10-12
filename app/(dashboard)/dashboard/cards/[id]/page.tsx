@@ -38,6 +38,13 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
   }
 
   const rsvps = await prisma.rsvp.findMany({ where: { cardId: row.id }, orderBy: { createdAt: "desc" } });
+  // The guest list is a paid feature, but once someone has paid it is theirs
+  // for good. A pass lasts days and an invitation collects replies for months —
+  // hiding the names of a paying host's own guests after the pass ends would
+  // hold their data hostage. Never-paid users still see counts and an upsell.
+  const hasPaid =
+    pro ||
+    (await prisma.payment.count({ where: { userId: (user as { id: string }).id, status: "paid" } })) > 0;
   const attending = rsvps.filter((r) => r.attending);
   const declined = rsvps.filter((r) => !r.attending);
   const totalGuests = attending.reduce((n, r) => n + r.guests, 0);
@@ -56,7 +63,7 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
             <h2 className="flex items-center gap-2 font-heading text-lg font-semibold">
               <UsersIcon className="size-5 text-primary" /> RSVPs
             </h2>
-            {pro && hasRsvps && (
+            {hasPaid && hasRsvps && (
               <RsvpExport
                 rows={rsvps.map((r) => ({ name: r.name, attending: r.attending, guests: r.guests, message: r.message, createdAt: r.createdAt.toISOString() }))}
                 filename={`rsvps-${row.shortCode ?? row.id}.csv`}
@@ -74,7 +81,7 @@ export default async function EditCardPage({ params }: { params: Promise<{ id: s
             <p className="mt-4 text-sm text-muted-foreground">
               No RSVPs yet. Make sure &quot;Collect RSVPs&quot; is on, then share your card&apos;s link — replies will appear here.
             </p>
-          ) : pro ? (
+          ) : hasPaid ? (
             <div className="mt-4 overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead className="text-xs uppercase tracking-wide text-muted-foreground">

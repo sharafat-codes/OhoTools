@@ -39,7 +39,8 @@ export function formatPassEnd(d: Date): string {
 // What the pass unlocks. Kept to things that are actually Pro-gated in the code.
 const UNLOCKS =
   "every premium card and invitation design; the invitation website — countdown, schedule, photo gallery, " +
-  "your own music and RSVP; no watermark; image and video downloads; the full RSVP guest list with CSV export; " +
+  "your own music and RSVP; no watermark; image and video downloads; the full RSVP guest list with CSV export " +
+  "(yours to keep, even after the pass ends); " +
   "and every Pro tool on OhoTool";
 
 export function renderPassThanks(p: {
@@ -82,8 +83,8 @@ export function renderPassReminder(p: { name: string | null; proUntil: Date; now
         `Hi ${firstName(p.name)}, your OhoTool Pro pass ends on <strong>${formatPassEnd(p.proUntil)}</strong>.<br/><br/>` +
         `After that your account goes back to Free. <strong>Everything you've made stays</strong> — your cards and ` +
         `invitation websites keep working, and their links don't change. What locks is the Pro side: premium designs ` +
-        `and website features when you create or edit, watermark-free downloads, and the full RSVP guest list ` +
-        `(you'll still see the counts, and still get an email for every reply).<br/><br/>` +
+        `and website features when you create or edit, and watermark-free downloads. Your RSVP guest lists stay ` +
+        `yours — every name and reply, now and after.<br/><br/>` +
         `Need more time? Extending now adds ${PASS_DAYS} days on top of what you have left — you don't lose a day.`,
       buttonLabel: extendLabel,
       buttonUrl: `${origin}/dashboard/billing`,
