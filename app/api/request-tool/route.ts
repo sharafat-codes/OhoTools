@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function esc(s: string) {
   return s.replace(/[<>&]/g, (c) => (c === "<" ? "&lt;" : c === ">" ? "&gt;" : "&amp;"));
 }
@@ -27,17 +29,17 @@ export async function POST(req: Request) {
   if (honeypot) return Response.json({ ok: true });
 
   if (!tool) return Response.json({ error: "Please tell us which tool you'd like." }, { status: 400 });
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return Response.json({ error: "Please enter a valid email address (or leave it blank)." }, { status: 400 });
+  // Required: a request we can't answer is one we can't act on. The most
+  // detailed request so far — the wedding website spec — arrived without one,
+  // and there was no way to tell its author it got built.
+  if (!email || !EMAIL_RE.test(email)) {
+    return Response.json({ error: "Please enter a valid email address so we can reply." }, { status: 400 });
   }
 
   // Save to the admin requests inbox (fail-open — still email if the DB/table
-  // is unavailable). The id goes back to the form so a requester who skipped
-  // the email field can attach one afterwards (see PUT below).
-  let id: string | undefined;
+  // is unavailable).
   try {
-    const row = await prisma.toolRequest.create({ data: { tool, details: details || null, email: email || null } });
-    id = row.id;
+    await prisma.toolRequest.create({ data: { tool, details: details || null, email } });
   } catch {
     /* tool_request table not migrated / db down — the email below still sends */
   }
@@ -46,66 +48,19 @@ export async function POST(req: Request) {
     <h2 style="margin:0 0 12px;font-size:18px;">New tool request</h2>
     <p style="margin:0 0 4px;"><strong>Tool:</strong> ${esc(tool)}</p>
     ${details ? `<div style="white-space:pre-wrap;border-top:1px solid #e4e4e7;padding-top:12px;margin-top:8px;">${esc(details)}</div>` : ""}
-    <p style="margin:12px 0 0;color:#666;"><strong>From:</strong> ${email ? esc(email) : "anonymous"}</p>
+    <p style="margin:12px 0 0;color:#666;"><strong>From:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
   </div>`;
 
   const { ok } = await sendEmail({
     to,
     subject: `[OhoTool] Tool request — ${tool.slice(0, 60)}`,
     html,
-    replyTo: email || undefined,
+    replyTo: email,
   });
 
   // In dev without a Resend key the message is logged (ok:false) — still succeed.
   if (!ok && process.env.RESEND_API_KEY) {
     return Response.json({ error: "Couldn't send your request. Please try again." }, { status: 502 });
-  }
-  return Response.json({ ok: true, id });
-}
-
-/**
- * Attaches an email to a request submitted without one.
- *
- * The detailed requests are the ones worth replying to personally, and they
- * are exactly the ones people write without leaving an address. The form asks
- * once more after submitting; this records the answer against the same row
- * rather than creating a duplicate, and tells the inbox so the reply can
- * happen. Only ever sets an email that is currently empty.
- */
-export async function PUT(req: Request) {
-  const to = process.env.CONTACT_EMAIL?.trim();
-  let data: Record<string, unknown>;
-  try {
-    data = await req.json();
-  } catch {
-    return Response.json({ error: "Invalid request." }, { status: 400 });
-  }
-  const id = String(data.id ?? "").trim().slice(0, 40);
-  const email = String(data.email ?? "").trim().slice(0, 200);
-  if (!id || !/^[a-z0-9]+$/i.test(id)) return Response.json({ error: "Invalid request." }, { status: 400 });
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
-  }
-
-  let tool = "";
-  try {
-    const res = await prisma.toolRequest.updateMany({ where: { id, email: null }, data: { email } });
-    if (res.count === 0) return Response.json({ error: "This request can't be updated." }, { status: 404 });
-    tool = (await prisma.toolRequest.findUnique({ where: { id }, select: { tool: true } }))?.tool ?? "";
-  } catch {
-    return Response.json({ error: "Couldn't save that. Please try again." }, { status: 502 });
-  }
-
-  if (to) {
-    await sendEmail({
-      to,
-      subject: `[OhoTool] Requester added an email — ${tool.slice(0, 60)}`,
-      html: `<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:14px;color:#111;line-height:1.6;">
-        <p style="margin:0 0 6px;">The person who requested <strong>${esc(tool)}</strong> has left an email so you can reply:</p>
-        <p style="margin:0;"><a href="mailto:${esc(email)}">${esc(email)}</a></p>
-      </div>`,
-      replyTo: email,
-    }).catch(() => {});
   }
   return Response.json({ ok: true });
 }

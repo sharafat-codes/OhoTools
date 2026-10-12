@@ -55,7 +55,14 @@ export function mapUrl(card: CardData): string {
   return q ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}` : "";
 }
 
-export function RsvpForm({ code, accent }: { code: string; accent: string }) {
+/**
+ * `tone="light"` drops the dark-theme styling. The invitation website always
+ * puts this form on a white sheet, whatever the visitor's system theme — and
+ * with the dark variants left in, a dark-mode phone got black inputs on that
+ * white sheet with dark text in them: an RSVP form nobody could read.
+ */
+export function RsvpForm({ code, accent, tone = "auto" }: { code: string; accent: string; tone?: "auto" | "light" }) {
+  const dk = (cls: string) => (tone === "light" ? "" : " " + cls);
   const [name, setName] = React.useState("");
   const [attending, setAttending] = React.useState<"yes" | "no">("yes");
   const [guests, setGuests] = React.useState("1");
@@ -94,19 +101,21 @@ export function RsvpForm({ code, accent }: { code: string; accent: string }) {
     );
   }
 
-  const field = "w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm outline-none focus:border-neutral-500 dark:border-neutral-700 dark:bg-neutral-800";
+  const field =
+    "w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none placeholder:text-neutral-400 focus:border-neutral-500" +
+    dk("dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100");
 
   return (
-    <div className="flex flex-col gap-2.5 border-t border-neutral-200 pt-4 dark:border-neutral-800">
+    <div className={"flex flex-col gap-2.5 border-t border-neutral-200 pt-4" + dk("dark:border-neutral-800")}>
       <p className="text-sm font-semibold">Will you attend?</p>
       <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" maxLength={80} className={field} />
-      <div className="inline-flex rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800">
+      <div className={"inline-flex rounded-lg bg-neutral-100 p-1" + dk("dark:bg-neutral-800")}>
         {(["yes", "no"] as const).map((v) => (
           <button
             key={v}
             type="button"
             onClick={() => setAttending(v)}
-            className={"flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors " + (attending === v ? "bg-white shadow-sm dark:bg-neutral-900" : "text-neutral-500")}
+            className={"flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors " + (attending === v ? "bg-white text-neutral-900 shadow-sm" + dk("dark:bg-neutral-900 dark:text-neutral-100") : "text-neutral-500")}
           >
             {v === "yes" ? "✅ Yes, I'll be there" : "❌ Can't make it"}
           </button>
@@ -114,7 +123,7 @@ export function RsvpForm({ code, accent }: { code: string; accent: string }) {
       </div>
       {attending === "yes" && (
         <label className="flex items-center justify-between gap-2 text-sm">
-          <span className="text-neutral-600 dark:text-neutral-300">Number of guests (incl. you)</span>
+          <span className={"text-neutral-600" + dk("dark:text-neutral-300")}>Number of guests (incl. you)</span>
           <input type="number" min={1} max={20} value={guests} onChange={(e) => setGuests(e.target.value)} className={field + " w-20"} />
         </label>
       )}

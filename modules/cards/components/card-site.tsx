@@ -139,7 +139,7 @@ export function CardSite({ card, code }: { card: CardData; code?: string }) {
           <Section eyebrow="RSVP" accent={t.accent} icon={UsersIcon}>
             {/* The form is built for a white sheet, so it always sits on one. */}
             <div className="rounded-3xl bg-white p-5 text-neutral-900 shadow-xl sm:p-6 [&_.border-t]:border-0 [&_.border-t]:pt-0">
-              <RsvpForm code={code} accent={t.accent} />
+              <RsvpForm code={code} accent={t.accent} tone="light" />
             </div>
           </Section>
         )}
@@ -149,7 +149,7 @@ export function CardSite({ card, code }: { card: CardData; code?: string }) {
             <div className="grid gap-3 sm:grid-cols-2">
               {s.contacts.map((c, i) => (
                 <Glass key={i}>
-                  <div className="font-heading text-lg font-semibold">{c.name}</div>
+                  <div className="font-heading text-lg font-semibold [overflow-wrap:anywhere]">{c.name}</div>
                   <div className="mt-2.5 flex flex-wrap gap-2">
                     {c.phone && <Pill href={`tel:${c.phone.replace(/[\s-]/g, "")}`} accent={t.accent}><PhoneIcon className="size-4" /> Call</Pill>}
                     {c.whatsapp && (
@@ -186,13 +186,17 @@ export function CardSite({ card, code }: { card: CardData; code?: string }) {
 }
 
 /** The chevron on the opening card that says "there's more below". */
-export function ScrollCue({ accent, ink = "light" }: { accent: string; ink?: Ink }) {
+export function ScrollCue({ accent, ink = "light", raised = true }: { accent: string; ink?: Ink; raised?: boolean }) {
   return (
     <a
       href="#invitation"
       aria-label="Scroll to the invitation"
       className={
-        "absolute bottom-16 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 text-[11px] font-medium uppercase tracking-[0.25em] " +
+        // Sits just above the "Made with OhoTool" pill when there is one, otherwise at
+        // the very bottom: a long message pushes the card text down, and the cue
+        // was landing on top of the sign-off line.
+        "absolute left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 text-[11px] font-medium uppercase tracking-[0.25em] " +
+        (raised ? "bottom-12 " : "bottom-3 ") +
         (ink === "light" ? "text-white/85 drop-shadow" : "text-neutral-800/80")
       }
     >

@@ -134,7 +134,7 @@ export function CardStage({ data, cta = true, interactive = true, sound = true }
         </button>
       )}
 
-      {opened && site && cta && <ScrollCue accent={sitePalette(data).accent} ink={sitePalette(data).ink} />}
+      {opened && site && cta && <ScrollCue accent={sitePalette(data).accent} ink={sitePalette(data).ink} raised={!data.noWatermark} />}
 
       {interactive && (
         <button
