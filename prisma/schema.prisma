@@ -66,6 +66,7 @@ model User {
   cards          Card[]
   subscription   Subscription?
   payments       Payment[]
+  passReminders  PassReminder[]
   interviewSessions InterviewSession[]
 
   // One-time Pro pass expiry (e.g. bought via Safepay). Null for Stripe
@@ -506,4 +507,19 @@ model Subscriber {
   updatedAt        DateTime @updatedAt
 
   @@map("subscriber")
+}
+
+// One row per pass-expiry reminder email (lib/pass-emails.ts). Keyed on the
+// expiry it warned about, so a re-run of the daily job never sends it twice —
+// and extending a pass changes proUntil, so the next expiry gets its own.
+model PassReminder {
+  id       String   @id @default(cuid())
+  userId   String
+  proUntil DateTime
+  sentAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, proUntil])
+  @@map("pass_reminder")
 }

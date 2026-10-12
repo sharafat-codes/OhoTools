@@ -3,6 +3,7 @@ import "server-only";
 import { Environment, Paddle } from "@paddle/paddle-node-sdk";
 
 import { prisma } from "@/lib/prisma";
+import { sendPassThanks } from "@/lib/pass-emails";
 
 // Paddle (Merchant of Record) — used alongside Stripe. Server-side config only.
 // The browser uses NEXT_PUBLIC_PADDLE_* vars via the checkout button.
@@ -94,5 +95,6 @@ export async function grantPaddlePass(p: {
     console.error("[paddle] payment record failed (Pro still granted)", e);
   }
 
+  await sendPassThanks({ userId: p.userId, proUntil, extended: base !== now, provider: "Paddle" });
   return { ok: true };
 }

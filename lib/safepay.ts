@@ -5,6 +5,7 @@ import crypto from "crypto";
 import { Safepay } from "@sfpy/node-sdk";
 
 import { prisma } from "@/lib/prisma";
+import { sendPassThanks } from "@/lib/pass-emails";
 
 // Safepay one-time Pro pass. Web-only (no app-store rules apply). The webhook is
 // the source of truth — access is never granted from the browser redirect alone.
@@ -137,6 +138,7 @@ export async function grantProFromPayment(p: {
     console.error("[safepay] payment record failed (Pro still granted)", e);
   }
 
+  await sendPassThanks({ userId: p.userId, proUntil, extended: base !== now, provider: "Safepay" });
   return { ok: true };
 }
 

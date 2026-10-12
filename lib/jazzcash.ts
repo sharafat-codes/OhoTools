@@ -3,6 +3,7 @@ import "server-only";
 import crypto from "node:crypto";
 
 import { prisma } from "@/lib/prisma";
+import { sendPassThanks } from "@/lib/pass-emails";
 import { buildHashMessage, jazzCashSecureHash as signFields } from "@/lib/jazzcash-hash";
 
 // JazzCash Payment Gateway — hosted "Page Redirection" checkout.
@@ -184,5 +185,6 @@ export async function completeJazzCashPayment(
       console.error("[jazzcash] payment row update failed (Pro still granted)", e);
     });
 
+  await sendPassThanks({ userId: user.id, proUntil, extended: base !== now, provider: "JazzCash" });
   return { ok: true, alreadyHandled: false };
 }

@@ -79,6 +79,9 @@ export default async function BillingPage({
 
       <BillingView
         currentPlan={dbUser?.plan ?? "FREE"}
+        // A pass is Pro with an end date and no subscription. The pass reminder
+        // email links here, so the page has to show when it ends and offer more.
+        passEndsAt={!sub && dbUser?.proUntil && dbUser.proUntil > new Date() ? dbUser.proUntil.toISOString() : null}
         subscription={
           sub
             ? {

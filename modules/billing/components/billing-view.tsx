@@ -44,6 +44,7 @@ type ProPrice = {
 
 export function BillingView({
   currentPlan,
+  passEndsAt = null,
   subscription,
   checkoutStatus,
   jazzcashStatus = null,
@@ -54,6 +55,8 @@ export function BillingView({
   defaultAnnual = false,
 }: {
   currentPlan: string;
+  /** ISO end of an active one-time pass; null when there is none. */
+  passEndsAt?: string | null;
   subscription: SubscriptionInfo;
   checkoutStatus: string | null;
   jazzcashStatus?: string | null;
@@ -151,8 +154,10 @@ export function BillingView({
   const current = PLAN_BY_ID[currentPlan as PlanId] ?? PLAN_BY_ID.FREE;
   // A Stripe subscription row means Stripe manages it; otherwise a Pro user on
   // a Merchant-of-Record provider is managed through that provider's portal.
-  const paddleManaged = !subscription && provider === "paddle" && current.id !== "FREE";
-  const lemonManaged = !subscription && provider === "lemonsqueezy" && current.id !== "FREE";
+  // Pass holders have no subscription to manage — that button led to an empty portal.
+  const onPass = !!passEndsAt && !subscription;
+  const paddleManaged = !subscription && !onPass && provider === "paddle" && current.id !== "FREE";
+  const lemonManaged = !subscription && !onPass && provider === "lemonsqueezy" && current.id !== "FREE";
   const hostedManaged = paddleManaged || lemonManaged;
   const manageHosted = lemonManaged ? manageLemon : managePaddle;
 
@@ -164,6 +169,13 @@ export function BillingView({
           <div>
             <p className="text-sm text-muted-foreground">Current plan</p>
             <p className="font-heading text-lg font-semibold">{current.name}</p>
+            {onPass && (
+              // Formatted in the browser time zone; the server renders it in UTC,
+              // so the date can legitimately differ by one around midnight.
+              <p className="mt-0.5 text-xs text-muted-foreground" suppressHydrationWarning>
+                {`Pro pass · ends ${format(new Date(passEndsAt!), "MMM d, yyyy, h:mm a")}`}
+              </p>
+            )}
             {subscription && (
               <p className="mt-0.5 text-xs text-muted-foreground">
                 {subscription.cancelAtPeriodEnd
@@ -173,6 +185,14 @@ export function BillingView({
               </p>
             )}
           </div>
+          {onPass && provider === "paddle" && isPaddlePassOffered && (
+            <div className="flex flex-col items-end gap-1">
+              <PaddleUpgradeButton userId={userId} email={email} pass>
+                Extend by {PASS_DAYS} days
+              </PaddleUpgradeButton>
+              <p className="text-xs text-muted-foreground">Added on top of the time you have left.</p>
+            </div>
+          )}
           {(subscription || hostedManaged) && (
             <Button
               variant="outline"
