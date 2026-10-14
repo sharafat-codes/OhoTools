@@ -20,7 +20,11 @@ const ADSENSE_ENABLED = false;
 // pull the ads. Values: Adsterra → Websites → Native Banner → GET CODE.
 // Only the "Native Banner" format is wired up on purpose. Popunder and Social
 // Bar are prohibited alongside AdSense and break tool-page UX — do not add them.
-const ADSTERRA_ENABLED = true;
+// OFF while the AdSense review is pending (rejected again 2026-10-14, "Low
+// value content"): at ~150 ad-eligible pageviews/month this earned cents, and
+// a second network's creatives on the page is a needless variable in front of
+// a quality reviewer. Flip back after approval if still wanted.
+const ADSTERRA_ENABLED = false;
 const ADSTERRA_SRC = "https://pl31352874.profitableratecpmnetwork.com/52ebe673889ca974ffb203c97b8d78b2/invoke.js";
 const ADSTERRA_CONTAINER = "container-52ebe673889ca974ffb203c97b8d78b2";
 // The only host Adsterra is registered for. NODE_ENV is "production" on Vercel

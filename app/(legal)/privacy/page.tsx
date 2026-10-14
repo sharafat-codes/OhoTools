@@ -12,7 +12,7 @@ export default function PrivacyPage() {
   return (
     <article>
       <h1 className="font-heading text-3xl font-semibold tracking-tight">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Last updated: September 7, 2026</p>
+      <p className="mt-2 text-sm text-muted-foreground">Last updated: October 14, 2026</p>
 
       <p className="mt-6">
         This Privacy Policy explains how OhoTool (&quot;OhoTool&quot;, &quot;we&quot;, &quot;us&quot;) collects,
@@ -49,26 +49,21 @@ export default function PrivacyPage() {
 
       <h2>Analytics</h2>
       <p>
-        We use Vercel Web Analytics and Speed Insights to understand aggregate traffic and page
-        performance. These are privacy-friendly and <strong>cookieless</strong> — they do not use
-        cross-site tracking cookies and do not collect personally identifiable information.
-      </p>
-      <p>
-        We also use <strong>Google Analytics (GA4)</strong> to measure aggregate traffic. GA4 sets
+        We use <strong>Google Analytics (GA4)</strong> to measure aggregate traffic. GA4 sets
         cookies; where your consent is required (see &quot;Your cookie choices&quot; below), these
         are disabled until you accept. We do not sell your personal data.
       </p>
 
       <h2>Advertising</h2>
       <p>
-        On our free tier we display ads served by <strong>Google AdSense</strong>. Google and its
+        On our free tier we may display ads served by <strong>Google AdSense</strong>. Google and its
         partners use cookies and similar technologies to serve and measure ads, including
         personalized ads based on your prior visits to this and other websites. Third-party vendors,
         including Google, use cookies to serve ads based on your interests.
       </p>
       <p>
-        We also work with <strong>Adsterra</strong>, an independent ad network, to serve native
-        banner ads on the free tier while our Google AdSense application is under review. Adsterra
+        We may at times also work with <strong>Adsterra</strong>, an independent ad network, to
+        serve native banner ads on the free tier. Adsterra
         is not covered by Google Consent Mode, so its script loads only after you accept
         non-essential cookies. If you reject, or simply ignore the cookie banner, no Adsterra
         script is loaded and no Adsterra ad is requested.
@@ -124,12 +119,12 @@ export default function PrivacyPage() {
       <p>We share data only with the providers that help us operate OhoTool:</p>
       <ul>
         <li><strong>Supabase</strong> — database hosting for your account and saved content.</li>
-        <li><strong>Vercel</strong> — application hosting and privacy-friendly analytics.</li>
+        <li><strong>Hostinger</strong> — application hosting.</li>
         <li><strong>Paddle</strong> — payment processing and subscription management (Merchant of Record) for international customers.</li>
         <li><strong>Safepay</strong> — payment processing for customers in Pakistan.</li>
         <li><strong>Resend</strong> — delivery of transactional emails.</li>
         <li><strong>Google AdSense</strong> — advertising on the free tier (see &quot;Advertising&quot;).</li>
-        <li><strong>Adsterra</strong> — advertising on the free tier, loaded only with your consent (see &quot;Advertising&quot;).</li>
+        <li><strong>Adsterra</strong> — advertising on the free tier when enabled, loaded only with your consent (see &quot;Advertising&quot;).</li>
         <li><strong>OpenAI</strong> — powers our AI tools; text you submit to an AI tool is sent to process that request and is not used to train models.</li>
       </ul>
       <p>

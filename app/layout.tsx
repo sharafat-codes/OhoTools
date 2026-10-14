@@ -3,9 +3,6 @@ import Script from "next/script";
 import { Inter, Space_Grotesk, Geist_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -140,8 +137,6 @@ gtag('set','ads_data_redaction',true);gtag('set','url_passthrough',true);`}
           {/* Renders nothing unless an admin is logged in as someone else. */}
           <ImpersonationBanner />
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
         {isLiveSite && (
           <>
             <Script

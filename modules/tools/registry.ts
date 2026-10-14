@@ -4336,6 +4336,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Are generated passwords safe?", a: "Yes — passwords and random values are generated locally in your browser and never transmitted or stored." },
       { q: "Can I create QR codes for free?", a: "Yes — static QR codes are free. Dynamic QR codes with scan analytics and branding are Pro features." },
     ],
+    explainer: {
+      heading: "Are the passwords and codes generated on your servers?",
+      body: "No — generation happens in your browser. Passwords and random values come from the browser's cryptographic random number generator (crypto.getRandomValues), hashes are computed with the built-in WebCrypto engine, and QR codes, barcodes, and CSS snippets are drawn locally, so nothing you generate is transmitted or stored. That matters most for passwords: a password that never leaves your device cannot be logged by a server on the way. One distinction is worth knowing for QR codes. A static QR code encodes your text or link directly and is free and permanent — it keeps working no matter what happens to this site. A dynamic QR code instead points to a short link we host, which is what makes it editable after printing and lets you count scans; because we have to store that destination, dynamic codes require an account and are part of Pro. Everything else on this page needs no account at all.",
+    },
   },
   {
     slug: "web-seo",
@@ -4387,6 +4391,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Why is there a file size limit?", a: "Processing happens in your browser's memory, so large videos can be slow or fail. Short clips work best." },
       { q: "Do I need an account?", a: "No — every video tool is free and works instantly with no sign-up." },
     ],
+    explainer: {
+      heading: "How can a website convert video without uploading it?",
+      body: "These tools run a full video engine — FFmpeg, compiled to WebAssembly — inside the page itself. The first time you convert something, your browser downloads the engine (about 30 MB, cached after that); from then on, converting to MP4 or GIF, compressing, trimming, and extracting MP3 audio all happen on your own machine. Your file is read into the browser's memory and never leaves your device, which is also why there is a practical size limit: a long, high-resolution video can exhaust that memory, so short clips work best. The screen recorder and webcam test use the browser's own capture permissions and record locally too. The trade-off is honest: uploads to a server would handle bigger files, but then your video would be on someone else's computer. For the clips most people actually need converted, local processing is faster and private by construction.",
+    },
   },
   {
     slug: "audio",
@@ -4403,6 +4411,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "What formats can I convert to?", a: "MP3, WAV, and M4A (AAC). Trimming keeps the original format; merging and volume changes output MP3." },
       { q: "Do I need an account?", a: "No — every audio tool is free and works instantly with no sign-up." },
     ],
+    explainer: {
+      heading: "Do these audio tools upload my recordings?",
+      body: "The file tools don't. Converting between MP3, WAV, and M4A, trimming, merging, changing volume, and cleaning up a recording all run on an audio engine loaded into the page, so the file is processed in your browser's memory and never reaches a server. The voice recorder and mic test ask for microphone permission through the browser and keep the audio local — recording something does not send it anywhere, and you decide what to do with the result. The one exception to know about is speech-to-text: it uses your browser's built-in speech recognition, and in Chrome that recognition service is provided by the browser vendor, which may process the audio on its servers to produce the transcript. That is a property of the browser feature, not something we host, but if a recording is sensitive, the recorder and the file tools are the fully local path.",
+    },
   },
   {
     slug: "image-editing",
@@ -4419,6 +4431,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "What formats can I edit?", a: "JPG, PNG, WebP, and most common image formats. Crop, rotate, and text keep your format; circle-crop outputs a transparent PNG and Image to ICO outputs a .ico file." },
       { q: "Do I need an account?", a: "No — all image editing tools are free with no sign-up." },
     ],
+    explainer: {
+      heading: "How does background removal work without uploading the photo?",
+      body: "A neural network runs inside your browser. The first time you remove a background, the page downloads a compact segmentation model and executes it locally in a background thread, so the photo itself never leaves your device — what you see is machine learning without an upload step. The everyday edits work the same way for simpler reasons: cropping, rotating, circle-cropping, passport sizing, and adding text are canvas operations your browser performs directly, and converting to ICO or picking colors reads only pixels already on your screen. One exception is worth stating plainly: the meme generator has an optional button that asks an AI service to write a caption, and pressing it sends the text you typed — never the image — to that service. Skip the button and the meme generator, like everything else here, keeps the whole job on your machine.",
+    },
   },
   {
     slug: "productivity",
@@ -4434,6 +4450,10 @@ export const categoryPages: CategoryPage[] = [
       { q: "Do these tools upload my data?", a: "No — they run entirely in your browser. Your notes, invoices, and text never leave your device." },
       { q: "Do I need an account?", a: "No — every productivity tool here is free and works instantly with no sign-up." },
     ],
+    explainer: {
+      heading: "Where are my notes and invoices actually stored?",
+      body: "On your device. The notepad autosaves into your browser's local storage as you type, which is why your text is still there after closing the tab — but it also means the notes belong to that browser on that computer: they do not sync between devices, and clearing the site's data erases them, with no copy on our side to recover. Treat it as a scratchpad, not an archive. The invoice generator builds its PDF entirely in the page, so client names and amounts are never transmitted; download the file and it exists only where you save it. The timers — stopwatch, countdown, Pomodoro, and countdown-to-date — simply run in the page, and text-to-speech uses the voices your operating system provides, spoken locally. None of these tools requires an account, and the honest trade for that privacy is that your data's safekeeping is in your hands.",
+    },
   },
   {
     slug: "games",
@@ -4461,6 +4481,10 @@ export const categoryPages: CategoryPage[] = [
       "coin-flip",
       "dice-roller",
     ],
+    explainer: {
+      heading: "How accurate are the click, typing, and reaction tests?",
+      body: "They measure with the browser's high-resolution clock, which is precise to fractions of a millisecond — more than enough for click speed, typing speed, and reaction timing. What varies is everything around the clock: a reaction result includes your screen's refresh delay and your mouse or touchscreen's latency, so the same person scores differently on a 60 Hz laptop and a 144 Hz gaming setup. That makes these tests best for comparing yourself to yourself — same device, same conditions — rather than for comparing numbers with a friend on different hardware. Your best scores are kept in your browser's local storage only; there are no accounts and no leaderboards, so nothing you do here is recorded anywhere else. The keyboard tester reads key events directly in the page, which is exactly what makes it useful for finding stuck keys, dead switches, and ghosting on a suspect keyboard.",
+    },
   },
   {
     slug: "cards",
@@ -4473,10 +4497,14 @@ export const categoryPages: CategoryPage[] = [
     intro:
       "Create beautiful animated cards and invitations in minutes — birthdays, weddings, engagements, anniversaries, and festivals like Eid and Diwali. Personalize the names, message, photo, theme, and music, then share a link that opens as a full-screen animated card. Everything runs in your browser, with no sign-up.",
     faqs: [
-      { q: "Are these card makers free?", a: "Yes — every card and invitation maker is free to use with no sign-up. The card is encoded in the share link, so nothing is stored on our servers." },
+      { q: "Are these card makers free?", a: "Yes — every occasion has free designs, and no sign-up is needed to make and share a card. Premium designs, downloads, and the invitation website are part of the Pro pass. When you share, we store the card so your short link works and you can see it was opened — you can delete it from your dashboard at any time." },
       { q: "How do people open the card?", a: "They just tap the link — it opens as a full-screen animated card on any phone or computer, no app needed. Great for WhatsApp." },
       { q: "Can I add a photo and music?", a: "Yes — add a photo and turn on music, and they play when the card is opened. Pro adds custom colors, no watermark, and image or video downloads." },
     ],
+    explainer: {
+      heading: "What happens when you share a card — is it stored?",
+      body: "There are two kinds of link. The basic link is self-contained: the card's names, message, colors, and photo are encoded into the link itself, so it works without us keeping anything. When you share from the editor, we instead create a short link (ohotool.com/c/…) and store the card behind it — that is what keeps the link tidy on WhatsApp, lets you see that the card was opened, and makes RSVP replies possible, since a guest's response has to be saved somewhere for the host to read it. You can delete a saved card from your dashboard at any time, which removes it along with its replies. With the Pro pass, wedding-type invitations can grow into a full scrolling website — countdown, event schedule, photo gallery, your own music, and RSVP — and those gallery photos are stored so your guests can see them.",
+    },
   },
 ];
 
