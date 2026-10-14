@@ -11,7 +11,7 @@ import { ImpersonationBanner } from "@/components/impersonation-banner";
 // Body / UI text — highly legible SaaS standard.
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
+  subsets: ["latin"]
 });
 
 // Headings — geometric display with a modern edge.
