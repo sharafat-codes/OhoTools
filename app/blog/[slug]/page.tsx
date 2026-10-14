@@ -11,7 +11,7 @@ import { EmbedTool } from "@/modules/tools/components/embed-tool";
 import { Converter } from "@/modules/tools/components/converter";
 import { ShareButton } from "@/components/share-button";
 import { AdUnit } from "@/components/ad-unit";
-import { SITE_URL as siteUrl } from "@/lib/site";
+import { SITE_URL as siteUrl, siteConfig } from "@/lib/site";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function formatDate(iso: string) {
@@ -101,7 +101,7 @@ export default async function BlogPostPage({
         description: meta.description,
         datePublished: meta.date,
         dateModified: meta.date,
-        author: { "@type": "Organization", name: "OhoTool" },
+        author: { "@type": "Person", name: siteConfig.founder, url: `${siteUrl}/about` },
         publisher: { "@type": "Organization", name: "OhoTool" },
         mainEntityOfPage: `${siteUrl}/blog/${meta.slug}`,
         keywords: meta.keywords.join(", "),
@@ -132,7 +132,11 @@ export default async function BlogPostPage({
             <span key={t} className="rounded-full bg-muted px-2.5 py-1 font-medium">{t}</span>
           ))}
           <span>
-            {formatDate(meta.date)} · {meta.readingMinutes} min read
+            By{" "}
+            <Link href="/about" className="font-medium text-foreground hover:underline">
+              {siteConfig.founder}
+            </Link>{" "}
+            · {formatDate(meta.date)} · {meta.readingMinutes} min read
           </span>
         </div>
         <h1 className="mt-4 font-heading text-3xl font-semibold tracking-tight sm:text-4xl">

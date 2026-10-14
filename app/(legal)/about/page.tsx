@@ -48,10 +48,13 @@ export default function AboutPage() {
 
       <h2>Who&apos;s behind OhoTool</h2>
       <p>
-        OhoTool is an independent project, built and maintained by a small, self-funded team of
-        developers. We ship improvements continuously and take feature requests directly from users —
-        if there&apos;s a tool you wish existed, <a href="/request-tool">tell us</a> and we&apos;ll
-        consider building it.
+        OhoTool is an independent, self-funded project built and maintained by{" "}
+        <strong>Sharafat Ali</strong>, a software developer from Pakistan — you can find him on{" "}
+        <a href="https://www.linkedin.com/in/sharafat-ali-04586028a/" rel="me noopener" target="_blank">LinkedIn</a>.
+        He writes the tools, the guides on the blog, and answers the support email himself. New
+        features come straight from user requests — the wedding invitation website, for example,
+        exists because one visitor asked for it. If there&apos;s a tool you wish existed,{" "}
+        <a href="/request-tool">tell us</a> and it goes on the roadmap.
       </p>
 
       <h2>Contact</h2>
