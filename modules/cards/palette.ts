@@ -36,6 +36,7 @@ const TEMPLATE_PALETTE: Record<TemplateId, SitePalette> = {
   darkfloral:   { bg: "linear-gradient(180deg,#0a0c0b 0%,#2a1020 45%,#0f1a15 100%)", accent: "#d9b96c", ink: "light" },
   marble:       { bg: "linear-gradient(180deg,#fbfaf7 0%,#e9e3d8 100%)", accent: "#9a7a3f", ink: "dark" },
   stringlights: { bg: "linear-gradient(180deg,#1a130d 0%,#2e2116 50%,#120d09 100%)", accent: "#ffc861", ink: "light" },
+  blush:        { bg: "linear-gradient(180deg,#fbf7f1 0%,#f6e6ea 50%,#eee9f3 100%)", accent: "#c98a9c", ink: "dark" },
 };
 
 export function sitePalette(d: CardData): SitePalette {

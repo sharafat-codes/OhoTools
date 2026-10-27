@@ -100,6 +100,7 @@ const SWATCH: Record<TemplateId, { bg: string; accent: string; serif?: boolean; 
   darkfloral: { bg: "linear-gradient(165deg,#3a1526,#0a0c0b)", accent: "#d9b96c", serif: true },
   marble: { bg: "linear-gradient(150deg,#fbfaf7,#e6e1d7)", accent: "#b08d4f", serif: true },
   stringlights: { bg: "linear-gradient(170deg,#2e2116,#1a130d)", accent: "#ffc861", serif: true, glow: true },
+  blush: { bg: "linear-gradient(160deg,#fbf7f1,#f3d9df 55%,#dcd3ea)", accent: "#8b5a6b", serif: true },
 };
 
 const inputCls =

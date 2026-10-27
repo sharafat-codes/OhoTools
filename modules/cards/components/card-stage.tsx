@@ -23,6 +23,7 @@ import { BirthdayRetro } from "@/modules/cards/templates/birthday-retro";
 import { CardDarkFloral } from "@/modules/cards/templates/card-dark-floral";
 import { CardMarble } from "@/modules/cards/templates/card-marble";
 import { CardStringLights } from "@/modules/cards/templates/card-string-lights";
+import { CardBlush } from "@/modules/cards/templates/card-blush";
 import { playCardMusic } from "@/modules/cards/music";
 
 const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKey?: number }>> = {
@@ -43,6 +44,7 @@ const TEMPLATES: Record<TemplateId, React.ComponentType<{ data: CardData; fireKe
   darkfloral: CardDarkFloral,
   marble: CardMarble,
   stringlights: CardStringLights,
+  blush: CardBlush,
 };
 
 /**
