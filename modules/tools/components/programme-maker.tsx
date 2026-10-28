@@ -227,7 +227,7 @@ export function ProgrammeMaker() {
   const inputCls = "h-9";
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
       {/* ── Controls ── */}
       <div className="flex flex-col gap-6">
         <section className="flex flex-col gap-2">

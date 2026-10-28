@@ -22,9 +22,14 @@ function formatUpdated(iso: string): string {
 export function ToolShell({
   tool,
   children,
+  wide = false,
 }: {
   tool: DevTool;
   children: React.ReactNode;
+  /** Two-pane tools (editor + live preview) break out of the reading column so
+   *  the preview has room; the page text around them keeps its reading width.
+   *  Opt-in only — single-column tools look better at the narrow width. */
+  wide?: boolean;
 }) {
   const Icon = tool.icon;
   const related = tool.related
@@ -139,7 +144,11 @@ export function ToolShell({
       <p className="mb-8 text-pretty text-muted-foreground">{tool.intro}</p>
 
       {/* The tool */}
-      {children}
+      {wide ? (
+        <div className="relative left-1/2 w-[min(72rem,calc(100vw-2rem))] -translate-x-1/2">{children}</div>
+      ) : (
+        children
+      )}
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {tool.serverSide
