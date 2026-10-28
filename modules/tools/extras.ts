@@ -10,7 +10,7 @@ import {
   SheetIcon, NewspaperIcon, Share2Icon, BookOpenIcon,
   TerminalIcon, RulerIcon, BotIcon, FileCogIcon,
   MegaphoneIcon, PlayCircleIcon, TagIcon, MessageSquareIcon, MailIcon,
-  TreePineIcon, PartyPopperIcon,
+  TreePineIcon, PartyPopperIcon, ListOrderedIcon,
 } from "lucide-react";
 
 import type { DevTool } from "./registry";
@@ -1569,6 +1569,33 @@ export const extraTools: DevTool[] = [
       body: "A save-the-date is a short early announcement that tells guests your wedding date so they can hold it, sent long before the formal invitation with the full details. The usual guidance is six to eight months ahead, or closer to a year if people will need to travel or book time off. This one is a link rather than a printed card, so it costs nothing to send and reaches everyone the same day. You enter the couple's names, write up to 400 characters, and choose from thirteen designs and nine colour themes. Add the date and the card shows an Add to Google Calendar button, which is the whole point of a save-the-date, plus a map link if you name the venue. You can switch on RSVPs to start tracking numbers early, once the card is saved to an account. The headcount is free; the full guest list is Pro.",
     },
     related: ["wedding-invitation-maker", "engagement-invitation-maker", "anniversary-card-maker"],
+  },
+  {
+    slug: "event-programme-maker",
+    name: "Event Programme Maker",
+    tagline: "Make a printable programme or order of proceedings in minutes.",
+    description:
+      "Free event programme maker. Build a printable programme, agenda or order of proceedings for a school function, prize giving, wedding, Nikah, conference or service — pick a style and download a PDF. No sign-up.",
+    keywords: [
+      "programme template", "event program template", "order of proceedings template", "school function programme",
+      "prize giving programme", "wedding programme template", "agenda template", "order of service template",
+    ],
+    icon: ListOrderedIcon,
+    updated: "2026-10-28",
+    intro:
+      "Make the printed programme people hold at a school function, prize giving, wedding or conference. Start from a preset — the school one already lists religious observances, the national and school anthems, the welcome address, the chief guest and the vote of thanks — then rename, reorder or add items, choose a style, and download an A4 or A5 PDF ready to print. Leave the date or venue empty and it prints as a dotted line to fill in by hand.",
+    steps: [
+      "Pick a preset: school function, prize giving, wedding, Nikah, conference or service.",
+      "Edit the event name and the items — reorder with the arrows, add times or speaker names.",
+      "Choose a style, colour and paper size, add your logo, then download the PDF or print.",
+    ],
+    faqs: [
+      { q: "Can I write it in Sinhala, Tamil, Urdu or another language?", a: "Yes. The PDF is captured from what your browser shows, so any script your device can display prints exactly as you see it in the preview." },
+      { q: "Is anything uploaded?", a: "No. The programme, including your logo, is built and turned into a PDF inside your browser. Nothing is sent to a server or saved." },
+      { q: "How do I leave blanks to fill in by hand?", a: "Leave the date, time, venue or organiser field empty and it prints as a dotted line, like a traditional programme sheet." },
+      { q: "Will a long programme fit on one page?", a: "The layout tightens automatically for longer lists. For a very long programme, choose A4 rather than A5, or turn off item numbers." },
+    ],
+    related: ["invoice-generator", "countdown-to-date", "wedding-invitation-maker"],
   },
 ];
 

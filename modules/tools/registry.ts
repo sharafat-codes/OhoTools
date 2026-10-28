@@ -3934,8 +3934,8 @@ export const toolCategories: { name: string; blurb: string; slugs: string[] }[] 
   },
   {
     name: "Productivity",
-    blurb: "Notepad, timers, invoices, and everyday utilities.",
-    slugs: ["online-notepad", "text-to-speech", "stopwatch", "countdown-timer", "countdown-to-date", "pomodoro-timer", "invoice-generator", "ats-resume-checker"],
+    blurb: "Notepad, timers, invoices, programmes, and everyday utilities.",
+    slugs: ["online-notepad", "text-to-speech", "stopwatch", "countdown-timer", "countdown-to-date", "pomodoro-timer", "invoice-generator", "event-programme-maker", "ats-resume-checker"],
   },
   {
     name: "Developer",
