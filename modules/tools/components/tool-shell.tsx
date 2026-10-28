@@ -26,9 +26,10 @@ export function ToolShell({
 }: {
   tool: DevTool;
   children: React.ReactNode;
-  /** Two-pane tools (editor + live preview) break out of the reading column so
-   *  the preview has room; the page text around them keeps its reading width.
-   *  Opt-in only — single-column tools look better at the narrow width. */
+  /** Two-pane tools (editor + live preview): the page widens to 72rem so the
+   *  preview has room, with every block on the same left edge; paragraphs and
+   *  the sections below the tool keep their reading width. Opt-in only —
+   *  single-column tools look better at the narrow width. */
   wide?: boolean;
 }) {
   const Icon = tool.icon;
@@ -85,7 +86,7 @@ export function ToolShell({
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
+    <div className={`mx-auto w-full ${wide ? "max-w-6xl" : "max-w-3xl"} px-4 py-12 sm:px-6`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -141,14 +142,10 @@ export function ToolShell({
           />
         </div>
       </div>
-      <p className="mb-8 text-pretty text-muted-foreground">{tool.intro}</p>
+      <p className={`mb-8 text-pretty text-muted-foreground ${wide ? "max-w-3xl" : ""}`}>{tool.intro}</p>
 
       {/* The tool */}
-      {wide ? (
-        <div className="relative left-1/2 w-[min(72rem,calc(100vw-2rem))] -translate-x-1/2">{children}</div>
-      ) : (
-        children
-      )}
+      {children}
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {tool.serverSide
@@ -164,6 +161,7 @@ export function ToolShell({
         </div>
       )}
 
+      <div className={wide ? "max-w-3xl" : undefined}>
       {/* Explainer — a question-headed, self-contained answer block (opt-in per
          tool). Kept high on the page: most AI citations lift from the first
          third of a document. */}
@@ -256,6 +254,8 @@ export function ToolShell({
           </div>
         </section>
       )}
+
+      </div>
 
       <ProNudge />
     </div>
