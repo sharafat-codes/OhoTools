@@ -27,8 +27,9 @@ export function ToolShell({
   tool: DevTool;
   children: React.ReactNode;
   /** Two-pane tools (editor + live preview): the page widens to 72rem so the
-   *  preview has room, with every block on the same left edge; paragraphs and
-   *  the sections below the tool keep their reading width. Opt-in only —
+   *  preview has room, with every block on the same left edge. The intro keeps
+   *  its reading width; the sections below spread across (FAQs in two
+   *  columns). Opt-in only —
    *  single-column tools look better at the narrow width. */
   wide?: boolean;
 }) {
@@ -161,7 +162,6 @@ export function ToolShell({
         </div>
       )}
 
-      <div className={wide ? "max-w-3xl" : undefined}>
       {/* Explainer — a question-headed, self-contained answer block (opt-in per
          tool). Kept high on the page: most AI citations lift from the first
          third of a document. */}
@@ -197,7 +197,7 @@ export function ToolShell({
         <h2 className="font-heading text-xl font-semibold tracking-tight">
           Frequently asked questions
         </h2>
-        <div className="mt-4 flex flex-col gap-3">
+        <div className={`mt-4 ${wide ? "grid items-start gap-3 lg:grid-cols-2" : "flex flex-col gap-3"}`}>
           {tool.faqs.map((f) => (
             <details
               key={f.q}
@@ -254,8 +254,6 @@ export function ToolShell({
           </div>
         </section>
       )}
-
-      </div>
 
       <ProNudge />
     </div>
