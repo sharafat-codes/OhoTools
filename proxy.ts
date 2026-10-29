@@ -12,6 +12,13 @@ const AUTH_PAGES = ["/login", "/signup"];
 
 export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // The built-in image optimizer is unused (no next/image anywhere) and has
+  // had serious security bugs in Next 16 (SSRF, RCE via SVG). Closing the
+  // endpoint removes that attack surface entirely.
+  if (pathname.startsWith("/_next/image")) {
+    return new NextResponse("Not found", { status: 404 });
+  }
   const hasSession = Boolean(getSessionCookie(req));
 
   // Signed-out users cannot reach the dashboard or admin (role checked in DAL).
@@ -31,6 +38,7 @@ export default function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
+    "/_next/image",
     "/dashboard/:path*",
     "/admin/:path*",
     "/login",
