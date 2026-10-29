@@ -23,7 +23,7 @@ function formatUpdated(iso: string): string {
 export function ToolShell({
   tool,
   children,
-  wide = false,
+  wide: wideProp,
 }: {
   tool: DevTool;
   children: React.ReactNode;
@@ -34,6 +34,9 @@ export function ToolShell({
    *  single-column tools look better at the narrow width. */
   wide?: boolean;
 }) {
+  // Every tool page now uses the wide, header-aligned layout; the prop stays
+  // so a page can still opt out with wide={false}.
+  const wide = wideProp ?? true;
   const Icon = tool.icon;
   const related = tool.related
     .map(getTool)
@@ -173,7 +176,7 @@ export function ToolShell({
       {tool.explainer && (
         <section className="mt-14">
           <h2 className="font-heading text-xl font-semibold tracking-tight">{tool.explainer.heading}</h2>
-          <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">{tool.explainer.body}</p>
+          <p className="mt-4 max-w-4xl text-pretty leading-relaxed text-muted-foreground">{tool.explainer.body}</p>
         </section>
       )}
 
