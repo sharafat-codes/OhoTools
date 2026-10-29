@@ -8,7 +8,7 @@ export const metadata = toolMetadata("engagement-invitation-maker");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <CardEditor occasion="engagement" />
     </ToolShell>
   );

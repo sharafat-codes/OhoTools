@@ -8,7 +8,7 @@ export const metadata = toolMetadata("baby-shower-invitation-maker");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <CardEditor occasion="baby-shower" />
     </ToolShell>
   );

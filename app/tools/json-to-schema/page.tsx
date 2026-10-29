@@ -8,7 +8,7 @@ export const metadata = toolMetadata("json-to-schema");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <JsonToSchema />
     </ToolShell>
   );

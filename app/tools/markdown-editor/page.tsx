@@ -8,7 +8,7 @@ export const metadata = toolMetadata("markdown-editor");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <MarkdownEditor />
     </ToolShell>
   );

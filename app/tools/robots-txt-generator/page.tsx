@@ -8,7 +8,7 @@ export const metadata = toolMetadata("robots-txt-generator");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <RobotsTxtGenerator />
     </ToolShell>
   );

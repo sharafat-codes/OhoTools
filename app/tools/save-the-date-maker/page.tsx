@@ -8,7 +8,7 @@ export const metadata = toolMetadata("save-the-date-maker");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <CardEditor occasion="save-the-date" />
     </ToolShell>
   );

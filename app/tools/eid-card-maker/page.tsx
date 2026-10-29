@@ -8,7 +8,7 @@ export const metadata = toolMetadata("eid-card-maker");
 
 export default function Page() {
   return (
-    <ToolShell tool={tool}>
+    <ToolShell tool={tool} wide>
       <CardEditor occasion="eid" />
     </ToolShell>
   );
