@@ -12,6 +12,7 @@ import { FavoriteButton } from "@/components/favorites";
 import { EmbedDialog } from "@/modules/tools/components/embed-dialog";
 import { isEmbeddable } from "@/modules/tools/embed";
 import { AdUnit } from "@/components/ad-unit";
+import { InvitifyPromo } from "@/components/invitify-promo";
 import { SITE_URL as siteUrl } from "@/lib/site";
 
 /** "2026-09-21" → "Sep 21, 2026". UTC so the rendered date never shifts with server timezone. */
@@ -147,6 +148,10 @@ export function ToolShell({
 
       {/* The tool */}
       {children}
+
+      {/* Card makers point to Invitify, the dedicated invitation studio, for
+         the same occasion — after the free tool, never instead of it. */}
+      {category?.name === "Cards & Invitations" && <InvitifyPromo slug={tool.slug} className="mt-8" />}
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {tool.serverSide

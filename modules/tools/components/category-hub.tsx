@@ -11,6 +11,7 @@ import {
 import { SITE_URL as siteUrl } from "@/lib/site";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { InvitifyPromo } from "@/components/invitify-promo";
 
 export function CategoryHub({ slug }: { slug: string }) {
   const cat = getCategoryPage(slug);
@@ -120,6 +121,8 @@ export function CategoryHub({ slug }: { slug: string }) {
           );
         })}
       </div>
+
+      {slug === "cards" && <InvitifyPromo className="mt-10" />}
 
       {/* Explainer — self-contained answer block, after the tool list so the
          page still leads with the tools themselves. */}
