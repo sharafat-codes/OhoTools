@@ -21,6 +21,12 @@ const embedHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Hostinger builds on a shared machine with dozens of CPUs but a low cap on
+  // processes and threads per account. Left alone, Next starts one build
+  // worker per CPU (63 there) and each spawns its own native threads, which
+  // hits the cap ("OS can't spawn worker thread", os error 11). Two workers
+  // build reliably; the build is a little slower, never failed.
+  experimental: { cpus: 2 },
   async headers() {
     return [
       // Everything except /embed/* gets the full hardening (incl. XFO).
