@@ -23,6 +23,7 @@ import { NavPending } from "@/components/nav-pending";
 
 const LINKS = [
   { label: "Tools", href: "/tools" },
+  { label: "Invitations", href: "/tools/cards" },
   { label: "Send", href: "/send" },
   { label: "Blog", href: "/blog" },
   { label: "Pricing", href: "/pricing" },
@@ -48,6 +49,8 @@ export function SiteHeader() {
   // Section links match their exact path and any nested route below it.
   const isActive = (href: string) => {
     if (href.includes("#")) return false;
+    // The cards hub has its own link, so "Tools" isn't lit there as well.
+    if (href === "/tools" && pathname.startsWith("/tools/cards")) return false;
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 

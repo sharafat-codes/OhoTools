@@ -11,6 +11,7 @@ import {
   QrCodeIcon,
   SendIcon,
   Code2Icon,
+  HeartIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -33,6 +34,15 @@ import { SiteHeader } from "@/modules/marketing/components/site-header";
 import { PASS_DAYS, PASS_PRICE, isPaddlePassOffered } from "@/lib/pro-pass";
 import { SiteFooter } from "@/modules/marketing/components/site-footer";
 
+// The card makers are what most visitors come for (83% of tool views in
+// Oct 2026, the wedding maker alone 63%), so they lead the hero.
+const CARD_TILES = [
+  { slug: "wedding-invitation-maker", label: "Wedding invitation" },
+  { slug: "birthday-card-maker", label: "Birthday card" },
+  { slug: "engagement-invitation-maker", label: "Engagement invitation" },
+  { slug: "anniversary-card-maker", label: "Anniversary card" },
+];
+
 // High-intent tools surfaced on the homepage — deep links that also spread
 // internal-link equity to the pages we most want to rank.
 const HERO_TILES = [
@@ -42,24 +52,22 @@ const HERO_TILES = [
   "merge-pdf",
   "qr-code",
   "compress-image",
-  "pdf-to-word",
-  "json-formatter",
-  "online-notepad",
 ];
 
+// Ordered by real use (tool_view, Oct 2026).
 const POPULAR = [
-  "word-to-pdf",
-  "pdf-to-word",
-  "merge-pdf",
-  "ai-summarizer",
-  "image-to-text",
-  "image-converter",
-  "compress-image",
-  "ai-humanizer",
-  "json-formatter",
+  "wedding-invitation-maker",
+  "birthday-card-maker",
+  "engagement-invitation-maker",
+  "anniversary-card-maker",
   "qr-code",
-  "password-generator",
-  "invoice-generator",
+  "ai-summarizer",
+  "word-to-pdf",
+  "image-to-text",
+  "compress-image",
+  "merge-pdf",
+  "image-converter",
+  "pdf-to-word",
 ];
 
 const faqs = [
@@ -127,6 +135,7 @@ export default async function Home() {
           "AI writing tools",
           "Chat with PDF",
           "QR code generation",
+          "Wedding invitations and greeting cards",
           "Unit conversion",
           "Developer tools",
           "File compression",
@@ -188,19 +197,21 @@ export default async function Home() {
           />
           <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:py-28">
             <div className="flex flex-col items-start">
-              <Badge
-                variant="secondary"
-                className="mb-5 border-primary/30 bg-primary/10 text-primary"
+              <Link
+                href="/tools/wedding-invitation-maker"
+                className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/15"
               >
-                <SparklesIcon className="size-3.5" />
-                {devTools.length} tools · more added every week
-              </Badge>
+                <HeartIcon className="size-3.5" />
+                Most popular: animated wedding invitations
+                <ArrowRightIcon className="size-3" />
+              </Link>
               <h1 className="font-heading text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
                 Every online tool you need, in one place.
               </h1>
               <p className="mt-6 max-w-lg text-pretty text-lg text-muted-foreground">
-                Convert PDFs, edit images, write with AI, wrangle text and code,
-                crunch numbers, and generate QR codes.{" "}
+                Make animated wedding invitations and cards, convert PDFs, edit
+                images, write with AI, wrangle text and code, and generate QR
+                codes.{" "}
                 {devTools.length} fast tools — no sign-up, and most run right in
                 your browser.
               </p>
@@ -209,12 +220,10 @@ export default async function Home() {
                   Explore all tools
                   <ArrowRightIcon />
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  render={<Link href={user ? "/dashboard" : "/signup"} />}
-                >
-                  {user ? "Go to dashboard" : "Create free account"}
+                {/* Most visitors come to make an invitation, not an account. */}
+                <Button size="lg" variant="outline" render={<Link href="/tools/cards" />}>
+                  <HeartIcon className="text-pink-600 dark:text-pink-400" />
+                  Make an invitation
                 </Button>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
@@ -225,6 +234,30 @@ export default async function Home() {
             {/* Tools wall — a taste of the breadth, each tile a real tool */}
             <div className="lg:justify-self-end">
               <div className="w-full max-w-md rounded-2xl border border-border bg-card p-4 shadow-sm">
+                <div className="mb-2.5 flex items-center justify-between px-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Invitations &amp; cards</span>
+                  <Link href="/tools/cards" className="text-xs font-medium text-primary hover:underline">All cards →</Link>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {CARD_TILES.map(({ slug, label }) => {
+                    const t = getTool(slug);
+                    if (!t) return null;
+                    const TIcon = t.icon;
+                    return (
+                      <Link
+                        key={slug}
+                        href={`/tools/${slug}`}
+                        className="group flex items-center gap-2.5 rounded-xl border border-pink-500/25 bg-gradient-to-br from-pink-500/10 to-fuchsia-500/5 p-3 transition-colors hover:border-pink-500/50"
+                      >
+                        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-pink-500 to-fuchsia-600 text-white">
+                          <TIcon className="size-4.5" />
+                        </span>
+                        <span className="text-xs font-semibold leading-tight">{label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+                <div className="mb-2.5 mt-4 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Popular tools</div>
                 <div className="grid auto-rows-fr grid-cols-3 gap-3">
                   {HERO_TILES.map((slug) => {
                     const t = getTool(slug);
@@ -250,7 +283,7 @@ export default async function Home() {
                   href="/tools"
                   className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-muted/60 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
                 >
-                  + {devTools.length - HERO_TILES.length} more tools
+                  + {devTools.length - HERO_TILES.length - CARD_TILES.length} more tools
                   <ArrowRightIcon className="size-3.5" />
                 </Link>
               </div>
