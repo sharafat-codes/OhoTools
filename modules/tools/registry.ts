@@ -2308,7 +2308,7 @@ const baseDevTools: DevTool[] = [
     name: "Text Shortener",
     tagline: "Shorten text while keeping the meaning.",
     description:
-      "Free AI text shortener. Condense long text into a shorter version that keeps the key meaning and tone. Free daily runs, unlimited on Pro.",
+      "Free AI text shortener — paste a paragraph, essay or email and get a shorter version that keeps the key points and tone. Works in any language. Free daily runs, unlimited on Pro.",
     keywords: ["text shortener", "make text shorter", "shorten text", "sentence shortener", "condense text"],
     icon: ShrinkIcon,
     intro:
@@ -2316,8 +2316,17 @@ const baseDevTools: DevTool[] = [
     steps: ["Paste your text.", "Run the shortener.", "Copy the shorter version."],
     faqs: [
       { q: "Will it lose important points?", a: "It removes filler and redundancy while keeping the essential meaning of your text." },
+      { q: "How much shorter will my text get?", a: "It depends on how wordy the original is. Tight writing only loses a few words; padded text with repetition and filler shrinks much more. If you need it shorter still, run the shortener again on the result." },
+      { q: "Is a text shortener the same as a summarizer?", a: "No. A summarizer gives you the gist in a few lines. A text shortener keeps your text's structure, points and voice and simply says it in fewer words — so the result can replace the original." },
+      { q: "Does it work in other languages?", a: "Yes. Paste text in any language and the shortened version comes back in the same language." },
+      { q: "How much text can I paste?", a: "Up to 20,000 characters at a time — several pages. For longer documents, shorten them section by section." },
       { q: "Is it free?", a: "There is a free tier, but it needs an account. A free OhoTool account includes 3 AI runs per day shared across every AI tool on the site, resetting at midnight UTC. Pro removes the daily cap." },
     ],
+    updated: "2026-10-31",
+    explainer: {
+      heading: "How does a text shortener cut words without losing meaning?",
+      body: "Most long text is long because of how it says things, not what it says. Filler phrases (\"in order to\", \"it is important to note that\"), repeated points, stacked adjectives and long-winded openings all add words without adding meaning. The shortener rewrites those parts more directly and keeps every key point, the order of your ideas and your tone. That makes it useful for fitting a character limit — a bio, an ad, a form field or a social post — or for making an email quicker to read.",
+    },
     related: ["text-expander", "ai-summarizer", "ai-paraphraser"],
     pro: true,
     serverSide: true,

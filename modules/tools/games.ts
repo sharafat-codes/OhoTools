@@ -47,7 +47,20 @@ export const gameTools: DevTool[] = [
         q: "How can I click faster?",
         a: "Common techniques are jitter clicking (tensing your arm to vibrate your finger) and butterfly clicking (alternating two fingers on one button). Warm up first, and use a mouse with light, responsive switches.",
       },
+      {
+        q: "Which test length should I use — 1, 5 or 10 seconds?",
+        a: "5 seconds is the standard click speed test and the fairest to compare with friends. The 1-second test measures your burst speed, so it usually gives your highest CPS but varies a lot between tries. The 10-second test shows endurance — most people's CPS drops a little as their hand tires.",
+      },
+      {
+        q: "What is the fastest CPS possible?",
+        a: "With normal clicking most people top out around 8–10 CPS. Jitter clicking can reach roughly 10–14 CPS, and butterfly clicking can register 20 or more because two fingers share the work. Records vary by test length and method, so compare scores from the same test length.",
+      },
     ],
+    updated: "2026-10-31",
+    explainer: {
+      heading: "How is CPS calculated, and why do short tests score higher?",
+      body: "CPS is your total clicks divided by the length of the test in seconds: 32 clicks in a 5-second test is 6.4 CPS. The timer starts on your first click, so reaction time doesn't count against you. Short tests score higher because you can hold your top speed for a second or two, but not for ten — that's why a 1-second result is a burst score and a 10-second result is closer to your sustained speed. For a fair comparison, always compare results from the same test length.",
+    },
     related: ["reaction-time-test", "keyboard-tester", "stopwatch"],
   },
   {
