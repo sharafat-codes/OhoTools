@@ -62,7 +62,7 @@ const PRO_HIGHLIGHTS = [
 const FAQS = [
   {
     q: "Are the tools really free?",
-    a: "The vast majority are free and unlimited with no ads, and most don't even need an account. The AI tools give everyone a free daily allowance; Pro removes the limit. A few advanced document conversions are Pro features.",
+    a: "The vast majority are free and unlimited, and most don't even need an account. The AI tools give everyone a free daily allowance; Pro removes the limit. A few advanced document conversions are Pro features.",
   },
   {
     q: "What do I actually get with Pro?",

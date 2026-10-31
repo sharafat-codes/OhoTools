@@ -73,7 +73,7 @@ const POPULAR = [
 const faqs = [
   {
     q: "Are OhoTool's tools really free?",
-    a: `Most of our ${TOOL_COUNT_LABEL} tools are free and unlimited — no ads, no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.`,
+    a: `Most of our ${TOOL_COUNT_LABEL} tools are free and unlimited, with no sign-up. The AI tools include a free daily allowance, and Pro unlocks unlimited AI, advanced Office↔PDF conversions, dynamic QR analytics, and more.`,
   },
   {
     q: "Do I need an account to use the tools?",
@@ -294,7 +294,7 @@ export default async function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6">
             <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border/60 bg-muted/20 px-6 py-5 text-center sm:grid-cols-4">
               {[
-                { value: `${devTools.length}`, label: "Free tools" },
+                { value: `${devTools.length}`, label: "Tools" },
                 { value: `${toolCategories.length}`, label: "Categories" },
                 { value: "100%", label: "Private by default" },
                 { value: "$0", label: "To get started" },
@@ -368,6 +368,8 @@ export default async function Home() {
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5 font-heading font-medium">
                           {t.name}
+                          {/* keeps the link text "Word to PDF Pro", not "Word to PDFPro" */}
+                          {" "}
                           {t.pro && (
                             <Badge variant="secondary" className="border-primary/30 bg-primary/10 text-primary px-1.5 py-0 text-[10px]">
                               Pro
@@ -417,7 +419,7 @@ export default async function Home() {
               <FeatureCard
                 icon={SparklesIcon}
                 title="Free & unlimited"
-                body="The full core toolkit is free with no ads and no usage caps."
+                body="The full core toolkit is free, with no usage caps."
               />
               <FeatureCard
                 icon={LayersIcon}

@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     default: "OhoTool — Free Online Tools for PDF, Images, Text & More",
     template: "%s · OhoTool",
   },
-  description: `${TOOL_COUNT_LABEL} free online tools that run in your browser: convert PDF & Word, compress images, OCR, format code, and make QR codes. No sign-up, nothing uploaded.`,
+  description: `${TOOL_COUNT_LABEL} free online tools: make animated wedding invitations and cards, convert PDF & Word, compress images, OCR, and make QR codes. Most run in your browser, no sign-up.`,
   keywords: [
     "free online tools",
     "online tools",
